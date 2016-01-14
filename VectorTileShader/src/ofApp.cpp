@@ -53,34 +53,26 @@ void ofApp::setup(){
     fbo.allocate(settings);
     shader.load("", "shader.frag");
     
-    bShader = true;
+    bShader = false;
+    
+    setupGui();
+}
+
+void ofApp::setupGui() {
+    gui = new ofxDatGui( ofxDatGuiAnchor::TOP_RIGHT );
+    gui->addFRM();
+    guiTileAlpha = gui->addSlider("position X", 0, 255, 255);
+    guiTileAlpha->setPrecision(0);
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
     labels.updateCameraPosition(cam.getPosition());
-    
-    //  Update the scene
-    //
     fbo.begin();
     ofClear(0,0,0,0);
-    cam.begin();
-    ofEnableDepthTest();
-    
-    ofEnableLighting();
-    light.enable();
-    
-    //    tile.draw();
+    startScene();
     tileMesh.draw();
-    
-    light.disable();
-    ofDisableLighting();
-    
-    labels.draw3D();
-    labels.updateProjection();
-    
-    ofDisableDepthTest();
-    cam.end();
+    endScene();
     fbo.end();
 }
 
@@ -88,8 +80,13 @@ void ofApp::update(){
 void ofApp::draw(){
     ofBackground(ofColor::black);
     
-    ofSetColor(255);
+    ofSetColor(255, 255, 255, 255);
+    startScene();
+    ofDrawSphere(0, 0, -50, 50);
+    ofDrawCylinder(0, 0, -50, 10, 400);
+    endScene();
     
+    ofSetColor(255, 255, 255, guiTileAlpha->getValue());
     if(bShader){
         shader.begin();
         shader.setUniformTexture("colorTex", fbo, 0);
@@ -100,18 +97,29 @@ void ofApp::draw(){
         fbo.draw(0,0);
     }
     
-    
-    labels.draw2D();
+    // labels.draw2D();
     
     if(bShader){
         ofSetColor(0);
     } else {
         ofSetColor(255);
     }
-    
     ofDrawBitmapString(" 'p' : toogle point labels debug", 10,15);
     ofDrawBitmapString(" 'l' : toogle line labels debug", 10,35);
     ofDrawBitmapString(" 's' : toogle shader", 10,55);
+}
+
+void ofApp::startScene() {
+    cam.begin();
+    ofEnableDepthTest();
+    ofEnableLighting();
+    light.enable();
+}
+void ofApp::endScene(){
+    light.disable();
+    ofDisableLighting();
+    ofDisableDepthTest();
+    cam.end();
 }
 
 //--------------------------------------------------------------
@@ -131,8 +139,10 @@ void ofApp::keyPressed(int key){
         } else {
             labels.setFontColor(ofColor::white, ofColor::black);
         }
+    } else if (key == ' '){
+        gui->setVisible(!gui->getVisible());
     }
-    
+
 }
 
 //--------------------------------------------------------------

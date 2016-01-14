@@ -17,6 +17,7 @@ else
 fi
 
 # git clone specific revision of the addons
+${CLONE}braitsch/ofxDatGui
 ${CLONE}arturoc/ofxTween
 ${CLONE}bakercp/ofxMaps
 ${CLONE}jefftimesten/ofxJSON

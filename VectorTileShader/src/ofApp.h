@@ -11,12 +11,17 @@
 #include "ofxVectorTile.h"
 #include "ofxVectorLabels.h"
 #include "ofxVectorBuilder.h"
+#include "ofxDatGui.h"
 
 class ofApp : public ofBaseApp{
 public:
     void setup();
+    void setupGui();
     void update();
     void draw();
+    
+    void startScene();
+    void endScene();
     
     void keyPressed(int key);
     void keyReleased(int key);
@@ -39,4 +44,8 @@ public:
     ofVboMesh           tileMesh;
     
     bool    bShader;
+    
+    ofxDatGui* gui;
+    ofxDatGuiSlider* guiTileAlpha;
+    
 };
