@@ -26,7 +26,12 @@ void ofApp::setup(){
     
     //  Request a new tile to the builder
     //
-    tile = builder.getFromWeb(19299,24631,16);
+    //tile = builder.getFromWeb(19299,24631,16);
+    // gherkin
+    //tile = builder.getFromWeb(51.514445, -0.080273, 16);
+    // st pauls
+    tile = builder.getFromWeb(51.513777, -0.098491, 16);
+
     
     //  Make a VBO from the tile (FASTER)
     //
