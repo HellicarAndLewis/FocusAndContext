@@ -10,10 +10,22 @@
 #include "ofMain.h"
 #include "ofxVectorTile.h"
 
+// tile layers are:
+//    "earth", _tile, 0.0);
+//    "landuse", _tile, .1);
+//    "water", _tile, .2);
+//    "buildings", _tile, .3);
+//    "places", _tile, .4);
+//    "roads", _tile, .5);
+//    "pois", _tile, .6);
+
 struct LocalTile {
 public:
     ofxVectorTile tile;
     ofVboMesh mesh;
+    ofVboMesh meshBuildings;
+    ofVboMesh meshRoads;
+    
     int x = 0;
     int y = 0;
     int zoom = 0;

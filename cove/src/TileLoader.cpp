@@ -12,6 +12,9 @@ TileLoader::TileLoader() {
 }
 
 void TileLoader::setup() {
+    labels.loadFont("ofxdatgui_assets/font-verdana.ttf", 10);
+    labels.setFontColor(ofColor::black, ofColor::white);
+    builder.setLabelManager(&labels);
 }
 
 void TileLoader::update() {
@@ -47,7 +50,17 @@ void TileLoader::loadDir(string path) {
         }
         if (localTile.isValid) {
             localTile.tile = builder.getFromFile(ofToDataPath(path, true));
-            localTile.mesh = localTile.tile.getMesh();
+            //    "earth", _tile, 0.0);
+            //    "landuse", _tile, .1);
+            //    "water", _tile, .2);
+            //    "buildings", _tile, .3);
+            //    "places", _tile, .4);
+            //    "roads", _tile, .5);
+            //    "pois"
+            vector<string> layerNames = {"earth", "places", };
+            localTile.mesh = localTile.tile.getMeshFor(layerNames);
+            localTile.meshBuildings = localTile.tile.getMeshFor("buildings");
+            localTile.meshRoads = localTile.tile.getMeshFor("roads");
             tiles.push_back(localTile);
         }
     }

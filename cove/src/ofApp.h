@@ -9,9 +9,6 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxVectorTile.h"
-#include "ofxVectorLabels.h"
-#include "ofxVectorBuilder.h"
 #include "ofxDatGui.h"
 #include "Scrollable.h"
 #include "TileLoader.h"
@@ -23,8 +20,12 @@ public:
     void update();
     void draw();
     
+    void drawScene();
     void startScene();
     void endScene();
+    void showGui(bool show = true);
+    void setLat(float lat);
+    void setLon(float lon);
     
     void keyPressed(int key);
     void keyReleased(int key);
@@ -39,9 +40,15 @@ public:
     // rendering
     ofEasyCam cam;
     ofLight light;
+    ofMaterial materialRoads;
+    ofMaterial materialBuildings;
     ofFbo fbo;
     ofShader shader;
     bool bShader;
+    ofVec2f meshPosition;
+    ofVec2f meshTarget;
+    float mapX;
+    float mapY;
     
     // tiles
     TileLoader tileLoader;
@@ -52,5 +59,13 @@ public:
     // GUI
     ofxDatGui* gui;
     ofxDatGuiSlider* guiTileAlpha;
+    
+    ofxDatGui2dPad* guiPositionPad;
+    ofxDatGuiSlider* guiMapX;
+    ofxDatGuiSlider* guiMapY;
+    
+    void onButtonEvent(ofxDatGuiButtonEvent e);
+    void onSliderEvent(ofxDatGuiSliderEvent e);
+    void on2dPadEvent(ofxDatGui2dPadEvent e);
     
 };

@@ -10,6 +10,7 @@
 #include "ofMain.h"
 #include "LocalTile.h"
 #include "ofxVectorBuilder.h"
+#include "ofxVectorLabels.h"
 
 class TileLoader {
 public:
@@ -32,10 +33,13 @@ public:
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
     
-    
+    // tiles
     vector<LocalTile> tiles;
     ofxVectorBuilder builder;
     ofVboMesh tileMesh;
+    
+    // labels
+    ofxVectorLabels labels;
 
 protected:  
 private:
