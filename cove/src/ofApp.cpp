@@ -11,32 +11,15 @@
 
 void ofApp::setup(){
     
+    ofSetLogLevel(OF_LOG_VERBOSE);
     ofEnableAlphaBlending();
     
     light.setDiffuseColor(ofFloatColor(0.9));
     light.setPosition(ofPoint(0,0,1000));
     
-    //  labels
-    labels.loadFont("Champagne & Limousines.ttf", 10);
-    labels.setFontColor(ofColor::black, ofColor::white);
-    builder.setLabelManager(&labels);
-    
-    //  Tiles
-    // NYC
-    //tile = builder.getFromWeb(19299,24631,16);
-    // Gherkin
-    //tile = builder.getFromWeb(51.514445, -0.080273, 16);
-    // St pauls
-    //tile = builder.getFromWeb(51.513777, -0.098491, 16);
-    
-    // This is important! Need to set the offset for the first tile manually!
-    builder.setOffset(32747, 21789, 16);
-    tile = builder.getFromFile(ofToDataPath("tiles/manhattan/16-32747-21789.json", true));
-    // VBO from the tile
-    tileMesh = tile.getMesh();
-    
-    tile2 = builder.getFromFile(ofToDataPath("tiles/manhattan/16-32747-21790.json", true));
-    tileMesh2 = tile2.getMesh();
+    // tile loader loads multiple tiles from json files in the specified directory
+    // it automatically sets the tile builder offset based on the position and zoom of the first tile it reads
+    tileLoader.loadDir("tiles/smalltest");
     
     // FBO to render scene into shader
     ofFbo::Settings settings;
@@ -73,12 +56,12 @@ void ofApp::setupGui() {
 
 
 void ofApp::update(){
-    labels.updateCameraPosition(cam.getPosition());
     fbo.begin();
     ofClear(0,0,0,0);
     startScene();
-    tileMesh.draw();
-    tileMesh2.draw();
+    for (auto & localTile : tileLoader.tiles) {
+        localTile.mesh.draw();
+    }
     endScene();
     fbo.end();
 }
@@ -104,16 +87,6 @@ void ofApp::draw(){
         fbo.draw(0,0);
     }
     
-    // labels.draw2D();
-    
-    if(bShader){
-        ofSetColor(0);
-    } else {
-        ofSetColor(255);
-    }
-    ofDrawBitmapString(" 'p' : toogle point labels debug", 10,15);
-    ofDrawBitmapString(" 'l' : toogle line labels debug", 10,35);
-    ofDrawBitmapString(" 's' : toogle shader", 10,55);
 }
 
 void ofApp::startScene() {
@@ -131,25 +104,15 @@ void ofApp::endScene(){
 
 
 void ofApp::keyPressed(int key){
-    
-    if(key == 'f'){
+    if(key == 'f') {
         ofToggleFullscreen();
-    } else if (key == 'p'){
-        labels.bDebugPoints = !labels.bDebugPoints;
-    } else if (key == 'l'){
-        labels.bDebugLines = !labels.bDebugLines;
-    } else if (key == 's'){
+    }
+    else if (key == 's') {
         bShader = !bShader;
-        
-        if(bShader){
-            labels.setFontColor(ofColor::black, ofColor::white);
-        } else {
-            labels.setFontColor(ofColor::white, ofColor::black);
-        }
-    } else if (key == ' '){
+    }
+    else if (key == ' ') {
         gui->setVisible(!gui->getVisible());
     }
-
 }
 
 

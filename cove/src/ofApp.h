@@ -14,6 +14,7 @@
 #include "ofxVectorBuilder.h"
 #include "ofxDatGui.h"
 #include "Scrollable.h"
+#include "TileLoader.h"
 
 class ofApp : public ofBaseApp{
 public:
@@ -43,12 +44,7 @@ public:
     bool bShader;
     
     // tiles
-    ofxVectorTile tile;
-    ofxVectorTile tile2;
-    ofxVectorBuilder builder;
-    ofxVectorLabels labels;
-    ofVboMesh tileMesh;
-    ofVboMesh tileMesh2;
+    TileLoader tileLoader;
     
     // scroller
     IFS::Scrollable scroller;
