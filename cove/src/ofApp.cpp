@@ -55,6 +55,36 @@ void ofApp::setup(){
     scroller.velMax = 12;
     scroller.setup();
     
+    //
+    ofDisableArbTex();
+    titleFont.load("ofxdatgui_assets/font-verdana.ttf", 40);
+    Location location1;
+    location1.titleFont = &titleFont;
+    location1.setup("St Pauls");
+    location1.latlon.set(-0.09781, 51.51356);
+    locations.push_back(location1);
+    Location location2;
+    location2.titleFont = &titleFont;
+    location2.setup("Bank");
+    location2.latlon.set(-0.08907, 51.51331);
+    locations.push_back(location2);
+    Location location3;
+    location3.titleFont = &titleFont;
+    location3.setup("Liverpool St");
+    location3.latlon.set(-0.08122, 51.51877);
+    locations.push_back(location3);
+    Location location4;
+    location4.titleFont = &titleFont;
+    location4.setup("Aldgate");
+    location4.latlon.set(-0.07577, 51.51421);
+    locations.push_back(location4);
+    
+    for (auto &location: locations) {
+        location.position.set((lon2x(location.getLon()) - tileLoader.builder.getOffset().x), (lat2y(location.getLat()) - tileLoader.builder.getOffset().y));
+        route.addVertex(location.position);
+        routeInverse.addVertex(location.position * -1);
+    }
+    
     setupGui();
     showGui();
 }
@@ -64,6 +94,8 @@ void ofApp::setupGui() {
     gui->addFRM();
     guiTileAlpha = gui->addSlider("mesh alpha", 0, 255, 255);
     guiTileAlpha->setPrecision(0);
+    
+    gui->addToggle("cam mouse", false);
     
 //    gui->addBreak();
 //    guiPositionPad = gui->add2dPad("2d pad");
@@ -82,10 +114,9 @@ void ofApp::setupGui() {
     guiMapY->bind(&mapY, 51.5058, 51.5223);
     
     // buttons to jump places
-    gui->addButton("st pauls");
-    gui->addButton("bank");
-    gui->addButton("liverpool st");
-    gui->addButton("aldgate");
+    for (auto &location: locations) {
+        gui->addButton(location.title);
+    }
     
     
     gui->onButtonEvent(this, &ofApp::onButtonEvent);
@@ -94,6 +125,15 @@ void ofApp::setupGui() {
 
 
 void ofApp::update(){
+    
+    if (ofGetFrameNum() == 2) {
+        cam.disableMouseInput();
+    }
+    
+    if (scroller.isScrolling) {
+        meshTarget = routeInverse.getPointAtPercent(scroller.getValue());
+    }
+    
     float amount = 0.2;
     meshPosition.x = ofLerp(meshPosition.x, meshTarget.x, amount);
     meshPosition.y = ofLerp(meshPosition.y, meshTarget.y, amount);
@@ -146,11 +186,29 @@ void ofApp::drawScene() {
     }
     materialBuildings.end();
     
-    tileLoader.labels.draw3D();
-    tileLoader.labels.updateProjection();
+    for (auto &location: locations) {
+        location.draw();
+    }
+    
+    ofDisableLighting();
+    ofSetColor(200, 0, 0);
+    ofPushMatrix();
+    ofTranslate(0, 0, 20);
+    ofSetLineWidth(5);
+    route.draw();
+    ofSetLineWidth(1);
+    ofPopMatrix();
+    ofSetColor(255);
+    ofEnableLighting();
+    
+    //tileLoader.labels.draw3D();
+    //tileLoader.labels.updateProjection();
     
     ofPopMatrix();
+    
     endScene();
+    
+    
 }
 
 void ofApp::startScene() {
@@ -169,13 +227,6 @@ void ofApp::endScene(){
 
 void ofApp::showGui(bool show) {
     gui->setVisible(show);
-    if (show) {
-        cam.disableMouseInput();
-    }
-    else {
-        cam.enableMouseInput();
-    }
-    
 }
 
 void ofApp::setLat(float lat) {
@@ -197,23 +248,21 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e) {
     if (e.target->is("toggle fullscreen")) {
         ofToggleFullscreen();
     }
-    else if (e.target->is("st pauls")) {
-        setLon(-0.09781);
-        setLat(51.51356);
+    else if (e.target->is("cam mouse")) {
+        if (e.target->getEnabled()) cam.enableMouseInput();
+        else cam.disableMouseInput();
     }
-    else if (e.target->is("bank")) {
-        setLon(-0.08907);
-        setLat(51.51331);
+    else {
+        for (auto &location: locations) {
+            if (e.target->is(location.title)) {
+                location.isActive = true;
+                setLon(location.getLon());
+                setLat(location.getLat());
+            }
+        }
     }
-    else if (e.target->is("liverpool st")) {
-        setLon(-0.08122);
-        setLat(51.51877);
-    }
-    else if (e.target->is("aldgate")) {
-        setLon(-0.07577);
-        setLat(51.51421);
-    }
-    else ofLogVerbose() << "onButtonEvent: " << e.target->getLabel() << " " << e.target->getEnabled() << endl;
+    
+    ofLogVerbose() << "onButtonEvent: " << e.target->getLabel() << " " << e.target->getEnabled() << endl;
 }
 void ofApp::onSliderEvent(ofxDatGuiSliderEvent e) {
     ofLogVerbose() << "onSliderEvent: " << e.target->getLabel() << " " << e.target->getValue() << endl;

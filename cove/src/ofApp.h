@@ -12,6 +12,7 @@
 #include "ofxDatGui.h"
 #include "Scrollable.h"
 #include "TileLoader.h"
+#include "Location.h"
 
 class ofApp : public ofBaseApp{
 public:
@@ -49,6 +50,10 @@ public:
     ofVec2f meshTarget;
     float mapX;
     float mapY;
+    
+    ofTrueTypeFont titleFont;
+    vector<Location> locations;
+    ofPolyline route, routeInverse;
     
     // tiles
     TileLoader tileLoader;

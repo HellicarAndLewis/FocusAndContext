@@ -13,6 +13,7 @@
 		5CBB2AB3A60F65431D7B555D /* ofxButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C88333E71C9457E441C33474 /* ofxButton.cpp */; };
 		63B57AC5BF4EF088491E0317 /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50DF87D612C5AAE17AAFA6C0 /* ofxXmlSettings.cpp */; };
 		83470C351C4900B100B3FED4 /* TileLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83470C331C4900B100B3FED4 /* TileLoader.cpp */; };
+		83536CAB1C4D040B000F5018 /* Location.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83536CA91C4D040B000F5018 /* Location.cpp */; };
 		837220E80EB56CD44AD27F2A /* ofxSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15F2C6477A769C03A56D1401 /* ofxSlider.cpp */; };
 		839648E31C47BC0B00C227EB /* ofxDatGuiComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 839648D91C47BC0B00C227EB /* ofxDatGuiComponent.cpp */; };
 		839648E41C47BC0B00C227EB /* ofxDatGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 839648DE1C47BC0B00C227EB /* ofxDatGui.cpp */; };
@@ -104,6 +105,8 @@
 		83470C331C4900B100B3FED4 /* TileLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TileLoader.cpp; sourceTree = "<group>"; };
 		83470C341C4900B100B3FED4 /* TileLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileLoader.h; sourceTree = "<group>"; };
 		83470C371C4902DA00B3FED4 /* LocalTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalTile.h; sourceTree = "<group>"; };
+		83536CA91C4D040B000F5018 /* Location.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Location.cpp; sourceTree = "<group>"; };
+		83536CAA1C4D040B000F5018 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
 		839648CC1C47BC0B00C227EB /* ofxDatGui2dPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGui2dPad.h; sourceTree = "<group>"; };
 		839648CD1C47BC0B00C227EB /* ofxDatGuiButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiButton.h; sourceTree = "<group>"; };
 		839648CE1C47BC0B00C227EB /* ofxDatGuiColorPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDatGuiColorPicker.h; sourceTree = "<group>"; };
@@ -555,6 +558,15 @@
 				83470C371C4902DA00B3FED4 /* LocalTile.h */,
 			);
 			name = map;
+			sourceTree = "<group>";
+		};
+		83536CA81C4D03E2000F5018 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				83536CA91C4D040B000F5018 /* Location.cpp */,
+				83536CAA1C4D040B000F5018 /* Location.h */,
+			);
+			name = model;
 			sourceTree = "<group>";
 		};
 		839648CA1C47BC0B00C227EB /* ofxDatGui */ = {
@@ -1131,6 +1143,7 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				83536CA81C4D03E2000F5018 /* model */,
 				83470C321C49009700B3FED4 /* map */,
 				833FE11F1C47DF5B007E9685 /* common */,
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
@@ -1267,6 +1280,7 @@
 				B56FE57CC35806596D38118C /* ofxSliderGroup.cpp in Sources */,
 				1CD33E884D9E3358252E82A1 /* ofxToggle.cpp in Sources */,
 				83AC294C1C4693F0009E1CD1 /* glmIO.cpp in Sources */,
+				83536CAB1C4D040B000F5018 /* Location.cpp in Sources */,
 				83AC29501C4693F0009E1CD1 /* glmPolarPoint.cpp in Sources */,
 				83AC28111C469366009E1CD1 /* glmTile.cpp in Sources */,
 				83AC294B1C4693F0009E1CD1 /* glmIntersection.cpp in Sources */,

@@ -55,9 +55,9 @@ namespace IFS {
         }
         
         void draw() {
-            ofSetColor(180);
+            ofSetColor(20);
             ofDrawRectangle(0, ofGetHeight()-rectSize.y, bounds.width, rectSize.y);
-            ofSetColor(230);
+            ofSetColor(240);
             ofDrawRectangle(rect);
             ofSetColor(255);
         }
@@ -70,6 +70,7 @@ namespace IFS {
         float damping;
         float velMax, accMax;
         bool isScrollWhenPressed;
+        bool isScrolling;
         
     protected:
         
@@ -145,7 +146,6 @@ namespace IFS {
         ofRectangle rect;
         ofRectangle bounds;
         
-        bool isScrolling;
         bool scrollX, scrollY;
         
         ofPoint pos;
