@@ -23,8 +23,8 @@ void ofApp::setup(){
     
     materialRoads.setAmbientColor(ofFloatColor(.641176471));
     materialRoads.setDiffuseColor(ofFloatColor(.641176471));
-    materialBuildings.setAmbientColor(ofFloatColor::grey);
-    materialBuildings.setDiffuseColor(ofFloatColor(.247058824, .298039216, .988235294));
+    materialBuildings.setAmbientColor(ofFloatColor(.241176471));
+    materialBuildings.setDiffuseColor(ofFloatColor(.441176471));
     
     // tile loader loads multiple tiles from json files in the specified directory
     // it automatically sets the tile builder offset based on the position and zoom of the first tile it reads
@@ -79,10 +79,15 @@ void ofApp::setup(){
     location4.latlon.set(-0.07577, 51.51421);
     locations.push_back(location4);
     
+    int i = 0;
     for (auto &location: locations) {
         location.position.set((lon2x(location.getLon()) - tileLoader.builder.getOffset().x), (lat2y(location.getLat()) - tileLoader.builder.getOffset().y));
         route.addVertex(location.position);
         routeInverse.addVertex(location.position * -1);
+        location.index = i;
+        location.routePercent = (float)i / (float)(locations.size()-1);
+        i++;
+        scroller.ticks.push_back(location.routePercent);
     }
     
     setupGui();
@@ -92,17 +97,9 @@ void ofApp::setup(){
 void ofApp::setupGui() {
     gui = new ofxDatGui( ofxDatGuiAnchor::TOP_LEFT );
     gui->addFRM();
-    guiTileAlpha = gui->addSlider("mesh alpha", 0, 255, 255);
-    guiTileAlpha->setPrecision(0);
-    
+    //guiTileAlpha = gui->addSlider("mesh alpha", 0, 255, 255);
+    //guiTileAlpha->setPrecision(0);
     gui->addToggle("cam mouse", false);
-    
-//    gui->addBreak();
-//    guiPositionPad = gui->add2dPad("2d pad");
-//    guiPositionPad->on2dPadEvent(this, &ofApp::on2dPadEvent);
-//    ofRectangle bounds = ofRectangle(-1, -1, 2, 2);
-//    guiPositionPad->setBounds(bounds);
-//    gui->addBreak();
     
     // Set limits based on city of london
     // TODO: make limits dynamic based on dataset
@@ -118,6 +115,10 @@ void ofApp::setupGui() {
         gui->addButton(location.title);
     }
     
+    gui->addSlider("cam rot x", -90, 90);
+    gui->addSlider("cam rot y", -90, 90);
+    gui->addSlider("cam rot z", -90, 90);
+    
     
     gui->onButtonEvent(this, &ofApp::onButtonEvent);
     gui->onSliderEvent(this, &ofApp::onSliderEvent);
@@ -130,11 +131,29 @@ void ofApp::update(){
         cam.disableMouseInput();
     }
     
+    // update active location
+    for (auto &location: locations) {
+        location.isActive = false;
+    }
+    float locationProgress = (float)(locations.size()-1) * scroller.getValue();
+    int nearestLocation = round(locationProgress);
+    if (nearestLocation > locations.size()-1) nearestLocation = locations.size()-1;
+    locations[nearestLocation].isActive = true;
+    
     if (scroller.isScrolling) {
         meshTarget = routeInverse.getPointAtPercent(scroller.getValue());
+        float diff = locationProgress - nearestLocation;
+        if (nearestLocation > locationProgress) diff = nearestLocation - locationProgress;
+        
+        float camTargetDist = ofMap(diff, 0, 0.5, 400, 800);
+        //cam.setDistance(ofLerp(cam.getDistance(), camTargetDist, 0.1));
+        float camXTarget = ofMap(diff, 0, 0.5, -15, 0);
+        //camRotation.x = ofLerp(camRotation.x, camXTarget, 0.1);
+        float camZTarget = ofMap(diff, 0, 0.5, 15, 0);
+        //camRotation.z = ofLerp(camRotation.z, camZTarget, 0.1);
     }
     
-    float amount = 0.2;
+    float amount = 0.1;
     meshPosition.x = ofLerp(meshPosition.x, meshTarget.x, amount);
     meshPosition.y = ofLerp(meshPosition.y, meshTarget.y, amount);
     
@@ -155,7 +174,7 @@ void ofApp::draw(){
 //    ofDrawCylinder(0, 0, -50, 10, 400);
 //    endScene();
     
-    ofSetColor(255, 255, 255, guiTileAlpha->getValue());
+    //ofSetColor(255, 255, 255, guiTileAlpha->getValue());
     if(bShader){
         shader.begin();
         shader.setUniformTexture("colorTex", fbo, 0);
@@ -173,7 +192,14 @@ void ofApp::draw(){
 void ofApp::drawScene() {
     startScene();
     ofPushMatrix();
+    
+    ofRotateX(camRotation.x);
+    ofRotateY(camRotation.y);
+    ofRotateZ(camRotation.z);
+    
     ofTranslate(meshPosition);
+    
+    
     materialRoads.begin();
     for (auto & localTile : tileLoader.tiles) {
         //localTile.mesh.draw();
@@ -186,11 +212,13 @@ void ofApp::drawScene() {
     }
     materialBuildings.end();
     
+    
+    ofDisableLighting();
+    
     for (auto &location: locations) {
         location.draw();
     }
     
-    ofDisableLighting();
     ofSetColor(200, 0, 0);
     ofPushMatrix();
     ofTranslate(0, 0, 20);
@@ -258,6 +286,7 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e) {
                 location.isActive = true;
                 setLon(location.getLon());
                 setLat(location.getLat());
+                scroller.scrollTo(location.routePercent);
             }
         }
     }
@@ -273,6 +302,15 @@ void ofApp::onSliderEvent(ofxDatGuiSliderEvent e) {
     else if (e.target->is("latitude")) {
         //ofLogVerbose() << lat2y(e.target->getValue()) << ", back 2 lat: " << y2lat(lat2y(e.target->getValue()));
         setLat(e.target->getValue());
+    }
+    else if (e.target->is("cam rot x")) {
+        camRotation.x = e.target->getValue();
+    }
+    else if (e.target->is("cam rot y")) {
+        camRotation.y = e.target->getValue();
+    }
+    else if (e.target->is("cam rot z")) {
+        camRotation.z = e.target->getValue();
     }
 }
 
@@ -334,6 +372,7 @@ void ofApp::mouseReleased(int x, int y, int button){
 
 void ofApp::windowResized(int w, int h){
     fbo.allocate(w,h);
+    scroller.setup();
 }
 
 

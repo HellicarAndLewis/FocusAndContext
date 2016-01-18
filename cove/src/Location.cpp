@@ -36,11 +36,22 @@ void Location::update() {
 
 void Location::draw() {
     
+    if (isActive) percentOpen = ofLerp(percentOpen, 1.0, 0.01);
+    else percentOpen = ofLerp(percentOpen, 0.0, 0.01);
+    
+    int alphaTarget = 255 * percentOpen;
+    
+    fbo.begin();
+    ofClear(0, 0, 0, percentOpen * 255);
+    ofSetColor(255, 255, 255, percentOpen * 255);
+    titleFont->drawString(title, 20, 300);
+    fbo.end();
+    
     float height = 200;
     ofPushStyle();
     ofSetColor(0);
-    ofSetLineWidth(2);
-    ofDrawLine(position.x, position.y, height, position.x, position.y, 0);
+    ofSetLineWidth(4);
+    ofDrawLine(position.x, position.y, percentOpen * height, position.x, position.y, 0);
     ofPopStyle();
     ofSetColor(255);
     

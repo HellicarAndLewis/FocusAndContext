@@ -24,11 +24,15 @@ public:
     ofPoint position;
     string title;
     bool isActive;
+    float percentOpen;
     ofTrueTypeFont* titleFont;
     
     ofVboMesh billboards;
     ofShader billboardShader;
     ofFbo fbo;
+    
+    int index;
+    float routePercent;
 
 protected:  
 private:

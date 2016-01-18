@@ -40,6 +40,7 @@ public:
     
     // rendering
     ofEasyCam cam;
+    ofVec3f camRotation;
     ofLight light;
     ofMaterial materialRoads;
     ofMaterial materialBuildings;

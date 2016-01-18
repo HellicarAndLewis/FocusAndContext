@@ -31,6 +31,11 @@ namespace IFS {
             return value.x;
         }
         
+        void scrollTo(float percent) {
+            value.x = percent;
+            rect.x = percent * (bounds.getRight()-rect.width);
+        }
+        
         void setup() {
             rect.set(0, ofGetHeight()-rectSize.y, rectSize.x, rectSize.y);
             bounds.set(0, 0, ofGetWidth(), ofGetHeight());
@@ -57,6 +62,11 @@ namespace IFS {
         void draw() {
             ofSetColor(20);
             ofDrawRectangle(0, ofGetHeight()-rectSize.y, bounds.width, rectSize.y);
+            ofSetColor(80);
+            float rad = rectSize.y * 0.5;
+            for (auto tick: ticks) {
+                ofDrawCircle(bounds.width * tick, ofGetHeight()-rad, rad);
+            }
             ofSetColor(240);
             ofDrawRectangle(rect);
             ofSetColor(255);
@@ -71,6 +81,7 @@ namespace IFS {
         float velMax, accMax;
         bool isScrollWhenPressed;
         bool isScrolling;
+        vector<float> ticks;
         
     protected:
         
