@@ -13,7 +13,7 @@
 
 void ofApp::setup(){
     
-    ofSetLogLevel(OF_LOG_VERBOSE);
+    ofSetLogLevel(OF_LOG_NOTICE);
     ofEnableAlphaBlending();
     
 //    light.setOrientation(ofVec3f(90, 90, 0));
@@ -25,6 +25,10 @@ void ofApp::setup(){
     materialRoads.setDiffuseColor(ofFloatColor(.641176471));
     materialBuildings.setAmbientColor(ofFloatColor(.241176471));
     materialBuildings.setDiffuseColor(ofFloatColor(.441176471));
+    
+    materialWater.setAmbientColor(ofFloatColor(0,0,0.6));
+    materialWater.setDiffuseColor(ofFloatColor(0,0,1));
+    
     
     // tile loader loads multiple tiles from json files in the specified directory
     // it automatically sets the tile builder offset based on the position and zoom of the first tile it reads
@@ -48,6 +52,7 @@ void ofApp::setup(){
 #endif
     fbo.allocate(settings);
     shader.load("", "shader.frag");
+    waterShader.load("shadersGL3/water.vert", "shadersGL3/water.frag");
     bShader = false;
     
     // scroller
@@ -57,7 +62,7 @@ void ofApp::setup(){
     
     //
     ofDisableArbTex();
-    titleFont.load("ofxdatgui_assets/font-verdana.ttf", 40);
+    titleFont.load("fonts/Helvetica.dfont", 40);
     Location location1;
     location1.titleFont = &titleFont;
     location1.setup("St Pauls");
@@ -119,6 +124,10 @@ void ofApp::setupGui() {
     gui->addSlider("cam rot y", -90, 90);
     gui->addSlider("cam rot z", -90, 90);
     
+    auto waterSlider = gui->addSlider("water time", 0, 1, 0.04);
+    waterSlider->setPrecision(4);
+    waterSlider = gui->addSlider("water mult x", 0, 1000, 200);
+    waterSlider = gui->addSlider("water mult y", 0, 1000, 150);
     
     gui->onButtonEvent(this, &ofApp::onButtonEvent);
     gui->onSliderEvent(this, &ofApp::onSliderEvent);
@@ -211,6 +220,14 @@ void ofApp::drawScene() {
         localTile.meshBuildings.draw();
     }
     materialBuildings.end();
+    
+    waterShader.begin();
+    waterShader.setUniform1f("time", ofGetElapsedTimef() * gui->getSlider("water time")->getValue());
+    waterShader.setUniform2f("noiseMult", gui->getSlider("water mult x")->getValue(), gui->getSlider("water mult y")->getValue());
+    for (auto & localTile : tileLoader.tiles) {
+        localTile.meshWater.draw();
+    }
+    waterShader.end();
     
     
     ofDisableLighting();

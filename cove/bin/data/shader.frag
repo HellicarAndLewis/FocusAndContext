@@ -51,5 +51,5 @@ void main(){
 	result = (1.0-result)*(1000.0*pct);
 
     gl_FragColor.rgb = vec3(1.-result)-vec3((getIntensity(uv))*flatPct);
-    gl_FragColor.a = 1.0;
+    gl_FragColor.a = 0.5;
 }

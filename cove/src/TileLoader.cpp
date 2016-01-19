@@ -61,6 +61,7 @@ void TileLoader::loadDir(string path) {
             localTile.mesh = localTile.tile.getMeshFor(layerNames);
             localTile.meshBuildings = localTile.tile.getMeshFor("buildings");
             localTile.meshRoads = localTile.tile.getMeshFor("roads");
+            localTile.meshWater = localTile.tile.getMeshFor("water");
             tiles.push_back(localTile);
         }
     }

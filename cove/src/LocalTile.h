@@ -25,6 +25,7 @@ public:
     ofVboMesh mesh;
     ofVboMesh meshBuildings;
     ofVboMesh meshRoads;
+    ofVboMesh meshWater;
     
     int x = 0;
     int y = 0;

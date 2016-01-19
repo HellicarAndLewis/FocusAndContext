@@ -44,8 +44,11 @@ public:
     ofLight light;
     ofMaterial materialRoads;
     ofMaterial materialBuildings;
+    ofMaterial materialWater;
     ofFbo fbo;
     ofShader shader;
+    ofShader waterShader;
+    
     bool bShader;
     ofVec2f meshPosition;
     ofVec2f meshTarget;

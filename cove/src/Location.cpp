@@ -27,7 +27,7 @@ void Location::setup(string title) {
     fbo.begin();
     ofClear(0, 0, 0, 200);
     ofSetColor(255);
-    titleFont->drawString(title, 20, 80);
+    titleFont->drawString("<b>"+title+"</b>", 20, 80);
     fbo.end();
 }
 
