@@ -16,16 +16,15 @@ void ofApp::setup(){
     ofSetLogLevel(OF_LOG_NOTICE);
     ofEnableAlphaBlending();
     
-//    light.setOrientation(ofVec3f(90, 90, 0));
-//    light.setDirectional();
     light.setDiffuseColor(ofFloatColor(0.9));
     light.setPosition(ofPoint(100,100,1000));
     
-    materialRoads.setAmbientColor(ofFloatColor(.641176471));
+    materialEarth.setAmbientColor(ofFloatColor(.1));
+    materialEarth.setDiffuseColor(ofFloatColor(.15));
+    materialRoads.setAmbientColor(ofFloatColor(.611176471));
     materialRoads.setDiffuseColor(ofFloatColor(.641176471));
     materialBuildings.setAmbientColor(ofFloatColor(.241176471));
     materialBuildings.setDiffuseColor(ofFloatColor(.441176471));
-    
     materialWater.setAmbientColor(ofFloatColor(0,0,0.6));
     materialWater.setDiffuseColor(ofFloatColor(0,0,1));
     
@@ -52,7 +51,9 @@ void ofApp::setup(){
 #endif
     fbo.allocate(settings);
     shader.load("", "shader.frag");
-    waterShader.load("shadersGL3/water.vert", "shadersGL3/water.frag");
+    waterShader.load("shadersGL2/water.vert", "shadersGL2/water.frag");
+    buildingsShader.load("shadersGL2/buildings.vert", "shadersGL2/buildings.frag");
+    roadsShader.load("shadersGL2/roads.vert", "shadersGL2/roads.frag");
     bShader = false;
     
     // scroller
@@ -63,6 +64,13 @@ void ofApp::setup(){
     //
     ofDisableArbTex();
     titleFont.load("fonts/Helvetica.dfont", 40);
+    Location location0;
+    location0.titleFont = &titleFont;
+    location0.setup("");
+    location0.latlon.set(-0.0934, 51.5135);
+    location0.camDistance = 2500;
+    location0.camRotation.set(0, 0, 0);
+    locations.push_back(location0);
     Location location1;
     location1.titleFont = &titleFont;
     location1.setup("St Pauls");
@@ -90,9 +98,15 @@ void ofApp::setup(){
         route.addVertex(location.position);
         routeInverse.addVertex(location.position * -1);
         location.index = i;
-        location.routePercent = (float)i / (float)(locations.size()-1);
         i++;
+    }
+    
+    i = 0;
+    float totalLength = route.getLengthAtIndex(locations.size()-1);
+    for (auto &location: locations) {
+        location.routePercent = route.getLengthAtIndex(i) / totalLength;
         scroller.ticks.push_back(location.routePercent);
+        i++;
     }
     
     setupGui();
@@ -120,14 +134,17 @@ void ofApp::setupGui() {
         gui->addButton(location.title);
     }
     
-    gui->addSlider("cam rot x", -90, 90);
-    gui->addSlider("cam rot y", -90, 90);
-    gui->addSlider("cam rot z", -90, 90);
+    auto slider = gui->addSlider("cam rot x", -90, 90);
+    slider->bind(&camRotation.x, -90, 90);
+    slider = gui->addSlider("cam rot y", -90, 90);
+    slider->bind(&camRotation.y, -90, 90);
+    slider = gui->addSlider("cam rot z", -90, 90);
+    slider->bind(&camRotation.z, -90, 90);
     
-    auto waterSlider = gui->addSlider("water time", 0, 1, 0.04);
-    waterSlider->setPrecision(4);
-    waterSlider = gui->addSlider("water mult x", 0, 1000, 200);
-    waterSlider = gui->addSlider("water mult y", 0, 1000, 150);
+    slider = gui->addSlider("water time", 0, 1, 0.02);
+    slider->setPrecision(4);
+    slider = gui->addSlider("water mult x", 0, 1000, 65);
+    slider = gui->addSlider("water mult y", 0, 1000, 65);
     
     gui->onButtonEvent(this, &ofApp::onButtonEvent);
     gui->onSliderEvent(this, &ofApp::onSliderEvent);
@@ -147,19 +164,22 @@ void ofApp::update(){
     float locationProgress = (float)(locations.size()-1) * scroller.getValue();
     int nearestLocation = round(locationProgress);
     if (nearestLocation > locations.size()-1) nearestLocation = locations.size()-1;
-    locations[nearestLocation].isActive = true;
+    Location & nearest = locations[nearestLocation];
+    float diff = locationProgress - nearestLocation;
+    if (nearestLocation > locationProgress) diff = nearestLocation - locationProgress;
+    if (diff < 0.1) nearest.isActive = true;
     
     if (scroller.isScrolling) {
         meshTarget = routeInverse.getPointAtPercent(scroller.getValue());
-        float diff = locationProgress - nearestLocation;
-        if (nearestLocation > locationProgress) diff = nearestLocation - locationProgress;
         
-        float camTargetDist = ofMap(diff, 0, 0.5, 400, 800);
-        //cam.setDistance(ofLerp(cam.getDistance(), camTargetDist, 0.1));
-        float camXTarget = ofMap(diff, 0, 0.5, -15, 0);
-        //camRotation.x = ofLerp(camRotation.x, camXTarget, 0.1);
-        float camZTarget = ofMap(diff, 0, 0.5, 15, 0);
-        //camRotation.z = ofLerp(camRotation.z, camZTarget, 0.1);
+        float camTargetDist = ofMap(diff, 0, 0.5, nearest.camDistance, 800);
+        cam.setDistance(ofLerp(cam.getDistance(), camTargetDist, 0.1));
+        
+        float camXTarget = ofMap(diff, 0, 0.5, nearest.camRotation.x, 0);
+        camRotation.x = ofLerp(camRotation.x, camXTarget, 0.1);
+        
+        float camZTarget = ofMap(diff, 0, 0.5, nearest.camRotation.z, 0);
+        camRotation.z = ofLerp(camRotation.z, camZTarget, 0.1);
     }
     
     float amount = 0.1;
@@ -175,7 +195,7 @@ void ofApp::update(){
 
 
 void ofApp::draw(){
-    ofBackground(ofColor::white);
+    ofBackground(ofColor::black);
     
 //    ofSetColor(255, 255, 255, 255);
 //    startScene();
@@ -208,18 +228,35 @@ void ofApp::drawScene() {
     
     ofTranslate(meshPosition);
     
+    materialEarth.begin();
+    for (auto & localTile : tileLoader.tiles) {
+        localTile.meshEarth.draw();
+    }
+    materialEarth.end();
+    
     
     materialRoads.begin();
+//    roadsShader.begin();
+//    roadsShader.setUniform2f("u_resolution", 64.0f, 64.0f);
+//    roadsShader.setUniform2f("u_mouse", (float)ofGetMouseX(), (float)ofGetMouseY());
+//    roadsShader.setUniform1f("u_time", ofGetElapsedTimef() * gui->getSlider("water time")->getValue());
     for (auto & localTile : tileLoader.tiles) {
         //localTile.mesh.draw();
         localTile.meshRoads.draw();
     }
     materialRoads.end();
+//    roadsShader.end();
+    
+    //buildingsShader.begin();
+    //buildingsShader.setUniform2f("u_resolution", 64.0f, 64.0f);
+    //buildingsShader.setUniform2f("u_mouse", (float)ofGetMouseX(), (float)ofGetMouseY());
+    //buildingsShader.setUniform1f("u_time", ofGetElapsedTimef() * gui->getSlider("water time")->getValue());
     materialBuildings.begin();
     for (auto & localTile : tileLoader.tiles) {
         localTile.meshBuildings.draw();
     }
     materialBuildings.end();
+    //buildingsShader.end();
     
     waterShader.begin();
     waterShader.setUniform1f("time", ofGetElapsedTimef() * gui->getSlider("water time")->getValue());
@@ -294,8 +331,14 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e) {
         ofToggleFullscreen();
     }
     else if (e.target->is("cam mouse")) {
-        if (e.target->getEnabled()) cam.enableMouseInput();
-        else cam.disableMouseInput();
+        if (e.target->getEnabled()) {
+            cam.enableMouseInput();
+            scroller.disable();
+        }
+        else {
+            cam.disableMouseInput();
+            scroller.enable();
+        }
     }
     else {
         for (auto &location: locations) {

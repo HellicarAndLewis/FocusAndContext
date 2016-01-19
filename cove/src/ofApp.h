@@ -42,12 +42,15 @@ public:
     ofEasyCam cam;
     ofVec3f camRotation;
     ofLight light;
+    ofMaterial materialEarth;
     ofMaterial materialRoads;
     ofMaterial materialBuildings;
     ofMaterial materialWater;
     ofFbo fbo;
     ofShader shader;
     ofShader waterShader;
+    ofShader buildingsShader;
+    ofShader roadsShader;
     
     bool bShader;
     ofVec2f meshPosition;

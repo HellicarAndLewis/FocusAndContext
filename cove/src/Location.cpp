@@ -19,31 +19,41 @@ Location::Location() {
     billboards.getNormals().resize(1,ofVec3f(300));
     billboards.setUsage( GL_DYNAMIC_DRAW );
     billboards.setMode(OF_PRIMITIVE_POINTS);
+    
+    camRotation.set(-15, 0, 15);
+    camDistance = 400;
 }
 
 void Location::setup(string title) {
     this->title = title;
-    fbo.allocate(400, 400);
-    fbo.begin();
-    ofClear(0, 0, 0, 200);
-    ofSetColor(255);
-    titleFont->drawString("<b>"+title+"</b>", 20, 80);
-    fbo.end();
+    if (title != "") {
+        hasLabel = true;
+        fbo.allocate(400, 400);
+        fbo.begin();
+        ofClear(0, 0, 0, 200);
+        ofSetColor(255);
+        titleFont->drawString("<b>"+title+"</b>", 20, 80);
+        fbo.end();
+    }
+    else {
+        hasLabel = false;
+    }
 }
 
 void Location::update() {
 }
 
 void Location::draw() {
+    if (!hasLabel) return;
     
-    if (isActive) percentOpen = ofLerp(percentOpen, 1.0, 0.01);
-    else percentOpen = ofLerp(percentOpen, 0.0, 0.01);
+    if (isActive) percentOpen = ofLerp(percentOpen, 0.0, 0.1);
+    else percentOpen = ofLerp(percentOpen, 1.0, 0.1);
     
-    int alphaTarget = 255 * percentOpen;
+    int alphaTarget = percentOpen * 255;
     
     fbo.begin();
-    ofClear(0, 0, 0, percentOpen * 255);
-    ofSetColor(255, 255, 255, percentOpen * 255);
+    ofClear(0, 0, 0, alphaTarget);
+    ofSetColor(255, 255, 255, alphaTarget);
     titleFont->drawString(title, 20, 300);
     fbo.end();
     

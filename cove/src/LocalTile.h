@@ -22,7 +22,7 @@
 struct LocalTile {
 public:
     ofxVectorTile tile;
-    ofVboMesh mesh;
+    ofVboMesh meshEarth;
     ofVboMesh meshBuildings;
     ofVboMesh meshRoads;
     ofVboMesh meshWater;

@@ -24,6 +24,7 @@ public:
     ofPoint position;
     string title;
     bool isActive;
+    bool hasLabel;
     float percentOpen;
     ofTrueTypeFont* titleFont;
     
@@ -33,6 +34,9 @@ public:
     
     int index;
     float routePercent;
+    
+    ofVec3f camRotation;
+    float camDistance;
 
 protected:  
 private:

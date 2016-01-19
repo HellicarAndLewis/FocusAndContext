@@ -57,8 +57,8 @@ void TileLoader::loadDir(string path) {
             //    "places", _tile, .4);
             //    "roads", _tile, .5);
             //    "pois"
-            vector<string> layerNames = {"earth", "places", };
-            localTile.mesh = localTile.tile.getMeshFor(layerNames);
+            vector<string> layerNames = {"earth"};
+            localTile.meshEarth = localTile.tile.getMeshFor(layerNames);
             localTile.meshBuildings = localTile.tile.getMeshFor("buildings");
             localTile.meshRoads = localTile.tile.getMeshFor("roads");
             localTile.meshWater = localTile.tile.getMeshFor("water");
