@@ -44,7 +44,7 @@ void Location::draw(ofCamera& cam) {
     
     // billboard height and size
     float height = 200;
-    float size = 100;
+    float size = 400;
     
     // draw line from location up to billboard when open
     ofSetLineWidth(4);

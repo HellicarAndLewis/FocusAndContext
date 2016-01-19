@@ -27,7 +27,7 @@ public:
     
     ofTrueTypeFont titleFont;
     vector<Location> locations;
-    ofPolyline route, routeInverse;
+    ofPolyline route, routeInverse, routeRender;
     
     
     Location* activeLocation;

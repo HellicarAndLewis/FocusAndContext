@@ -47,7 +47,7 @@ void Route::draw(ofCamera& cam) {
     {
         ofTranslate(0, 0, -20);
         ofSetLineWidth(5);
-        route.draw();
+        routeRender.draw();
         ofSetLineWidth(1);
     }
     ofPopMatrix();
@@ -67,6 +67,12 @@ void Route::draw2d() {
 //////////////////////////////////////////////////////////////////////////////////
 // public
 //////////////////////////////////////////////////////////////////////////////////
+
+//
+// loads route locations
+// path is the directory that holds a route.xml file
+// posOffset is the position offset of the first tile from ofxVectorBuilder.h
+//
 void Route::load(string path, ofVec3f posOffset) {
     
     if(!xml.loadFile(path + "/route.xml") ){
@@ -80,8 +86,16 @@ void Route::load(string path, ofVec3f posOffset) {
     
     int i = 0;
     for (auto &location: locations) {
+        // use glmGeo.h helpers to convert lon and lat into oF friendly points
+        // these will match up with the dimensions/coordinates used in the tile meshes
+        // the offset accounts for the starting position of the first tile
         location.position.set((lon2x(location.getLon()) - posOffset.x), (lat2y(location.getLat()) - posOffset.y));
+        // add the oF position of the location to the route polylines
+        // route render is just for drawing, don't add the black ones as they're just zoomed out overviews
+        if (location.title != "") routeRender.addVertex(location.position);
+        // route is the actual route
         route.addVertex(location.position);
+        // route inverse is used to shift the whole mesh along an inverted path so that the camera can stay fixed.
         routeInverse.addVertex(location.position * -1);
         location.index = i;
         i++;
@@ -99,11 +113,17 @@ void Route::load(string path, ofVec3f posOffset) {
 }
 
 
+//
+// returns the current/active location
+//
 Location* Route::getLocation() {
     return activeLocation;
 }
 
-
+//
+// returns the current position along the route
+// based on the current percent along the route
+//
 ofPoint Route::getPosition(bool doInvert) {
     if (doInvert) {
         return routeInverse.getPointAtPercent(percent);
@@ -120,6 +140,11 @@ ofPoint Route::getPosition(bool doInvert) {
 //////////////////////////////////////////////////////////////////////////////////
 // private
 //////////////////////////////////////////////////////////////////////////////////
+
+//
+// creates Location objects from the specified xml file
+// adds them to the locations vector
+//
 void Route::populateLocations() {
     xml.pushTag("route");
     int numLocationTags = xml.getNumTags("location");
@@ -144,13 +169,15 @@ void Route::populateLocations() {
         }
         locations.push_back(location);
         
-        ofLogNotice() << "location " << location.title << " " << location.latlon.x << "," << location.latlon.y;
+        ofLogVerbose() << "location " << location.title << " " << location.latlon.x << "," << location.latlon.y;
         
         xml.popTag();
     }
     xml.popTag();
     
 }
+
+
 //////////////////////////////////////////////////////////////////////////////////
 // custom event handlers
 //////////////////////////////////////////////////////////////////////////////////

@@ -13,11 +13,13 @@
 
 void ofApp::setup(){
     
-    ofSetLogLevel(OF_LOG_NOTICE);
+    ofSetLogLevel(OF_LOG_VERBOSE);
     ofEnableAlphaBlending();
     
     light.setDiffuseColor(ofFloatColor(0.9));
     light.setPosition(ofPoint(100,100,1000));
+    
+    cam.setFarClip(90000);
     
     materialEarth.setAmbientColor(ofFloatColor(.1));
     materialEarth.setDiffuseColor(ofFloatColor(.15));
@@ -32,7 +34,7 @@ void ofApp::setup(){
     // tile loader loads multiple tiles from json files in the specified directory
     // it automatically sets the tile builder offset based on the position and zoom of the first tile it reads
     tileLoader.setup();
-    tileLoader.loadDir("tiles/smalltest");
+    tileLoader.loadDir("tiles/londoncity");
     meshPosition.set(0);
     
     // FBO to render scene into shader
@@ -90,17 +92,19 @@ void ofApp::update(){
     if (scroller.isScrolling) {
         meshTarget = route.getPosition(true);
     }
+    if (scroller.isEnabled()) {
+        // update camera settings based on our nearest location
+        // distance
+        float target = ofMap(route.percentToActive, 0, 0.5, route.getLocation()->camDistance, 800);
+        cam.setDistance(ofLerp(cam.getDistance(), target, 0.1));
+        // x rotation
+        target = ofMap(route.percentToActive, 0, 0.5, route.getLocation()->camRotation.x, 0);
+        sceneRotation.x = ofLerp(sceneRotation.x, target, 0.1);
+        // z rotation
+        target = ofMap(route.percentToActive, 0, 0.5, route.getLocation()->camRotation.z, 0);
+        sceneRotation.z = ofLerp(sceneRotation.z, target, 0.1);
+    }
     
-    // update camera settings based on our nearest location
-    // distance
-    float target = ofMap(route.percentToActive, 0, 0.5, route.getLocation()->camDistance, 800);
-    cam.setDistance(ofLerp(cam.getDistance(), target, 0.1));
-    // x rotation
-    target = ofMap(route.percentToActive, 0, 0.5, route.getLocation()->camRotation.x, 0);
-    sceneRotation.x = ofLerp(sceneRotation.x, target, 0.1);
-    // z rotation
-    target = ofMap(route.percentToActive, 0, 0.5, route.getLocation()->camRotation.z, 0);
-    sceneRotation.z = ofLerp(sceneRotation.z, target, 0.1);
     
     // lerp the actual mesh position to the target
     float amount = 0.1;
