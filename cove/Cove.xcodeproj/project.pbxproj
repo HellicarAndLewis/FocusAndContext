@@ -560,13 +560,13 @@
 			name = map;
 			sourceTree = "<group>";
 		};
-		83536CA81C4D03E2000F5018 /* model */ = {
+		83536CA81C4D03E2000F5018 /* route */ = {
 			isa = PBXGroup;
 			children = (
 				83536CA91C4D040B000F5018 /* Location.cpp */,
 				83536CAA1C4D040B000F5018 /* Location.h */,
 			);
-			name = model;
+			name = route;
 			sourceTree = "<group>";
 		};
 		839648CA1C47BC0B00C227EB /* ofxDatGui */ = {
@@ -1143,7 +1143,7 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				83536CA81C4D03E2000F5018 /* model */,
+				83536CA81C4D03E2000F5018 /* route */,
 				83470C321C49009700B3FED4 /* map */,
 				833FE11F1C47DF5B007E9685 /* common */,
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,

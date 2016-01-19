@@ -109,6 +109,12 @@ void ofApp::setup(){
         i++;
     }
     
+    Location & firstLocation = locations[0];
+    firstLocation.isActive = true;
+    setLon(firstLocation.getLon());
+    setLat(firstLocation.getLat());
+    scroller.scrollTo(firstLocation.routePercent);
+    
     setupGui();
     showGui();
 }
@@ -161,36 +167,47 @@ void ofApp::update(){
     for (auto &location: locations) {
         location.isActive = false;
     }
-    float locationProgress = (float)(locations.size()-1) * scroller.getValue();
-    int nearestLocation = round(locationProgress);
-    if (nearestLocation > locations.size()-1) nearestLocation = locations.size()-1;
-    Location & nearest = locations[nearestLocation];
-    float diff = locationProgress - nearestLocation;
-    if (nearestLocation > locationProgress) diff = nearestLocation - locationProgress;
+    
+    // get the nearest point on the route to current progress
+    float totalLength = route.getLengthAtIndex(locations.size()-1);
+    float indexInterp = route.getIndexAtLength(scroller.getValue() * totalLength);
+    int index = round(indexInterp);
+    Location & nearest = locations[index];
+    // get the distance (0 - 0.5) to the nearest point
+    float diff = indexInterp - index;
+    if (index > indexInterp) diff = index - indexInterp;
+    // using a threshold of 0.1, set the nearest point to active
     if (diff < 0.1) nearest.isActive = true;
     
+    // update mesh target and if we're scrolling
     if (scroller.isScrolling) {
         meshTarget = routeInverse.getPointAtPercent(scroller.getValue());
-        
-        float camTargetDist = ofMap(diff, 0, 0.5, nearest.camDistance, 800);
-        cam.setDistance(ofLerp(cam.getDistance(), camTargetDist, 0.1));
-        
-        float camXTarget = ofMap(diff, 0, 0.5, nearest.camRotation.x, 0);
-        camRotation.x = ofLerp(camRotation.x, camXTarget, 0.1);
-        
-        float camZTarget = ofMap(diff, 0, 0.5, nearest.camRotation.z, 0);
-        camRotation.z = ofLerp(camRotation.z, camZTarget, 0.1);
     }
     
+    // update camera settings based on our nearest location
+    // dsitance
+    float camTargetDist = ofMap(diff, 0, 0.5, nearest.camDistance, 800);
+    cam.setDistance(ofLerp(cam.getDistance(), camTargetDist, 0.1));
+    // x rotation
+    float camXTarget = ofMap(diff, 0, 0.5, nearest.camRotation.x, 0);
+    camRotation.x = ofLerp(camRotation.x, camXTarget, 0.1);
+    // z rotation
+    float camZTarget = ofMap(diff, 0, 0.5, nearest.camRotation.z, 0);
+    camRotation.z = ofLerp(camRotation.z, camZTarget, 0.1);
+    
+    // lerp the actual mesh position to the target
     float amount = 0.1;
     meshPosition.x = ofLerp(meshPosition.x, meshTarget.x, amount);
     meshPosition.y = ofLerp(meshPosition.y, meshTarget.y, amount);
     
-    tileLoader.labels.updateCameraPosition(cam.getPosition());
-    fbo.begin();
-    ofClear(0,0,0,0);
-    drawScene();
-    fbo.end();
+    //tileLoader.labels.updateCameraPosition(cam.getPosition());
+    
+    if(bShader) {
+        fbo.begin();
+        ofClear(0,0,0,0);
+        drawScene();
+        fbo.end();
+    }
 }
 
 
@@ -228,11 +245,11 @@ void ofApp::drawScene() {
     
     ofTranslate(meshPosition);
     
-    materialEarth.begin();
-    for (auto & localTile : tileLoader.tiles) {
-        localTile.meshEarth.draw();
-    }
-    materialEarth.end();
+//    materialEarth.begin();
+//    for (auto & localTile : tileLoader.tiles) {
+//        localTile.meshEarth.draw();
+//    }
+//    materialEarth.end();
     
     
     materialRoads.begin();
