@@ -15,7 +15,8 @@ public:
     
 	void setup(string title);
 	void update();
-	void draw();
+	void draw(ofCamera& cam);
+    void draw2d();
     
     float getLon();
     float getLat();
@@ -28,9 +29,11 @@ public:
     float percentOpen;
     ofTrueTypeFont* titleFont;
     
-    ofVboMesh billboards;
     ofShader billboardShader;
     ofFbo fbo;
+    
+    ofImage labelImage;
+    ofImage contentImage;
     
     int index;
     float routePercent;

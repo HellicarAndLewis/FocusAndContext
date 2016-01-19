@@ -240,11 +240,13 @@ void ofApp::drawScene() {
     ofDisableLighting();
     
     ofSetColor(255, 255, 255, 255);
-    route.draw();
+    route.draw(cam);
     
     ofEnableLighting();
     ofPopMatrix();
     endScene();
+    
+    route.draw2d();
     
     
 }

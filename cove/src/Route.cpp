@@ -23,6 +23,7 @@ void Route::update(float percent) {
     
     // update active location
     for (auto &location: locations) {
+        location.update();
         location.isActive = false;
     }
     
@@ -39,7 +40,7 @@ void Route::update(float percent) {
     if (percentToActive < 0.1) activeLocation->isActive = true;
 }
 
-void Route::draw() {
+void Route::draw(ofCamera& cam) {
     ofDisableDepthTest();
     ofSetColor(200, 0, 0);
     ofPushMatrix();
@@ -52,9 +53,15 @@ void Route::draw() {
     ofPopMatrix();
     ofSetColor(255);
     for (auto &location: locations) {
-        location.draw();
+        location.draw(cam);
     }
     ofEnableDepthTest();
+}
+
+void Route::draw2d() {
+    for (auto &location: locations) {
+        location.draw2d();
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -62,35 +69,14 @@ void Route::draw() {
 //////////////////////////////////////////////////////////////////////////////////
 void Route::load(string path, ofVec3f posOffset) {
     
-    titleFont.load("fonts/Helvetica.dfont", 40);
+    if(!xml.loadFile(path + "/route.xml") ){
+        ofLogError() << "Can't load " << path << " in Route::load";
+        return;
+    }
     
-    Location location0;
-    location0.titleFont = &titleFont;
-    location0.setup("");
-    location0.latlon.set(-0.0934, 51.5135);
-    location0.camDistance = 2500;
-    location0.camRotation.set(0, 0, 0);
-    locations.push_back(location0);
-    Location location1;
-    location1.titleFont = &titleFont;
-    location1.setup("St Pauls");
-    location1.latlon.set(-0.09781, 51.51356);
-    locations.push_back(location1);
-    Location location2;
-    location2.titleFont = &titleFont;
-    location2.setup("Bank");
-    location2.latlon.set(-0.08907, 51.51331);
-    locations.push_back(location2);
-    Location location3;
-    location3.titleFont = &titleFont;
-    location3.setup("Liverpool St");
-    location3.latlon.set(-0.08122, 51.51877);
-    locations.push_back(location3);
-    Location location4;
-    location4.titleFont = &titleFont;
-    location4.setup("Aldgate");
-    location4.latlon.set(-0.07577, 51.51421);
-    locations.push_back(location4);
+    folderPath = path;
+    titleFont.load("fonts/Helvetica.dfont", 40);
+    populateLocations();
     
     int i = 0;
     for (auto &location: locations) {
@@ -105,7 +91,6 @@ void Route::load(string path, ofVec3f posOffset) {
     float totalLength = route.getLengthAtIndex(locations.size()-1);
     for (auto &location: locations) {
         location.routePercent = route.getLengthAtIndex(i) / totalLength;
-        //scroller.ticks.push_back(location.routePercent);
         i++;
     }
     
@@ -135,7 +120,37 @@ ofPoint Route::getPosition(bool doInvert) {
 //////////////////////////////////////////////////////////////////////////////////
 // private
 //////////////////////////////////////////////////////////////////////////////////
-
+void Route::populateLocations() {
+    xml.pushTag("route");
+    int numLocationTags = xml.getNumTags("location");
+    for (int i=0; i < numLocationTags; i++) {
+        xml.pushTag("location", i);
+        Location location;
+        location.titleFont = &titleFont;
+        location.setup(xml.getValue("title", ""));
+        location.latlon.set(xml.getValue("lat", 0.0f), xml.getValue("lon", 0.0f));
+        location.camDistance = xml.getValue("camera:distance", 400);
+        location.camRotation.set(
+                                 xml.getValue("camera:xrot", -15),
+                                 xml.getValue("camera:yrot", 0),
+                                 xml.getValue("camera:zrot", 15));
+        // images / media
+        string filename = xml.getValue("titleImg", "");
+        if (filename != "") location.labelImage.load(folderPath + "/labels/" + filename);
+        filename = xml.getValue("detailImg", "");
+        if (filename != "") {
+            location.contentImage.load(folderPath + "/detail/" + filename);
+            location.contentImage.resize(800, 800);
+        }
+        locations.push_back(location);
+        
+        ofLogNotice() << "location " << location.title << " " << location.latlon.x << "," << location.latlon.y;
+        
+        xml.popTag();
+    }
+    xml.popTag();
+    
+}
 //////////////////////////////////////////////////////////////////////////////////
 // custom event handlers
 //////////////////////////////////////////////////////////////////////////////////

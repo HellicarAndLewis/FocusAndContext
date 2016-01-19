@@ -9,6 +9,7 @@
 #pragma once
 #include "ofMain.h"
 #include "Location.h"
+#include "ofxXmlSettings.h"
 
 class Route {
 public:
@@ -16,7 +17,8 @@ public:
     
     void setup();
     void update(float percent = -1);
-	void draw();
+    void draw(ofCamera& cam);
+    void draw2d();
     
     void load(string path, ofVec3f posOffset);
     Location* getLocation();
@@ -36,4 +38,9 @@ public:
 
 protected:  
 private:
+    
+    void populateLocations();
+    string folderPath;
+    ofxXmlSettings xml;
+    
 };

@@ -1,0 +1,41 @@
+<route>
+    <location>
+        <title></title>
+        <lat>-0.0934</lat>
+        <lon>51.5135</lon>
+        <camera>
+        	<xrot>0</xrot>
+        	<yrot>0</yrot>
+        	<zrot>0</zrot>
+        	<distance>2500</distance>
+        </camera>
+    </location>
+    <location>
+        <title>St Pauls</title>
+        <lat>-0.09781</lat>
+        <lon>51.51356</lon>
+        <titleImg>Barbican_Plain.png</titleImg>
+        <detailImg>Barbican.png</detailImg>
+    </location>
+    <location>
+        <title>Bank</title>
+        <lat>-0.08907</lat>
+        <lon>51.51331</lon>
+        <titleImg>Barbican_Plain.png</titleImg>
+        <detailImg>Barbican.png</detailImg>
+    </location>
+    <location>
+        <title>Liverpool St</title>
+        <lat>-0.08122</lat>
+        <lon>51.51877</lon>
+        <titleImg>Barbican_Plain.png</titleImg>
+        <detailImg>Barbican.png</detailImg>
+    </location>
+    <location>
+        <title>Aldgate</title>
+        <lat>-0.07577</lat>
+        <lon>51.51421</lon>
+        <titleImg>Barbican_Plain.png</titleImg>
+        <detailImg>Barbican.png</detailImg>
+    </location>
+</route>

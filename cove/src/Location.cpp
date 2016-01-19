@@ -10,16 +10,12 @@
 
 Location::Location() {
     isActive = false;
-    if(ofIsGLProgrammableRenderer()){
+    if(ofIsGLProgrammableRenderer()) {
         billboardShader.load("shadersGL3/Billboard");
-    }else{
+    }
+    else {
         billboardShader.load("shadersGL2/Billboard");
     }
-    billboards.getVertices().resize(1);
-    billboards.getNormals().resize(1,ofVec3f(300));
-    billboards.setUsage( GL_DYNAMIC_DRAW );
-    billboards.setMode(OF_PRIMITIVE_POINTS);
-    
     camRotation.set(-15, 0, 15);
     camDistance = 400;
 }
@@ -28,12 +24,6 @@ void Location::setup(string title) {
     this->title = title;
     if (title != "") {
         hasLabel = true;
-        fbo.allocate(400, 400);
-        fbo.begin();
-        ofClear(0, 0, 0, 200);
-        ofSetColor(255);
-        titleFont->drawString("<b>"+title+"</b>", 20, 80);
-        fbo.end();
     }
     else {
         hasLabel = false;
@@ -41,45 +31,52 @@ void Location::setup(string title) {
 }
 
 void Location::update() {
-}
-
-void Location::draw() {
-    if (!hasLabel) return;
-    
     if (isActive) percentOpen = ofLerp(percentOpen, 0.0, 0.1);
     else percentOpen = ofLerp(percentOpen, 1.0, 0.1);
+}
+
+void Location::draw(ofCamera& cam) {
+    if (!hasLabel) return;
     
+    // alpha based on open/closed percent
     int alphaTarget = percentOpen * 255;
-    
-    fbo.begin();
-    ofClear(0, 0, 0, alphaTarget);
     ofSetColor(255, 255, 255, alphaTarget);
-    titleFont->drawString(title, 20, 300);
-    fbo.end();
     
+    // billboard height and size
     float height = 200;
-    ofPushStyle();
-    ofSetColor(0);
+    float size = 100;
+    
+    // draw line from location up to billboard when open
     ofSetLineWidth(4);
     ofDrawLine(position.x, position.y, percentOpen * height, position.x, position.y, 0);
-    ofPopStyle();
-    ofSetColor(255);
+    ofSetLineWidth(1);
     
-    // billboard to face cam?
-    billboards.getVertices()[0].set(position.x, position.y, height);
+    // billboard to face cam
     billboardShader.begin();
-    ofEnablePointSprites(); // not needed for GL3/4
-    fbo.getTexture().bind();
-    billboards.draw();
-    fbo.getTexture().unbind();
-    ofDisablePointSprites(); // not needed for GL3/4
+    ofEnablePointSprites();
+    labelImage.getTexture().bind();
+    glBegin(GL_POINTS);
+    glVertex3f(position.x, position.y, height);
+    glNormal3f(size, 0, 0);
+    glEnd();
+    labelImage.getTexture().unbind();
+    ofDisablePointSprites();
     billboardShader.end();
     
+    ofSetColor(255);
     
-//    ofPushMatrix();
-//    ofTranslate(position.x, position.y, 60);
-//    fbo.draw(0,0);
-//    ofPopMatrix();
+}
+
+
+void Location::draw2d() {
+    if (!hasLabel) return;
+    
+    int alphaTarget = 255 - (percentOpen * 255);
+    ofSetColor(255, 255, 255, alphaTarget);
+    int w = contentImage.getWidth();
+    int h = contentImage.getHeight();
+    contentImage.draw(30, ofGetHeight()/2 - h/2, w, h);
+    ofSetColor(255);
 }
 
 //////////////////////////////////////////////////////////////////////////////////
