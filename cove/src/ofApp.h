@@ -12,7 +12,7 @@
 #include "ofxDatGui.h"
 #include "Scrollable.h"
 #include "TileLoader.h"
-#include "Location.h"
+#include "Route.h"
 
 class ofApp : public ofBaseApp{
 public:
@@ -40,7 +40,7 @@ public:
     
     // rendering
     ofEasyCam cam;
-    ofVec3f camRotation;
+    ofVec3f sceneRotation;
     ofLight light;
     ofMaterial materialEarth;
     ofMaterial materialRoads;
@@ -58,9 +58,7 @@ public:
     float mapX;
     float mapY;
     
-    ofTrueTypeFont titleFont;
-    vector<Location> locations;
-    ofPolyline route, routeInverse;
+    Route route;
     
     // tiles
     TileLoader tileLoader;

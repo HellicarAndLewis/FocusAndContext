@@ -40,6 +40,7 @@
 		83AC29511C4693F0009E1CD1 /* glmPolyline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83AC293D1C4693F0009E1CD1 /* glmPolyline.cpp */; };
 		83AC29521C4693F0009E1CD1 /* glmRectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83AC29401C4693F0009E1CD1 /* glmRectangle.cpp */; };
 		83AC29541C4693F0009E1CD1 /* ofxGlmTools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83AC29461C4693F0009E1CD1 /* ofxGlmTools.cpp */; };
+		83C837DE1C4EB26D00A1F52D /* Route.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83C837DC1C4EB26D00A1F52D /* Route.cpp */; };
 		856AA354D08AB4B323081444 /* ofxBaseGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9604B925D32EE39065747725 /* ofxBaseGui.cpp */; };
 		933A2227713C720CEFF80FD9 /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B40EDA85BEB63E46785BC29 /* tinyxml.cpp */; };
 		9D44DC88EF9E7991B4A09951 /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 832BDC407620CDBA568B713D /* tinyxmlerror.cpp */; };
@@ -435,6 +436,8 @@
 		83AC29451C4693F0009E1CD1 /* ofxGlm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGlm.h; sourceTree = "<group>"; };
 		83AC29461C4693F0009E1CD1 /* ofxGlmTools.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxGlmTools.cpp; sourceTree = "<group>"; };
 		83AC29471C4693F0009E1CD1 /* ofxGlmTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGlmTools.h; sourceTree = "<group>"; };
+		83C837DC1C4EB26D00A1F52D /* Route.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Route.cpp; sourceTree = "<group>"; };
+		83C837DD1C4EB26D00A1F52D /* Route.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Route.h; sourceTree = "<group>"; };
 		87F26B4B24CBD428AD9EEBAA /* ofxBaseGui.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxBaseGui.h; path = ../../../addons/ofxGui/src/ofxBaseGui.h; sourceTree = SOURCE_ROOT; };
 		89449E3044D456F7DE7BEA14 /* ofxPanel.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxPanel.h; path = ../../../addons/ofxGui/src/ofxPanel.h; sourceTree = SOURCE_ROOT; };
 		907C5B5E104864A2D3A25745 /* ofxToggle.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxToggle.cpp; path = ../../../addons/ofxGui/src/ofxToggle.cpp; sourceTree = SOURCE_ROOT; };
@@ -565,6 +568,8 @@
 			children = (
 				83536CA91C4D040B000F5018 /* Location.cpp */,
 				83536CAA1C4D040B000F5018 /* Location.h */,
+				83C837DC1C4EB26D00A1F52D /* Route.cpp */,
+				83C837DD1C4EB26D00A1F52D /* Route.h */,
 			);
 			name = route;
 			sourceTree = "<group>";
@@ -1298,6 +1303,7 @@
 				83AC28121C469366009E1CD1 /* glmAnchorLine.cpp in Sources */,
 				5A4349E9754D6FA14C0F2A3A /* tinyxmlparser.cpp in Sources */,
 				83AC29541C4693F0009E1CD1 /* ofxGlmTools.cpp in Sources */,
+				83C837DE1C4EB26D00A1F52D /* Route.cpp in Sources */,
 				83470C351C4900B100B3FED4 /* TileLoader.cpp in Sources */,
 				83AC28151C469366009E1CD1 /* glmFeatureLabelPoint.cpp in Sources */,
 			);

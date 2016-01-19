@@ -21,10 +21,10 @@ void ofApp::setup(){
     
     materialEarth.setAmbientColor(ofFloatColor(.1));
     materialEarth.setDiffuseColor(ofFloatColor(.15));
-    materialRoads.setAmbientColor(ofFloatColor(.611176471));
-    materialRoads.setDiffuseColor(ofFloatColor(.641176471));
-    materialBuildings.setAmbientColor(ofFloatColor(.241176471));
-    materialBuildings.setDiffuseColor(ofFloatColor(.441176471));
+    materialRoads.setAmbientColor(ofFloatColor(.6, .6, .6));
+    materialRoads.setDiffuseColor(ofFloatColor(.65, .65, .65));
+    materialBuildings.setAmbientColor(ofFloatColor(.2, .2, .2));
+    materialBuildings.setDiffuseColor(ofFloatColor(.4, .4, .4));
     materialWater.setAmbientColor(ofFloatColor(0,0,0.6));
     materialWater.setDiffuseColor(ofFloatColor(0,0,1));
     
@@ -61,101 +61,22 @@ void ofApp::setup(){
     scroller.velMax = 12;
     scroller.setup();
     
-    //
+    // for billboards
     ofDisableArbTex();
-    titleFont.load("fonts/Helvetica.dfont", 40);
-    Location location0;
-    location0.titleFont = &titleFont;
-    location0.setup("");
-    location0.latlon.set(-0.0934, 51.5135);
-    location0.camDistance = 2500;
-    location0.camRotation.set(0, 0, 0);
-    locations.push_back(location0);
-    Location location1;
-    location1.titleFont = &titleFont;
-    location1.setup("St Pauls");
-    location1.latlon.set(-0.09781, 51.51356);
-    locations.push_back(location1);
-    Location location2;
-    location2.titleFont = &titleFont;
-    location2.setup("Bank");
-    location2.latlon.set(-0.08907, 51.51331);
-    locations.push_back(location2);
-    Location location3;
-    location3.titleFont = &titleFont;
-    location3.setup("Liverpool St");
-    location3.latlon.set(-0.08122, 51.51877);
-    locations.push_back(location3);
-    Location location4;
-    location4.titleFont = &titleFont;
-    location4.setup("Aldgate");
-    location4.latlon.set(-0.07577, 51.51421);
-    locations.push_back(location4);
     
-    int i = 0;
-    for (auto &location: locations) {
-        location.position.set((lon2x(location.getLon()) - tileLoader.builder.getOffset().x), (lat2y(location.getLat()) - tileLoader.builder.getOffset().y));
-        route.addVertex(location.position);
-        routeInverse.addVertex(location.position * -1);
-        location.index = i;
-        i++;
+    // load and init route
+    route.load("content/crossrail", tileLoader.builder.getOffset());
+    for (int i=0; i<route.locations.size();  i++) {
+        scroller.ticks.push_back(route.locations[i].routePercent);
     }
-    
-    i = 0;
-    float totalLength = route.getLengthAtIndex(locations.size()-1);
-    for (auto &location: locations) {
-        location.routePercent = route.getLengthAtIndex(i) / totalLength;
-        scroller.ticks.push_back(location.routePercent);
-        i++;
-    }
-    
-    Location & firstLocation = locations[0];
-    firstLocation.isActive = true;
-    setLon(firstLocation.getLon());
-    setLat(firstLocation.getLat());
-    scroller.scrollTo(firstLocation.routePercent);
+    Location & location = *route.getLocation();
+    setLon(location.getLon());
+    setLat(location.getLat());
+    scroller.scrollTo(location.routePercent);
     
     setupGui();
     showGui();
 }
-
-void ofApp::setupGui() {
-    gui = new ofxDatGui( ofxDatGuiAnchor::TOP_LEFT );
-    gui->addFRM();
-    //guiTileAlpha = gui->addSlider("mesh alpha", 0, 255, 255);
-    //guiTileAlpha->setPrecision(0);
-    gui->addToggle("cam mouse", false);
-    
-    // Set limits based on city of london
-    // TODO: make limits dynamic based on dataset
-    guiMapX = gui->addSlider("longitude", -0.1130, -0.0692);
-    guiMapX->setPrecision(4);
-    guiMapX->bind(&mapX, -0.1130, -0.0692);
-    guiMapY = gui->addSlider("latitude", 51.5058, 51.5223);
-    guiMapY->setPrecision(4);
-    guiMapY->bind(&mapY, 51.5058, 51.5223);
-    
-    // buttons to jump places
-    for (auto &location: locations) {
-        gui->addButton(location.title);
-    }
-    
-    auto slider = gui->addSlider("cam rot x", -90, 90);
-    slider->bind(&camRotation.x, -90, 90);
-    slider = gui->addSlider("cam rot y", -90, 90);
-    slider->bind(&camRotation.y, -90, 90);
-    slider = gui->addSlider("cam rot z", -90, 90);
-    slider->bind(&camRotation.z, -90, 90);
-    
-    slider = gui->addSlider("water time", 0, 1, 0.02);
-    slider->setPrecision(4);
-    slider = gui->addSlider("water mult x", 0, 1000, 65);
-    slider = gui->addSlider("water mult y", 0, 1000, 65);
-    
-    gui->onButtonEvent(this, &ofApp::onButtonEvent);
-    gui->onSliderEvent(this, &ofApp::onSliderEvent);
-}
-
 
 void ofApp::update(){
     
@@ -163,44 +84,28 @@ void ofApp::update(){
         cam.disableMouseInput();
     }
     
-    // update active location
-    for (auto &location: locations) {
-        location.isActive = false;
-    }
-    
-    // get the nearest point on the route to current progress
-    float totalLength = route.getLengthAtIndex(locations.size()-1);
-    float indexInterp = route.getIndexAtLength(scroller.getValue() * totalLength);
-    int index = round(indexInterp);
-    Location & nearest = locations[index];
-    // get the distance (0 - 0.5) to the nearest point
-    float diff = indexInterp - index;
-    if (index > indexInterp) diff = index - indexInterp;
-    // using a threshold of 0.1, set the nearest point to active
-    if (diff < 0.1) nearest.isActive = true;
+    route.update(scroller.getValue());
     
     // update mesh target and if we're scrolling
     if (scroller.isScrolling) {
-        meshTarget = routeInverse.getPointAtPercent(scroller.getValue());
+        meshTarget = route.getPosition(true);
     }
     
     // update camera settings based on our nearest location
-    // dsitance
-    float camTargetDist = ofMap(diff, 0, 0.5, nearest.camDistance, 800);
-    cam.setDistance(ofLerp(cam.getDistance(), camTargetDist, 0.1));
+    // distance
+    float target = ofMap(route.percentToActive, 0, 0.5, route.getLocation()->camDistance, 800);
+    cam.setDistance(ofLerp(cam.getDistance(), target, 0.1));
     // x rotation
-    float camXTarget = ofMap(diff, 0, 0.5, nearest.camRotation.x, 0);
-    camRotation.x = ofLerp(camRotation.x, camXTarget, 0.1);
+    target = ofMap(route.percentToActive, 0, 0.5, route.getLocation()->camRotation.x, 0);
+    sceneRotation.x = ofLerp(sceneRotation.x, target, 0.1);
     // z rotation
-    float camZTarget = ofMap(diff, 0, 0.5, nearest.camRotation.z, 0);
-    camRotation.z = ofLerp(camRotation.z, camZTarget, 0.1);
+    target = ofMap(route.percentToActive, 0, 0.5, route.getLocation()->camRotation.z, 0);
+    sceneRotation.z = ofLerp(sceneRotation.z, target, 0.1);
     
     // lerp the actual mesh position to the target
     float amount = 0.1;
     meshPosition.x = ofLerp(meshPosition.x, meshTarget.x, amount);
     meshPosition.y = ofLerp(meshPosition.y, meshTarget.y, amount);
-    
-    //tileLoader.labels.updateCameraPosition(cam.getPosition());
     
     if(bShader) {
         fbo.begin();
@@ -220,7 +125,6 @@ void ofApp::draw(){
 //    ofDrawCylinder(0, 0, -50, 10, 400);
 //    endScene();
     
-    //ofSetColor(255, 255, 255, guiTileAlpha->getValue());
     if(bShader){
         shader.begin();
         shader.setUniformTexture("colorTex", fbo, 0);
@@ -235,35 +139,82 @@ void ofApp::draw(){
     
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////
+// public
+//////////////////////////////////////////////////////////////////////////////////
+
+void ofApp::setupGui() {
+    gui = new ofxDatGui( ofxDatGuiAnchor::TOP_LEFT );
+    gui->addFRM();
+    guiTileAlpha = gui->addSlider("mesh alpha", 0, 255, 255);
+    guiTileAlpha->setPrecision(0);
+    gui->addToggle("cam mouse", false);
+    
+    // Set limits based on city of london
+    // TODO: make limits dynamic based on dataset
+    guiMapX = gui->addSlider("longitude", -0.1130, -0.0692);
+    guiMapX->setPrecision(4);
+    guiMapX->bind(&mapX, -0.1130, -0.0692);
+    guiMapY = gui->addSlider("latitude", 51.5058, 51.5223);
+    guiMapY->setPrecision(4);
+    guiMapY->bind(&mapY, 51.5058, 51.5223);
+    
+    // buttons to jump places
+    for (auto &location: route.locations) {
+        gui->addButton(location.title);
+    }
+    
+    auto slider = gui->addSlider("cam rot x", -90, 90);
+    slider->bind(&sceneRotation.x, -90, 90);
+    slider = gui->addSlider("cam rot y", -90, 90);
+    slider->bind(&sceneRotation.y, -90, 90);
+    slider = gui->addSlider("cam rot z", -90, 90);
+    slider->bind(&sceneRotation.z, -90, 90);
+    
+    slider = gui->addSlider("water time", 0, 1, 0.02);
+    slider->setPrecision(4);
+    slider = gui->addSlider("water mult x", 0, 1000, 65);
+    slider = gui->addSlider("water mult y", 0, 1000, 65);
+    
+    gui->onButtonEvent(this, &ofApp::onButtonEvent);
+    gui->onSliderEvent(this, &ofApp::onSliderEvent);
+}
+
 void ofApp::drawScene() {
     startScene();
     ofPushMatrix();
     
-    ofRotateX(camRotation.x);
-    ofRotateY(camRotation.y);
-    ofRotateZ(camRotation.z);
+    ofRotateX(sceneRotation.x);
+    ofRotateY(sceneRotation.y);
+    ofRotateZ(sceneRotation.z);
     
     ofTranslate(meshPosition);
     
-//    materialEarth.begin();
-//    for (auto & localTile : tileLoader.tiles) {
-//        localTile.meshEarth.draw();
-//    }
-//    materialEarth.end();
+    
+    // Earth / ground
+    //    materialEarth.begin();
+    //    for (auto & localTile : tileLoader.tiles) {
+    //        localTile.meshEarth.draw();
+    //    }
+    //    materialEarth.end();
     
     
+    // Roads
+    ofSetColor(255, 255, 255, guiTileAlpha->getValue());
     materialRoads.begin();
-//    roadsShader.begin();
-//    roadsShader.setUniform2f("u_resolution", 64.0f, 64.0f);
-//    roadsShader.setUniform2f("u_mouse", (float)ofGetMouseX(), (float)ofGetMouseY());
-//    roadsShader.setUniform1f("u_time", ofGetElapsedTimef() * gui->getSlider("water time")->getValue());
+    //    roadsShader.begin();
+    //    roadsShader.setUniform2f("u_resolution", 64.0f, 64.0f);
+    //    roadsShader.setUniform2f("u_mouse", (float)ofGetMouseX(), (float)ofGetMouseY());
+    //    roadsShader.setUniform1f("u_time", ofGetElapsedTimef() * gui->getSlider("water time")->getValue());
     for (auto & localTile : tileLoader.tiles) {
-        //localTile.mesh.draw();
         localTile.meshRoads.draw();
     }
+    //    roadsShader.end();
     materialRoads.end();
-//    roadsShader.end();
     
+    
+    // Buildings
     //buildingsShader.begin();
     //buildingsShader.setUniform2f("u_resolution", 64.0f, 64.0f);
     //buildingsShader.setUniform2f("u_mouse", (float)ofGetMouseX(), (float)ofGetMouseY());
@@ -272,9 +223,11 @@ void ofApp::drawScene() {
     for (auto & localTile : tileLoader.tiles) {
         localTile.meshBuildings.draw();
     }
-    materialBuildings.end();
     //buildingsShader.end();
+    materialBuildings.end();
     
+    
+    // Water
     waterShader.begin();
     waterShader.setUniform1f("time", ofGetElapsedTimef() * gui->getSlider("water time")->getValue());
     waterShader.setUniform2f("noiseMult", gui->getSlider("water mult x")->getValue(), gui->getSlider("water mult y")->getValue());
@@ -286,25 +239,11 @@ void ofApp::drawScene() {
     
     ofDisableLighting();
     
-    for (auto &location: locations) {
-        location.draw();
-    }
-    
-    ofSetColor(200, 0, 0);
-    ofPushMatrix();
-    ofTranslate(0, 0, 20);
-    ofSetLineWidth(5);
+    ofSetColor(255, 255, 255, 255);
     route.draw();
-    ofSetLineWidth(1);
-    ofPopMatrix();
-    ofSetColor(255);
+    
     ofEnableLighting();
-    
-    //tileLoader.labels.draw3D();
-    //tileLoader.labels.updateProjection();
-    
     ofPopMatrix();
-    
     endScene();
     
     
@@ -358,7 +297,7 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e) {
         }
     }
     else {
-        for (auto &location: locations) {
+        for (auto &location: route.locations) {
             if (e.target->is(location.title)) {
                 location.isActive = true;
                 setLon(location.getLon());
@@ -381,13 +320,13 @@ void ofApp::onSliderEvent(ofxDatGuiSliderEvent e) {
         setLat(e.target->getValue());
     }
     else if (e.target->is("cam rot x")) {
-        camRotation.x = e.target->getValue();
+        sceneRotation.x = e.target->getValue();
     }
     else if (e.target->is("cam rot y")) {
-        camRotation.y = e.target->getValue();
+        sceneRotation.y = e.target->getValue();
     }
     else if (e.target->is("cam rot z")) {
-        camRotation.z = e.target->getValue();
+        sceneRotation.z = e.target->getValue();
     }
 }
 
