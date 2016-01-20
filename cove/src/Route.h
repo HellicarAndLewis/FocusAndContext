@@ -43,7 +43,9 @@ protected:
 private:
     
     void populateLocations();
+    
     string folderPath;
     ofxXmlSettings xml;
+    ofImage contentImages[5];
     
 };

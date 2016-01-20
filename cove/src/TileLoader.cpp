@@ -66,6 +66,18 @@ void TileLoader::loadDir(string path) {
         }
     }
 }
+
+
+void TileLoader::setActive(int x, int y) {
+    for (auto & tile: tiles) {
+        if (tile.x == x && tile.y == y) {
+            tile.isActive = true;
+        }
+        else tile.isActive = false;
+    }
+}
+
+
 //////////////////////////////////////////////////////////////////////////////////
 // protected
 //////////////////////////////////////////////////////////////////////////////////

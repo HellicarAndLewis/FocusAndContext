@@ -15,35 +15,35 @@
         <title>TCR</title>
         <lat>-0.1329054</lat>
         <lon>51.516288</lon>
-        <titleImg>TCR_Plain.png</titleImg>
+        <titleImg>TCR.png</titleImg>
         <detailImg>TCR.png</detailImg>
     </location>
     <location>
         <title>Barbican</title>
         <lat>-0.093263</lat>
         <lon>51.5200768</lon>
-        <titleImg>Barbican_Plain.png</titleImg>
+        <titleImg>Barbican.png</titleImg>
         <detailImg>Barbican.png</detailImg>
     </location>
     <location>
         <title>Canary Wharf</title>
         <lat>-0.0203525</lat>
         <lon>51.5044829</lon>
-        <titleImg>Canary Wharf_plain.png</titleImg>
+        <titleImg>Canary Wharf.png</titleImg>
         <detailImg>Canary Wharf.png</detailImg>
     </location>
     <location>
         <title>Custom House</title>
         <lat>0.0240558</lat>
         <lon>51.5098691</lon>
-        <titleImg>Custom House_plain.png</titleImg>
+        <titleImg>Custom House.png</titleImg>
         <detailImg>Custom House.png</detailImg>
     </location>
     <location>
         <title>Woolwich</title>
         <lat>0.0587904</lat>
         <lon>51.4871467</lon>
-        <titleImg>Woolwich_Plain.png</titleImg>
+        <titleImg>Woolwich.png</titleImg>
         <detailImg>Woolwich.png</detailImg>
     </location>
 </route>

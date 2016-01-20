@@ -27,6 +27,8 @@ void ofApp::setup(){
     materialRoads.setDiffuseColor(ofFloatColor(.65, .65, .65));
     materialBuildings.setAmbientColor(ofFloatColor(.2, .2, .2));
     materialBuildings.setDiffuseColor(ofFloatColor(.4, .4, .4));
+    materialBuildingsActive.setAmbientColor(ofFloatColor(.8, .0, .0));
+    materialBuildingsActive.setDiffuseColor(ofFloatColor(.7, .0, .0));
     materialWater.setAmbientColor(ofFloatColor(0,0,0.6));
     materialWater.setDiffuseColor(ofFloatColor(0,0,1));
     
@@ -34,7 +36,7 @@ void ofApp::setup(){
     // tile loader loads multiple tiles from json files in the specified directory
     // it automatically sets the tile builder offset based on the position and zoom of the first tile it reads
     tileLoader.setup();
-    tileLoader.loadDir("content/crossrail/tiles");
+    tileLoader.loadDir("content/crossrail/tilessmall");
     meshPosition.set(0);
     
     // FBO to render scene into shader
@@ -87,6 +89,10 @@ void ofApp::update(){
     }
     
     route.update(scroller.getValue());
+    
+    // get the active tile and colour it
+    ofPoint activeTilePos = route.getLocation()->tilePos;
+    tileLoader.setActive(activeTilePos.x, activeTilePos.y);
     
     // update mesh target and if we're scrolling
     if (scroller.isScrolling) {
@@ -224,7 +230,16 @@ void ofApp::drawScene() {
     //buildingsShader.setUniform1f("u_time", ofGetElapsedTimef() * gui->getSlider("water time")->getValue());
     materialBuildings.begin();
     for (auto & localTile : tileLoader.tiles) {
-        localTile.meshBuildings.draw();
+        if (localTile.isActive) {
+            materialBuildings.end();
+            materialBuildingsActive.begin();
+            localTile.meshBuildings.draw();
+            materialBuildingsActive.end();
+            materialBuildings.begin();
+        }
+        else {
+            localTile.meshBuildings.draw();
+        }
     }
     //buildingsShader.end();
     materialBuildings.end();

@@ -23,6 +23,7 @@ public:
     
     ofPoint latlon;
     ofPoint position;
+    ofPoint tilePos;
     string title;
     bool isActive;
     bool hasLabel;
@@ -34,6 +35,7 @@ public:
     
     ofImage labelImage;
     ofImage contentImage;
+    vector<ofImage*> contentImages;
     
     int index;
     float routePercent;

@@ -16,8 +16,8 @@ Location::Location() {
     else {
         billboardShader.load("shadersGL2/Billboard");
     }
-    camRotation.set(-15, 0, 15);
-    camDistance = 400;
+    camRotation.set(-45, 0, 30);
+    camDistance = 500;
 }
 
 void Location::setup(string title) {
@@ -73,9 +73,24 @@ void Location::draw2d() {
     
     int alphaTarget = 255 - (percentOpen * 255);
     ofSetColor(255, 255, 255, alphaTarget);
-    int w = contentImage.getWidth();
-    int h = contentImage.getHeight();
-    contentImage.draw(30, ofGetHeight()/2 - h/2, w, h);
+    int w = 400;
+    int h = 400;
+    int space = 60;
+    int x = space;
+    int y = ofGetHeight() - space - h;
+    
+    contentImages[0]->draw(x, y - h, w, h);
+    contentImages[1]->draw(x, y, w, h);
+    x += w + space;
+    contentImages[2]->draw(x, y, w, h);
+    x += w + space;
+    contentImages[3]->draw(x, y, w, h);
+    x += w + space;
+    contentImages[4]->draw(x, y, w, h);
+    
+    //contentImage.draw(30, ofGetHeight()/2 - h/2, w, h);
+    
+    
     ofSetColor(255);
 }
 

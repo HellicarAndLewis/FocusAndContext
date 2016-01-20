@@ -37,15 +37,15 @@ void Route::update(float percent) {
     percentToActive = indexInterp - activeIndex;
     if (activeIndex > indexInterp) percentToActive = activeIndex - indexInterp;
     // using a threshold of 0.1, set the nearest point to active
-    if (percentToActive < 0.1) activeLocation->isActive = true;
+    if (percentToActive < 0.02) activeLocation->isActive = true;
 }
 
 void Route::draw(ofCamera& cam) {
     ofDisableDepthTest();
-    ofSetColor(200, 0, 0);
+    ofSetColor(180, 0, 0);
     ofPushMatrix();
     {
-        ofTranslate(0, 0, -20);
+        ofTranslate(0, 0, 0);
         ofSetLineWidth(5);
         routeRender.draw();
         ofSetLineWidth(1);
@@ -82,6 +82,13 @@ void Route::load(string path, ofVec3f posOffset) {
     
     folderPath = path;
     titleFont.load("fonts/Helvetica.dfont", 40);
+    
+    contentImages[0].load(path + "/detail/Content_Text.png");
+    contentImages[1].load(path + "/detail/Content_3D.png");
+    contentImages[2].load(path + "/detail/Content_Video.png");
+    contentImages[3].load(path + "/detail/Content_Newsclips.png");
+    contentImages[4].load(path + "/detail/Content_Sound.png");
+    
     populateLocations();
     
     latRange.set("lat range", 0, 999, -999);
@@ -102,10 +109,17 @@ void Route::load(string path, ofVec3f posOffset) {
         routeInverse.addVertex(location.position * -1);
         location.index = i;
         
+        // store the tile x/y so that we can reference it later in order to higlight it
+        location.tilePos.set(long2tilex(location.getLon(), 16), lat2tiley(location.getLat(), 16));
+        
         lonRange.setMin(MIN(location.latlon.x, lonRange.getMin()));
         lonRange.setMax(MAX(location.latlon.x, lonRange.getMax()));
         latRange.setMin(MIN(location.latlon.y, latRange.getMin()));
         latRange.setMax(MAX(location.latlon.y, latRange.getMax()));
+        
+        for (auto & image: contentImages) {
+            location.contentImages.push_back(&image);
+        }
         
         i++;
     }
@@ -171,11 +185,13 @@ void Route::populateLocations() {
         // images / media
         string filename = xml.getValue("titleImg", "");
         if (filename != "") location.labelImage.load(folderPath + "/labels/" + filename);
+        /*
         filename = xml.getValue("detailImg", "");
         if (filename != "") {
             location.contentImage.load(folderPath + "/detail/" + filename);
             location.contentImage.resize(800, 800);
         }
+         */
         locations.push_back(location);
         
         ofLogVerbose() << "location " << location.title << " " << location.latlon.x << "," << location.latlon.y;

@@ -22,6 +22,7 @@ public:
 	void exit();
     
     void loadDir(string path);
+    void setActive(int x, int y);
 	
 	void keyPressed(int key);
 	void keyReleased(int key);
