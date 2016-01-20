@@ -26,6 +26,7 @@ void TileLoader::draw() {
 void TileLoader::exit() {
 }
 
+
 //////////////////////////////////////////////////////////////////////////////////
 // public
 //////////////////////////////////////////////////////////////////////////////////
@@ -41,9 +42,11 @@ void TileLoader::loadDir(string path) {
     
     for(int i = 0; i < dir.size(); i++){
         string path = dir.getPath(i);
-        ofLogVerbose("new tile at " + path);
         string fileName = ofFilePath::getFileName(path);
         LocalTile localTile(fileName);
+        
+        ofLogVerbose() << "new tile at " << path << " " << localTile.x << "," << localTile.y << " " << localTile.zoom;
+        
         if (i == 0) {
             // This is important! Need to set the offset for the first tile manually!
             builder.setOffset(localTile.x, localTile.y, localTile.zoom);
@@ -62,9 +65,14 @@ void TileLoader::loadDir(string path) {
             localTile.meshBuildings = localTile.tile.getMeshFor("buildings");
             localTile.meshRoads = localTile.tile.getMeshFor("roads");
             localTile.meshWater = localTile.tile.getMeshFor("water");
+            
+            if (localTile.zoom < 14) macroTiles.push_back(localTile);
+            else microTiles.push_back(localTile);
             tiles.push_back(localTile);
         }
     }
+    
+    ofLogNotice() << "macro tiles:" << macroTiles.size() << ", micro tiles: " << tiles.size();
 }
 
 

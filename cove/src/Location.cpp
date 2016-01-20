@@ -31,8 +31,8 @@ void Location::setup(string title) {
 }
 
 void Location::update() {
-    if (isActive) percentOpen = ofLerp(percentOpen, 0.0, 0.1);
-    else percentOpen = ofLerp(percentOpen, 1.0, 0.1);
+    if (isActive) percentOpen = ofLerp(percentOpen, 0.0, 0.2);
+    else percentOpen = ofLerp(percentOpen, 1.0, 0.2);
 }
 
 void Location::draw(ofCamera& cam) {

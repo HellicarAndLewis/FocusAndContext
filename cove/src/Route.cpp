@@ -11,6 +11,7 @@
 
 Route::Route() {
     activeLocation = NULL;
+    locationThreshold = 0.05;
 }
 
 void Route::setup() {
@@ -36,8 +37,8 @@ void Route::update(float percent) {
     // get the percent distance (0 - 0.5) to the nearest point
     percentToActive = indexInterp - activeIndex;
     if (activeIndex > indexInterp) percentToActive = activeIndex - indexInterp;
-    // using a threshold of 0.1, set the nearest point to active
-    if (percentToActive < 0.02) activeLocation->isActive = true;
+    // set the nearest point to active if it's nearer than a certain threshold
+    if (percentToActive < locationThreshold) activeLocation->isActive = true;
 }
 
 void Route::draw(ofCamera& cam) {

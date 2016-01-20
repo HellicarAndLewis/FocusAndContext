@@ -36,7 +36,7 @@ void ofApp::setup(){
     // tile loader loads multiple tiles from json files in the specified directory
     // it automatically sets the tile builder offset based on the position and zoom of the first tile it reads
     tileLoader.setup();
-    tileLoader.loadDir("content/crossrail/tilessmall");
+    tileLoader.loadDir("content/crossrail/tiles");
     meshPosition.set(0);
     
     // FBO to render scene into shader
@@ -98,21 +98,23 @@ void ofApp::update(){
     if (scroller.isScrolling) {
         meshTarget = route.getPosition(true);
     }
+    
+    float amount = gui->getSlider("location lerp")->getValue();
     if (scroller.isEnabled()) {
         // update camera settings based on our nearest location
-        // distance
-        float target = ofMap(route.percentToActive, 0, 0.5, route.getLocation()->camDistance, 1500);
-        cam.setDistance(ofLerp(cam.getDistance(), target, 0.1));
-        // x rotation
-        target = ofMap(route.percentToActive, 0, 0.5, route.getLocation()->camRotation.x, 0);
-        sceneRotation.x = ofLerp(sceneRotation.x, target, 0.1);
-        // z rotation
-        target = ofMap(route.percentToActive, 0, 0.5, route.getLocation()->camRotation.z, 0);
-        sceneRotation.z = ofLerp(sceneRotation.z, target, 0.1);
+        if (route.getLocation()->isActive) {
+            cam.setDistance(ofLerp(cam.getDistance(), route.getLocation()->camDistance, amount));
+            sceneRotation.x = ofLerp(sceneRotation.x, route.getLocation()->camRotation.x, amount);
+            sceneRotation.z = ofLerp(sceneRotation.z, route.getLocation()->camRotation.z, amount);
+        }
+        else {
+            cam.setDistance(ofLerp(cam.getDistance(), 2500, amount));
+            sceneRotation.x = ofLerp(sceneRotation.x, 0, amount);
+            sceneRotation.z = ofLerp(sceneRotation.z, 0, amount);
+        }
     }
     
     // lerp the actual mesh position to the target
-    float amount = 0.1;
     meshPosition.x = ofLerp(meshPosition.x, meshTarget.x, amount);
     meshPosition.y = ofLerp(meshPosition.y, meshTarget.y, amount);
     
@@ -127,13 +129,6 @@ void ofApp::update(){
 
 void ofApp::draw(){
     ofBackground(ofColor::black);
-    
-//    ofSetColor(255, 255, 255, 255);
-//    startScene();
-//    ofDrawSphere(0, 0, -50, 50);
-//    ofDrawCylinder(0, 0, -50, 10, 400);
-//    endScene();
-    
     if(bShader){
         shader.begin();
         shader.setUniformTexture("colorTex", fbo, 0);
@@ -143,9 +138,7 @@ void ofApp::draw(){
     } else {
         drawScene();
     }
-    
     if (!gui->getVisible()) tileLoader.labels.draw2D();
-    
 }
 
 
@@ -154,26 +147,12 @@ void ofApp::draw(){
 //////////////////////////////////////////////////////////////////////////////////
 
 void ofApp::setupGui() {
+    
     gui = new ofxDatGui( ofxDatGuiAnchor::TOP_LEFT );
     gui->addFRM();
-    guiTileAlpha = gui->addSlider("mesh alpha", 0, 255, 255);
-    guiTileAlpha->setPrecision(0);
+    
+    // Camera control
     gui->addToggle("cam mouse", false);
-    
-    // Set limits based on city of london
-    // TODO: make limits dynamic based on dataset
-    guiMapX = gui->addSlider("longitude", route.lonRange.getMin(), route.lonRange.getMax());
-    guiMapX->setPrecision(4);
-    guiMapX->bind(&mapX, route.lonRange.getMin(), route.lonRange.getMax());
-    guiMapY = gui->addSlider("latitude", route.latRange.getMin(), route.latRange.getMax());
-    guiMapY->setPrecision(4);
-    guiMapY->bind(&mapY, route.latRange.getMin(), route.latRange.getMax());
-    
-    // buttons to jump places
-    for (auto &location: route.locations) {
-        gui->addButton(location.title);
-    }
-    
     auto slider = gui->addSlider("cam rot x", -90, 90);
     slider->bind(&sceneRotation.x, -90, 90);
     slider = gui->addSlider("cam rot y", -90, 90);
@@ -181,11 +160,35 @@ void ofApp::setupGui() {
     slider = gui->addSlider("cam rot z", -90, 90);
     slider->bind(&sceneRotation.z, -90, 90);
     
-    slider = gui->addSlider("water time", 0, 1, 0.02);
-    slider->setPrecision(4);
-    slider = gui->addSlider("water mult x", 0, 1000, 65);
-    slider = gui->addSlider("water mult y", 0, 1000, 65);
     
+    // Animation
+    ofxDatGuiFolder* folder = gui->addFolder("Animation", ofColor::pink);
+    folder->addSlider("location theshold", 0, 1, 0.05)->setPrecision(4);
+    folder->addSlider("location lerp", 0, 1, 0.1)->setPrecision(4);
+    
+    // Navigation
+    folder = gui->addFolder("Navigation", ofColor::white);
+    // Lat/Lon navigation
+    // Set limits based on the route bounds
+    guiMapX = folder->addSlider("longitude", route.lonRange.getMin(), route.lonRange.getMax());
+    guiMapX->setPrecision(4);
+    guiMapX->bind(&mapX, route.lonRange.getMin(), route.lonRange.getMax());
+    guiMapY = folder->addSlider("latitude", route.latRange.getMin(), route.latRange.getMax());
+    guiMapY->setPrecision(4);
+    guiMapY->bind(&mapY, route.latRange.getMin(), route.latRange.getMax());
+    // buttons to jump places
+    for (auto &location: route.locations) {
+        folder->addButton(location.title);
+    }
+    
+    // Water shader
+    folder = gui->addFolder("Water", ofColor::blue);
+    slider = folder->addSlider("water time", 0, 1, 0.02);
+    slider->setPrecision(4);
+    folder->addSlider("water mult x", 0, 1000, 65);
+    folder->addSlider("water mult y", 0, 1000, 65);
+    
+    // GUI event listeners
     gui->onButtonEvent(this, &ofApp::onButtonEvent);
     gui->onSliderEvent(this, &ofApp::onSliderEvent);
 }
@@ -193,79 +196,59 @@ void ofApp::setupGui() {
 void ofApp::drawScene() {
     startScene();
     ofPushMatrix();
-    
-    ofRotateX(sceneRotation.x);
-    ofRotateY(sceneRotation.y);
-    ofRotateZ(sceneRotation.z);
-    
-    ofTranslate(meshPosition);
-    
-    
-    // Earth / ground
-    //    materialEarth.begin();
-    //    for (auto & localTile : tileLoader.tiles) {
-    //        localTile.meshEarth.draw();
-    //    }
-    //    materialEarth.end();
-    
-    
-    // Roads
-    ofSetColor(255, 255, 255, guiTileAlpha->getValue());
-    materialRoads.begin();
-    //    roadsShader.begin();
-    //    roadsShader.setUniform2f("u_resolution", 64.0f, 64.0f);
-    //    roadsShader.setUniform2f("u_mouse", (float)ofGetMouseX(), (float)ofGetMouseY());
-    //    roadsShader.setUniform1f("u_time", ofGetElapsedTimef() * gui->getSlider("water time")->getValue());
-    for (auto & localTile : tileLoader.tiles) {
-        localTile.meshRoads.draw();
-    }
-    //    roadsShader.end();
-    materialRoads.end();
-    
-    
-    // Buildings
-    //buildingsShader.begin();
-    //buildingsShader.setUniform2f("u_resolution", 64.0f, 64.0f);
-    //buildingsShader.setUniform2f("u_mouse", (float)ofGetMouseX(), (float)ofGetMouseY());
-    //buildingsShader.setUniform1f("u_time", ofGetElapsedTimef() * gui->getSlider("water time")->getValue());
-    materialBuildings.begin();
-    for (auto & localTile : tileLoader.tiles) {
-        if (localTile.isActive) {
-            materialBuildings.end();
-            materialBuildingsActive.begin();
-            localTile.meshBuildings.draw();
-            materialBuildingsActive.end();
-            materialBuildings.begin();
+    {
+        // rotate and transform mesh
+        // rotation is top down by default but can switch to an isometric style view for locations
+        // the whole mesh moves along the route rather than moving the camera
+        ofRotateX(sceneRotation.x);
+        ofRotateY(sceneRotation.y);
+        ofRotateZ(sceneRotation.z);
+        ofTranslate(meshPosition);
+        
+        auto tiles = &tileLoader.tiles;
+        // toggle tile layers based on zoom?
+        //if (cam.getDistance() < 2000) tiles = &tileLoader.microTiles;
+        
+        // Roads
+        materialRoads.begin();
+        for (auto & tile : *tiles) tile.meshRoads.draw();
+        materialRoads.end();
+        
+        // Buildings
+        materialBuildings.begin();
+        for (auto & tile : *tiles) {
+            if (tile.isActive) {
+                materialBuildings.end();
+                materialBuildingsActive.begin();
+                tile.meshBuildings.draw();
+                materialBuildingsActive.end();
+                materialBuildings.begin();
+            }
+            else {
+                tile.meshBuildings.draw();
+            }
         }
-        else {
-            localTile.meshBuildings.draw();
-        }
+        materialBuildings.end();
+        
+        // Water
+        waterShader.begin();
+        waterShader.setUniform1f("time", ofGetElapsedTimef() * gui->getSlider("water time")->getValue());
+        waterShader.setUniform2f("noiseMult", gui->getSlider("water mult x")->getValue(), gui->getSlider("water mult y")->getValue());
+        for (auto & tile : *tiles) tile.meshWater.draw();
+        waterShader.end();
+        
+        // draw the route and location content without lighting
+        // this ensures consistent colour and legibility
+        ofDisableLighting();
+        route.draw(cam);
+        ofEnableLighting();
     }
-    //buildingsShader.end();
-    materialBuildings.end();
-    
-    
-    // Water
-    waterShader.begin();
-    waterShader.setUniform1f("time", ofGetElapsedTimef() * gui->getSlider("water time")->getValue());
-    waterShader.setUniform2f("noiseMult", gui->getSlider("water mult x")->getValue(), gui->getSlider("water mult y")->getValue());
-    for (auto & localTile : tileLoader.tiles) {
-        localTile.meshWater.draw();
-    }
-    waterShader.end();
-    
-    
-    ofDisableLighting();
-    
-    ofSetColor(255, 255, 255, 255);
-    route.draw(cam);
-    
-    ofEnableLighting();
     ofPopMatrix();
     endScene();
     
+    // draw the zoomed-in content for locations in 2D
+    // this is outside of the camera so it can ignore perspective
     route.draw2d();
-    
     
 }
 
@@ -329,14 +312,12 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e) {
     
     ofLogVerbose() << "onButtonEvent: " << e.target->getLabel() << " " << e.target->getEnabled() << endl;
 }
+
 void ofApp::onSliderEvent(ofxDatGuiSliderEvent e) {
-    ofLogVerbose() << "onSliderEvent: " << e.target->getLabel() << " " << e.target->getValue() << endl;
-    float amount = 0.01;
     if (e.target->is("longitude")) {
         setLon(e.target->getValue());
     }
     else if (e.target->is("latitude")) {
-        //ofLogVerbose() << lat2y(e.target->getValue()) << ", back 2 lat: " << y2lat(lat2y(e.target->getValue()));
         setLat(e.target->getValue());
     }
     else if (e.target->is("cam rot x")) {
@@ -348,15 +329,12 @@ void ofApp::onSliderEvent(ofxDatGuiSliderEvent e) {
     else if (e.target->is("cam rot z")) {
         sceneRotation.z = e.target->getValue();
     }
+    else if (e.target->is("location theshold")) {
+        route.locationThreshold = e.target->getValue();
+    }
 }
 
 void ofApp::on2dPadEvent(ofxDatGui2dPadEvent e) {
-    meshTarget.set(e.x * -1000, e.y * 1000);
-    // convert our mesh offset to lat/lon
-    // account for the tile loader offset by adding it back on
-    mapX = x2lon(tileLoader.builder.getOffset().x) + x2lon(meshPosition.x);
-    mapY = y2lat(tileLoader.builder.getOffset().y) + y2lat(meshPosition.y);
-    //ofLogVerbose() << y2lat(meshPosition.y);
 }
 
 

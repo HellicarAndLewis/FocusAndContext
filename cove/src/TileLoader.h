@@ -36,6 +36,8 @@ public:
     
     // tiles
     vector<LocalTile> tiles;
+    vector<LocalTile> macroTiles;
+    vector<LocalTile> microTiles;
     ofxVectorBuilder builder;
     ofVboMesh tileMesh;
     

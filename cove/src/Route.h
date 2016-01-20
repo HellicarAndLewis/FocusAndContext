@@ -35,6 +35,7 @@ public:
     float percentToActive;
     float percent;
     float length;
+    float locationThreshold;
     
     ofParameter<float> latRange;
     ofParameter<float> lonRange;
