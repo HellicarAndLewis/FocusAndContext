@@ -13,7 +13,7 @@
 
 void ofApp::setup(){
     
-    ofSetLogLevel(OF_LOG_VERBOSE);
+    ofSetLogLevel(OF_LOG_NOTICE);
     ofEnableAlphaBlending();
     
     light.setDiffuseColor(ofFloatColor(0.9));
@@ -34,7 +34,7 @@ void ofApp::setup(){
     // tile loader loads multiple tiles from json files in the specified directory
     // it automatically sets the tile builder offset based on the position and zoom of the first tile it reads
     tileLoader.setup();
-    tileLoader.loadDir("tiles/londoncity");
+    tileLoader.loadDir("content/crossrail/tiles");
     meshPosition.set(0);
     
     // FBO to render scene into shader
@@ -95,7 +95,7 @@ void ofApp::update(){
     if (scroller.isEnabled()) {
         // update camera settings based on our nearest location
         // distance
-        float target = ofMap(route.percentToActive, 0, 0.5, route.getLocation()->camDistance, 800);
+        float target = ofMap(route.percentToActive, 0, 0.5, route.getLocation()->camDistance, 1500);
         cam.setDistance(ofLerp(cam.getDistance(), target, 0.1));
         // x rotation
         target = ofMap(route.percentToActive, 0, 0.5, route.getLocation()->camRotation.x, 0);
@@ -104,7 +104,6 @@ void ofApp::update(){
         target = ofMap(route.percentToActive, 0, 0.5, route.getLocation()->camRotation.z, 0);
         sceneRotation.z = ofLerp(sceneRotation.z, target, 0.1);
     }
-    
     
     // lerp the actual mesh position to the target
     float amount = 0.1;
@@ -157,12 +156,12 @@ void ofApp::setupGui() {
     
     // Set limits based on city of london
     // TODO: make limits dynamic based on dataset
-    guiMapX = gui->addSlider("longitude", -0.1130, -0.0692);
+    guiMapX = gui->addSlider("longitude", route.lonRange.getMin(), route.lonRange.getMax());
     guiMapX->setPrecision(4);
-    guiMapX->bind(&mapX, -0.1130, -0.0692);
-    guiMapY = gui->addSlider("latitude", 51.5058, 51.5223);
+    guiMapX->bind(&mapX, route.lonRange.getMin(), route.lonRange.getMax());
+    guiMapY = gui->addSlider("latitude", route.latRange.getMin(), route.latRange.getMax());
     guiMapY->setPrecision(4);
-    guiMapY->bind(&mapY, 51.5058, 51.5223);
+    guiMapY->bind(&mapY, route.latRange.getMin(), route.latRange.getMax());
     
     // buttons to jump places
     for (auto &location: route.locations) {

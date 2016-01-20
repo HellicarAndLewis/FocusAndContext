@@ -84,6 +84,9 @@ void Route::load(string path, ofVec3f posOffset) {
     titleFont.load("fonts/Helvetica.dfont", 40);
     populateLocations();
     
+    latRange.set("lat range", 0, 999, -999);
+    lonRange.set("lon range", 0, 999, -999);
+    
     int i = 0;
     for (auto &location: locations) {
         // use glmGeo.h helpers to convert lon and lat into oF friendly points
@@ -98,6 +101,12 @@ void Route::load(string path, ofVec3f posOffset) {
         // route inverse is used to shift the whole mesh along an inverted path so that the camera can stay fixed.
         routeInverse.addVertex(location.position * -1);
         location.index = i;
+        
+        lonRange.setMin(MIN(location.latlon.x, lonRange.getMin()));
+        lonRange.setMax(MAX(location.latlon.x, lonRange.getMax()));
+        latRange.setMin(MIN(location.latlon.y, latRange.getMin()));
+        latRange.setMax(MAX(location.latlon.y, latRange.getMax()));
+        
         i++;
     }
     
@@ -154,11 +163,11 @@ void Route::populateLocations() {
         location.titleFont = &titleFont;
         location.setup(xml.getValue("title", ""));
         location.latlon.set(xml.getValue("lat", 0.0f), xml.getValue("lon", 0.0f));
-        location.camDistance = xml.getValue("camera:distance", 400);
+        location.camDistance = xml.getValue("camera:distance", 500);
         location.camRotation.set(
-                                 xml.getValue("camera:xrot", -15),
+                                 xml.getValue("camera:xrot", -45),
                                  xml.getValue("camera:yrot", 0),
-                                 xml.getValue("camera:zrot", 15));
+                                 xml.getValue("camera:zrot", 30));
         // images / media
         string filename = xml.getValue("titleImg", "");
         if (filename != "") location.labelImage.load(folderPath + "/labels/" + filename);

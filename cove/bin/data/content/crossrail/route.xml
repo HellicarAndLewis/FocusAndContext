@@ -1,47 +1,48 @@
 <route>
+    <!-- This is a special location with no content and is used to add a map overview to the scrollbar -->
     <location>
         <title></title>
-        <lat>-0.0934</lat>
-        <lon>51.5135</lon>
+        <lat>-0.0347</lat>
+        <lon>51.5040</lon>
         <camera>
         	<xrot>0</xrot>
         	<yrot>0</yrot>
         	<zrot>0</zrot>
-        	<distance>2500</distance>
+        	<distance>13326</distance>
         </camera>
     </location>
     <location>
+        <title>TCR</title>
+        <lat>-0.1329054</lat>
+        <lon>51.516288</lon>
+        <titleImg>TCR_Plain.png</titleImg>
+        <detailImg>TCR.png</detailImg>
+    </location>
+    <location>
         <title>Barbican</title>
-        <lat>-0.09781</lat>
-        <lon>51.51356</lon>
+        <lat>-0.093263</lat>
+        <lon>51.5200768</lon>
         <titleImg>Barbican_Plain.png</titleImg>
         <detailImg>Barbican.png</detailImg>
     </location>
     <location>
         <title>Canary Wharf</title>
-        <lat>-0.08907</lat>
-        <lon>51.51331</lon>
+        <lat>-0.0203525</lat>
+        <lon>51.5044829</lon>
         <titleImg>Canary Wharf_plain.png</titleImg>
         <detailImg>Canary Wharf.png</detailImg>
     </location>
     <location>
         <title>Custom House</title>
-        <lat>-0.08122</lat>
-        <lon>51.51877</lon>
+        <lat>0.0240558</lat>
+        <lon>51.5098691</lon>
         <titleImg>Custom House_plain.png</titleImg>
         <detailImg>Custom House.png</detailImg>
     </location>
     <location>
-        <title>TCR</title>
-        <lat>-0.07577</lat>
-        <lon>51.51421</lon>
-        <titleImg>TCR_Plain.png</titleImg>
-        <detailImg>TCR.png</detailImg>
-    </location>
-    <location>
         <title>Woolwich</title>
-        <lat>-0.07577</lat>
-        <lon>51.51421</lon>
+        <lat>0.0587904</lat>
+        <lon>51.4871467</lon>
         <titleImg>Woolwich_Plain.png</titleImg>
         <detailImg>Woolwich.png</detailImg>
     </location>
