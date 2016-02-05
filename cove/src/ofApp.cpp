@@ -213,8 +213,6 @@ void ofApp::setupGui() {
     folder->addSlider("location theshold", 0, 1, 0.05)->setPrecision(4);
     folder->addSlider("location lerp", 0, 1, 0.1)->setPrecision(4);
     
-    // JRW - Disable for now - was pulling in ALL route points; we just need POI
-    /*
     // Navigation
     folder = gui->addFolder("Navigation", ofColor::white);
     // Lat/Lon navigation
@@ -225,6 +223,9 @@ void ofApp::setupGui() {
     guiMapY = folder->addSlider("latitude", route.latRange.getMin(), route.latRange.getMax());
     guiMapY->setPrecision(4);
     guiMapY->bind(mapY, route.latRange.getMin(), route.latRange.getMax());
+    
+    // JRW - Only need to create buttons for POI
+    /*
     // buttons to jump places
     for (auto &location: route.locations) {
         folder->addButton(location.title);
