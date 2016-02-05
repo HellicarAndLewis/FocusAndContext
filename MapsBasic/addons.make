@@ -1,4 +1,0 @@
-ofxGui
-ofxMaps
-ofxTween
-ofxXmlSettings

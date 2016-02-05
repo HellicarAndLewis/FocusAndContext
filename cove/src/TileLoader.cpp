@@ -3,6 +3,7 @@
 //  Cove
 //
 //  Created by Chris Mullany on 15/01/2016.
+//  Edited by Jason Walters on 5/02/2016.
 //
 //
 
@@ -32,9 +33,8 @@ void TileLoader::exit() {
 //////////////////////////////////////////////////////////////////////////////////
 void TileLoader::loadDir(string path) {
     
-    if (tiles.size() > 0) {
+    if (tiles.size() > 0)
         tiles.clear();
-    }
     
     ofDirectory dir(path);
     dir.allowExt("json");

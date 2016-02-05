@@ -1489,7 +1489,7 @@
 					"$(OF_CORE_LIBS)",
 					"-lcurl",
 				);
-				PRODUCT_NAME = CoveDebug;
+				PRODUCT_NAME = Cove;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1542,7 +1542,7 @@
 					"$(OF_CORE_LIBS)",
 					"-lcurl",
 				);
-				PRODUCT_NAME = CoveDebug;
+				PRODUCT_NAME = Cove;
 				WRAPPER_EXTENSION = app;
 				baseConfigurationReference = E4EB6923138AFD0F00A09F29;
 			};

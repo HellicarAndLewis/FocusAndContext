@@ -3,6 +3,7 @@
 //  Cove
 //
 //  Created by Chris Mullany on 19/01/2016.
+//  Edited by Jason Walters on 5/02/2016.
 //
 //
 
@@ -19,6 +20,7 @@ public:
     void update(float percent = -1);
     void draw(ofCamera& cam);
     void draw2d();
+    void flushData();
     
     void load(string path, ofVec3f posOffset);
     Location* getLocation();

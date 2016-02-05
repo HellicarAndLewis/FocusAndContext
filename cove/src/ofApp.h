@@ -3,6 +3,7 @@
 //  Cove
 //
 //  Created by Chris Mullany on 14/01/2016.
+//  Edited by Jason Walters on 5/02/2016.
 //
 //
 
@@ -18,6 +19,8 @@ class ofApp : public ofBaseApp{
 public:
     void setup();
     void setupGui();
+    void setupWorldColors();
+    void routeLoad(int selection);
     void update();
     void draw();
     
@@ -54,6 +57,7 @@ public:
     ofShader roadsShader;
     
     bool bShader;
+    bool bColorInvert;
     ofVec2f meshPosition;
     ofVec2f meshTarget;
     float mapX;
@@ -78,5 +82,6 @@ public:
     void onButtonEvent(ofxDatGuiButtonEvent e);
     void onSliderEvent(ofxDatGuiSliderEvent e);
     void on2dPadEvent(ofxDatGui2dPadEvent e);
+    void onDropdownEvent(ofxDatGuiDropdownEvent e);
     
 };

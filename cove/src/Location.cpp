@@ -3,11 +3,13 @@
 //  Cove
 //
 //  Created by Chris Mullany on 18/01/2016.
+//  Edited by Jason Walters on 5/02/2016.
 //
 //
 
 #include "Location.h"
 
+// script for controlling the POI labels
 Location::Location() {
     isActive = false;
     if(ofIsGLProgrammableRenderer()) {
@@ -22,7 +24,7 @@ Location::Location() {
 
 void Location::setup(string title) {
     this->title = title;
-    if (title != "") {
+    if (title != "" && title != "Camera") {
         hasLabel = true;
     }
     else {

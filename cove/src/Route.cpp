@@ -3,6 +3,7 @@
 //  Cove
 //
 //  Created by Chris Mullany on 19/01/2016.
+//  Edited by Jason Walters on 5/02/2016.
 //
 //
 
@@ -15,6 +16,21 @@ Route::Route() {
 }
 
 void Route::setup() {
+}
+
+void Route::flushData() {
+    
+    if (route.size() > 0)
+        route.clear();
+    
+    if (routeRender.size() > 0)
+        routeRender.clear();
+    
+    if (routeInverse.size() > 0)
+        routeInverse.clear();
+    
+    if (locations.size() > 0)
+        locations.clear();
 }
 
 void Route::update(float percent) {
@@ -36,9 +52,11 @@ void Route::update(float percent) {
     
     // get the percent distance (0 - 0.5) to the nearest point
     percentToActive = indexInterp - activeIndex;
-    if (activeIndex > indexInterp) percentToActive = activeIndex - indexInterp;
+    if (activeIndex > indexInterp)
+        percentToActive = activeIndex - indexInterp;
     // set the nearest point to active if it's nearer than a certain threshold
-    if (percentToActive < locationThreshold) activeLocation->isActive = true;
+    if (percentToActive < locationThreshold)
+        activeLocation->isActive = true;
 }
 
 void Route::draw(ofCamera& cam) {
@@ -76,7 +94,7 @@ void Route::draw2d() {
 //
 void Route::load(string path, ofVec3f posOffset) {
     
-    if(!xml.loadFile(path + "/route.xml") ){
+    if(!xml.loadFile(path + "/routeedit.xml") ){
         ofLogError() << "Can't load " << path << " in Route::load";
         return;
     }
@@ -90,6 +108,7 @@ void Route::load(string path, ofVec3f posOffset) {
     contentImages[3].load(path + "/detail/Content_Newsclips.png");
     contentImages[4].load(path + "/detail/Content_Sound.png");
     
+    flushData();
     populateLocations();
     
     latRange.set("lat range", 0, 999, -999);
@@ -97,13 +116,18 @@ void Route::load(string path, ofVec3f posOffset) {
     
     int i = 0;
     for (auto &location: locations) {
+        
+        if (location.contentImages.size() > 0)
+            location.contentImages.clear();
+        
         // use glmGeo.h helpers to convert lon and lat into oF friendly points
         // these will match up with the dimensions/coordinates used in the tile meshes
         // the offset accounts for the starting position of the first tile
         location.position.set((lon2x(location.getLon()) - posOffset.x), (lat2y(location.getLat()) - posOffset.y));
         // add the oF position of the location to the route polylines
         // route render is just for drawing, don't add the black ones as they're just zoomed out overviews
-        if (location.title != "") routeRender.addVertex(location.position);
+        //JRW - if (location.title != "") routeRender.addVertex(location.position);
+        if (location.title == "") routeRender.addVertex(location.position);
         // route is the actual route
         route.addVertex(location.position);
         // route inverse is used to shift the whole mesh along an inverted path so that the camera can stay fixed.
@@ -136,7 +160,6 @@ void Route::load(string path, ofVec3f posOffset) {
     activeLocation->isActive = true;
 }
 
-
 //
 // returns the current/active location
 //
@@ -149,12 +172,10 @@ Location* Route::getLocation() {
 // based on the current percent along the route
 //
 ofPoint Route::getPosition(bool doInvert) {
-    if (doInvert) {
+    if (doInvert)
         return routeInverse.getPointAtPercent(percent);
-    }
-    else {
+    else
         return route.getPointAtPercent(percent);
-    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -169,7 +190,7 @@ ofPoint Route::getPosition(bool doInvert) {
 // creates Location objects from the specified xml file
 // adds them to the locations vector
 //
-void Route::populateLocations() {
+void Route::populateLocations() {    
     xml.pushTag("route");
     int numLocationTags = xml.getNumTags("location");
     for (int i=0; i < numLocationTags; i++) {
@@ -183,9 +204,12 @@ void Route::populateLocations() {
                                  xml.getValue("camera:xrot", -45),
                                  xml.getValue("camera:yrot", 0),
                                  xml.getValue("camera:zrot", 30));
+        
         // images / media
         string filename = xml.getValue("titleImg", "");
-        if (filename != "") location.labelImage.load(folderPath + "/labels/" + filename);
+        if (filename != "")
+            location.labelImage.load(folderPath + "/labels/" + filename);
+        
         /*
         filename = xml.getValue("detailImg", "");
         if (filename != "") {
@@ -193,6 +217,7 @@ void Route::populateLocations() {
             location.contentImage.resize(800, 800);
         }
          */
+        
         locations.push_back(location);
         
         ofLogVerbose() << "location " << location.title << " " << location.latlon.x << "," << location.latlon.y;
@@ -200,7 +225,6 @@ void Route::populateLocations() {
         xml.popTag();
     }
     xml.popTag();
-    
 }
 
 

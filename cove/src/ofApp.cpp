@@ -3,6 +3,7 @@
 //  Cove
 //
 //  Created by Chris Mullany on 14/01/2016.
+//  Edited by Jason Walters on 5/02/2016.
 //
 //
 
@@ -10,33 +11,15 @@
 #include "glmGeo.h"
 #include "glmGeom.h"
 
-
-void ofApp::setup(){
+void ofApp::setup() {
     
     ofSetLogLevel(OF_LOG_NOTICE);
     ofEnableAlphaBlending();
     
-    light.setDiffuseColor(ofFloatColor(0.9));
-    light.setPosition(ofPoint(100,100,1000));
-    
     cam.setFarClip(90000);
     
-    materialEarth.setAmbientColor(ofFloatColor(.1));
-    materialEarth.setDiffuseColor(ofFloatColor(.15));
-    materialRoads.setAmbientColor(ofFloatColor(.6, .6, .6));
-    materialRoads.setDiffuseColor(ofFloatColor(.65, .65, .65));
-    materialBuildings.setAmbientColor(ofFloatColor(.2, .2, .2));
-    materialBuildings.setDiffuseColor(ofFloatColor(.4, .4, .4));
-    materialBuildingsActive.setAmbientColor(ofFloatColor(.8, .0, .0));
-    materialBuildingsActive.setDiffuseColor(ofFloatColor(.7, .0, .0));
-    materialWater.setAmbientColor(ofFloatColor(0,0,0.6));
-    materialWater.setDiffuseColor(ofFloatColor(0,0,1));
+    setupWorldColors();
     
-    
-    // tile loader loads multiple tiles from json files in the specified directory
-    // it automatically sets the tile builder offset based on the position and zoom of the first tile it reads
-    tileLoader.setup();
-    tileLoader.loadDir("content/crossrail/tiles");
     meshPosition.set(0);
     
     // FBO to render scene into shader
@@ -55,7 +38,7 @@ void ofApp::setup(){
 #endif
     fbo.allocate(settings);
     shader.load("", "shader.frag");
-    waterShader.load("shadersGL2/water.vert", "shadersGL2/water.frag");
+    // waterShader.load("shadersGL2/water.vert", "shadersGL2/water.frag");
     buildingsShader.load("shadersGL2/buildings.vert", "shadersGL2/buildings.frag");
     roadsShader.load("shadersGL2/roads.vert", "shadersGL2/roads.frag");
     bShader = false;
@@ -68,18 +51,76 @@ void ofApp::setup(){
     // for billboards
     ofDisableArbTex();
     
+    // tile loader loads multiple tiles from json files in the specified directory
+    // it automatically sets the tile builder offset based on the position and zoom of the first tile it reads
+    tileLoader.setup();
+    tileLoader.loadDir("content/tiles");
+    routeLoad(0); // defaults to "Crossrail"
+    
+    // setup gui
+    setupGui();
+    showGui();
+}
+
+void ofApp::routeLoad(int _selection) {
+    
+    if (scroller.ticks.size() > 0)
+        scroller.ticks.clear();
+    
+    switch (_selection) {
+        case 0:
+            route.load("content/crossrail", tileLoader.builder.getOffset());
+            break;
+            
+        case 1:
+            route.load("content/hs1", tileLoader.builder.getOffset());
+            break;
+    }
+    
     // load and init route
-    route.load("content/crossrail", tileLoader.builder.getOffset());
     for (int i=0; i<route.locations.size();  i++) {
         scroller.ticks.push_back(route.locations[i].routePercent);
     }
+    
     Location & location = *route.getLocation();
     setLon(location.getLon());
     setLat(location.getLat());
     scroller.scrollTo(location.routePercent);
+}
+
+void ofApp::setupWorldColors() {
     
-    setupGui();
-    showGui();
+    light.setDiffuseColor(ofFloatColor(1));
+    light.setPosition(ofPoint(100,100,1000));
+    
+    // color for world objects
+    if (!bColorInvert) {
+        ofBackground(ofColor::black);
+        
+        materialEarth.setAmbientColor(ofFloatColor(.1));
+        materialEarth.setDiffuseColor(ofFloatColor(.15));
+        materialRoads.setAmbientColor(ofFloatColor(.6, .6, .6));
+        materialRoads.setDiffuseColor(ofFloatColor(.65, .65, .65));
+        materialBuildings.setAmbientColor(ofFloatColor(.2, .2, .2));
+        materialBuildings.setDiffuseColor(ofFloatColor(.4, .4, .4));
+        materialBuildingsActive.setAmbientColor(ofFloatColor(.8, .0, .0));
+        materialBuildingsActive.setDiffuseColor(ofFloatColor(.7, .0, .0));
+    }
+    else {
+        ofBackground(ofColor::white);
+        
+        materialEarth.setAmbientColor(ofFloatColor(1-.1));
+        materialEarth.setDiffuseColor(ofFloatColor(1-.15));
+        materialRoads.setAmbientColor(ofFloatColor(1-.6, 1-.6, 1-.6));
+        materialRoads.setDiffuseColor(ofFloatColor(1-.65, 1-.65, 1-.65));
+        materialBuildings.setAmbientColor(ofFloatColor(1-.2, 1-.2, 1-.2));
+        materialBuildings.setDiffuseColor(ofFloatColor(1-.4, 1-.4, 1-.4));
+        materialBuildingsActive.setAmbientColor(ofFloatColor(1-.8, 1-.0, 1-.0));
+        materialBuildingsActive.setDiffuseColor(ofFloatColor(1-.7, 1-.0, 1-.0));
+    }
+    
+    materialWater.setAmbientColor(ofFloatColor(0,.8,1));
+    materialWater.setDiffuseColor(ofFloatColor(0,.8,1));
 }
 
 void ofApp::update(){
@@ -128,7 +169,6 @@ void ofApp::update(){
 
 
 void ofApp::draw(){
-    ofBackground(ofColor::black);
     if(bShader){
         shader.begin();
         shader.setUniformTexture("colorTex", fbo, 0);
@@ -151,42 +191,54 @@ void ofApp::setupGui() {
     gui = new ofxDatGui( ofxDatGuiAnchor::TOP_LEFT );
     gui->addFRM();
     
+    gui->addToggle("toggle fullscreen", false);
+    gui->addToggle("invert colors", false);
+    
     // Camera control
     gui->addToggle("cam mouse", false);
     auto slider = gui->addSlider("cam rot x", -90, 90);
-    slider->bind(&sceneRotation.x, -90, 90);
+    slider->bind(sceneRotation.x, -90, 90);
     slider = gui->addSlider("cam rot y", -90, 90);
-    slider->bind(&sceneRotation.y, -90, 90);
+    slider->bind(sceneRotation.y, -90, 90);
     slider = gui->addSlider("cam rot z", -90, 90);
-    slider->bind(&sceneRotation.z, -90, 90);
+    slider->bind(sceneRotation.z, -90, 90);
     
+    // Route selection
+    vector<string> routes = {"Crossrail", "High Speed 1"};
+    gui->addDropdown("Select a Route", routes);
+    gui->onDropdownEvent(this, &ofApp::onDropdownEvent);
     
     // Animation
     ofxDatGuiFolder* folder = gui->addFolder("Animation", ofColor::pink);
     folder->addSlider("location theshold", 0, 1, 0.05)->setPrecision(4);
     folder->addSlider("location lerp", 0, 1, 0.1)->setPrecision(4);
     
+    // JRW - Disable for now - was pulling in ALL route points; we just need POI
+    /*
     // Navigation
     folder = gui->addFolder("Navigation", ofColor::white);
     // Lat/Lon navigation
     // Set limits based on the route bounds
     guiMapX = folder->addSlider("longitude", route.lonRange.getMin(), route.lonRange.getMax());
     guiMapX->setPrecision(4);
-    guiMapX->bind(&mapX, route.lonRange.getMin(), route.lonRange.getMax());
+    guiMapX->bind(mapX, route.lonRange.getMin(), route.lonRange.getMax());
     guiMapY = folder->addSlider("latitude", route.latRange.getMin(), route.latRange.getMax());
     guiMapY->setPrecision(4);
-    guiMapY->bind(&mapY, route.latRange.getMin(), route.latRange.getMax());
+    guiMapY->bind(mapY, route.latRange.getMin(), route.latRange.getMax());
     // buttons to jump places
     for (auto &location: route.locations) {
         folder->addButton(location.title);
     }
+     */
     
+    /*
     // Water shader
     folder = gui->addFolder("Water", ofColor::blue);
     slider = folder->addSlider("water time", 0, 1, 0.02);
     slider->setPrecision(4);
     folder->addSlider("water mult x", 0, 1000, 65);
     folder->addSlider("water mult y", 0, 1000, 65);
+     */
     
     // GUI event listeners
     gui->onButtonEvent(this, &ofApp::onButtonEvent);
@@ -231,11 +283,17 @@ void ofApp::drawScene() {
         materialBuildings.end();
         
         // Water
+        materialWater.begin();
+        for (auto & tile : *tiles) tile.meshWater.draw();
+        materialWater.end();
+        
+        /*
         waterShader.begin();
         waterShader.setUniform1f("time", ofGetElapsedTimef() * gui->getSlider("water time")->getValue());
         waterShader.setUniform2f("noiseMult", gui->getSlider("water mult x")->getValue(), gui->getSlider("water mult y")->getValue());
         for (auto & tile : *tiles) tile.meshWater.draw();
         waterShader.end();
+         */
         
         // draw the route and location content without lighting
         // this ensures consistent colour and legibility
@@ -258,13 +316,13 @@ void ofApp::startScene() {
     ofEnableLighting();
     light.enable();
 }
+
 void ofApp::endScene(){
     light.disable();
     ofDisableLighting();
     ofDisableDepthTest();
     cam.end();
 }
-
 
 void ofApp::showGui(bool show) {
     gui->setVisible(show);
@@ -288,6 +346,10 @@ void ofApp::setLon(float lon) {
 void ofApp::onButtonEvent(ofxDatGuiButtonEvent e) {
     if (e.target->is("toggle fullscreen")) {
         ofToggleFullscreen();
+    }
+    else if (e.target->is("invert colors")) {
+        bColorInvert = !bColorInvert;
+        setupWorldColors();
     }
     else if (e.target->is("cam mouse")) {
         if (e.target->getEnabled()) {
@@ -334,6 +396,14 @@ void ofApp::onSliderEvent(ofxDatGuiSliderEvent e) {
     }
 }
 
+void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
+{
+    if (e.target->getLabel() == "CROSSRAIL")
+        routeLoad(0);
+    else if (e.target->getLabel() == "HIGH SPEED 1")
+        routeLoad(1);
+}
+
 void ofApp::on2dPadEvent(ofxDatGui2dPadEvent e) {
 }
 
@@ -343,19 +413,24 @@ void ofApp::on2dPadEvent(ofxDatGui2dPadEvent e) {
 //////////////////////////////////////////////////////////////////////////////////
 
 void ofApp::keyPressed(int key){
-    if(key == 'f') {
-        ofToggleFullscreen();
-    }
-    else if (key == 's') {
-        bShader = !bShader;
-        if(bShader){
-            tileLoader.labels.setFontColor(ofColor::black, ofColor::white);
-        } else {
-            tileLoader.labels.setFontColor(ofColor::white, ofColor::black);
-        }
-    }
-    else if (key == ' ') {
-        showGui(!gui->getVisible());
+    
+    switch (key) {
+        case 'f':
+            ofToggleFullscreen();
+            break;
+            
+        case 's':
+            bShader = !bShader;
+            if(bShader){
+                tileLoader.labels.setFontColor(ofColor::black, ofColor::white);
+            } else {
+                tileLoader.labels.setFontColor(ofColor::white, ofColor::black);
+            }
+            break;
+            
+        case ' ':
+            showGui(!gui->getVisible());
+            break;
     }
 }
 
