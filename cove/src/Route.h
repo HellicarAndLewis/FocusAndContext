@@ -38,6 +38,7 @@ public:
     float percent;
     float length;
     float locationThreshold;
+    bool isAlpha;
     
     ofParameter<float> latRange;
     ofParameter<float> lonRange;

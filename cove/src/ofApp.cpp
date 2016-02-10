@@ -3,7 +3,7 @@
 //  Cove
 //
 //  Created by Chris Mullany on 14/01/2016.
-//  Edited by Jason Walters on 5/02/2016.
+//  Edited by Jason Walters on 10/02/2016.
 //
 //
 
@@ -17,6 +17,7 @@ void ofApp::setup() {
     ofEnableAlphaBlending();
     
     cam.setFarClip(90000);
+    camDistance = 3500.0;
     
     setupWorldColors();
     
@@ -62,11 +63,89 @@ void ofApp::setup() {
     showGui();
 }
 
+void ofApp::autoSystem() {
+    
+    // we use delta time, the time between frames
+    elapsedTime += ofGetLastFrameTime();
+    if (elapsedTime >= maxTime) {
+        
+        // advance to next interval
+        currentInterval++;
+        if (currentInterval > maxInterval) {
+            
+            // advance to next route
+            routeSelection++;
+            if (routeSelection > 1) {
+                routeSelection = 0;
+            }
+            
+            // load route
+            routeLoad(routeSelection);
+            
+            // reset intervals
+            currentInterval = 0;
+        }
+        
+        // reset elapsed time to zero
+        elapsedTime = 0.0;
+    }
+    
+    if (currentInterval != 0) {
+        // get the active tile and colour it
+        ofPoint activeTilePos = route.getLocation()->tilePos;
+        tileLoader.setActive(activeTilePos.x, activeTilePos.y);
+    }
+    
+    Location & location = *route.getLocation();
+    switch (currentInterval) {
+        case 0:
+            // travel through the route
+            setLon(location.getLon());
+            setLat(location.getLat());
+            scroller.scrollTo(ofMap(elapsedTime, 0.0, 30.0, 0.0, 1.0));
+            
+            // reset route selected to false
+            if (routeSelected)
+                routeSelected = false;
+            
+            route.isAlpha = false;
+            break;
+            
+        case 1:
+            // wait x seconds before jumping to a random POI
+            if (elapsedTime > 6.0 && !routeSelected) {
+                pointJump = ofRandom(0, intPoints.size()-1);
+                
+                // don't repeat the same POI in a row
+                if (currentPoint == pointJump)
+                    return;
+                
+                // activate location and scroll to POI
+                setLon(intPoints[pointJump].lon);
+                setLat(intPoints[pointJump].lat);
+                
+                // route has been selected
+                routeSelected = true;
+                
+            } else if (routeSelected) {
+                // sync points of interest
+                if (currentPoint != pointJump)
+                    currentPoint = pointJump;
+            }
+            break;
+            
+        case 2:
+            route.isAlpha = true;
+            break;
+    }
+}
+
 void ofApp::routeLoad(int _selection) {
     
-    if (scroller.ticks.size() > 0)
-        scroller.ticks.clear();
+    // starting location point
+    pointJump = -1;
     
+    // select between routes
     switch (_selection) {
         case 0:
             route.load("content/crossrail", tileLoader.builder.getOffset());
@@ -77,21 +156,37 @@ void ofApp::routeLoad(int _selection) {
             break;
     }
     
+    // clear the bottom scroller before we get the route
+    if (scroller.ticks.size() > 0)
+        scroller.ticks.clear();
+    
     // load and init route
+    Location & location = *route.getLocation();
     for (int i=0; i<route.locations.size();  i++) {
+        if (location.title != "" && location.title != "Camera") {
+            scroller.ticks.push_back(route.locations[i].routePercent);
+        }
         scroller.ticks.push_back(route.locations[i].routePercent);
     }
-    
-    Location & location = *route.getLocation();
     setLon(location.getLon());
     setLat(location.getLat());
     scroller.scrollTo(location.routePercent);
+    
+    // clear POI vector if previously in use
+    if (intPoints.size() > 0) intPoints.clear();
+    // copy POI into vector
+    for (auto &location: route.locations) {
+        if (location.title != "" && location.title != "Camera"){
+            intPoints.push_back(InterestPoints(location.title, location.getLat(), location.getLon()));
+        }
+    }
 }
 
 void ofApp::setupWorldColors() {
     
-    light.setDiffuseColor(ofFloatColor(1));
-    light.setPosition(ofPoint(100,100,1000));
+    // directional light - even spread across all objects
+    light.setDirectional();
+    light.setOrientation(ofVec3f(180, 0, 0));
     
     // color for world objects
     if (!bColorInvert) {
@@ -124,16 +219,18 @@ void ofApp::setupWorldColors() {
 }
 
 void ofApp::update(){
-    
+        
     if (ofGetFrameNum() == 2) {
         cam.disableMouseInput();
     }
     
     route.update(scroller.getValue());
     
+    /*
     // get the active tile and colour it
     ofPoint activeTilePos = route.getLocation()->tilePos;
     tileLoader.setActive(activeTilePos.x, activeTilePos.y);
+     */
     
     // update mesh target and if we're scrolling
     if (scroller.isScrolling) {
@@ -145,13 +242,13 @@ void ofApp::update(){
         // update camera settings based on our nearest location
         if (route.getLocation()->isActive) {
             cam.setDistance(ofLerp(cam.getDistance(), route.getLocation()->camDistance, amount));
-            sceneRotation.x = ofLerp(sceneRotation.x, route.getLocation()->camRotation.x, amount);
-            sceneRotation.z = ofLerp(sceneRotation.z, route.getLocation()->camRotation.z, amount);
+            //sceneRotation.x = ofLerp(sceneRotation.x, route.getLocation()->camRotation.x, amount);
+            //sceneRotation.z = ofLerp(sceneRotation.z, route.getLocation()->camRotation.z, amount);
         }
         else {
-            cam.setDistance(ofLerp(cam.getDistance(), 2500, amount));
-            sceneRotation.x = ofLerp(sceneRotation.x, 0, amount);
-            sceneRotation.z = ofLerp(sceneRotation.z, 0, amount);
+            cam.setDistance(ofLerp(cam.getDistance(), 8000, amount));
+            //sceneRotation.x = ofLerp(sceneRotation.x, 0, amount);
+            //sceneRotation.z = ofLerp(sceneRotation.z, 0, amount);
         }
     }
     
@@ -165,6 +262,10 @@ void ofApp::update(){
         drawScene();
         fbo.end();
     }
+    
+    // if auto system is active, run
+    if (systemActive)
+        autoSystem();
 }
 
 
@@ -178,7 +279,9 @@ void ofApp::draw(){
     } else {
         drawScene();
     }
-    if (!gui->getVisible()) tileLoader.labels.draw2D();
+    
+    if (!gui->getVisible())
+        tileLoader.labels.draw2D();
 }
 
 
@@ -192,10 +295,11 @@ void ofApp::setupGui() {
     gui->addFRM();
     
     gui->addToggle("toggle fullscreen", false);
+    gui->addToggle("automated system", false);
     gui->addToggle("invert colors", false);
     
     // Camera control
-    gui->addToggle("cam mouse", false);
+    gui->addToggle("cam mouse", true);
     auto slider = gui->addSlider("cam rot x", -90, 90);
     slider->bind(sceneRotation.x, -90, 90);
     slider = gui->addSlider("cam rot y", -90, 90);
@@ -210,8 +314,8 @@ void ofApp::setupGui() {
     
     // Animation
     ofxDatGuiFolder* folder = gui->addFolder("Animation", ofColor::pink);
-    folder->addSlider("location theshold", 0, 1, 0.05)->setPrecision(4);
-    folder->addSlider("location lerp", 0, 1, 0.1)->setPrecision(4);
+    folder->addSlider("location theshold", 0, 1, 0.0)->setPrecision(4);
+    folder->addSlider("location lerp", 0, 0.1, 0.01)->setPrecision(4);
     
     // Navigation
     folder = gui->addFolder("Navigation", ofColor::white);
@@ -223,14 +327,7 @@ void ofApp::setupGui() {
     guiMapY = folder->addSlider("latitude", route.latRange.getMin(), route.latRange.getMax());
     guiMapY->setPrecision(4);
     guiMapY->bind(mapY, route.latRange.getMin(), route.latRange.getMax());
-    
-    // JRW - Only need to create buttons for POI
-    /*
-    // buttons to jump places
-    for (auto &location: route.locations) {
-        folder->addButton(location.title);
-    }
-     */
+    gui->addLabel("* Press Arrow Keys to jump to Route Points *");
     
     /*
     // Water shader
@@ -308,7 +405,6 @@ void ofApp::drawScene() {
     // draw the zoomed-in content for locations in 2D
     // this is outside of the camera so it can ignore perspective
     route.draw2d();
-    
 }
 
 void ofApp::startScene() {
@@ -347,6 +443,17 @@ void ofApp::setLon(float lon) {
 void ofApp::onButtonEvent(ofxDatGuiButtonEvent e) {
     if (e.target->is("toggle fullscreen")) {
         ofToggleFullscreen();
+    }
+    else if (e.target->is("automated system")) {
+        systemActive = !systemActive;
+        
+        // 30 second intervals
+        maxTime = 30.0;
+        elapsedTime = 0.0;
+        
+        // 3 - 30seconds intervals for a total of 90 seconds
+        maxInterval = 2;
+        currentInterval = 0;
     }
     else if (e.target->is("invert colors")) {
         bColorInvert = !bColorInvert;
@@ -413,7 +520,7 @@ void ofApp::on2dPadEvent(ofxDatGui2dPadEvent e) {
 // oF event handlers
 //////////////////////////////////////////////////////////////////////////////////
 
-void ofApp::keyPressed(int key){
+void ofApp::keyPressed(int key) {
     
     switch (key) {
         case 'f':
@@ -432,45 +539,45 @@ void ofApp::keyPressed(int key){
         case ' ':
             showGui(!gui->getVisible());
             break;
+            
+        case OF_KEY_RIGHT:
+            pointJump++;
+            if (pointJump > intPoints.size()-1) pointJump = 0;
+            setLon(intPoints[pointJump].lon);
+            setLat(intPoints[pointJump].lat);
+            break;
+            
+        case OF_KEY_LEFT:
+            pointJump--;
+            if (pointJump < 0) pointJump = intPoints.size()-1;
+            setLon(intPoints[pointJump].lon);
+            setLat(intPoints[pointJump].lat);
+            break;
     }
 }
 
 void ofApp::keyReleased(int key){
-    
 }
-
 
 void ofApp::mouseMoved(int x, int y ){
-    
 }
-
 
 void ofApp::mouseDragged(int x, int y, int button){
-    
 }
-
 
 void ofApp::mousePressed(int x, int y, int button){
-    
 }
-
 
 void ofApp::mouseReleased(int x, int y, int button){
-    
 }
-
 
 void ofApp::windowResized(int w, int h){
     fbo.allocate(w,h);
     scroller.setup();
 }
 
-
 void ofApp::gotMessage(ofMessage msg){
-    
 }
 
-
 void ofApp::dragEvent(ofDragInfo dragInfo){
-    
 }

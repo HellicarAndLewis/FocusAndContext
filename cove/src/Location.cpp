@@ -33,25 +33,25 @@ void Location::setup(string title) {
 }
 
 void Location::update() {
-    if (isActive) percentOpen = ofLerp(percentOpen, 0.0, 0.2);
-    else percentOpen = ofLerp(percentOpen, 1.0, 0.2);
+    if (isAlpha) percentOpen = ofLerp(percentOpen, 0, 0.1);
+    else percentOpen = ofLerp(percentOpen, 1.0, 0.1);
 }
 
 void Location::draw(ofCamera& cam) {
     if (!hasLabel) return;
     
-    // alpha based on open/closed percent
-    int alphaTarget = percentOpen * 255;
-    ofSetColor(255, 255, 255, alphaTarget);
+    ofSetColor(255, 255, 255, 255);
     
     // billboard height and size
     float height = 200;
     float size = 400;
     
     // draw line from location up to billboard when open
+    /*
     ofSetLineWidth(4);
     ofDrawLine(position.x, position.y, percentOpen * height, position.x, position.y, 0);
     ofSetLineWidth(1);
+    */
     
     // billboard to face cam
     billboardShader.begin();
@@ -66,32 +66,24 @@ void Location::draw(ofCamera& cam) {
     billboardShader.end();
     
     ofSetColor(255);
-    
 }
 
-
 void Location::draw2d() {
-    if (!hasLabel) return;
+    
+    if (!hasLabel)
+        return;
     
     int alphaTarget = 255 - (percentOpen * 255);
     ofSetColor(255, 255, 255, alphaTarget);
-    int w = 400;
-    int h = 400;
-    int space = 60;
-    int x = space;
-    int y = ofGetHeight() - space - h;
+    int w = 800;
+    int h = 800;
+    int x = ofGetWidth()/2;
+    int y = ofGetHeight()/2;
     
-    contentImages[0]->draw(x, y - h, w, h);
-    contentImages[1]->draw(x, y, w, h);
-    x += w + space;
+    ofSetRectMode(OF_RECTMODE_CENTER);
+    //int selectContent = ofRandom(contentImages.size()-1);
     contentImages[2]->draw(x, y, w, h);
-    x += w + space;
-    contentImages[3]->draw(x, y, w, h);
-    x += w + space;
-    contentImages[4]->draw(x, y, w, h);
-    
-    //contentImage.draw(30, ofGetHeight()/2 - h/2, w, h);
-    
+    ofSetRectMode(OF_RECTMODE_CORNER);
     
     ofSetColor(255);
 }

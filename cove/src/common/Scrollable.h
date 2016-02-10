@@ -67,7 +67,7 @@ namespace IFS {
             for (auto tick: ticks) {
                 ofDrawCircle(bounds.width * tick, ofGetHeight()-rad, rad);
             }
-            ofSetColor(240);
+            ofSetColor(240,0,0);
             ofDrawRectangle(rect);
             ofSetColor(255);
         }

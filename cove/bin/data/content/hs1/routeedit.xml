@@ -12,7 +12,7 @@
         </camera>
     </location>
     <location>
-        <title>Node1 - St Pancras International</title>
+        <title>St Pancras International</title>
         <lat>-0.126133</lat>
         <lon>51.531420</lon>
         <titleImg>TCR.png</titleImg>
@@ -215,7 +215,7 @@
         <detailImg>TCR.png</detailImg>
     </location>
     <location>
-        <title>Node30 - Stratford International - Olympics</title>
+        <title>Stratford International - Olympics</title>
         <lat>-0.00873</lat>
         <lon>51.5446</lon>
         <titleImg>TCR.png</titleImg>
@@ -740,7 +740,7 @@
         <detailImg>TCR.png</detailImg>
     </location>
     <location>
-        <title>Node105 - Ebbsfleet International</title>
+        <title>Ebbsfleet International</title>
         <lat>0.321070</lat>
         <lon>51.443040</lon>
         <titleImg>TCR.png</titleImg>
@@ -1716,13 +1716,6 @@
         <title></title>
         <lat>1.1235</lat>
         <lon>51.0932</lon>
-        <titleImg>TCR.png</titleImg>
-        <detailImg>TCR.png</detailImg>
-    </location>
-    <location>
-        <title></title>
-        <lat>51.0943</lat>
-        <lon>51.0943</lon>
         <titleImg>TCR.png</titleImg>
         <detailImg>TCR.png</detailImg>
     </location>

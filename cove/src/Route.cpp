@@ -42,6 +42,9 @@ void Route::update(float percent) {
     for (auto &location: locations) {
         location.update();
         location.isActive = false;
+        
+        if (isAlpha) location.isAlpha = true;
+        else location.isAlpha = false;
     }
     
     // get the nearest point on the route to current progress
@@ -199,7 +202,7 @@ void Route::populateLocations() {
         location.titleFont = &titleFont;
         location.setup(xml.getValue("title", ""));
         location.latlon.set(xml.getValue("lat", 0.0f), xml.getValue("lon", 0.0f));
-        location.camDistance = xml.getValue("camera:distance", 500);
+        location.camDistance = xml.getValue("camera:distance", 8000);
         location.camRotation.set(
                                  xml.getValue("camera:xrot", -45),
                                  xml.getValue("camera:yrot", 0),

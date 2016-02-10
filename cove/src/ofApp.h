@@ -14,6 +14,7 @@
 #include "Scrollable.h"
 #include "TileLoader.h"
 #include "Route.h"
+#include "InterestPoints.h"
 
 class ofApp : public ofBaseApp{
 public:
@@ -63,7 +64,23 @@ public:
     float mapX;
     float mapY;
     
+    // automatic system
+    void autoSystem();
+    float elapsedTime;
+    float maxTime;
+    int currentInterval;
+    int maxInterval;
+    bool systemActive;
+    bool routeSelected;
+    int currentPoint;
+    bool drawRoute2d;
+    float camDistance;
+    
+    // routes
     Route route;
+    vector<InterestPoints> intPoints;
+    int pointJump;
+    int routeSelection;
     
     // tiles
     TileLoader tileLoader;
