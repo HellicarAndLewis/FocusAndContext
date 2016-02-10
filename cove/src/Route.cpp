@@ -45,6 +45,9 @@ void Route::update(float percent) {
         
         if (isAlpha) location.isAlpha = true;
         else location.isAlpha = false;
+        
+        if (isAlphaLabel) location.isAlphaLabel = true;
+        else location.isAlphaLabel = false;
     }
     
     // get the nearest point on the route to current progress

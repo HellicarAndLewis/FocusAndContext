@@ -100,6 +100,7 @@ void ofApp::autoSystem() {
     Location & location = *route.getLocation();
     switch (currentInterval) {
         case 0:
+            location.isAlphaLabel = true;
             if (location.getLon() == intPoints[currentInterestPoint].lon &&
                 location.getLat() == intPoints[currentInterestPoint].lat) {
                 
@@ -152,6 +153,7 @@ void ofApp::autoSystem() {
             
         case 2:
             route.isAlpha = true;
+            route.isAlphaLabel = false;
             
             // reset current interest points
             currentInterestPoint = 0;

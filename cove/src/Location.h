@@ -27,9 +27,11 @@ public:
     string title;
     bool isActive;
     bool hasLabel;
-    float percentOpen;
-    float alphaTarget;
     bool isAlpha;
+    bool isAlphaLabel;
+    float percentOpen;
+    float percentOpenLabel;
+    float alphaTarget;
     ofTrueTypeFont* titleFont;
     
     ofShader billboardShader;

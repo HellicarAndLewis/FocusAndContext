@@ -33,6 +33,10 @@ void Location::setup(string title) {
 }
 
 void Location::update() {
+    
+    if (isAlphaLabel) percentOpenLabel = ofLerp(percentOpenLabel, 0, 0.1);
+    else percentOpenLabel = ofLerp(percentOpenLabel, 1.0, 0.1);
+    
     if (isAlpha) percentOpen = ofLerp(percentOpen, 0, 0.1);
     else percentOpen = ofLerp(percentOpen, 1.0, 0.1);
 }
@@ -40,7 +44,8 @@ void Location::update() {
 void Location::draw(ofCamera& cam) {
     if (!hasLabel) return;
     
-    ofSetColor(255, 255, 255, 255);
+    int alphaTarget = 255 - (percentOpenLabel * 255);
+    ofSetColor(255, 255, 255, alphaTarget);
     
     // billboard height and size
     float height = 200;

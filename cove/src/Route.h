@@ -39,6 +39,7 @@ public:
     float length;
     float locationThreshold;
     bool isAlpha;
+    bool isAlphaLabel;
     
     ofParameter<float> latRange;
     ofParameter<float> lonRange;
