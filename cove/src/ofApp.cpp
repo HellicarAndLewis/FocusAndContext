@@ -239,8 +239,6 @@ void ofApp::autoSystem() {
             if (location.getLon() == intPoints[currentInterestPoint].lon &&
                 location.getLat() == intPoints[currentInterestPoint].lat) {
                 
-                cam.enableOrtho();
-                
                 systemTimerPaused = true;
                 
                 // pause for 5 seconds
@@ -255,8 +253,6 @@ void ofApp::autoSystem() {
                 }
             }
             else {
-                cam.disableOrtho();
-                
                 // travel through the route
                 setLon(location.getLon());
                 setLat(location.getLat());
