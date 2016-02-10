@@ -156,10 +156,10 @@
         <lat>-0.1329054</lat>
         <lon>51.51496</lon>
         <camera>
-            <xrot>-60.0</xrot>
-            <yrot>0</yrot>
-            <zrot>90</zrot>
-            <distance>2000</distance>
+            <xrot>-45</xrot>
+            <yrot>35.264</yrot>
+            <zrot>0</zrot>
+            <distance>1500</distance>
         </camera>
         <titleImg>TCR.png</titleImg>
         <detailImg>TCR.png</detailImg>
@@ -274,10 +274,10 @@
         <lat>-0.09709</lat>
         <lon>51.52024</lon>
         <camera>
-            <xrot>-60.0</xrot>
-            <yrot>0</yrot>
-            <zrot>90</zrot>
-            <distance>2000</distance>
+            <xrot>-45</xrot>
+            <yrot>35.264</yrot>
+            <zrot>0</zrot>
+            <distance>1500</distance>
         </camera>
         <titleImg>Barbican.png</titleImg>
         <detailImg>Barbican.png</detailImg>
@@ -434,10 +434,10 @@
         <lat>-0.0203525</lat>
         <lon>51.5044829</lon>
         <camera>
-            <xrot>-60.0</xrot>
-            <yrot>0</yrot>
-            <zrot>90</zrot>
-            <distance>2000</distance>
+            <xrot>-45</xrot>
+            <yrot>35.264</yrot>
+            <zrot>0</zrot>
+            <distance>1500</distance>
         </camera>
         <titleImg>Canary Wharf.png</titleImg>
         <detailImg>Canary Wharf.png</detailImg>
@@ -517,10 +517,10 @@
         <lat>0.026730</lat>
         <lon>51.509733</lon>
         <camera>
-            <xrot>-60.0</xrot>
-            <yrot>0</yrot>
-            <zrot>90</zrot>
-            <distance>2000</distance>
+            <xrot>-45</xrot>
+            <yrot>35.264</yrot>
+            <zrot>0</zrot>
+            <distance>1500</distance>
         </camera>
         <titleImg>Custom House.png</titleImg>
         <detailImg>Custom House.png</detailImg>
@@ -635,10 +635,10 @@
         <lat>0.0926</lat>
         <lon>51.4900</lon>
         <camera>
-            <xrot>-60.0</xrot>
-            <yrot>0</yrot>
-            <zrot>90</zrot>
-            <distance>2000</distance>
+            <xrot>-45</xrot>
+            <yrot>35.264</yrot>
+            <zrot>0</zrot>
+            <distance>1500</distance>
         </camera>
         <titleImg>Woolwich.png</titleImg>
         <detailImg>Woolwich.png</detailImg>
