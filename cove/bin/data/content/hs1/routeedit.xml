@@ -15,6 +15,12 @@
         <title>St Pancras International</title>
         <lat>-0.126133</lat>
         <lon>51.531420</lon>
+        <camera>
+            <xrot>-60.0</xrot>
+            <yrot>0</yrot>
+            <zrot>90</zrot>
+            <distance>2000</distance>
+        </camera>
         <titleImg>TCR.png</titleImg>
         <detailImg>TCR.png</detailImg>
     </location>
@@ -218,6 +224,12 @@
         <title>Stratford International - Olympics</title>
         <lat>-0.00873</lat>
         <lon>51.5446</lon>
+        <camera>
+            <xrot>-60.0</xrot>
+            <yrot>0</yrot>
+            <zrot>90</zrot>
+            <distance>2000</distance>
+        </camera>
         <titleImg>TCR.png</titleImg>
         <detailImg>TCR.png</detailImg>
     </location>
@@ -743,6 +755,12 @@
         <title>Ebbsfleet International</title>
         <lat>0.321070</lat>
         <lon>51.443040</lon>
+        <camera>
+            <xrot>-60.0</xrot>
+            <yrot>0</yrot>
+            <zrot>90</zrot>
+            <distance>2000</distance>
+        </camera>
         <titleImg>TCR.png</titleImg>
         <detailImg>TCR.png</detailImg>
     </location>
@@ -1496,9 +1514,15 @@
         <detailImg>TCR.png</detailImg>
     </location>
     <location>
-        <title>Node213 - Ashford International</title>
+        <title>Ashford International</title>
         <lat>0.875225</lat>
         <lon>51.143389</lon>
+        <camera>
+            <xrot>-60.0</xrot>
+            <yrot>0</yrot>
+            <zrot>90</zrot>
+            <distance>2000</distance>
+        </camera>
         <titleImg>TCR.png</titleImg>
         <detailImg>TCR.png</detailImg>
     </location>

@@ -16,9 +16,10 @@ void ofApp::setup() {
     ofSetLogLevel(OF_LOG_NOTICE);
     ofEnableAlphaBlending();
     
+    // camera draw distance
     cam.setFarClip(90000);
-    camDistance = 3500.0;
     
+    // init world colors
     setupWorldColors();
     
     meshPosition.set(0);
@@ -66,13 +67,13 @@ void ofApp::setup() {
 void ofApp::autoSystem() {
     
     // we use delta time, the time between frames
-    elapsedTime += ofGetLastFrameTime();
+    if (!systemTimerPaused)
+        elapsedTime += ofGetLastFrameTime();
+    
     if (elapsedTime >= maxTime) {
-        
         // advance to next interval
         currentInterval++;
         if (currentInterval > maxInterval) {
-            
             // advance to next route
             routeSelection++;
             if (routeSelection > 1) {
@@ -99,14 +100,31 @@ void ofApp::autoSystem() {
     Location & location = *route.getLocation();
     switch (currentInterval) {
         case 0:
-            // travel through the route
-            setLon(location.getLon());
-            setLat(location.getLat());
-            scroller.scrollTo(ofMap(elapsedTime, 0.0, 30.0, 0.0, 1.0));
+            if (location.getLon() == intPoints[currentInterestPoint].lon &&
+                location.getLat() == intPoints[currentInterestPoint].lat) {
+                
+                systemTimerPaused = true;
+                
+                // pause for 5 seconds
+                elapsedTimeInterestPoints += ofGetLastFrameTime();
+                if (elapsedTimeInterestPoints >= 5.0) {
+                    currentInterestPoint++;
+                    
+                    // reset counter
+                    elapsedTimeInterestPoints = 0.0;
+                    // resume timer
+                    systemTimerPaused = false;
+                }
+            }
+            else {
+                // travel through the route
+                setLon(location.getLon());
+                setLat(location.getLat());
+                scroller.scrollTo(ofMap(elapsedTime, 0.0, 30.0, 0.0, 1.0));
+            }
             
             // reset route selected to false
-            if (routeSelected)
-                routeSelected = false;
+            if (routeSelected) routeSelected = false;
             
             route.isAlpha = false;
             break;
@@ -117,8 +135,7 @@ void ofApp::autoSystem() {
                 pointJump = ofRandom(0, intPoints.size()-1);
                 
                 // don't repeat the same POI in a row
-                if (currentPoint == pointJump)
-                    return;
+                if (currentPoint == pointJump) return;
                 
                 // activate location and scroll to POI
                 setLon(intPoints[pointJump].lon);
@@ -129,13 +146,15 @@ void ofApp::autoSystem() {
                 
             } else if (routeSelected) {
                 // sync points of interest
-                if (currentPoint != pointJump)
-                    currentPoint = pointJump;
+                if (currentPoint != pointJump) currentPoint = pointJump;
             }
             break;
             
         case 2:
             route.isAlpha = true;
+            
+            // reset current interest points
+            currentInterestPoint = 0;
             break;
     }
 }
@@ -157,8 +176,7 @@ void ofApp::routeLoad(int _selection) {
     }
     
     // clear the bottom scroller before we get the route
-    if (scroller.ticks.size() > 0)
-        scroller.ticks.clear();
+    if (scroller.ticks.size() > 0) scroller.ticks.clear();
     
     // load and init route
     Location & location = *route.getLocation();
@@ -177,7 +195,11 @@ void ofApp::routeLoad(int _selection) {
     // copy POI into vector
     for (auto &location: route.locations) {
         if (location.title != "" && location.title != "Camera"){
-            intPoints.push_back(InterestPoints(location.title, location.getLat(), location.getLon()));
+            intPoints.push_back(InterestPoints(location.title,
+                                               location.getLat(),
+                                               location.getLon(),
+                                               location.camDistance,
+                                               location.camRotation));
         }
     }
 }
@@ -220,9 +242,7 @@ void ofApp::setupWorldColors() {
 
 void ofApp::update(){
         
-    if (ofGetFrameNum() == 2) {
-        cam.disableMouseInput();
-    }
+    if (ofGetFrameNum() == 2) cam.disableMouseInput();
     
     route.update(scroller.getValue());
     
@@ -233,23 +253,14 @@ void ofApp::update(){
      */
     
     // update mesh target and if we're scrolling
-    if (scroller.isScrolling) {
-        meshTarget = route.getPosition(true);
-    }
+    if (scroller.isScrolling) meshTarget = route.getPosition(true);
     
     float amount = gui->getSlider("location lerp")->getValue();
     if (scroller.isEnabled()) {
         // update camera settings based on our nearest location
-        if (route.getLocation()->isActive) {
-            cam.setDistance(ofLerp(cam.getDistance(), route.getLocation()->camDistance, amount));
-            //sceneRotation.x = ofLerp(sceneRotation.x, route.getLocation()->camRotation.x, amount);
-            //sceneRotation.z = ofLerp(sceneRotation.z, route.getLocation()->camRotation.z, amount);
-        }
-        else {
-            cam.setDistance(ofLerp(cam.getDistance(), 8000, amount));
-            //sceneRotation.x = ofLerp(sceneRotation.x, 0, amount);
-            //sceneRotation.z = ofLerp(sceneRotation.z, 0, amount);
-        }
+        cam.setDistance(ofLerp(cam.getDistance(), route.getLocation()->camDistance, amount));
+        sceneRotation.x = ofLerp(sceneRotation.x, route.getLocation()->camRotation.x, amount);
+        sceneRotation.z = ofLerp(sceneRotation.z, route.getLocation()->camRotation.z, amount);
     }
     
     // lerp the actual mesh position to the target
@@ -264,10 +275,8 @@ void ofApp::update(){
     }
     
     // if auto system is active, run
-    if (systemActive)
-        autoSystem();
+    if (systemActive) autoSystem();
 }
-
 
 void ofApp::draw(){
     if(bShader){
@@ -280,8 +289,7 @@ void ofApp::draw(){
         drawScene();
     }
     
-    if (!gui->getVisible())
-        tileLoader.labels.draw2D();
+    if (!gui->getVisible()) tileLoader.labels.draw2D();
 }
 
 
@@ -299,7 +307,7 @@ void ofApp::setupGui() {
     gui->addToggle("invert colors", false);
     
     // Camera control
-    gui->addToggle("cam mouse", true);
+    gui->addToggle("cam mouse", false);
     auto slider = gui->addSlider("cam rot x", -90, 90);
     slider->bind(sceneRotation.x, -90, 90);
     slider = gui->addSlider("cam rot y", -90, 90);
@@ -357,7 +365,7 @@ void ofApp::drawScene() {
         
         auto tiles = &tileLoader.tiles;
         // toggle tile layers based on zoom?
-        //if (cam.getDistance() < 2000) tiles = &tileLoader.microTiles;
+        if (cam.getDistance() < 2000) tiles = &tileLoader.microTiles;
         
         // Roads
         materialRoads.begin();
@@ -446,6 +454,9 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e) {
     }
     else if (e.target->is("automated system")) {
         systemActive = !systemActive;
+        
+        // start timer active
+        systemTimerPaused = false;
         
         // 30 second intervals
         maxTime = 30.0;

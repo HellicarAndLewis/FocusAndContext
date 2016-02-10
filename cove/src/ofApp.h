@@ -66,15 +66,18 @@ public:
     
     // automatic system
     void autoSystem();
-    float elapsedTime;
-    float maxTime;
-    int currentInterval;
-    int maxInterval;
     bool systemActive;
     bool routeSelected;
-    int currentPoint;
+    bool systemTimerPaused;
     bool drawRoute2d;
-    float camDistance;
+    float elapsedTime;
+    float maxTime;
+    float elapsedTimeInterestPoints;
+    float scrollPercent;
+    int currentInterval;
+    int maxInterval;
+    int currentPoint;
+    int currentInterestPoint;
     
     // routes
     Route route;
