@@ -20,6 +20,10 @@ Location::Location() {
     }
     camRotation.set(-45, 0, 30);
     camDistance = 500;
+    
+    // defaults alpha to 0
+    percentOpenLabel = 1.0;
+    percentOpen = 1.0;
 }
 
 void Location::setup(string title) {
@@ -30,12 +34,16 @@ void Location::setup(string title) {
     else {
         hasLabel = false;
     }
+    
+//    // defaults alpha to 0
+//    percentOpenLabel = 1.0;
+//    percentOpen = 1.0;
 }
 
 void Location::update() {
     
-    if (isAlphaLabel) percentOpenLabel = ofLerp(percentOpenLabel, 0, 0.1);
-    else percentOpenLabel = ofLerp(percentOpenLabel, 1.0, 0.1);
+    if (isAlphaLabel) percentOpenLabel = ofLerp(percentOpenLabel, 0, 0.01);
+    else percentOpenLabel = ofLerp(percentOpenLabel, 1.0, 1);
     
     if (isAlpha) percentOpen = ofLerp(percentOpen, 0, 0.1);
     else percentOpen = ofLerp(percentOpen, 1.0, 0.1);
@@ -80,15 +88,20 @@ void Location::draw2d() {
     
     int alphaTarget = 255 - (percentOpen * 255);
     ofSetColor(255, 255, 255, alphaTarget);
-    int w = 800;
-    int h = 800;
-    int x = ofGetWidth()/2;
-    int y = ofGetHeight()/2;
+    int w = 400;
+    int h = 400;
+    int space = 60;
+    int x = space;
+    int y = ofGetHeight() - space - h;
     
-    ofSetRectMode(OF_RECTMODE_CENTER);
-    //int selectContent = ofRandom(contentImages.size()-1);
+    contentImages[0]->draw(x, y - h, w, h);
+    contentImages[1]->draw(x, y, w, h);
+    x += w + space;
     contentImages[2]->draw(x, y, w, h);
-    ofSetRectMode(OF_RECTMODE_CORNER);
+    x += w + space;
+    contentImages[3]->draw(x, y, w, h);
+    x += w + space;
+    contentImages[4]->draw(x, y, w, h);
     
     ofSetColor(255);
 }

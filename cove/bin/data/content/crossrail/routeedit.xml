@@ -156,8 +156,8 @@
         <lat>-0.1329054</lat>
         <lon>51.51496</lon>
         <camera>
-            <xrot>-45</xrot>
-            <yrot>35.264</yrot>
+            <xrot>0</xrot>
+            <yrot>0</yrot>
             <zrot>0</zrot>
             <distance>1500</distance>
         </camera>
@@ -274,8 +274,8 @@
         <lat>-0.09709</lat>
         <lon>51.52024</lon>
         <camera>
-            <xrot>-45</xrot>
-            <yrot>35.264</yrot>
+            <xrot>0</xrot>
+            <yrot>0</yrot>
             <zrot>0</zrot>
             <distance>1500</distance>
         </camera>
@@ -434,8 +434,8 @@
         <lat>-0.0203525</lat>
         <lon>51.5044829</lon>
         <camera>
-            <xrot>-45</xrot>
-            <yrot>35.264</yrot>
+            <xrot>0</xrot>
+            <yrot>0</yrot>
             <zrot>0</zrot>
             <distance>1500</distance>
         </camera>
@@ -517,8 +517,8 @@
         <lat>0.026730</lat>
         <lon>51.509733</lon>
         <camera>
-            <xrot>-45</xrot>
-            <yrot>35.264</yrot>
+            <xrot>0</xrot>
+            <yrot>0</yrot>
             <zrot>0</zrot>
             <distance>1500</distance>
         </camera>

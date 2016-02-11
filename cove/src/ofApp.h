@@ -24,6 +24,7 @@ public:
     void routeLoad(int selection);
     void update();
     void draw();
+    void drawDebugMsg();
     
     void drawScene();
     void startScene();
@@ -59,10 +60,12 @@ public:
     
     bool bShader;
     bool bColorInvert;
+    bool bDebugMsg;
     ofVec2f meshPosition;
     ofVec2f meshTarget;
     float mapX;
     float mapY;
+    float camDistance;
     
     // automatic system
     void autoSystem();
@@ -70,6 +73,7 @@ public:
     bool routeSelected;
     bool systemTimerPaused;
     bool drawRoute2d;
+    bool dropCam;
     float elapsedTime;
     float maxTime;
     float elapsedTimeInterestPoints;
