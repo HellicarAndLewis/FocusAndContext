@@ -3,7 +3,7 @@
 //  Cove
 //
 //  Created by Chris Mullany on 19/01/2016.
-//  Edited by Jason Walters on 5/02/2016.
+//  Edited by Jason Walters on 15/02/2016.
 //
 //
 
@@ -22,17 +22,21 @@ public:
     void draw2d();
     void flushData();
     
-    void load(string path, ofVec3f posOffset);
+    void loadLeft(string path, ofVec3f posOffset);
+    void loadRight(string path, ofVec3f posOffset);
     Location* getLocation();
     ofPoint getPosition(bool doInvert = false);
 	
     
     ofTrueTypeFont titleFont;
-    vector<Location> locations;
-    ofPolyline route, routeInverse, routeRender;
+    vector<Location> locationsLeft;
+    vector<Location> locationsRight;
+    ofPolyline routeLeft, routeInverseLeft, routeRenderLeft;
+    ofPolyline routeRight, routeInverseRight, routeRenderRight;
     
     
     Location* activeLocation;
+    int activeProject;
     int activeIndex;
     float percentToActive;
     float percent;
@@ -47,7 +51,8 @@ public:
 protected:  
 private:
     
-    void populateLocations();
+    void populateLocationsLeft();
+    void populateLocationsRight();
     
     string folderPath;
     ofxXmlSettings xml;

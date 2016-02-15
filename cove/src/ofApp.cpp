@@ -64,7 +64,12 @@ void ofApp::setup() {
     // it automatically sets the tile builder offset based on the position and zoom of the first tile it reads
     tileLoader.setup();
     tileLoader.loadDir("content/tiles");
-    loadProject(0); // 0: Crossrail, 1: High Speed 1
+    
+    // load both project routes
+    route.loadLeft("content/hs1", tileLoader.builder.getOffset());
+    route.loadRight("content/crossrail", tileLoader.builder.getOffset());
+    
+    loadProject(0); // 0: High Speed 1, 1: Crossrail
     
     // setup gui
     setupGui();
@@ -294,45 +299,65 @@ void ofApp::automatedSystem() {
 
 void ofApp::loadProject(int selection) {
     
+    route.activeProject = selection;
+    
     // starting location point
     pointJump = -1;
-    
-    // select between routes
-    switch (selection) {
-        case 0:
-            route.load("content/crossrail", tileLoader.builder.getOffset());
-            break;
-            
-        case 1:
-            route.load("content/hs1", tileLoader.builder.getOffset());
-            break;
-    }
     
     // clear the bottom scroller before we get the route
     if (scroller.ticks.size() > 0) scroller.ticks.clear();
     
     // load and init route
     Location & location = *route.getLocation();
-    for (int i=0; i<route.locations.size();  i++) {
-        if (location.title != "" && location.title != "Camera") {
-            scroller.ticks.push_back(route.locations[i].routePercent);
-        }
-        scroller.ticks.push_back(route.locations[i].routePercent);
-    }
-    setLon(location.getLon());
-    setLat(location.getLat());
-    scroller.scrollTo(location.routePercent);
     
-    // clear POI vector if previously in use
-    if (intPoints.size() > 0) intPoints.clear();
-    // copy POI into vector
-    for (auto &location: route.locations) {
-        if (location.title != "" && location.title != "Camera"){
-            intPoints.push_back(InterestPoints(location.title,
-                                               location.getLat(),
-                                               location.getLon(),
-                                               location.camDistance,
-                                               location.camRotation));
+    if (selection == 0) {
+        for (int i=0; i<route.locationsLeft.size();  i++) {
+            if (location.title != "" && location.title != "Camera") {
+                scroller.ticks.push_back(route.locationsLeft[i].routePercent);
+            }
+            scroller.ticks.push_back(route.locationsLeft[i].routePercent);
+        }
+        
+        setLon(location.getLon());
+        setLat(location.getLat());
+        scroller.scrollTo(location.routePercent);
+        
+        // clear POI vector if previously in use
+        if (intPoints.size() > 0) intPoints.clear();
+        // copy POI into vector
+        for (auto &location: route.locationsLeft) {
+            if (location.title != "" && location.title != "Camera"){
+                intPoints.push_back(InterestPoints(location.title,
+                                                   location.getLat(),
+                                                   location.getLon(),
+                                                   location.camDistance,
+                                                   location.camRotation));
+            }
+        }
+        
+    } else {
+        for (int i=0; i<route.locationsRight.size();  i++) {
+            if (location.title != "" && location.title != "Camera") {
+                scroller.ticks.push_back(route.locationsRight[i].routePercent);
+            }
+            scroller.ticks.push_back(route.locationsRight[i].routePercent);
+        }
+        
+        setLon(location.getLon());
+        setLat(location.getLat());
+        scroller.scrollTo(location.routePercent);
+        
+        // clear POI vector if previously in use
+        if (intPoints.size() > 0) intPoints.clear();
+        // copy POI into vector
+        for (auto &location: route.locationsRight) {
+            if (location.title != "" && location.title != "Camera"){
+                intPoints.push_back(InterestPoints(location.title,
+                                                   location.getLat(),
+                                                   location.getLon(),
+                                                   location.camDistance,
+                                                   location.camRotation));
+            }
         }
     }
 }
@@ -344,9 +369,9 @@ void ofApp::loadPoint(int point){
 
 void ofApp::loadContent(int item){
     
-    for (auto &location: route.locations) {
-        location.contentImages[item]->draw(ofGetWidth()/2, ofGetHeight()/2);
-    }
+//    for (auto &location: route.locations) {
+//        location.contentImages[item]->draw(ofGetWidth()/2, ofGetHeight()/2);
+//    }
 }
 
 void ofApp::worldTransform(float distance, float distEase, ofVec3f rotation, float rotEase){
@@ -571,16 +596,16 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e) {
     else if (e.target->is("show debug")) {
         bDebugMsg = !bDebugMsg;
     }
-    else {
-        for (auto &location: route.locations) {
-            if (e.target->is(location.title)) {
-                location.isActive = true;
-                setLon(location.getLon());
-                setLat(location.getLat());
-                scroller.scrollTo(location.routePercent);
-            }
-        }
-    }
+//    else {
+//        for (auto &location: route.locations) {
+//            if (e.target->is(location.title)) {
+//                location.isActive = true;
+//                setLon(location.getLon());
+//                setLat(location.getLat());
+//                scroller.scrollTo(location.routePercent);
+//            }
+//        }
+//    }
     
     ofLogVerbose() << "onButtonEvent: " << e.target->getLabel() << " " << e.target->getEnabled() << endl;
 }
@@ -673,20 +698,28 @@ void ofApp::mousePressed(int x, int y, int button){
 }
 
 void ofApp::mouseReleased(int x, int y, int button){
+    // loads hs1 project
     if (menu.objLeft.isMousePressed(0)) {
         menu.rightOn = false;
         menu.objRight.isSelected = false;
         
         menu.leftOn = !menu.leftOn;
         menu.objLeft.isSelected = !menu.objLeft.isSelected;
+        
+        // HS1
+        loadProject(0);
     }
     
+    // loads crossrail project
     if (menu.objRight.isMousePressed(0)) {
         menu.leftOn = false;
         menu.objLeft.isSelected = false;
         
         menu.rightOn = !menu.rightOn;
         menu.objRight.isSelected = !menu.objRight.isSelected;
+        
+        // Crossrail
+        loadProject(1);
     }
     
     for (int i = 0; i < BUTTON_AMT; i++) {

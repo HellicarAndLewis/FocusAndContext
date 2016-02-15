@@ -3,7 +3,7 @@
 //  Cove
 //
 //  Created by Chris Mullany on 19/01/2016.
-//  Edited by Jason Walters on 5/02/2016.
+//  Edited by Jason Walters on 15/02/2016.
 //
 //
 
@@ -16,21 +16,36 @@ Route::Route() {
 }
 
 void Route::setup() {
+
 }
 
 void Route::flushData() {
     
-    if (route.size() > 0)
-        route.clear();
-    
-    if (routeRender.size() > 0)
-        routeRender.clear();
-    
-    if (routeInverse.size() > 0)
-        routeInverse.clear();
-    
-    if (locations.size() > 0)
-        locations.clear();
+    if (activeProject == 0) {
+        if (routeLeft.size() > 0)
+            routeLeft.clear();
+        
+        if (routeRenderLeft.size() > 0)
+            routeRenderLeft.clear();
+        
+        if (routeInverseLeft.size() > 0)
+            routeInverseLeft.clear();
+        
+        if (locationsLeft.size() > 0)
+            locationsLeft.clear();
+    } else {
+        if (routeRight.size() > 0)
+            routeRight.clear();
+        
+        if (routeRenderRight.size() > 0)
+            routeRenderRight.clear();
+        
+        if (routeInverseRight.size() > 0)
+            routeInverseRight.clear();
+        
+        if (locationsRight.size() > 0)
+            locationsRight.clear();
+    }
 }
 
 void Route::update(float percent) {
@@ -39,53 +54,107 @@ void Route::update(float percent) {
     this->percent = percent;
     
     // update active location
-    for (auto &location: locations) {
-        location.update();
-        location.isActive = false;
+    if (activeProject == 0) {
+        for (auto &location: locationsLeft) {
+            location.update();
+            location.isActive = false;
         
-        if (isAlpha) location.isAlpha = true;
-        else location.isAlpha = false;
+            if (isAlpha) location.isAlpha = true;
+            else location.isAlpha = false;
         
-        if (isAlphaLabel) location.isAlphaLabel = true;
-        else location.isAlphaLabel = false;
+            if (isAlphaLabel) location.isAlphaLabel = true;
+            else location.isAlphaLabel = false;
+        }
+        
+        // get the nearest point on the route to current progress
+        float totalLength = routeLeft.getLengthAtIndex(locationsLeft.size()-1);
+        float indexInterp = routeLeft.getIndexAtLength(percent * totalLength);
+        activeIndex = round(indexInterp);
+        activeLocation = &locationsLeft[activeIndex];
+        
+        // get the percent distance (0 - 0.5) to the nearest point
+        percentToActive = indexInterp - activeIndex;
+        if (activeIndex > indexInterp)
+            percentToActive = activeIndex - indexInterp;
+        // set the nearest point to active if it's nearer than a certain threshold
+        if (percentToActive < locationThreshold)
+            activeLocation->isActive = true;
+    } else {
+        for (auto &location: locationsRight) {
+            location.update();
+            location.isActive = false;
+            
+            if (isAlpha) location.isAlpha = true;
+            else location.isAlpha = false;
+            
+            if (isAlphaLabel) location.isAlphaLabel = true;
+            else location.isAlphaLabel = false;
+        }
+        
+        // get the nearest point on the route to current progress
+        float totalLength = routeRight.getLengthAtIndex(locationsRight.size()-1);
+        float indexInterp = routeRight.getIndexAtLength(percent * totalLength);
+        activeIndex = round(indexInterp);
+        activeLocation = &locationsRight[activeIndex];
+        
+        // get the percent distance (0 - 0.5) to the nearest point
+        percentToActive = indexInterp - activeIndex;
+        if (activeIndex > indexInterp)
+            percentToActive = activeIndex - indexInterp;
+        // set the nearest point to active if it's nearer than a certain threshold
+        if (percentToActive < locationThreshold)
+            activeLocation->isActive = true;
     }
-    
-    // get the nearest point on the route to current progress
-    float totalLength = route.getLengthAtIndex(locations.size()-1);
-    float indexInterp = route.getIndexAtLength(percent * totalLength);
-    activeIndex = round(indexInterp);
-    activeLocation = &locations[activeIndex];
-    
-    // get the percent distance (0 - 0.5) to the nearest point
-    percentToActive = indexInterp - activeIndex;
-    if (activeIndex > indexInterp)
-        percentToActive = activeIndex - indexInterp;
-    // set the nearest point to active if it's nearer than a certain threshold
-    if (percentToActive < locationThreshold)
-        activeLocation->isActive = true;
 }
 
 void Route::draw(ofCamera& cam) {
-    ofDisableDepthTest();
-    ofSetColor(180, 0, 0);
-    ofPushMatrix();
-    {
-        ofTranslate(0, 0, 0);
-        ofSetLineWidth(5);
-        routeRender.draw();
-        ofSetLineWidth(1);
+    
+    if (activeProject == 0) {
+        
+        ofDisableDepthTest();
+        ofSetColor(180, 0, 0);
+        ofPushMatrix();
+        {
+            ofTranslate(0, 0, 0);
+            ofSetLineWidth(5);
+            routeRenderLeft.draw();
+            ofSetLineWidth(1);
+        }
+        ofPopMatrix();
+        ofSetColor(255);
+        for (auto &location: locationsLeft) {
+            location.draw(cam);
+        }
+        ofEnableDepthTest();
+        
+    } else {
+        ofDisableDepthTest();
+        ofSetColor(180, 0, 0);
+        ofPushMatrix();
+        {
+            ofTranslate(0, 0, 0);
+            ofSetLineWidth(5);
+            routeRenderRight.draw();
+            ofSetLineWidth(1);
+        }
+        ofPopMatrix();
+        ofSetColor(255);
+        for (auto &location: locationsRight) {
+            location.draw(cam);
+        }
+        ofEnableDepthTest();
     }
-    ofPopMatrix();
-    ofSetColor(255);
-    for (auto &location: locations) {
-        location.draw(cam);
-    }
-    ofEnableDepthTest();
 }
 
 void Route::draw2d() {
-    for (auto &location: locations) {
-        location.draw2d();
+    if (activeProject == 0) {
+        for (auto &location: locationsLeft) {
+            location.draw2d();
+        }
+    } else {
+        for (auto &location: locationsRight) {
+            location.draw2d();
+        }
     }
 }
 
@@ -98,7 +167,9 @@ void Route::draw2d() {
 // path is the directory that holds a route.xml file
 // posOffset is the position offset of the first tile from ofxVectorBuilder.h
 //
-void Route::load(string path, ofVec3f posOffset) {
+void Route::loadLeft(string path, ofVec3f posOffset) {
+    
+    activeProject = 0;
     
     if(!xml.loadFile(path + "/route.xml") ){
         ofLogError() << "Can't load " << path << " in Route::load";
@@ -106,7 +177,7 @@ void Route::load(string path, ofVec3f posOffset) {
     }
     
     folderPath = path;
-    titleFont.load("fonts/Helvetica.dfont", 40);
+    titleFont.load("fonts/PlainMed", 40);
     
     contentImages[0].load(path + "/detail/Content_Text.png");
     contentImages[1].load(path + "/detail/Content_3D.png");
@@ -115,13 +186,13 @@ void Route::load(string path, ofVec3f posOffset) {
     contentImages[4].load(path + "/detail/Content_Sound.png");
     
     flushData();
-    populateLocations();
+    populateLocationsLeft();
     
     latRange.set("lat range", 0, 999, -999);
     lonRange.set("lon range", 0, 999, -999);
     
     int i = 0;
-    for (auto &location: locations) {
+    for (auto &location: locationsLeft) {
         
         if (location.contentImages.size() > 0)
             location.contentImages.clear();
@@ -132,12 +203,12 @@ void Route::load(string path, ofVec3f posOffset) {
         location.position.set((lon2x(location.getLon()) - posOffset.x), (lat2y(location.getLat()) - posOffset.y));
         // add the oF position of the location to the route polylines
         // route render is just for drawing, don't add the black ones as they're just zoomed out overviews
-        //JRW - if (location.title != "") routeRender.addVertex(location.position);
-        if (location.title == "") routeRender.addVertex(location.position);
+        //if (location.title != "") routeRender.addVertex(location.position);
+        if (location.title == "") routeRenderLeft.addVertex(location.position);
         // route is the actual route
-        route.addVertex(location.position);
+        routeLeft.addVertex(location.position);
         // route inverse is used to shift the whole mesh along an inverted path so that the camera can stay fixed.
-        routeInverse.addVertex(location.position * -1);
+        routeInverseLeft.addVertex(location.position * -1);
         location.index = i;
         
         // store the tile x/y so that we can reference it later in order to higlight it
@@ -156,13 +227,83 @@ void Route::load(string path, ofVec3f posOffset) {
     }
     
     i = 0;
-    float totalLength = route.getLengthAtIndex(locations.size()-1);
-    for (auto &location: locations) {
-        location.routePercent = route.getLengthAtIndex(i) / totalLength;
+    float totalLength = routeLeft.getLengthAtIndex(locationsLeft.size()-1);
+    for (auto &location: locationsLeft) {
+        location.routePercent = routeLeft.getLengthAtIndex(i) / totalLength;
         i++;
     }
     
-    activeLocation = &locations[0];
+    activeLocation = &locationsLeft[0];
+    activeLocation->isActive = true;
+}
+
+void Route::loadRight(string path, ofVec3f posOffset) {
+    
+    activeProject = 1;
+    
+    if(!xml.loadFile(path + "/route.xml") ){
+        ofLogError() << "Can't load " << path << " in Route::load";
+        return;
+    }
+    
+    folderPath = path;
+    titleFont.load("fonts/PlainMed", 40);
+    
+    contentImages[0].load(path + "/detail/Content_Text.png");
+    contentImages[1].load(path + "/detail/Content_3D.png");
+    contentImages[2].load(path + "/detail/Content_Video.png");
+    contentImages[3].load(path + "/detail/Content_Newsclips.png");
+    contentImages[4].load(path + "/detail/Content_Sound.png");
+    
+    flushData();
+    populateLocationsRight();
+    
+    latRange.set("lat range", 0, 999, -999);
+    lonRange.set("lon range", 0, 999, -999);
+    
+    int i = 0;
+    for (auto &location: locationsRight) {
+        
+        if (location.contentImages.size() > 0)
+            location.contentImages.clear();
+        
+        // use glmGeo.h helpers to convert lon and lat into oF friendly points
+        // these will match up with the dimensions/coordinates used in the tile meshes
+        // the offset accounts for the starting position of the first tile
+        location.position.set((lon2x(location.getLon()) - posOffset.x), (lat2y(location.getLat()) - posOffset.y));
+        // add the oF position of the location to the route polylines
+        // route render is just for drawing, don't add the black ones as they're just zoomed out overviews
+        //if (location.title != "") routeRender.addVertex(location.position);
+        if (location.title == "") routeRenderRight.addVertex(location.position);
+        // route is the actual route
+        routeRight.addVertex(location.position);
+        // route inverse is used to shift the whole mesh along an inverted path so that the camera can stay fixed.
+        routeInverseRight.addVertex(location.position * -1);
+        location.index = i;
+        
+        // store the tile x/y so that we can reference it later in order to higlight it
+        location.tilePos.set(long2tilex(location.getLon(), 16), lat2tiley(location.getLat(), 16));
+        
+        lonRange.setMin(MIN(location.latlon.x, lonRange.getMin()));
+        lonRange.setMax(MAX(location.latlon.x, lonRange.getMax()));
+        latRange.setMin(MIN(location.latlon.y, latRange.getMin()));
+        latRange.setMax(MAX(location.latlon.y, latRange.getMax()));
+        
+        for (auto & image: contentImages) {
+            location.contentImages.push_back(&image);
+        }
+        
+        i++;
+    }
+    
+    i = 0;
+    float totalLength = routeRight.getLengthAtIndex(locationsRight.size()-1);
+    for (auto &location: locationsRight) {
+        location.routePercent = routeRight.getLengthAtIndex(i) / totalLength;
+        i++;
+    }
+    
+    activeLocation = &locationsRight[0];
     activeLocation->isActive = true;
 }
 
@@ -178,10 +319,18 @@ Location* Route::getLocation() {
 // based on the current percent along the route
 //
 ofPoint Route::getPosition(bool doInvert) {
-    if (doInvert)
-        return routeInverse.getPointAtPercent(percent);
-    else
-        return route.getPointAtPercent(percent);
+    if (activeProject == 0) {
+        if (doInvert)
+            return routeInverseLeft.getPointAtPercent(percent);
+        else
+            return routeLeft.getPointAtPercent(percent);
+    }
+    else {
+        if (doInvert)
+            return routeInverseLeft.getPointAtPercent(percent);
+        else
+            return routeLeft.getPointAtPercent(percent);
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -196,7 +345,44 @@ ofPoint Route::getPosition(bool doInvert) {
 // creates Location objects from the specified xml file
 // adds them to the locations vector
 //
-void Route::populateLocations() {    
+void Route::populateLocationsLeft() {
+    xml.pushTag("route");
+    int numLocationTags = xml.getNumTags("location");
+    for (int i=0; i < numLocationTags; i++) {
+        xml.pushTag("location", i);
+        Location location;
+        location.titleFont = &titleFont;
+        location.setup(xml.getValue("title", ""));
+        location.latlon.set(xml.getValue("lat", 0.0f), xml.getValue("lon", 0.0f));
+        location.camDistance = xml.getValue("camera:distance", 8000);
+        location.camRotation.set(
+                                 xml.getValue("camera:xrot", -45),
+                                 xml.getValue("camera:yrot", 0),
+                                 xml.getValue("camera:zrot", 30));
+        
+        // images / media
+        string filename = xml.getValue("titleImg", "");
+        if (filename != "")
+            location.labelImage.load(folderPath + "/labels/" + filename);
+        
+        /*
+         filename = xml.getValue("detailImg", "");
+         if (filename != "") {
+         location.contentImage.load(folderPath + "/detail/" + filename);
+         location.contentImage.resize(800, 800);
+         }
+         */
+        
+        locationsLeft.push_back(location);
+        
+        ofLogVerbose() << "location " << location.title << " " << location.latlon.x << "," << location.latlon.y;
+        
+        xml.popTag();
+    }
+    xml.popTag();
+}
+
+void Route::populateLocationsRight() {
     xml.pushTag("route");
     int numLocationTags = xml.getNumTags("location");
     for (int i=0; i < numLocationTags; i++) {
@@ -224,7 +410,7 @@ void Route::populateLocations() {
         }
          */
         
-        locations.push_back(location);
+        locationsRight.push_back(location);
         
         ofLogVerbose() << "location " << location.title << " " << location.latlon.x << "," << location.latlon.y;
         
