@@ -134,6 +134,7 @@ void ofApp::setupWorldColors() {
     // directional light - even spread across all objects
     light.setDirectional();
     light.setOrientation(ofVec3f(180, 0, 0));
+    light.setDiffuseColor(ofFloatColor(0.84, 0.8, 0.79));
     
     // color for world objects
     if (!bColorInvert) {
