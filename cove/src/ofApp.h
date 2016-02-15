@@ -15,13 +15,14 @@
 #include "TileLoader.h"
 #include "Route.h"
 #include "InterestPoints.h"
+#include "ofxButton.h"
+#include "InteractiveMenu.h"
 
 class ofApp : public ofBaseApp{
 public:
     void setup();
     void setupGui();
     void setupWorldColors();
-    void routeLoad(int selection);
     void update();
     void draw();
     void drawDebugMsg();
@@ -67,8 +68,14 @@ public:
     float mapY;
     float camDistance;
     
+    // system pieces
+    void loadProject(int selection);
+    void loadPoint(int point);
+    void loadContent(int item);
+    void worldTransform(float distance, float distEase, ofVec3f rotation, float rotEase);
+    
     // automatic system
-    void autoSystem();
+    void automatedSystem();
     bool systemActive;
     bool routeSelected;
     bool systemTimerPaused;
@@ -94,6 +101,9 @@ public:
     
     // scroller
     IFS::Scrollable scroller;
+    
+    // menu
+    InteractiveMenu menu;
     
     // GUI
     ofxDatGui* gui;

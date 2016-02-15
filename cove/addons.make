@@ -3,3 +3,4 @@ ofxGui
 ofxJSON
 ofxVectorTile
 ofxXmlSettings
+ofxMSAInteractiveObject

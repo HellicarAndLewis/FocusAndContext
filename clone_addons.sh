@@ -24,6 +24,7 @@ ${CLONE}jefftimesten/ofxJSON
 ${CLONE}patriciogonzalezvivo/ofxGlmTools
 # ${CLONE}tangrams/ofxVectorTile
 ${CLONE}jeonghopark/ofxVectorTile
+${CLONE}memo/ofxMSAInteractiveObject
 # cd ofxVectorTile
 # git checkout ???
 # cd ..

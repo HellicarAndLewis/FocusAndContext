@@ -100,7 +100,7 @@ void Route::draw2d() {
 //
 void Route::load(string path, ofVec3f posOffset) {
     
-    if(!xml.loadFile(path + "/routeedit.xml") ){
+    if(!xml.loadFile(path + "/route.xml") ){
         ofLogError() << "Can't load " << path << " in Route::load";
         return;
     }

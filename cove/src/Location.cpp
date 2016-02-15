@@ -34,10 +34,6 @@ void Location::setup(string title) {
     else {
         hasLabel = false;
     }
-    
-//    // defaults alpha to 0
-//    percentOpenLabel = 1.0;
-//    percentOpen = 1.0;
 }
 
 void Location::update() {
