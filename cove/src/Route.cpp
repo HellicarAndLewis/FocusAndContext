@@ -92,23 +92,19 @@ void Route::update(float percent) {
 
 void Route::draw(ofCamera& cam) {
     
-    // lerp colors and alpha
+    // lerp alpha values
     if (activeProject == 0) {
-        colorLeft = ofLerp(colorLeft, 180, 0.1);
         alphaLeft = ofLerp(alphaLeft, 255, 0.1);
-        colorRight = ofLerp(colorRight, 0, 0.1);
         alphaRight = ofLerp(alphaRight, 0, 0.1);
     } else {
-        colorLeft = ofLerp(colorLeft, 0, 0.1);
         alphaLeft = ofLerp(alphaLeft, 0, 0.1);
-        colorRight = ofLerp(colorRight, 180, 0.1);
         alphaRight = ofLerp(alphaRight, 255, 0.1);
     }
     
     // draw hs1/left project route
-    if (colorLeft > 0.2) {
+    if (alphaLeft > 0.2) {
         ofDisableDepthTest();
-        ofSetColor(colorLeft, 0, 0, alphaLeft);
+        ofSetColor(180, 0, 0, alphaLeft);
         ofPushMatrix();
         {
             ofTranslate(0, 0, 0);
@@ -125,9 +121,9 @@ void Route::draw(ofCamera& cam) {
     }
     
     // draws crossrail/right project route
-    if (colorRight > 0.2) {
+    if (alphaRight > 0.2) {
         ofDisableDepthTest();
-        ofSetColor(colorRight, 0, 0, alphaRight);
+        ofSetColor(180, 0, 0, alphaRight);
         ofPushMatrix();
         {
             ofTranslate(0, 0, 0);

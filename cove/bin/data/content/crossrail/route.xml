@@ -118,13 +118,6 @@
     </location>
     <location>
         <title></title>
-        <lat>-0.14820</lat>
-        <lon>51.51324</lon>
-        <titleImg></titleImg>
-        <detailImg></detailImg>
-    </location>
-    <location>
-        <title></title>
         <lat>-0.14019</lat>
         <lon>51.51395</lon>
         <titleImg></titleImg>
@@ -139,13 +132,6 @@
     </location>
     <location>
         <title></title>
-        <lat>-0.13636</lat>
-        <lon>51.51482</lon>
-        <titleImg></titleImg>
-        <detailImg></detailImg>
-    </location>
-    <location>
-        <title></title>
         <lat>-0.13415</lat>
         <lon>51.51499</lon>
         <titleImg></titleImg>
@@ -153,52 +139,10 @@
     </location>
     <location>
         <title>Tottenham Court Road</title>
-        <lat>-0.1329054</lat>
-        <lon>51.51496</lon>
+        <lat>-0.1328847</lat>
+        <lon>51.516275</lon>
         <titleImg>TCR.png</titleImg>
         <detailImg>TCR.png</detailImg>
-    </location>
-    <location>
-        <title></title>
-        <lat>-0.13012</lat>
-        <lon>51.51495</lon>
-        <titleImg></titleImg>
-        <detailImg></detailImg>
-    </location>
-    <location>
-        <title></title>
-        <lat>-0.12800</lat>
-        <lon>51.51472</lon>
-        <titleImg></titleImg>
-        <detailImg></detailImg>
-    </location>
-    <location>
-        <title></title>
-        <lat>-0.12675</lat>
-        <lon>51.51461</lon>
-        <titleImg></titleImg>
-        <detailImg></detailImg>
-    </location>
-    <location>
-        <title></title>
-        <lat>-0.12554</lat>
-        <lon>51.51470</lon>
-        <titleImg></titleImg>
-        <detailImg></detailImg>
-    </location>
-    <location>
-        <title></title>
-        <lat>-0.12417</lat>
-        <lon>51.51510</lon>
-        <titleImg></titleImg>
-        <detailImg></detailImg>
-    </location>
-    <location>
-        <title></title>
-        <lat>-0.12324</lat>
-        <lon>51.51573</lon>
-        <titleImg></titleImg>
-        <detailImg></detailImg>
     </location>
     <location>
         <title></title>
@@ -257,16 +201,9 @@
         <detailImg></detailImg>
     </location>
     <location>
-        <title></title>
-        <lat>-0.09948</lat>
-        <lon>51.52024</lon>
-        <titleImg></titleImg>
-        <detailImg></detailImg>
-    </location>
-    <location>
         <title>Barbican</title>
-        <lat>-0.09709</lat>
-        <lon>51.52024</lon>
+        <lat>-0.0997933</lat>
+        <lon>51.5201825</lon>
         <titleImg>Barbican.png</titleImg>
         <detailImg>Barbican.png</detailImg>
     </location>
@@ -420,7 +357,7 @@
     <location>
         <title>Canary Wharf</title>
         <lat>-0.0203525</lat>
-        <lon>51.5044829</lon>
+        <lon>51.5059261</lon>
         <titleImg>Canary Wharf.png</titleImg>
         <detailImg>Canary Wharf.png</detailImg>
     </location>
@@ -496,8 +433,8 @@
     </location>
     <location>
         <title>Custom House</title>
-        <lat>0.026730</lat>
-        <lon>51.509733</lon>
+        <lat>0.0266709</lat>
+        <lon>51.5099393</lon>
         <titleImg>Custom House.png</titleImg>
         <detailImg>Custom House.png</detailImg>
     </location>
@@ -579,44 +516,16 @@
         <detailImg></detailImg>
     </location>
     <location>
-        <title></title>
-        <lat>0.0688</lat>
-        <lon>51.4924</lon>
-        <titleImg></titleImg>
-        <detailImg></detailImg>
-    </location>
-    <location>
-        <title></title>
-        <lat>0.0751</lat>
-        <lon>51.4910</lon>
-        <titleImg></titleImg>
-        <detailImg></detailImg>
-    </location>
-    <location>
-        <title></title>
-        <lat>0.0828</lat>
-        <lon>51.4909</lon>
-        <titleImg></titleImg>
-        <detailImg></detailImg>
-    </location>
-    <location>
-        <title></title>
-        <lat>0.0859</lat>
-        <lon>51.4902</lon>
-        <titleImg></titleImg>
-        <detailImg></detailImg>
-    </location>
-    <location>
         <title>Woolwich</title>
-        <lat>0.0926</lat>
-        <lon>51.4900</lon>
+        <lat>0.0688073</lat>
+        <lon>51.4898968</lon>
         <titleImg>Woolwich.png</titleImg>
         <detailImg>Woolwich.png</detailImg>
     </location>
     <location>
         <title></title>
         <lat>0.0932</lat>
-        <lon>51.4900</lon>
+        <lon>51.4800</lon>
         <titleImg></titleImg>
         <detailImg></detailImg>
     </location>

@@ -28,11 +28,11 @@ void InteractiveMenu::setup(float _mainArea, float _subArea, float _padding, flo
         
         switch (i) {
             case 0:
-                objsLeft[i].title = ofToString("Stratford");
+                objsLeft[i].title = ofToString("St Pancras");
                 break;
                 
             case 1:
-                objsLeft[i].title = ofToString("St Pancras");
+                objsLeft[i].title = ofToString("Stratford");
                 break;
                 
             case 2:
@@ -40,11 +40,11 @@ void InteractiveMenu::setup(float _mainArea, float _subArea, float _padding, flo
                 break;
                 
             case 3:
-                objsLeft[i].title = ofToString("Warwick Gardens");
+                objsLeft[i].title = ofToString("Ashford International");
                 break;
                 
             case 4:
-                objsLeft[i].title = ofToString("Noise Mitigation");
+                objsLeft[i].title = ofToString("Warwick Gardens");
                 break;
         }
     }
@@ -64,19 +64,19 @@ void InteractiveMenu::setup(float _mainArea, float _subArea, float _padding, flo
 
         switch (i) {
             case 4:
-                objsRight[i].title = ofToString("Barbican");
-                break;
-                
-            case 3:
                 objsRight[i].title = ofToString("Tottenham Ct Rd");
                 break;
                 
+            case 3:
+                objsRight[i].title = ofToString("Barbican");
+                break;
+                
             case 2:
-                objsRight[i].title = ofToString("Custom House");
+                objsRight[i].title = ofToString("Canary Wharf");
                 break;
                 
             case 1:
-                objsRight[i].title = ofToString("Canary Wharf");
+                objsRight[i].title = ofToString("Custom House");
                 break;
                 
             case 0:

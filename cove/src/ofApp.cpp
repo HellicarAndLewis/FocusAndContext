@@ -280,8 +280,8 @@ void ofApp::automatedSystem() {
                 if (currentPoint != pointJump) currentPoint = pointJump;
                 
                 if (elapsedTime > 10) {
-//                    camDistance = ofLerp(camDistance, 2000, 0.02);
-//                    sceneRotation.x = ofLerp(sceneRotation.x, -60, 0.02);
+                    //camDistance = ofLerp(camDistance, 2000, 0.02);
+                    //sceneRotation.x = ofLerp(sceneRotation.x, -60, 0.02);
                     
                     worldTransform(6000, 0.05, ofVec3f(-70, 0, 0), 0.02);
                     
@@ -419,6 +419,15 @@ void ofApp::update(){
     
     // update menu
     menu.update();
+    
+    // menu button check
+    for (int i = 0; i < BUTTON_AMT; i++) {
+        if (menu.bLeftActive[i] && menu.buttonClicked)
+            loadPoint(i);
+        
+        if (menu.bRightActive[i] && menu.buttonClicked)
+            loadPoint(4-i);
+    }
 }
 
 void ofApp::draw(){
@@ -597,16 +606,18 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e) {
     else if (e.target->is("show debug")) {
         bDebugMsg = !bDebugMsg;
     }
-//    else {
-//        for (auto &location: route.locations) {
-//            if (e.target->is(location.title)) {
-//                location.isActive = true;
-//                setLon(location.getLon());
-//                setLat(location.getLat());
-//                scroller.scrollTo(location.routePercent);
-//            }
-//        }
-//    }
+    /*
+    else {
+        for (auto &location: route.locations) {
+            if (e.target->is(location.title)) {
+                location.isActive = true;
+                setLon(location.getLon());
+                setLat(location.getLat());
+                scroller.scrollTo(location.routePercent);
+            }
+        }
+    }
+     */
     
     ofLogVerbose() << "onButtonEvent: " << e.target->getLabel() << " " << e.target->getEnabled() << endl;
 }
@@ -678,10 +689,6 @@ void ofApp::keyPressed(int key) {
             pointJump--;
             if (pointJump < 0) pointJump = intPoints.size()-1;
             loadPoint(pointJump);
-            break;
-            
-        case 'c':
-            loadContent(0);
             break;
     }
 }

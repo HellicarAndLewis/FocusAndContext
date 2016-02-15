@@ -42,8 +42,6 @@ public:
     float percent;
     float length;
     float locationThreshold;
-    float colorLeft;
-    float colorRight;
     float alphaLeft;
     float alphaRight;
     bool isAlpha;

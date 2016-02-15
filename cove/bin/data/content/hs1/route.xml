@@ -12,9 +12,9 @@
         </camera>
     </location>
     <location>
-        <title>St Pancras International</title>
-        <lat>-0.126133</lat>
-        <lon>51.531420</lon>
+        <title>St Pancras</title>
+        <lat>-0.125823</lat>
+        <lon>51.529976</lon>
         <titleImg>TCR.png</titleImg>
         <detailImg>TCR.png</detailImg>
     </location>
@@ -215,16 +215,9 @@
         <detailImg>TCR.png</detailImg>
     </location>
     <location>
-        <title>Stratford International - Olympics</title>
-        <lat>-0.00873</lat>
-        <lon>51.5446</lon>
-        <titleImg>TCR.png</titleImg>
-        <detailImg>TCR.png</detailImg>
-    </location>
-    <location>
-        <title></title>
-        <lat>-0.0003</lat>
-        <lon>51.5446</lon>
+        <title>Stratford International</title>
+        <lat>-0.009882</lat>
+        <lon>51.544306</lon>
         <titleImg>TCR.png</titleImg>
         <detailImg>TCR.png</detailImg>
     </location>
@@ -740,9 +733,9 @@
         <detailImg>TCR.png</detailImg>
     </location>
     <location>
-        <title>Ebbsfleet International</title>
-        <lat>0.321070</lat>
-        <lon>51.443040</lon>
+        <title>Ebbsfleet</title>
+        <lat>0.320921</lat>
+        <lon>51.442961</lon>
         <titleImg>TCR.png</titleImg>
         <detailImg>TCR.png</detailImg>
     </location>
@@ -1497,8 +1490,8 @@
     </location>
     <location>
         <title>Ashford International</title>
-        <lat>0.875225</lat>
-        <lon>51.143389</lon>
+        <lat>0.873628</lat>
+        <lon>51.143673</lon>
         <titleImg>TCR.png</titleImg>
         <detailImg>TCR.png</detailImg>
     </location>
@@ -1706,7 +1699,7 @@
         <detailImg>TCR.png</detailImg>
     </location>
     <location>
-        <title></title>
+        <title>Last Stop</title>
         <lat>1.1181</lat>
         <lon>51.0924</lon>
         <titleImg>TCR.png</titleImg>
