@@ -139,6 +139,7 @@ void ofApp::setupWorldColors() {
     // directional light - even spread across all objects
     light.setDirectional();
     light.setOrientation(ofVec3f(180, 0, 0));
+    // lighting color
     light.setDiffuseColor(ofFloatColor(0.84, 0.8, 0.79));
     
     // color for world objects
@@ -737,7 +738,7 @@ void ofApp::mouseReleased(int x, int y, int button){
 
 void ofApp::windowResized(int w, int h){
     fbo.allocate(w,h);
-    //scroller.setup();
+    scroller.setup();
 }
 
 void ofApp::gotMessage(ofMessage msg){
