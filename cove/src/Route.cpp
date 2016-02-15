@@ -21,30 +21,17 @@ void Route::setup() {
 
 void Route::flushData() {
     
+    // flush data depending on which project/route
     if (activeProject == 0) {
-        if (routeLeft.size() > 0)
-            routeLeft.clear();
-        
-        if (routeRenderLeft.size() > 0)
-            routeRenderLeft.clear();
-        
-        if (routeInverseLeft.size() > 0)
-            routeInverseLeft.clear();
-        
-        if (locationsLeft.size() > 0)
-            locationsLeft.clear();
+        if (routeLeft.size() > 0) routeLeft.clear();
+        if (routeRenderLeft.size() > 0) routeRenderLeft.clear();
+        if (routeInverseLeft.size() > 0) routeInverseLeft.clear();
+        if (locationsLeft.size() > 0) locationsLeft.clear();
     } else {
-        if (routeRight.size() > 0)
-            routeRight.clear();
-        
-        if (routeRenderRight.size() > 0)
-            routeRenderRight.clear();
-        
-        if (routeInverseRight.size() > 0)
-            routeInverseRight.clear();
-        
-        if (locationsRight.size() > 0)
-            locationsRight.clear();
+        if (routeRight.size() > 0) routeRight.clear();
+        if (routeRenderRight.size() > 0) routeRenderRight.clear();
+        if (routeInverseRight.size() > 0) routeInverseRight.clear();
+        if (locationsRight.size() > 0) locationsRight.clear();
     }
 }
 
@@ -53,7 +40,7 @@ void Route::update(float percent) {
     // store overall route percent
     this->percent = percent;
     
-    // update active location
+    // update active location per project/route
     if (activeProject == 0) {
         for (auto &location: locationsLeft) {
             location.update();
@@ -74,11 +61,9 @@ void Route::update(float percent) {
         
         // get the percent distance (0 - 0.5) to the nearest point
         percentToActive = indexInterp - activeIndex;
-        if (activeIndex > indexInterp)
-            percentToActive = activeIndex - indexInterp;
+        if (activeIndex > indexInterp) percentToActive = activeIndex - indexInterp;
         // set the nearest point to active if it's nearer than a certain threshold
-        if (percentToActive < locationThreshold)
-            activeLocation->isActive = true;
+        if (percentToActive < locationThreshold) activeLocation->isActive = true;
     } else {
         for (auto &location: locationsRight) {
             location.update();
@@ -99,20 +84,31 @@ void Route::update(float percent) {
         
         // get the percent distance (0 - 0.5) to the nearest point
         percentToActive = indexInterp - activeIndex;
-        if (activeIndex > indexInterp)
-            percentToActive = activeIndex - indexInterp;
+        if (activeIndex > indexInterp) percentToActive = activeIndex - indexInterp;
         // set the nearest point to active if it's nearer than a certain threshold
-        if (percentToActive < locationThreshold)
-            activeLocation->isActive = true;
+        if (percentToActive < locationThreshold) activeLocation->isActive = true;
     }
 }
 
 void Route::draw(ofCamera& cam) {
     
+    // lerp colors and alpha
     if (activeProject == 0) {
-        
+        colorLeft = ofLerp(colorLeft, 180, 0.1);
+        alphaLeft = ofLerp(alphaLeft, 255, 0.1);
+        colorRight = ofLerp(colorRight, 0, 0.1);
+        alphaRight = ofLerp(alphaRight, 0, 0.1);
+    } else {
+        colorLeft = ofLerp(colorLeft, 0, 0.1);
+        alphaLeft = ofLerp(alphaLeft, 0, 0.1);
+        colorRight = ofLerp(colorRight, 180, 0.1);
+        alphaRight = ofLerp(alphaRight, 255, 0.1);
+    }
+    
+    // draw hs1/left project route
+    if (colorLeft > 0.2) {
         ofDisableDepthTest();
-        ofSetColor(180, 0, 0);
+        ofSetColor(colorLeft, 0, 0, alphaLeft);
         ofPushMatrix();
         {
             ofTranslate(0, 0, 0);
@@ -126,10 +122,12 @@ void Route::draw(ofCamera& cam) {
             location.draw(cam);
         }
         ofEnableDepthTest();
-        
-    } else {
+    }
+    
+    // draws crossrail/right project route
+    if (colorRight > 0.2) {
         ofDisableDepthTest();
-        ofSetColor(180, 0, 0);
+        ofSetColor(colorRight, 0, 0, alphaRight);
         ofPushMatrix();
         {
             ofTranslate(0, 0, 0);
@@ -147,6 +145,7 @@ void Route::draw(ofCamera& cam) {
 }
 
 void Route::draw2d() {
+    // draw tiles based on which project/route
     if (activeProject == 0) {
         for (auto &location: locationsLeft) {
             location.draw2d();
@@ -194,8 +193,7 @@ void Route::loadLeft(string path, ofVec3f posOffset) {
     int i = 0;
     for (auto &location: locationsLeft) {
         
-        if (location.contentImages.size() > 0)
-            location.contentImages.clear();
+        if (location.contentImages.size() > 0) location.contentImages.clear();
         
         // use glmGeo.h helpers to convert lon and lat into oF friendly points
         // these will match up with the dimensions/coordinates used in the tile meshes
@@ -203,7 +201,6 @@ void Route::loadLeft(string path, ofVec3f posOffset) {
         location.position.set((lon2x(location.getLon()) - posOffset.x), (lat2y(location.getLat()) - posOffset.y));
         // add the oF position of the location to the route polylines
         // route render is just for drawing, don't add the black ones as they're just zoomed out overviews
-        //if (location.title != "") routeRender.addVertex(location.position);
         if (location.title == "") routeRenderLeft.addVertex(location.position);
         // route is the actual route
         routeLeft.addVertex(location.position);
@@ -264,8 +261,7 @@ void Route::loadRight(string path, ofVec3f posOffset) {
     int i = 0;
     for (auto &location: locationsRight) {
         
-        if (location.contentImages.size() > 0)
-            location.contentImages.clear();
+        if (location.contentImages.size() > 0) location.contentImages.clear();
         
         // use glmGeo.h helpers to convert lon and lat into oF friendly points
         // these will match up with the dimensions/coordinates used in the tile meshes
@@ -362,8 +358,7 @@ void Route::populateLocationsLeft() {
         
         // images / media
         string filename = xml.getValue("titleImg", "");
-        if (filename != "")
-            location.labelImage.load(folderPath + "/labels/" + filename);
+        if (filename != "") location.labelImage.load(folderPath + "/labels/" + filename);
         
         /*
          filename = xml.getValue("detailImg", "");
@@ -399,8 +394,7 @@ void Route::populateLocationsRight() {
         
         // images / media
         string filename = xml.getValue("titleImg", "");
-        if (filename != "")
-            location.labelImage.load(folderPath + "/labels/" + filename);
+        if (filename != "") location.labelImage.load(folderPath + "/labels/" + filename);
         
         /*
         filename = xml.getValue("detailImg", "");
