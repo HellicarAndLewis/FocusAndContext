@@ -161,8 +161,8 @@ void ofApp::setupWorldColors() {
         materialBuildingsActive.setDiffuseColor(ofFloatColor(1-.7, 1-.0, 1-.0));
     }
     
-    materialWater.setAmbientColor(ofFloatColor(0,.8,1));
-    materialWater.setDiffuseColor(ofFloatColor(0,.8,1));
+    materialWater.setAmbientColor(ofFloatColor(0.435294, 0.788235, 0.933333));
+    materialWater.setDiffuseColor(ofFloatColor(0.435294, 0.788235, 0.933333));
 }
 
 void ofApp::automatedSystem() {

@@ -15,7 +15,6 @@
 #include "TileLoader.h"
 #include "Route.h"
 #include "InterestPoints.h"
-#include "ofxButton.h"
 #include "InteractiveMenu.h"
 
 class ofApp : public ofBaseApp{
