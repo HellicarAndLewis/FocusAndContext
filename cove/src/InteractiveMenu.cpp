@@ -1,3 +1,12 @@
+//
+//  InteractiveMenu.cpp
+//  Cove
+//
+//  Created by Jason Walters on 13/02/2016.
+//  Last edited by Jason Walters on 16/02/2016.
+//
+//
+
 #include "InteractiveMenu.h"
 
 //--------------------------------------------------------------

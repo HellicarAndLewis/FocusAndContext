@@ -2,8 +2,8 @@
     <!-- This is a special location with no content and is used to add a map overview to the scrollbar -->
     <location>
         <title>Camera</title>
-        <lat>-0.0347</lat>
-        <lon>51.5040</lon>
+        <lat>-0.009882</lat>
+        <lon>51.544306</lon>
         <camera>
         	<xrot>0</xrot>
         	<yrot>0</yrot>

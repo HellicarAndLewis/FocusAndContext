@@ -3,7 +3,7 @@
 //  Cove
 //
 //  Created by Chris Mullany on 14/01/2016.
-//  Last edited by Jason Walters on 15/02/2016.
+//  Last edited by Jason Walters on 16/02/2016.
 //
 //
 
@@ -22,7 +22,6 @@ void ofApp::setup() {
     cam.setFarClip(120000);
     cam.setDistance(16000);
     cam.setPosition(-1654.83, 1797.08, cam.getDistance());
-    cam.enableMouseInput();
     
     // init world colors
     setupWorldColors();
@@ -69,14 +68,19 @@ void ofApp::setup() {
     route.loadLeft("content/hs1", tileLoader.builder.getOffset());
     route.loadRight("content/crossrail", tileLoader.builder.getOffset());
     
-    loadProject(0); // 0: High Speed 1, 1: Crossrail
-    
     // setup gui
     setupGui();
-    showGui();
+    showGui(!gui->getVisible());
     
     // setup menu
     menu.setup(112, 100, 40, 0.1, 0.1);
+    menu.rightOn = false;
+    menu.objRight.isSelected = false;
+    menu.leftOn = true;
+    menu.objLeft.isSelected = true;
+    isCam = true;
+    
+    loadProject(0); // 0: High Speed 1, 1: Crossrail
 }
 
 void ofApp::setupGui() {
@@ -87,10 +91,10 @@ void ofApp::setupGui() {
     gui->addToggle("toggle fullscreen", false);
     gui->addToggle("automated system", false);
     gui->addToggle("invert colors", false);
-    gui->addToggle("show debug", true);
+    gui->addToggle("show debug", false);
     
     // Camera control
-    gui->addToggle("cam mouse", true);
+    gui->addToggle("cam mouse", false);
     auto slider = gui->addSlider("cam rot x", -90, 90);
     slider->bind(sceneRotation.x, -90, 90);
     slider = gui->addSlider("cam rot y", -90, 90);
@@ -196,12 +200,14 @@ void ofApp::automatedSystem() {
         // reset elapsed time to zero
         elapsedTime = 0.0;
     }
-    
+
+    /*
     if (currentInterval != 0) {
         // get the active tile and colour it
         ofPoint activeTilePos = route.getLocation()->tilePos;
         tileLoader.setActive(activeTilePos.x, activeTilePos.y);
     }
+     */
     
     Location & location = *route.getLocation();
     switch (currentInterval) {
@@ -213,21 +219,22 @@ void ofApp::automatedSystem() {
             
             if (location.getLon() == intPoints[currentInterestPoint].lon &&
                 location.getLat() == intPoints[currentInterestPoint].lat) {
-                    
+
                 dropCam = true;
                 currentInterestPoint++;
             }
-            
+
             if (dropCam) {
-                worldTransform(6000, 0.05, ofVec3f(0, 0, 0), 0.0);
-                location.isAlphaLabel = true;
-                
-                if (cam.getDistance() <= 8000) {
+                waveDistance = 10000;
+
+                if (cam.getDistance() <= 6000) {
                     dropCam = false;
                 }
             } else {
-                worldTransform(16000, 0.025, ofVec3f(0, 0, 0), 0.0);
+                waveDistance = 16000;
             }
+            
+            worldTransform(waveDistance, 0.02, route.getLocation()->camRotation, 0.02); //ofVec3f(0, 0, 0), 0.2);
             
             /*
             location.isAlphaLabel = true;
@@ -319,8 +326,9 @@ void ofApp::loadProject(int selection) {
             scroller.ticks.push_back(route.locationsLeft[i].routePercent);
         }
         
-        setLon(location.getLon());
-        setLat(location.getLat());
+        setLon(-0.009882);
+        setLat(51.5443);
+        
         scroller.scrollTo(location.routePercent);
         
         // clear POI vector if previously in use
@@ -337,6 +345,9 @@ void ofApp::loadProject(int selection) {
         }
         
     } else {
+        // load and init route
+        Location & location = *route.getLocation();
+        
         for (int i=0; i<route.locationsRight.size();  i++) {
             if (location.title != "" && location.title != "Camera") {
                 scroller.ticks.push_back(route.locationsRight[i].routePercent);
@@ -344,8 +355,8 @@ void ofApp::loadProject(int selection) {
             scroller.ticks.push_back(route.locationsRight[i].routePercent);
         }
         
-        setLon(location.getLon());
-        setLat(location.getLat());
+        setLon(-0.0347);
+        setLat(51.504);
         scroller.scrollTo(location.routePercent);
         
         // clear POI vector if previously in use
@@ -366,13 +377,13 @@ void ofApp::loadProject(int selection) {
 void ofApp::loadPoint(int point){
     setLon(intPoints[point].lon);
     setLat(intPoints[point].lat);
+    
+    // not a camera point
+    isCam = false;
 }
 
 void ofApp::loadContent(int item){
-    
-//    for (auto &location: route.locations) {
-//        location.contentImages[item]->draw(ofGetWidth()/2, ofGetHeight()/2);
-//    }
+    // content loading here...
 }
 
 void ofApp::worldTransform(float distance, float distEase, ofVec3f rotation, float rotEase){
@@ -398,24 +409,28 @@ void ofApp::update(){
     // update mesh target and if we're scrolling
     if (scroller.isScrolling) meshTarget = route.getPosition(true);
     
-    float amount = gui->getSlider("location lerp")->getValue();
-//    if (scroller.isEnabled()) {
-//        worldTransform(route.getLocation()->camDistance, amount, route.getLocation()->camRotation, amount);
-//    }
-//    
-    // lerp the actual mesh position to the target
-    meshPosition.x = ofLerp(meshPosition.x, meshTarget.x, amount);
-    meshPosition.y = ofLerp(meshPosition.y, meshTarget.y, amount);
-    
     // zoom in/out of points based on distance
     if (!systemActive) {
-        float dist = meshPosition.distance(meshTarget);
-        if (dist <= 100) {
-            worldTransform(6000, 0.02, ofVec3f(-70, 0, 0), 0.02);
+        // lerp the actual mesh position to the target
+        posLerp = 0.02;
+        
+        if (isCam) {
+            worldTransform(30000, 0.05, ofVec3f(0, 0, 0), 0.2);
         } else {
-            worldTransform(16000, 0.05, ofVec3f(0, 0, 0), 0.2);
+            float dist = meshPosition.distance(meshTarget);
+            if (dist <= 400) {
+                worldTransform(6000, 0.02, ofVec3f(-60, 0, 0), 0.02);
+            } else {
+                worldTransform(30000, 0.05, ofVec3f(0, 0, 0), 0.2);
+            }
         }
+    } else {
+        // lerp the actual mesh position to the target
+        posLerp = 0.008;
     }
+    
+    meshPosition.x = ofLerp(meshPosition.x, meshTarget.x, posLerp);
+    meshPosition.y = ofLerp(meshPosition.y, meshTarget.y, posLerp);
     
     if(bShader) {
         fbo.begin();
@@ -439,7 +454,9 @@ void ofApp::menuUpdates(){
         if (menu.bLeftActive[i] && menu.buttonClicked){
             loadPoint(i);
             menu.buttonClicked = false;
-        } else if (menu.bRightActive[i] && menu.buttonClicked){
+        }
+        
+        if (menu.bRightActive[i] && menu.buttonClicked){
             loadPoint((BUTTON_AMT-1)-i);
             menu.buttonClicked = false;
         }
@@ -488,6 +505,8 @@ void ofApp::drawDebugMsg(){
     ofDrawBitmapString("leftOn " + ofToString(menu.leftOn), ofGetWidth()-300, 440);
     ofDrawBitmapString("rightOn " + ofToString(menu.rightOn), ofGetWidth()-300, 460);
     ofDrawBitmapString("pointReached " + ofToString(pointReached), ofGetWidth()-300, 480);
+    ofDrawBitmapString("isCam " + ofToString(isCam), ofGetWidth()-300, 500);
+    ofDrawBitmapString("route.activeProject " + ofToString(route.activeProject), ofGetWidth()-300, 520);
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -736,6 +755,8 @@ void ofApp::mouseReleased(int x, int y, int button){
         menu.leftOn = !menu.leftOn;
         menu.objLeft.isSelected = !menu.objLeft.isSelected;
         
+        isCam = true;
+        
         // HS1
         loadProject(0);
     }
@@ -747,6 +768,8 @@ void ofApp::mouseReleased(int x, int y, int button){
         
         menu.rightOn = !menu.rightOn;
         menu.objRight.isSelected = !menu.objRight.isSelected;
+        
+        isCam = true;
         
         // Crossrail
         loadProject(1);

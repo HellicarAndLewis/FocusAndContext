@@ -43,6 +43,7 @@ void Location::update() {
     
     if (isAlpha) percentOpen = ofLerp(percentOpen, 0, 0.1);
     else percentOpen = ofLerp(percentOpen, 1.0, 0.1);
+//    cout << "alpha " << percentOpen << endl;
 }
 
 void Location::draw(ofCamera& cam) {

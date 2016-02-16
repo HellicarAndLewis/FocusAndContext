@@ -66,6 +66,7 @@ public:
     float mapX;
     float mapY;
     float camDistance;
+    float posLerp;
     
     // system pieces
     void loadProject(int selection);
@@ -80,10 +81,12 @@ public:
     bool systemTimerPaused;
     bool drawRoute2d;
     bool dropCam;
+    bool isCam;
     float elapsedTime;
     float maxTime;
     float elapsedTimeInterestPoints;
     float scrollPercent;
+    float waveDistance;
     int currentInterval;
     int maxInterval;
     int currentPoint;

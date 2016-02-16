@@ -1,3 +1,12 @@
+//
+//  InteractiveObject.h
+//  Cove
+//
+//  Created by Jason Walters on 13/02/2016.
+//  Last edited by Jason Walters on 16/02/2016.
+//
+//
+
 #pragma once
 
 #include "ofxMSAInteractiveObject.h"
@@ -19,7 +28,7 @@ public:
 		enableMouseEvents();
 		enableKeyEvents();
         
-        ofSetLineWidth(2);
+        ofSetLineWidth(12);
         
         fontMain.load("fonts/PlainMed", 12);
         fontSub.load("fonts/PlainMed", 7);
