@@ -20,7 +20,7 @@ void ofApp::setup() {
     
     // camera draw distance
     cam.setFarClip(120000);
-    cam.setDistance(30000);
+    cam.setDistance(16000);
     cam.setPosition(-1654.83, 1797.08, cam.getDistance());
     cam.enableMouseInput();
     
@@ -428,12 +428,20 @@ void ofApp::menuUpdates(){
     for (int i = 0; i < BUTTON_AMT; i++) {
         if (menu.bLeftActive[i] && menu.buttonClicked){
             loadPoint(i);
-            cout << "load hs1 point " << i << endl;
             menu.buttonClicked = false;
         } else if (menu.bRightActive[i] && menu.buttonClicked){
             loadPoint((BUTTON_AMT-1)-i);
-            cout << "load crossrail point " << (BUTTON_AMT-1)-i << endl;
             menu.buttonClicked = false;
+        }
+    }
+    
+    if (!systemActive) {
+        float dist = meshPosition.distance(meshTarget);
+        // zoom in/out of points based on distance
+        if (dist <= 100) {
+            worldTransform(6000, 0.02, ofVec3f(-70, 0, 0), 0.02);
+        } else {
+            worldTransform(16000, 0.05, ofVec3f(0, 0, 0), 0.2);
         }
     }
 }
@@ -730,11 +738,6 @@ void ofApp::mouseReleased(int x, int y, int button){
         
         // HS1
         loadProject(0);
-        
-        if (menu.leftOn)
-            cout << "load hs1 project" << endl;
-        else
-            cout << "unload hs1 project" << endl;
     }
     
     // loads crossrail project
@@ -747,11 +750,6 @@ void ofApp::mouseReleased(int x, int y, int button){
         
         // Crossrail
         loadProject(1);
-        
-        if (menu.rightOn)
-            cout << "load crossrail project" << endl;
-        else
-            cout << "unload crossrail project" << endl;
     }
 }
 

@@ -235,8 +235,6 @@ void InteractiveMenu::pressed()
 {
     for (int i = 0; i < length; i++) {
         if (objsLeft[i].isMousePressed(0) == 1 && leftOn && !bLeftActive[i] && !buttonClicked) {
-            cout << "button " << ofToString(i) << " released" << endl;
-            
             switch (i) {
                 case 0:
                     bLeftActive[0] = true;
@@ -280,8 +278,6 @@ void InteractiveMenu::pressed()
     
         // check for right button clicks
         if (objsRight[i].isMousePressed(0) == 1 && rightOn && !bRightActive[i] && !buttonClicked) {
-            cout << "button " << ofToString(i) << " released" << endl;
-            
             switch (i) {
                 case 0:
                     bRightActive[0] = true;
