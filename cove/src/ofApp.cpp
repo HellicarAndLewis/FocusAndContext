@@ -407,6 +407,16 @@ void ofApp::update(){
     meshPosition.x = ofLerp(meshPosition.x, meshTarget.x, amount);
     meshPosition.y = ofLerp(meshPosition.y, meshTarget.y, amount);
     
+    // zoom in/out of points based on distance
+    if (!systemActive) {
+        float dist = meshPosition.distance(meshTarget);
+        if (dist <= 100) {
+            worldTransform(6000, 0.02, ofVec3f(-70, 0, 0), 0.02);
+        } else {
+            worldTransform(16000, 0.05, ofVec3f(0, 0, 0), 0.2);
+        }
+    }
+    
     if(bShader) {
         fbo.begin();
         ofClear(0,0,0,0);
@@ -432,16 +442,6 @@ void ofApp::menuUpdates(){
         } else if (menu.bRightActive[i] && menu.buttonClicked){
             loadPoint((BUTTON_AMT-1)-i);
             menu.buttonClicked = false;
-        }
-    }
-    
-    if (!systemActive) {
-        float dist = meshPosition.distance(meshTarget);
-        // zoom in/out of points based on distance
-        if (dist <= 100) {
-            worldTransform(6000, 0.02, ofVec3f(-70, 0, 0), 0.02);
-        } else {
-            worldTransform(16000, 0.05, ofVec3f(0, 0, 0), 0.2);
         }
     }
 }
