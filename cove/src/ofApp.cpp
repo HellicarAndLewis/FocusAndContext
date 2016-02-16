@@ -399,10 +399,10 @@ void ofApp::update(){
     if (scroller.isScrolling) meshTarget = route.getPosition(true);
     
     float amount = gui->getSlider("location lerp")->getValue();
-    if (scroller.isEnabled()) {
-        worldTransform(route.getLocation()->camDistance, amount, route.getLocation()->camRotation, amount);
-    }
-    
+//    if (scroller.isEnabled()) {
+//        worldTransform(route.getLocation()->camDistance, amount, route.getLocation()->camRotation, amount);
+//    }
+//    
     // lerp the actual mesh position to the target
     meshPosition.x = ofLerp(meshPosition.x, meshTarget.x, amount);
     meshPosition.y = ofLerp(meshPosition.y, meshTarget.y, amount);
@@ -418,15 +418,38 @@ void ofApp::update(){
     if (systemActive) automatedSystem();
     
     // update menu
+    menuUpdates();
+    
+//    menu.update();
+//    
+//    // menu button check
+//    for (int i = 0; i < BUTTON_AMT; i++) {
+//        if (menu.bLeftActive[i] && menu.buttonClicked){
+//            loadPoint(i);
+//            cout << "load hs1 point " << i << endl;
+//            menu.buttonClicked = false;
+//        } else if (menu.bRightActive[i] && menu.buttonClicked){
+//            loadPoint((BUTTON_AMT-1)-i);
+//            cout << "load crossrail point " << (BUTTON_AMT-1)-i << endl;
+//            menu.buttonClicked = false;
+//        }
+//    }
+}
+
+void ofApp::menuUpdates(){
     menu.update();
     
     // menu button check
     for (int i = 0; i < BUTTON_AMT; i++) {
-        if (menu.bLeftActive[i] && menu.buttonClicked)
+        if (menu.bLeftActive[i] && menu.buttonClicked){
             loadPoint(i);
-        
-        if (menu.bRightActive[i] && menu.buttonClicked)
-            loadPoint(4-i);
+            cout << "load hs1 point " << i << endl;
+            menu.buttonClicked = false;
+        } else if (menu.bRightActive[i] && menu.buttonClicked){
+            loadPoint((BUTTON_AMT-1)-i);
+            cout << "load crossrail point " << (BUTTON_AMT-1)-i << endl;
+            menu.buttonClicked = false;
+        }
     }
 }
 
@@ -466,6 +489,12 @@ void ofApp::drawDebugMsg(){
     ofDrawBitmapString("currentPoint " + ofToString(currentPoint), ofGetWidth()-300, 320);
     ofDrawBitmapString("current interest point " + ofToString(currentInterestPoint), ofGetWidth()-300, 340);
     ofDrawBitmapString("route selected " + ofToString(routeSelection), ofGetWidth()-300, 360);
+    
+    ofDrawBitmapString("MENU ", ofGetWidth()-300, 400);
+    ofDrawBitmapString("buttonClicked " + ofToString(menu.buttonClicked), ofGetWidth()-300, 420);
+    ofDrawBitmapString("leftOn " + ofToString(menu.leftOn), ofGetWidth()-300, 440);
+    ofDrawBitmapString("rightOn " + ofToString(menu.rightOn), ofGetWidth()-300, 460);
+    ofDrawBitmapString("pointReached " + ofToString(pointReached), ofGetWidth()-300, 480);
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -707,7 +736,7 @@ void ofApp::mousePressed(int x, int y, int button){
 
 void ofApp::mouseReleased(int x, int y, int button){
     // loads hs1 project
-    if (menu.objLeft.isMousePressed(0)) {
+    if (menu.objLeft.isMousePressed(0) == 1) {
         menu.rightOn = false;
         menu.objRight.isSelected = false;
         
@@ -716,10 +745,15 @@ void ofApp::mouseReleased(int x, int y, int button){
         
         // HS1
         loadProject(0);
+        
+        if (menu.leftOn)
+            cout << "load hs1 project" << endl;
+        else
+            cout << "unload hs1 project" << endl;
     }
     
     // loads crossrail project
-    if (menu.objRight.isMousePressed(0)) {
+    if (menu.objRight.isMousePressed(0) == 1) {
         menu.leftOn = false;
         menu.objLeft.isSelected = false;
         
@@ -728,18 +762,11 @@ void ofApp::mouseReleased(int x, int y, int button){
         
         // Crossrail
         loadProject(1);
-    }
-    
-    for (int i = 0; i < BUTTON_AMT; i++) {
-        if (menu.objsLeft[i].isMousePressed(0)) {
-            menu.buttonClicked = true;
-        }
-    }
-    
-    for (int i = 0; i < BUTTON_AMT; i++) {
-        if (menu.objsRight[i].isMousePressed(0)) {
-            menu.buttonClicked = true;
-        }
+        
+        if (menu.rightOn)
+            cout << "load crossrail project" << endl;
+        else
+            cout << "unload crossrail project" << endl;
     }
 }
 

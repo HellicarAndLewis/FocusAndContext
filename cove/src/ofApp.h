@@ -102,7 +102,9 @@ public:
     IFS::Scrollable scroller;
     
     // menu
+    void menuUpdates();
     InteractiveMenu menu;
+    bool pointReached;
     
     // GUI
     ofxDatGui* gui;

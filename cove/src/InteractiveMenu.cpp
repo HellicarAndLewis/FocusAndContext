@@ -234,8 +234,7 @@ void InteractiveMenu::drawLines()
 void InteractiveMenu::pressed()
 {
     for (int i = 0; i < length; i++) {
-        // check left button clicks
-        if (objsLeft[i].isMousePressed(0) && leftOn && buttonClicked && !bLeftActive[i]) {
+        if (objsLeft[i].isMousePressed(0) == 1 && leftOn && !bLeftActive[i] && !buttonClicked) {
             cout << "button " << ofToString(i) << " released" << endl;
             
             switch (i) {
@@ -276,11 +275,11 @@ void InteractiveMenu::pressed()
                     break;
             }
             
-            buttonClicked = false;
+            buttonClicked = true;
         }
     
         // check for right button clicks
-        if (objsRight[i].isMousePressed(0) && rightOn && buttonClicked && !bRightActive[i]) {
+        if (objsRight[i].isMousePressed(0) == 1 && rightOn && !bRightActive[i] && !buttonClicked) {
             cout << "button " << ofToString(i) << " released" << endl;
             
             switch (i) {
@@ -321,7 +320,7 @@ void InteractiveMenu::pressed()
                     break;
             }
             
-            buttonClicked = false;
+            buttonClicked = true;
         }
     }
 }
