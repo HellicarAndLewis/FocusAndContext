@@ -419,21 +419,6 @@ void ofApp::update(){
     
     // update menu
     menuUpdates();
-    
-//    menu.update();
-//    
-//    // menu button check
-//    for (int i = 0; i < BUTTON_AMT; i++) {
-//        if (menu.bLeftActive[i] && menu.buttonClicked){
-//            loadPoint(i);
-//            cout << "load hs1 point " << i << endl;
-//            menu.buttonClicked = false;
-//        } else if (menu.bRightActive[i] && menu.buttonClicked){
-//            loadPoint((BUTTON_AMT-1)-i);
-//            cout << "load crossrail point " << (BUTTON_AMT-1)-i << endl;
-//            menu.buttonClicked = false;
-//        }
-//    }
 }
 
 void ofApp::menuUpdates(){
