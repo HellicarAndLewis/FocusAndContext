@@ -21,7 +21,6 @@ class ofApp : public ofBaseApp{
 public:
     void setup();
     void setupGui();
-    void setupWorldColors();
     void update();
     void draw();
     void drawDebugMsg();
@@ -74,6 +73,16 @@ public:
     void loadContent(int item);
     void worldTransform(float distance, float distEase, ofVec3f rotation, float rotEase);
     
+    // colors
+    void projectColors();
+    bool colorProject;
+    ofColor colBackground;
+    ofFloatColor colEarth, colEarthDiff;
+    ofFloatColor colRoads, colRoadsDiff;
+    ofFloatColor colBuildings, colBuildingsDiff;
+    ofFloatColor colBuildingsActive, colBuildingsActiveDiff;
+    ofFloatColor colWater;
+    
     // automatic system
     void automatedSystem();
     bool systemActive;
@@ -87,6 +96,8 @@ public:
     float elapsedTimeInterestPoints;
     float scrollPercent;
     float waveDistance;
+    float camRotSinX;
+    float camRotSinZ;
     int currentInterval;
     int maxInterval;
     int currentPoint;

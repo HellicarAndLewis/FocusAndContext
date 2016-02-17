@@ -49,7 +49,7 @@ void InteractiveMenu::setup(float _mainArea, float _subArea, float _padding, flo
                 break;
                 
             case 3:
-                objsLeft[i].title = ofToString("Ashford International");
+                objsLeft[i].title = ofToString("Ashford");
                 break;
                 
             case 4:

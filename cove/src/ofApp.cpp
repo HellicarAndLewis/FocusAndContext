@@ -20,11 +20,9 @@ void ofApp::setup() {
     
     // camera draw distance
     cam.setFarClip(120000);
+    cam.setNearClip(0);
     cam.setDistance(16000);
     cam.setPosition(-1654.83, 1797.08, cam.getDistance());
-    
-    // init world colors
-    setupWorldColors();
     
     // center mesh on launch
     meshPosition.set(-54840.9, 39983.3);
@@ -73,7 +71,7 @@ void ofApp::setup() {
     showGui(!gui->getVisible());
     
     // setup menu
-    menu.setup(112, 100, 40, 0.1, 0.1);
+    menu.setup(112, 100, 40, 0.2, 0.2);
     menu.rightOn = false;
     menu.objRight.isSelected = false;
     menu.leftOn = true;
@@ -90,7 +88,6 @@ void ofApp::setupGui() {
     
     gui->addToggle("toggle fullscreen", false);
     gui->addToggle("automated system", false);
-    gui->addToggle("invert colors", false);
     gui->addToggle("show debug", false);
     
     // Camera control
@@ -122,7 +119,7 @@ void ofApp::setupGui() {
     guiMapY = folder->addSlider("latitude", route.latRange.getMin(), route.latRange.getMax());
     guiMapY->setPrecision(4);
     guiMapY->bind(mapY, route.latRange.getMin(), route.latRange.getMax());
-    gui->addLabel("* Press Arrow Keys to jump to Route Points *");
+    gui->addLabel("* Press Spacebar to close GUI *");
     
     /*
      // Water shader
@@ -138,7 +135,7 @@ void ofApp::setupGui() {
     gui->onSliderEvent(this, &ofApp::onSliderEvent);
 }
 
-void ofApp::setupWorldColors() {
+void ofApp::projectColors() {
     
     // directional light - even spread across all objects
     light.setDirectional();
@@ -146,168 +143,53 @@ void ofApp::setupWorldColors() {
     // lighting color
     light.setDiffuseColor(ofFloatColor(0.84, 0.8, 0.79));
     
-    // color for world objects
-    if (!bColorInvert) {
-        ofBackground(ofColor::black);
-        
-        materialEarth.setAmbientColor(ofFloatColor(.1));
-        materialEarth.setDiffuseColor(ofFloatColor(.15));
-        materialRoads.setAmbientColor(ofFloatColor(.6, .6, .6));
-        materialRoads.setDiffuseColor(ofFloatColor(.65, .65, .65));
-        materialBuildings.setAmbientColor(ofFloatColor(.2, .2, .2));
-        materialBuildings.setDiffuseColor(ofFloatColor(.4, .4, .4));
-        materialBuildingsActive.setAmbientColor(ofFloatColor(.8, .0, .0));
-        materialBuildingsActive.setDiffuseColor(ofFloatColor(.7, .0, .0));
-    }
-    else {
-        ofBackground(ofColor::white);
-        
-        materialEarth.setAmbientColor(ofFloatColor(1-.1));
-        materialEarth.setDiffuseColor(ofFloatColor(1-.15));
-        materialRoads.setAmbientColor(ofFloatColor(1-.6, 1-.6, 1-.6));
-        materialRoads.setDiffuseColor(ofFloatColor(1-.65, 1-.65, 1-.65));
-        materialBuildings.setAmbientColor(ofFloatColor(1-.2, 1-.2, 1-.2));
-        materialBuildings.setDiffuseColor(ofFloatColor(1-.4, 1-.4, 1-.4));
-        materialBuildingsActive.setAmbientColor(ofFloatColor(1-.8, 1-.0, 1-.0));
-        materialBuildingsActive.setDiffuseColor(ofFloatColor(1-.7, 1-.0, 1-.0));
+    float colorLerp = 0.1;
+    
+    // project is hs1, then...
+    if (route.activeProject == 0) {
+        colBackground.lerp(ofColor::black, colorLerp);
+        colEarth.lerp(ofColor(25.5), colorLerp);
+        colEarthDiff.lerp(ofColor(38.25), colorLerp);
+        colRoads.lerp(ofColor(153, 153, 153), colorLerp);
+        colRoadsDiff.lerp(ofColor(165.75, 165.75, 165.75), colorLerp);
+        colBuildings.lerp(ofColor(51, 51, 51), colorLerp);
+        colBuildingsDiff.lerp(ofColor(102, 102, 102), colorLerp);
+        colBuildingsActive.lerp(ofColor(204, 0, 0), colorLerp);
+        colBuildingsActiveDiff.lerp(ofColor(178.5, 0, 0), colorLerp);
+        colWater.lerp(ofColor(111, 201, 238), colorLerp);
+    } else {
+        colBackground.lerp(ofColor(1, 3, 38), colorLerp);
+        colEarth.lerp(ofColor(255 - 25.5), colorLerp);
+        colEarthDiff.lerp(ofColor(255 - 38.25), colorLerp);
+        colRoads.lerp(ofColor(255 - 153, 255 - 153, 255 - 153), colorLerp);
+        colRoadsDiff.lerp(ofColor(255 - 165.75, 255 - 165.75, 255 - 165.75), colorLerp);
+        colBuildings.lerp(ofColor(255 - 51, 255 - 51, 255 - 51), colorLerp);
+        colBuildingsDiff.lerp(ofColor(255 - 102, 255 - 102, 255 - 102), colorLerp);
+        colBuildingsActive.lerp(ofColor(255 - 204, 0, 0), colorLerp);
+        colBuildingsActiveDiff.lerp(ofColor(255 - 178.5, 0, 0), colorLerp);
+        colWater.lerp(ofColor(111, 201, 238), colorLerp);
     }
     
-    materialWater.setAmbientColor(ofFloatColor(0.435294, 0.788235, 0.933333));
-    materialWater.setDiffuseColor(ofFloatColor(0.435294, 0.788235, 0.933333));
-}
-
-void ofApp::automatedSystem() {
-    
-    // we use delta time, the time between frames
-    //if (!systemTimerPaused)
-    elapsedTime += ofGetLastFrameTime();
-    
-    if (elapsedTime >= maxTime) {
-        // advance to next interval
-        currentInterval++;
-        if (currentInterval > maxInterval) {
-            // advance to next route
-            routeSelection++;
-            if (routeSelection > 1) routeSelection = 0;
-            
-            // load route
-            loadProject(routeSelection);
-            
-            // reset intervals
-            currentInterval = 0;
-        }
-        
-        // reset elapsed time to zero
-        elapsedTime = 0.0;
-    }
-
-    /*
-    if (currentInterval != 0) {
-        // get the active tile and colour it
-        ofPoint activeTilePos = route.getLocation()->tilePos;
-        tileLoader.setActive(activeTilePos.x, activeTilePos.y);
-    }
-     */
-    
-    Location & location = *route.getLocation();
-    switch (currentInterval) {
-        case 0:
-            // travel through the route
-            setLon(location.getLon());
-            setLat(location.getLat());
-            scroller.scrollTo(ofMap(elapsedTime, 0.0, 30.0, 0.0, 1.0));
-            
-            if (location.getLon() == intPoints[currentInterestPoint].lon &&
-                location.getLat() == intPoints[currentInterestPoint].lat) {
-
-                dropCam = true;
-                currentInterestPoint++;
-            }
-
-            if (dropCam) {
-                waveDistance = 10000;
-
-                if (cam.getDistance() <= 6000) {
-                    dropCam = false;
-                }
-            } else {
-                waveDistance = 16000;
-            }
-            
-            worldTransform(waveDistance, 0.02, route.getLocation()->camRotation, 0.02); //ofVec3f(0, 0, 0), 0.2);
-            
-            /*
-            location.isAlphaLabel = true;
-            if (location.getLon() == intPoints[currentInterestPoint].lon &&
-                location.getLat() == intPoints[currentInterestPoint].lat) {
-                
-                systemTimerPaused = true;
-                
-                // pause for 5 seconds
-                elapsedTimeInterestPoints += ofGetLastFrameTime();
-                if (elapsedTimeInterestPoints >= 2.0) {
-                    currentInterestPoint++;
-                    
-                    // reset counter
-                    elapsedTimeInterestPoints = 0.0;
-                    // resume timer
-                    systemTimerPaused = false;
-                }
-            }
-            else {
-                // travel through the route
-                setLon(location.getLon());
-                setLat(location.getLat());
-                scroller.scrollTo(ofMap(elapsedTime, 0.0, 30.0, 0.0, 1.0));
-            }
-             */
-            
-            // reset route selected to false
-            if (routeSelected) routeSelected = false;
-            
-            route.isAlpha = false;
-            break;
-            
-        case 1:
-            // wait x seconds before jumping to a random POI
-            if (elapsedTime > 4.0 && !routeSelected) {
-                pointJump = ofRandom(0, intPoints.size()-1);
-                
-                // don't repeat the same POI in a row
-                if (currentPoint == pointJump) return;
-                
-                // activate location and scroll to POI
-                loadPoint(pointJump);
-                
-                // route has been selected
-                routeSelected = true;
-                
-            } else if (routeSelected) {
-                // sync points of interest
-                if (currentPoint != pointJump) currentPoint = pointJump;
-                
-                if (elapsedTime > 10) {
-                    //camDistance = ofLerp(camDistance, 2000, 0.02);
-                    //sceneRotation.x = ofLerp(sceneRotation.x, -60, 0.02);
-                    
-                    worldTransform(6000, 0.05, ofVec3f(-70, 0, 0), 0.02);
-                    
-                    route.isAlpha = true;
-                    route.isAlphaLabel = false;
-                }
-            }
-            break;
-            
-        case 2:
-            // reset current interest points
-            if (currentInterestPoint != 0) currentInterestPoint = 0;
-            break;
-    }
+    ofBackground(colBackground);
+    materialEarth.setAmbientColor(colEarth);
+    materialEarth.setDiffuseColor(colEarthDiff);
+    materialRoads.setAmbientColor(colRoads);
+    materialRoads.setDiffuseColor(colRoadsDiff);
+    materialBuildings.setAmbientColor(colBuildings);
+    materialBuildings.setDiffuseColor(colBuildingsDiff);
+    materialBuildingsActive.setAmbientColor(colBuildingsActive);
+    materialBuildingsActive.setDiffuseColor(colBuildingsActiveDiff);
+    materialWater.setAmbientColor(ofFloatColor(colWater));
+    materialWater.setDiffuseColor(ofFloatColor(colWater));
 }
 
 void ofApp::loadProject(int selection) {
     
+    // set the active project first
     route.activeProject = selection;
+    
+    // adjust colors
+    colorProject = true;
     
     // starting location point
     pointJump = -1;
@@ -394,9 +276,97 @@ void ofApp::worldTransform(float distance, float distEase, ofVec3f rotation, flo
     sceneRotation.z = ofLerp(sceneRotation.z, rotation.z, rotEase);
 }
 
+void ofApp::automatedSystem() {
+    
+    // we use delta time, the time between frames
+    //if (!systemTimerPaused)
+    elapsedTime += ofGetLastFrameTime();
+    
+    if (elapsedTime >= maxTime) {
+        // advance to next interval
+        currentInterval++;
+        if (currentInterval > maxInterval) {
+            // advance to next route
+            routeSelection++;
+            if (routeSelection > 1) routeSelection = 0;
+            
+            // load route
+            loadProject(routeSelection);
+            
+            // reset intervals
+            currentInterval = 0;
+        }
+        
+        // reset elapsed time to zero
+        elapsedTime = 0.0;
+    }
+    
+    /*
+     if (currentInterval != 0) {
+     // get the active tile and colour it
+     ofPoint activeTilePos = route.getLocation()->tilePos;
+     tileLoader.setActive(activeTilePos.x, activeTilePos.y);
+     }
+     */
+    
+    Location & location = *route.getLocation();
+    switch (currentInterval) {
+        case 0:
+            // travel through the route
+            setLon(location.getLon());
+            setLat(location.getLat());
+            scroller.scrollTo(ofMap(elapsedTime, 0.0, 30.0, 0.0, 1.0));
+            
+            waveDistance = 6000;
+            camRotSinX = -65 - 10 * sin(elapsedTime);
+            camRotSinZ = 85 + 5 * sin(elapsedTime * 0.5);
+            worldTransform(waveDistance, 0.02, ofVec3f(camRotSinX, route.getLocation()->camRotation.y, camRotSinZ), 0.02);
+            
+            // reset route selected to false
+            if (routeSelected) routeSelected = false;
+            
+            route.isAlpha = false;
+            break;
+            
+        case 1:
+            // wait x seconds before jumping to a random POI
+            if (elapsedTime > 4.0 && !routeSelected) {
+                pointJump = ofRandom(0, intPoints.size()-1);
+                
+                // don't repeat the same POI in a row
+                if (currentPoint == pointJump) return;
+                
+                // activate location and scroll to POI
+                loadPoint(pointJump);
+                
+                // route has been selected
+                routeSelected = true;
+                
+            } else if (routeSelected) {
+                // sync points of interest
+                if (currentPoint != pointJump) currentPoint = pointJump;
+                
+                float dist = meshPosition.distance(meshTarget);
+                if (dist <= 1000) {
+                    worldTransform(5000, 0.02, ofVec3f(-60, 0, 0), 0.02);
+                } else {
+                    worldTransform(30000, 0.05, ofVec3f(0, 0, 0), 0.01);
+                }
+            }
+            break;
+            
+        case 2:
+            // reset current interest points
+            if (currentInterestPoint != 0) currentInterestPoint = 0;
+            break;
+    }
+}
+
 void ofApp::update(){
     
     if (ofGetFrameNum() == 2) cam.disableMouseInput();
+    
+    if(colorProject) projectColors();
     
     route.update(scroller.getValue());
     
@@ -418,7 +388,7 @@ void ofApp::update(){
             worldTransform(30000, 0.05, ofVec3f(0, 0, 0), 0.2);
         } else {
             float dist = meshPosition.distance(meshTarget);
-            if (dist <= 400) {
+            if (dist <= 1000) {
                 worldTransform(6000, 0.02, ofVec3f(-60, 0, 0), 0.02);
             } else {
                 worldTransform(30000, 0.05, ofVec3f(0, 0, 0), 0.2);
@@ -499,14 +469,16 @@ void ofApp::drawDebugMsg(){
     ofDrawBitmapString("currentPoint " + ofToString(currentPoint), ofGetWidth()-300, 320);
     ofDrawBitmapString("current interest point " + ofToString(currentInterestPoint), ofGetWidth()-300, 340);
     ofDrawBitmapString("route selected " + ofToString(routeSelection), ofGetWidth()-300, 360);
+    ofDrawBitmapString("camRotSinX " + ofToString(camRotSinX), ofGetWidth()-300, 380);
     
-    ofDrawBitmapString("MENU ", ofGetWidth()-300, 400);
-    ofDrawBitmapString("buttonClicked " + ofToString(menu.buttonClicked), ofGetWidth()-300, 420);
-    ofDrawBitmapString("leftOn " + ofToString(menu.leftOn), ofGetWidth()-300, 440);
-    ofDrawBitmapString("rightOn " + ofToString(menu.rightOn), ofGetWidth()-300, 460);
-    ofDrawBitmapString("pointReached " + ofToString(pointReached), ofGetWidth()-300, 480);
-    ofDrawBitmapString("isCam " + ofToString(isCam), ofGetWidth()-300, 500);
-    ofDrawBitmapString("route.activeProject " + ofToString(route.activeProject), ofGetWidth()-300, 520);
+    
+    ofDrawBitmapString("MENU ", ofGetWidth()-300, 420);
+    ofDrawBitmapString("buttonClicked " + ofToString(menu.buttonClicked), ofGetWidth()-300, 440);
+    ofDrawBitmapString("leftOn " + ofToString(menu.leftOn), ofGetWidth()-300, 460);
+    ofDrawBitmapString("rightOn " + ofToString(menu.rightOn), ofGetWidth()-300, 480);
+    ofDrawBitmapString("pointReached " + ofToString(pointReached), ofGetWidth()-300, 500);
+    ofDrawBitmapString("isCam " + ofToString(isCam), ofGetWidth()-300, 520);
+    ofDrawBitmapString("route.activeProject " + ofToString(route.activeProject), ofGetWidth()-300, 540);
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -629,10 +601,6 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e) {
         currentInterval = 0;
         currentInterestPoint = 0;
         currentPoint = 0;
-    }
-    else if (e.target->is("invert colors")) {
-        bColorInvert = !bColorInvert;
-        setupWorldColors();
     }
     else if (e.target->is("cam mouse")) {
         if (e.target->getEnabled()) {

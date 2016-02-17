@@ -94,11 +94,11 @@ void Route::draw(ofCamera& cam) {
     
     // lerp alpha values
     if (activeProject == 0) {
-        alphaLeft = ofLerp(alphaLeft, 255, 0.1);
-        alphaRight = ofLerp(alphaRight, 0, 0.1);
+        alphaLeft = ofLerp(alphaLeft, 255, 0.2);
+        alphaRight = ofLerp(alphaRight, 0, 0.2);
     } else {
-        alphaLeft = ofLerp(alphaLeft, 0, 0.1);
-        alphaRight = ofLerp(alphaRight, 255, 0.1);
+        alphaLeft = ofLerp(alphaLeft, 0, 0.2);
+        alphaRight = ofLerp(alphaRight, 255, 0.2);
     }
     
     // draw hs1/left project route
