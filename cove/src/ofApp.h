@@ -16,6 +16,7 @@
 #include "Route.h"
 #include "InterestPoints.h"
 #include "InteractiveMenu.h"
+#include "ContentMenu.h"
 
 #define EASEING 0.08
 
@@ -132,6 +133,11 @@ public:
     InteractiveMenu menu;
     bool pointReached;
     bool isDraw;
+    
+    // content menu
+    void contentSetup(int _w, int _h);
+    void contentUpdate();
+    ContentMenu content;
     
     // GUI
     ofxDatGui* gui;

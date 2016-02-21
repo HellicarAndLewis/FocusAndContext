@@ -75,6 +75,8 @@ void ofApp::setup() {
     bCove = true;
     // configure menu for screen shape
     menuSetup(ofGetWidth(), ofGetHeight());
+    // configure content
+    contentSetup(ofGetWidth(), ofGetHeight());
 }
 
 void ofApp::setupGui() {
@@ -416,6 +418,9 @@ void ofApp::update(){
         
         if (isCam) {
             worldTransform(16000, 0.05, ofVec3f(0, 0, 0), 0.2);
+            
+            content.draw(false);
+            
         } else {
             float dist = meshPosition.distance(meshTarget);
             if (dist <= 1000) {
@@ -426,9 +431,11 @@ void ofApp::update(){
             
             if (cam.getDistance() <= 3000) {
                 route.isAlphaLabel = true;
+                content.draw(true);
             }
             else {
                 route.isAlphaLabel = false;
+                content.draw(false);
             }
         }
     } else {
@@ -509,7 +516,13 @@ void ofApp::menuUpdates(){
     }
     menu.objLeft.isDraw = isDraw;
     menu.objRight.isDraw = isDraw;
-    
+}
+
+void ofApp::contentSetup(int _w, int _h){
+    content.setup(_w, _h, 160, 46);
+}
+
+void ofApp::contentUpdate(){
 }
 
 void ofApp::draw(){
@@ -797,6 +810,8 @@ void ofApp::windowResized(int w, int h){
     ofSetWindowShape(w, h);
     // reconfigure menu for new window shape
     menuSetup(w, h);
+    // reconfigure content menu for new window shape
+    contentSetup(w, h);
 }
 
 void ofApp::gotMessage(ofMessage msg){
