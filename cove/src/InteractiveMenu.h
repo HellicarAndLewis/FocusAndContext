@@ -3,7 +3,7 @@
 //  Cove
 //
 //  Created by Jason Walters on 13/02/2016.
-//  Last edited by Jason Walters on 16/02/2016.
+//  Last edited by Jason Walters on 21/02/2016.
 //
 //
 
@@ -17,12 +17,12 @@
 class InteractiveMenu
 {
 public:
-    void setup(float _mainArea, float _subArea, float _padding, float _easeIn, float _easeOut);
+    void setup(int _w, int _h, float _mainArea, float _subArea, float _padding, float _easeIn, float _easeOut);
     void update();
     void drawLines();
     void transform();
     void pressed();
-    
+
     InteractiveObject objLeftLine;
     InteractiveObject objRightLine;
     InteractiveObject objsLeft[BUTTON_AMT];
@@ -41,6 +41,8 @@ public:
     bool rightOn;
     bool buttonClicked;
     int length;
+    int width;
+    int height;
     float mainArea;
     float subArea;
     float areaDiff;

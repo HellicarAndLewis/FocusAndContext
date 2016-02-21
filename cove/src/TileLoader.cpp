@@ -13,9 +13,9 @@ TileLoader::TileLoader() {
 }
 
 void TileLoader::setup() {
-    labels.loadFont("ofxdatgui_assets/font-verdana.ttf", 10);
-    labels.setFontColor(ofColor::black, ofColor::white);
-    builder.setLabelManager(&labels);
+//    labels.loadFont("fonts/PlainMed", 10);
+//    labels.setFontColor(ofColor::black, ofColor::white);
+//    builder.setLabelManager(&labels);
 }
 
 void TileLoader::update() {

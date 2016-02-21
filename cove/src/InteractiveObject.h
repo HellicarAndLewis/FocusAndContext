@@ -3,7 +3,7 @@
 //  Cove
 //
 //  Created by Jason Walters on 13/02/2016.
-//  Last edited by Jason Walters on 17/02/2016.
+//  Last edited by Jason Walters on 21/02/2016.
 //
 //
 
@@ -23,6 +23,7 @@ public:
     int drawType;
     bool isMainTile;
     bool isSelected;
+    bool isDraw;
     
 	void setup() {
 		enableMouseEvents();
@@ -41,31 +42,33 @@ public:
 	
 	void draw() {
         
-        switch (drawType) {
-            case 0:
-                if (isSelected) color = ofLerp(color, 255, 0.2);
-                else color = ofLerp(color, 225, 0.2);
-                
-                ofSetColor(color);
-                ofDrawRectangle(x, y, width, height);
-                
-                ofSetColor(0);
-                if (isMainTile) fontMain.drawString(title, x + 10, y + 20);
-                else fontSub.drawString(title, x + 5, y + 10);
-                
-                break;
-                
-            case 1:
-                ofSetLineWidth(3);
-                ofSetColor(255,0,0);
-                ofDrawLine(x+width, y+height/2, x+width+lineLength, y+height/2);
-                break;
-                
-            case 2:
-                ofSetLineWidth(3);
-                ofSetColor(255,0,0);
-                ofDrawLine(x+lineLength, y+height/2, x, y+height/2);
-                break;
+        if (isDraw) {
+            switch (drawType) {
+                case 0:
+                    if (isSelected) color = ofLerp(color, 255, 0.2);
+                    else color = ofLerp(color, 225, 0.2);
+                    
+                    ofSetColor(color);
+                    ofDrawRectangle(x, y, width, height);
+                    
+                    ofSetColor(0);
+                    if (isMainTile) fontMain.drawString(title, x + 10, y + 20);
+                    else fontSub.drawString(title, x + 5, y + 10);
+                    
+                    break;
+                    
+                case 1:
+                    ofSetLineWidth(3);
+                    ofSetColor(255,0,0);
+                    ofDrawLine(x+width, y+height/2, x+width+lineLength, y+height/2);
+                    break;
+                    
+                case 2:
+                    ofSetLineWidth(3);
+                    ofSetColor(255,0,0);
+                    ofDrawLine(x+lineLength, y+height/2, x, y+height/2);
+                    break;
+            }
         }
 	}
 	

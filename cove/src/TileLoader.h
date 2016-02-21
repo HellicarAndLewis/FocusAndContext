@@ -10,7 +10,7 @@
 #include "ofMain.h"
 #include "LocalTile.h"
 #include "ofxVectorBuilder.h"
-#include "ofxVectorLabels.h"
+//#include "ofxVectorLabels.h"
 
 class TileLoader {
 public:
@@ -39,10 +39,10 @@ public:
     vector<LocalTile> macroTiles;
     vector<LocalTile> microTiles;
     ofxVectorBuilder builder;
-    ofVboMesh tileMesh;
+//    ofVboMesh tileMesh;
     
     // labels
-    ofxVectorLabels labels;
+//    ofxVectorLabels labels;
 
 protected:  
 private:

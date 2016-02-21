@@ -50,7 +50,7 @@ void Route::update(float percent) {
             else location.isAlpha = false;
         
             if (isAlphaLabel) location.isAlphaLabel = true;
-            else location.isAlphaLabel = false;
+            else location.isAlphaLabel = false;            
         }
         
         // get the nearest point on the route to current progress
@@ -94,11 +94,11 @@ void Route::draw(ofCamera& cam) {
     
     // lerp alpha values
     if (activeProject == 0) {
-        alphaLeft = ofLerp(alphaLeft, 255, 0.2);
-        alphaRight = ofLerp(alphaRight, 0, 0.2);
+        alphaLeft = ofLerp(alphaLeft, 255, 0.08);
+        alphaRight = ofLerp(alphaRight, 0, 0.08);
     } else {
-        alphaLeft = ofLerp(alphaLeft, 0, 0.2);
-        alphaRight = ofLerp(alphaRight, 255, 0.2);
+        alphaLeft = ofLerp(alphaLeft, 0, 0.08);
+        alphaRight = ofLerp(alphaRight, 255, 0.08);
     }
     
     // draw hs1/left project route

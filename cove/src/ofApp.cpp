@@ -3,7 +3,7 @@
 //  Cove
 //
 //  Created by Chris Mullany on 14/01/2016.
-//  Last edited by Jason Walters on 16/02/2016.
+//  Last edited by Jason Walters on 21/02/2016.
 //
 //
 
@@ -14,15 +14,13 @@
 void ofApp::setup() {
     
     //ofSetLogLevel(OF_LOG_NOTICE);
-    
     ofEnableAlphaBlending();
-    bDebugMsg = true;
     
     // camera draw distance
     cam.setFarClip(120000);
-    cam.setNearClip(0);
     cam.setDistance(16000);
     cam.setPosition(-1654.83, 1797.08, cam.getDistance());
+    camPosition = cam.getPosition();
     
     // center mesh on launch
     meshPosition.set(-54840.9, 39983.3);
@@ -70,15 +68,13 @@ void ofApp::setup() {
     setupGui();
     showGui(!gui->getVisible());
     
-    // setup menu
-    menu.setup(112, 100, 40, 0.2, 0.2);
-    menu.rightOn = false;
-    menu.objRight.isSelected = false;
-    menu.leftOn = true;
-    menu.objLeft.isSelected = true;
-    isCam = true;
-    
+    // load default route
     loadProject(0); // 0: High Speed 1, 1: Crossrail
+    
+    // default to cove setup
+    bCove = true;
+    // configure menu for screen shape
+    menuSetup(ofGetWidth(), ofGetHeight());
 }
 
 void ofApp::setupGui() {
@@ -86,21 +82,22 @@ void ofApp::setupGui() {
     gui = new ofxDatGui( ofxDatGuiAnchor::TOP_LEFT );
     gui->addFRM();
     
+    gui->addToggle("toggle cove", true);
     gui->addToggle("toggle fullscreen", false);
     gui->addToggle("automated system", false);
     gui->addToggle("show debug", false);
     
     // Camera control
     gui->addToggle("cam mouse", false);
-    auto slider = gui->addSlider("cam rot x", -90, 90);
-    slider->bind(sceneRotation.x, -90, 90);
-    slider = gui->addSlider("cam rot y", -90, 90);
-    slider->bind(sceneRotation.y, -90, 90);
-    slider = gui->addSlider("cam rot z", -90, 90);
-    slider->bind(sceneRotation.z, -90, 90);
+    auto slider = gui->addSlider("cam rot x", -180, 180);
+    slider->bind(sceneRotation.x, -180, 180);
+    slider = gui->addSlider("cam rot y", -180, 180);
+    slider->bind(sceneRotation.y, -180, 180);
+    slider = gui->addSlider("cam rot z", -180, 180);
+    slider->bind(sceneRotation.z, -180, 180);
     
     // Route selection
-    vector<string> routes = {"Crossrail", "High Speed 1"};
+    vector<string> routes = {"High Speed 1", "Crossrail"};
     gui->addDropdown("Select a Route", routes);
     gui->onDropdownEvent(this, &ofApp::onDropdownEvent);
     
@@ -143,7 +140,7 @@ void ofApp::projectColors() {
     // lighting color
     light.setDiffuseColor(ofFloatColor(0.84, 0.8, 0.79));
     
-    float colorLerp = 0.1;
+    float colorLerp = 0.08;
     
     // project is hs1, then...
     if (route.activeProject == 0) {
@@ -208,8 +205,8 @@ void ofApp::loadProject(int selection) {
             scroller.ticks.push_back(route.locationsLeft[i].routePercent);
         }
         
-        setLon(-0.009882);
-        setLat(51.5443);
+        setLon(-0.125823);
+        setLat(51.529976);
         
         scroller.scrollTo(location.routePercent);
         
@@ -276,7 +273,25 @@ void ofApp::worldTransform(float distance, float distEase, ofVec3f rotation, flo
     sceneRotation.z = ofLerp(sceneRotation.z, rotation.z, rotEase);
 }
 
-void ofApp::automatedSystem() {
+void ofApp::autoSysSetup() {
+    // start timer active
+    systemTimerPaused = false;
+    
+    // 30 second intervals
+    maxTime = 30.0;
+    elapsedTime = 0.0;
+    
+    // 3 - 30seconds intervals for a total of 90 seconds
+    maxInterval = 2;
+    currentInterval = 0;
+    currentInterestPoint = 0;
+    currentPoint = 0;
+    
+    // disable
+    isSysSetup = false;
+}
+
+void ofApp::autoSysUpdate() {
     
     // we use delta time, the time between frames
     //if (!systemTimerPaused)
@@ -317,10 +332,25 @@ void ofApp::automatedSystem() {
             setLat(location.getLat());
             scroller.scrollTo(ofMap(elapsedTime, 0.0, 30.0, 0.0, 1.0));
             
-            waveDistance = 6000;
+            camDistance = distance(ofVec2f(location.getLon(), location.getLat()),
+                                   ofVec2f(intPoints[currentInterestPoint].lon, intPoints[currentInterestPoint].lat));
+            
+            //
+            if (location.getLon() == intPoints[currentInterestPoint].lon &&
+                location.getLat() == intPoints[currentInterestPoint].lat) {
+                if (currentInterestPoint < 4) currentInterestPoint++;
+            }
+            
+            waveDistance = ofMap(camDistance, 0, 1, 10, 50);
+            
+            //waveDistance = 2000;
             camRotSinX = -65 - 10 * sin(elapsedTime);
-            camRotSinZ = 85 + 5 * sin(elapsedTime * 0.5);
-            worldTransform(waveDistance, 0.02, ofVec3f(camRotSinX, route.getLocation()->camRotation.y, camRotSinZ), 0.02);
+            camRotSinY = 0 - 2 * sin(elapsedTime * 0.5);
+            camRotSinZ = 100 + 10 * sin(elapsedTime * 0.5);
+            worldTransform(waveDistance, 0.02, ofVec3f(camRotSinX, camRotSinY, camRotSinZ), 0.02);
+            
+            camPosition.y = cam.getPosition().y + 20 * sin(elapsedTime * 0.5);
+            cam.setPosition(camPosition.x, camPosition.y, cam.getDistance());
             
             // reset route selected to false
             if (routeSelected) routeSelected = false;
@@ -348,9 +378,9 @@ void ofApp::automatedSystem() {
                 
                 float dist = meshPosition.distance(meshTarget);
                 if (dist <= 1000) {
-                    worldTransform(5000, 0.02, ofVec3f(-60, 0, 0), 0.02);
+                    worldTransform(1000, 0.02, ofVec3f(-60, 0, 0), 0.02);
                 } else {
-                    worldTransform(30000, 0.05, ofVec3f(0, 0, 0), 0.01);
+                    worldTransform(16000, 0.05, ofVec3f(0, 0, 0), 0.01);
                 }
             }
             break;
@@ -385,13 +415,20 @@ void ofApp::update(){
         posLerp = 0.02;
         
         if (isCam) {
-            worldTransform(30000, 0.05, ofVec3f(0, 0, 0), 0.2);
+            worldTransform(16000, 0.05, ofVec3f(0, 0, 0), 0.2);
         } else {
             float dist = meshPosition.distance(meshTarget);
             if (dist <= 1000) {
-                worldTransform(6000, 0.02, ofVec3f(-60, 0, 0), 0.02);
+                worldTransform(1000, 0.02, ofVec3f(-60, 0, 0), 0.02);
             } else {
-                worldTransform(30000, 0.05, ofVec3f(0, 0, 0), 0.2);
+                worldTransform(16000, 0.05, ofVec3f(0, 0, 0), 0.2);
+            }
+            
+            if (cam.getDistance() <= 3000) {
+                route.isAlphaLabel = true;
+            }
+            else {
+                route.isAlphaLabel = false;
             }
         }
     } else {
@@ -409,28 +446,70 @@ void ofApp::update(){
         fbo.end();
     }
     
-    // if auto system is active, run
-    if (systemActive) automatedSystem();
-    
     // update menu
     menuUpdates();
+    
+    // if auto system is active, run
+    if (systemActive) autoSysUpdate();
+}
+
+void ofApp::menuSetup(int _w, int _h){
+    menu.setup(_w, _h, 112, 100, 40, 0.08, 0.08);
+    
+    if (route.activeProject == 0) {
+        menu.leftOn = true;
+        menu.objLeft.isSelected = true;
+        menu.rightOn = false;
+        menu.objRight.isSelected = false;
+    } else {
+        menu.leftOn = false;
+        menu.objLeft.isSelected = false;
+        menu.rightOn = true;
+        menu.objRight.isSelected = true;
+    }
+    
+    isCam = true;
 }
 
 void ofApp::menuUpdates(){
-    menu.update();
     
-    // menu button check
-    for (int i = 0; i < BUTTON_AMT; i++) {
-        if (menu.bLeftActive[i] && menu.buttonClicked){
-            loadPoint(i);
-            menu.buttonClicked = false;
+    // draw menu
+    if (bCove) {
+        isDraw = true;
+        
+        menu.update();
+        
+        // menu button check
+        for (int i = 0; i < BUTTON_AMT; i++) {
+            // based on left button, load point
+            if (menu.bLeftActive[i] && menu.buttonClicked){
+                loadPoint(i);
+                menu.buttonClicked = false;
+            }
+            
+            // based on right button, load point
+            if (menu.bRightActive[i] && menu.buttonClicked){
+                loadPoint((BUTTON_AMT-1)-i);
+                menu.buttonClicked = false;
+            }
         }
         
-        if (menu.bRightActive[i] && menu.buttonClicked){
-            loadPoint((BUTTON_AMT-1)-i);
-            menu.buttonClicked = false;
-        }
+        if (isCam)
+            route.isAlphaLabel = false;
+        
+    } else {
+        isDraw = false;
     }
+    
+    menu.objLeftLine.isDraw = isDraw;
+    menu.objRightLine.isDraw = isDraw;
+    for (int i = 0; i < BUTTON_AMT; i++) {
+        menu.objsLeft[i].isDraw = isDraw;
+        menu.objsRight[i].isDraw = isDraw;
+    }
+    menu.objLeft.isDraw = isDraw;
+    menu.objRight.isDraw = isDraw;
+    
 }
 
 void ofApp::draw(){
@@ -444,7 +523,7 @@ void ofApp::draw(){
         drawScene();
     }
     
-    if (!gui->getVisible()) tileLoader.labels.draw2D();
+    // if (!gui->getVisible()) tileLoader.labels.draw2D();
     if (bDebugMsg) drawDebugMsg();
 }
 
@@ -470,7 +549,6 @@ void ofApp::drawDebugMsg(){
     ofDrawBitmapString("current interest point " + ofToString(currentInterestPoint), ofGetWidth()-300, 340);
     ofDrawBitmapString("route selected " + ofToString(routeSelection), ofGetWidth()-300, 360);
     ofDrawBitmapString("camRotSinX " + ofToString(camRotSinX), ofGetWidth()-300, 380);
-    
     
     ofDrawBitmapString("MENU ", ofGetWidth()-300, 420);
     ofDrawBitmapString("buttonClicked " + ofToString(menu.buttonClicked), ofGetWidth()-300, 440);
@@ -499,7 +577,7 @@ void ofApp::drawScene() {
         
         auto tiles = &tileLoader.tiles;
         // toggle tile layers based on zoom?
-        if (cam.getDistance() < 5000) tiles = &tileLoader.microTiles;
+        //if (cam.getDistance() < 5000) tiles = &tileLoader.microTiles;
         
         // Roads
         materialRoads.begin();
@@ -586,21 +664,22 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e) {
     if (e.target->is("toggle fullscreen")) {
         ofToggleFullscreen();
     }
+    else if (e.target->is("toggle cove")) {
+        bCove = !bCove;
+        
+        if (bCove) {
+            windowResized(1080, 960);
+            if (systemActive) systemActive = false;
+        } else {
+            windowResized(1920, 1080);
+            autoSysSetup();
+        }
+    }
     else if (e.target->is("automated system")) {
         systemActive = !systemActive;
         
-        // start timer active
-        systemTimerPaused = false;
-        
         // 30 second intervals
-        maxTime = 30.0;
-        elapsedTime = 0.0;
-        
-        // 3 - 30seconds intervals for a total of 90 seconds
-        maxInterval = 2;
-        currentInterval = 0;
-        currentInterestPoint = 0;
-        currentPoint = 0;
+        autoSysSetup();
     }
     else if (e.target->is("cam mouse")) {
         if (e.target->getEnabled()) {
@@ -615,18 +694,6 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e) {
     else if (e.target->is("show debug")) {
         bDebugMsg = !bDebugMsg;
     }
-    /*
-    else {
-        for (auto &location: route.locations) {
-            if (e.target->is(location.title)) {
-                location.isActive = true;
-                setLon(location.getLon());
-                setLat(location.getLat());
-                scroller.scrollTo(location.routePercent);
-            }
-        }
-    }
-     */
     
     ofLogVerbose() << "onButtonEvent: " << e.target->getLabel() << " " << e.target->getEnabled() << endl;
 }
@@ -652,11 +719,10 @@ void ofApp::onSliderEvent(ofxDatGuiSliderEvent e) {
     }
 }
 
-void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
-{
-    if (e.target->getLabel() == "CROSSRAIL")
+void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e) {
+    if (e.target->getLabel() == "HIGH SPEED 1")
         loadProject(0);
-    else if (e.target->getLabel() == "HIGH SPEED 1")
+    else if (e.target->getLabel() == "CROSSRAIL")
         loadProject(1);
 }
 
@@ -669,35 +735,13 @@ void ofApp::on2dPadEvent(ofxDatGui2dPadEvent e) {
 //////////////////////////////////////////////////////////////////////////////////
 
 void ofApp::keyPressed(int key) {
-    
     switch (key) {
         case 'f':
             ofToggleFullscreen();
             break;
             
-        case 's':
-            bShader = !bShader;
-            if(bShader){
-                tileLoader.labels.setFontColor(ofColor::black, ofColor::white);
-            } else {
-                tileLoader.labels.setFontColor(ofColor::white, ofColor::black);
-            }
-            break;
-            
         case ' ':
             showGui(!gui->getVisible());
-            break;
-            
-        case OF_KEY_RIGHT:
-            pointJump++;
-            if (pointJump > intPoints.size()-1) pointJump = 0;
-            loadPoint(pointJump);
-            break;
-            
-        case OF_KEY_LEFT:
-            pointJump--;
-            if (pointJump < 0) pointJump = intPoints.size()-1;
-            loadPoint(pointJump);
             break;
     }
 }
@@ -715,38 +759,44 @@ void ofApp::mousePressed(int x, int y, int button){
 }
 
 void ofApp::mouseReleased(int x, int y, int button){
-    // loads hs1 project
-    if (menu.objLeft.isMousePressed(0) == 1) {
-        menu.rightOn = false;
-        menu.objRight.isSelected = false;
+    if (bCove) {
+        // loads hs1 project
+        if (menu.objLeft.isMousePressed(0) == 1) {
+            menu.rightOn = false;
+            menu.objRight.isSelected = false;
+            
+            menu.leftOn = !menu.leftOn;
+            menu.objLeft.isSelected = !menu.objLeft.isSelected;
+            
+            isCam = true;
+            
+            // HS1
+            loadProject(0);
+        }
         
-        menu.leftOn = !menu.leftOn;
-        menu.objLeft.isSelected = !menu.objLeft.isSelected;
-        
-        isCam = true;
-        
-        // HS1
-        loadProject(0);
-    }
-    
-    // loads crossrail project
-    if (menu.objRight.isMousePressed(0) == 1) {
-        menu.leftOn = false;
-        menu.objLeft.isSelected = false;
-        
-        menu.rightOn = !menu.rightOn;
-        menu.objRight.isSelected = !menu.objRight.isSelected;
-        
-        isCam = true;
-        
-        // Crossrail
-        loadProject(1);
+        // loads crossrail project
+        if (menu.objRight.isMousePressed(0) == 1) {
+            menu.leftOn = false;
+            menu.objLeft.isSelected = false;
+            
+            menu.rightOn = !menu.rightOn;
+            menu.objRight.isSelected = !menu.objRight.isSelected;
+            
+            isCam = true;
+            
+            // Crossrail
+            loadProject(1);
+        }
     }
 }
 
 void ofApp::windowResized(int w, int h){
     fbo.allocate(w,h);
-    scroller.setup();
+    
+    // resize window shape
+    ofSetWindowShape(w, h);
+    // reconfigure menu for new window shape
+    menuSetup(w, h);
 }
 
 void ofApp::gotMessage(ofMessage msg){

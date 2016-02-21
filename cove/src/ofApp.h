@@ -17,6 +17,8 @@
 #include "InterestPoints.h"
 #include "InteractiveMenu.h"
 
+#define EASEING 0.08
+
 class ofApp : public ofBaseApp{
 public:
     void setup();
@@ -60,12 +62,18 @@ public:
     bool bShader;
     bool bColorInvert;
     bool bDebugMsg;
+    bool bCove;
+    ofVec3f camPosition;
     ofVec2f meshPosition;
     ofVec2f meshTarget;
     float mapX;
     float mapY;
     float camDistance;
     float posLerp;
+    
+    float distance(ofVec2f first, ofVec2f second) {
+        return first.distance(second);
+    }
     
     // system pieces
     void loadProject(int selection);
@@ -84,7 +92,9 @@ public:
     ofFloatColor colWater;
     
     // automatic system
-    void automatedSystem();
+    void autoSysSetup();
+    void autoSysUpdate();
+    bool isSysSetup;
     bool systemActive;
     bool routeSelected;
     bool systemTimerPaused;
@@ -97,6 +107,7 @@ public:
     float scrollPercent;
     float waveDistance;
     float camRotSinX;
+    float camRotSinY;
     float camRotSinZ;
     int currentInterval;
     int maxInterval;
@@ -116,9 +127,11 @@ public:
     IFS::Scrollable scroller;
     
     // menu
+    void menuSetup(int _w, int _h);
     void menuUpdates();
     InteractiveMenu menu;
     bool pointReached;
+    bool isDraw;
     
     // GUI
     ofxDatGui* gui;

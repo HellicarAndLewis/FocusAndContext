@@ -38,12 +38,11 @@ void Location::setup(string title) {
 
 void Location::update() {
     
-    if (isAlphaLabel) percentOpenLabel = ofLerp(percentOpenLabel, 0, 0.01);
-    else percentOpenLabel = ofLerp(percentOpenLabel, 1.0, 1);
+    if (isAlphaLabel) percentOpenLabel = ofLerp(percentOpenLabel, 0, 0.2);
+    else percentOpenLabel = ofLerp(percentOpenLabel, 1.0, 0.2);
     
-    if (isAlpha) percentOpen = ofLerp(percentOpen, 0, 0.1);
-    else percentOpen = ofLerp(percentOpen, 1.0, 0.1);
-//    cout << "alpha " << percentOpen << endl;
+    if (isAlpha) percentOpen = ofLerp(percentOpen, 0, 0.2);
+    else percentOpen = ofLerp(percentOpen, 1.0, 0.2);
 }
 
 void Location::draw(ofCamera& cam) {
@@ -55,16 +54,16 @@ void Location::draw(ofCamera& cam) {
     // billboard height and size
     float height = 200;
     float size = 400;
+    float length = ofMap(percentOpenLabel, 0, 1, 1, 0);
     
     // draw line from location up to billboard when open
-    /*
     ofSetLineWidth(4);
-    ofDrawLine(position.x, position.y, percentOpen * height, position.x, position.y, 0);
+    ofDrawLine(position.x, position.y, length * height/2.1, position.x, position.y, 0);
     ofSetLineWidth(1);
-    */
     
     // billboard to face cam
     billboardShader.begin();
+//    ofDrawRectangle(position.x - (size/2), (length * height/2) + position.y, size, height);
     ofEnablePointSprites();
     labelImage.getTexture().bind();
     glBegin(GL_POINTS);
@@ -85,13 +84,13 @@ void Location::draw2d() {
     
     int alphaTarget = 255 - (percentOpen * 255);
     ofSetColor(255, 255, 255, alphaTarget);
-    int w = 400;
-    int h = 400;
+    int w = 300;
+    int h = 300;
     int space = 60;
     int x = space;
     int y = ofGetHeight() - space - h;
     
-    contentImages[0]->draw(x, y - h, w, h);
+    contentImages[0]->draw(x, y, w, h); //(x, y - h, w, h);
     contentImages[1]->draw(x, y, w, h);
     x += w + space;
     contentImages[2]->draw(x, y, w, h);

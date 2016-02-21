@@ -3,16 +3,18 @@
 //  Cove
 //
 //  Created by Jason Walters on 13/02/2016.
-//  Last edited by Jason Walters on 16/02/2016.
+//  Last edited by Jason Walters on 21/02/2016.
 //
 //
 
 #include "InteractiveMenu.h"
 
 //--------------------------------------------------------------
-void InteractiveMenu::setup(float _mainArea, float _subArea, float _padding, float _easeIn, float _easeOut)
+void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, float _padding, float _easeIn, float _easeOut)
 {
     // setup variables
+    width = _w;
+    height = _h;
     mainArea = _mainArea;
     subArea = _subArea;
     areaDiff = mainArea - subArea;
@@ -26,11 +28,11 @@ void InteractiveMenu::setup(float _mainArea, float _subArea, float _padding, flo
     
     // setup left sub menu
     for (int i = 0; i < length; i++) {
-        posLeft[i].set(padding, ofGetHeight() - padding - mainArea + (areaDiff / 2));
+        posLeft[i].set(padding, height - padding - mainArea + (areaDiff / 2));
         sizeLeft[i] = subArea;
         
         objsLeft[i].drawType = 0;
-        objsLeft[i].set(padding, ofGetHeight() - padding - mainArea + (areaDiff / 2),
+        objsLeft[i].set(padding, height - padding - mainArea + (areaDiff / 2),
                         subArea,
                         subArea);
         objsLeft[i].isMainTile = false;
@@ -61,12 +63,12 @@ void InteractiveMenu::setup(float _mainArea, float _subArea, float _padding, flo
     // setup right sub menu
     for (int i = 0; i < length; i++) {
         
-        posRight[i].set(ofGetWidth() - padding - subArea, ofGetHeight() - padding - mainArea + (areaDiff / 2));
+        posRight[i].set(width - padding - subArea, height - padding - mainArea + (areaDiff / 2));
         sizeRight[i] = subArea;
     
         objsRight[i].drawType = 0;
-        objsRight[i].set(ofGetWidth() - padding - subArea,
-                         ofGetHeight() - padding - mainArea + (areaDiff / 2),
+        objsRight[i].set(width - padding - subArea,
+                         height - padding - mainArea + (areaDiff / 2),
                          subArea,
                          subArea);
         objsRight[i].isMainTile = false;
@@ -100,7 +102,7 @@ void InteractiveMenu::setup(float _mainArea, float _subArea, float _padding, flo
     objLeft.lineLength = 0;
     objLeft.drawType = 0;
     objLeft.set(padding,
-                ofGetHeight() - padding - mainArea,
+                height - padding - mainArea,
                 mainArea,
                 mainArea);
     
@@ -109,8 +111,8 @@ void InteractiveMenu::setup(float _mainArea, float _subArea, float _padding, flo
     objRight.title = "Crossrail";
     objRight.lineLength = 0;
     objRight.drawType = 0;
-    objRight.set((ofGetWidth() - padding) - mainArea,
-                 ofGetHeight() - padding - mainArea,
+    objRight.set((width - padding) - mainArea,
+                 height - padding - mainArea,
                  mainArea,
                  mainArea);
     
@@ -118,15 +120,15 @@ void InteractiveMenu::setup(float _mainArea, float _subArea, float _padding, flo
     objLeftLine.lineLength = 0;
     objLeftLine.drawType = 1;
     objLeftLine.set(padding,
-                    ofGetHeight() - padding - mainArea,
+                    height - padding - mainArea,
                     0,
                     mainArea);
     
     // setup right menu line
     objRightLine.lineLength = 0;
     objRightLine.drawType = 2;//2;
-    objRightLine.set((ofGetWidth() - padding),
-                     ofGetHeight() - padding - mainArea,
+    objRightLine.set((width - padding),
+                     height - padding - mainArea,
                      0,
                      mainArea);
 }
@@ -154,14 +156,14 @@ void InteractiveMenu::transform()
                 
                 float distance = i  * (subArea + padding) + (padding * 2) + mainArea;
                 posLeft[i].x = ofLerp(posLeft[i].x, distance - areaDiff/2, easeOut);
-                posLeft[i].y = ofLerp(posLeft[i].y, ofGetHeight() - padding - mainArea, easeOut);
+                posLeft[i].y = ofLerp(posLeft[i].y, height - padding - mainArea, easeOut);
                 
                 sizeLeft[i] = ofLerp(sizeLeft[i], mainArea, easeOut);
             } else {
                 
                 float distance = i  * (subArea + padding) + (padding * 2) + mainArea;
                 posLeft[i].x = ofLerp(posLeft[i].x, distance, easeOut);
-                posLeft[i].y = ofLerp(posLeft[i].y, ofGetHeight() - padding - mainArea + (areaDiff / 2), easeOut);
+                posLeft[i].y = ofLerp(posLeft[i].y, height - padding - mainArea + (areaDiff / 2), easeOut);
                 
                 sizeLeft[i] = ofLerp(sizeLeft[i], subArea, easeOut);
             }
@@ -169,7 +171,7 @@ void InteractiveMenu::transform()
         } else {
             
             posLeft[i].x = ofLerp(posLeft[i].x, padding, easeIn);
-            posLeft[i].y = ofLerp(posLeft[i].y, ofGetHeight() - padding - mainArea + (areaDiff / 2), easeIn);
+            posLeft[i].y = ofLerp(posLeft[i].y, height - padding - mainArea + (areaDiff / 2), easeIn);
             
             sizeLeft[i] = ofLerp(sizeLeft[i], subArea, easeIn);
             
@@ -186,26 +188,26 @@ void InteractiveMenu::transform()
         
         if (rightOn) {
             
-            float distance = ofGetWidth() - padding - subArea - (i  * (subArea + padding) + padding + mainArea);
+            float distance = width - padding - subArea - (i  * (subArea + padding) + padding + mainArea);
             
             if (bRightActive[i]) {
                 
                 posRight[i].x = ofLerp(posRight[i].x, distance - areaDiff/2, easeOut);
-                posRight[i].y = ofLerp(posRight[i].y, ofGetHeight() - padding - mainArea, easeOut);
+                posRight[i].y = ofLerp(posRight[i].y, height - padding - mainArea, easeOut);
                 
                 sizeRight[i] = ofLerp(sizeRight[i], mainArea, easeOut);
             } else {
                 
                 posRight[i].x = ofLerp(posRight[i].x, distance, easeOut);
-                posRight[i].y = ofLerp(posRight[i].y, ofGetHeight() - padding - mainArea + (areaDiff / 2), easeOut);
+                posRight[i].y = ofLerp(posRight[i].y, height - padding - mainArea + (areaDiff / 2), easeOut);
                 
                 sizeRight[i] = ofLerp(sizeRight[i], subArea, easeOut);
             }
             
         } else {
             
-            posRight[i].x = ofLerp(posRight[i].x, ofGetWidth() - padding - subArea, easeIn);
-            posRight[i].y = ofLerp(posRight[i].y, ofGetHeight() - padding - mainArea + (areaDiff / 2), easeIn);
+            posRight[i].x = ofLerp(posRight[i].x, width - padding - subArea, easeIn);
+            posRight[i].y = ofLerp(posRight[i].y, height - padding - mainArea + (areaDiff / 2), easeIn);
             
             sizeRight[i] = ofLerp(sizeRight[i], subArea, easeIn);
             
@@ -231,7 +233,7 @@ void InteractiveMenu::drawLines()
     
     // right side lines
     if (rightOn) {
-        float defaultPos = ofGetWidth() - padding - mainArea;
+        float defaultPos = width - padding - mainArea;
         float lineDist = defaultPos - ((length-1) * (subArea + padding) + padding + defaultPos + padding + subArea);
         objRightLine.lineLength = ofLerp(objRightLine.lineLength, lineDist, easeOut);
     } else {
