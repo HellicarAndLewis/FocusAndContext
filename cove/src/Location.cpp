@@ -3,7 +3,7 @@
 //  Cove
 //
 //  Created by Chris Mullany on 18/01/2016.
-//  Edited by Jason Walters on 5/02/2016.
+//  Edited by Jason Walters on 23/02/2016.
 //
 //
 
@@ -21,8 +21,6 @@ Location::Location() {
     camRotation.set(-45, 0, 30);
     camDistance = 500;
     
-    // defaults alpha to 0
-    percentOpenLabel = 1.0;
     percentOpen = 1.0;
 }
 
@@ -37,24 +35,17 @@ void Location::setup(string title) {
 }
 
 void Location::update() {
-    
-    if (isAlphaLabel) percentOpenLabel = ofLerp(percentOpenLabel, 0, 0.2);
-    else percentOpenLabel = ofLerp(percentOpenLabel, 1.0, 0.2);
-    
-    if (isAlpha) percentOpen = ofLerp(percentOpen, 0, 0.2);
-    else percentOpen = ofLerp(percentOpen, 1.0, 0.2);
 }
 
-void Location::draw(ofCamera& cam) {
+void Location::draw(ofCamera& cam, float _alpha) {
     if (!hasLabel) return;
     
-    int alphaTarget = 255 - (percentOpenLabel * 255);
-    ofSetColor(255, 255, 255, alphaTarget);
+    ofSetColor(255, 255, 255, _alpha);
     
     // billboard height and size
     float height = 200;
     float size = 400;
-    float length = ofMap(percentOpenLabel, 0, 1, 1, 0);
+    float length = ofMap(_alpha, 0, 255, 0, 1);
     
     // draw line from location up to billboard when open
     ofSetLineWidth(4);

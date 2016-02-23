@@ -26,6 +26,7 @@ void Route::flushData() {
         if (routeLeft.size() > 0) routeLeft.clear();
         if (routeRenderLeft.size() > 0) routeRenderLeft.clear();
         if (routeInverseLeft.size() > 0) routeInverseLeft.clear();
+        
         if (locationsLeft.size() > 0) locationsLeft.clear();
     } else {
         if (routeRight.size() > 0) routeRight.clear();
@@ -45,12 +46,6 @@ void Route::update(float percent) {
         for (auto &location: locationsLeft) {
             location.update();
             location.isActive = false;
-        
-            if (isAlpha) location.isAlpha = true;
-            else location.isAlpha = false;
-        
-            if (isAlphaLabel) location.isAlphaLabel = true;
-            else location.isAlphaLabel = false;            
         }
         
         // get the nearest point on the route to current progress
@@ -68,12 +63,6 @@ void Route::update(float percent) {
         for (auto &location: locationsRight) {
             location.update();
             location.isActive = false;
-            
-            if (isAlpha) location.isAlpha = true;
-            else location.isAlpha = false;
-            
-            if (isAlphaLabel) location.isAlphaLabel = true;
-            else location.isAlphaLabel = false;
         }
         
         // get the nearest point on the route to current progress
@@ -94,50 +83,48 @@ void Route::draw(ofCamera& cam) {
     
     // lerp alpha values
     if (activeProject == 0) {
-        alphaLeft = ofLerp(alphaLeft, 255, 0.08);
-        alphaRight = ofLerp(alphaRight, 0, 0.08);
+        alphaLeft = ofLerp(alphaLeft, 255, 0.2);
+        alphaRight = ofLerp(alphaRight, 0, 0.2);
+        
     } else {
-        alphaLeft = ofLerp(alphaLeft, 0, 0.08);
-        alphaRight = ofLerp(alphaRight, 255, 0.08);
+        alphaLeft = ofLerp(alphaLeft, 0, 0.2);
+        alphaRight = ofLerp(alphaRight, 255, 0.2);
     }
     
     // draw hs1/left project route
-    if (alphaLeft > 0.2) {
-        ofDisableDepthTest();
-        ofSetColor(180, 0, 0, alphaLeft);
-        ofPushMatrix();
-        {
-            ofTranslate(0, 0, 0);
-            ofSetLineWidth(5);
-            routeRenderLeft.draw();
-            ofSetLineWidth(1);
-        }
-        ofPopMatrix();
-        ofSetColor(255);
-        for (auto &location: locationsLeft) {
-            location.draw(cam);
-        }
-        ofEnableDepthTest();
+    ofDisableDepthTest();
+    ofSetColor(180, 0, 0, alphaLeft);
+    ofPushMatrix();
+    {
+        ofTranslate(0, 0, 0);
+        ofSetLineWidth(5);
+        routeRenderLeft.draw();
+        ofSetLineWidth(1);
     }
+    ofPopMatrix();
     
-    // draws crossrail/right project route
-    if (alphaRight > 0.2) {
-        ofDisableDepthTest();
-        ofSetColor(180, 0, 0, alphaRight);
-        ofPushMatrix();
-        {
-            ofTranslate(0, 0, 0);
-            ofSetLineWidth(5);
-            routeRenderRight.draw();
-            ofSetLineWidth(1);
-        }
-        ofPopMatrix();
-        ofSetColor(255);
-        for (auto &location: locationsRight) {
-            location.draw(cam);
-        }
-        ofEnableDepthTest();
+    ofSetColor(255);
+    for (auto &location: locationsLeft) {
+        location.draw(cam, alphaLeft);
     }
+    ofEnableDepthTest();
+    
+    ofDisableDepthTest();
+    ofSetColor(180, 0, 0, alphaRight);
+    ofPushMatrix();
+    {
+        ofTranslate(0, 0, 0);
+        ofSetLineWidth(5);
+        routeRenderRight.draw();
+        ofSetLineWidth(1);
+    }
+    ofPopMatrix();
+    
+    ofSetColor(255);
+    for (auto &location: locationsRight) {
+        location.draw(cam, alphaRight);
+    }
+    ofEnableDepthTest();
 }
 
 void Route::draw2d() {

@@ -15,7 +15,7 @@ public:
     
 	void setup(string title);
 	void update();
-	void draw(ofCamera& cam);
+	void draw(ofCamera& cam, float _alpha);
     void draw2d();
     
     float getLon();
@@ -30,8 +30,10 @@ public:
     bool isAlpha;
     bool isAlphaLabel;
     float percentOpen;
-    float percentOpenLabel;
+    float percentOpenLabelLeft;
+    float percentOpenLabelRight;
     float alphaTarget;
+    int project;
     ofTrueTypeFont* titleFont;
     
     ofShader billboardShader;

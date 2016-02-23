@@ -19,11 +19,8 @@ void ofApp::setup() {
     // camera draw distance
     cam.setFarClip(300000);
     cam.setDistance(206000);
-    //cam.setPosition(-1654.83, 1797.08, cam.getDistance());
-    //camPosition = cam.getPosition();
     
     // center mesh on launch
-//    meshPosition.set(-54840.9, 39983.3);
     meshPosition.set(-16156.9, 11756.6);
     // FBO to render scene into shader
     ofFbo::Settings settings;
@@ -136,7 +133,7 @@ void ofApp::setupGui() {
 
 void ofApp::projectColors() {
     
-    float colorLerp = 0.08;
+    float colorLerp = 0.1;
     
     // project is hs1, then...
     if (route.activeProject == 0) {
@@ -219,9 +216,10 @@ void ofApp::loadProject(int selection) {
             if (location.title != "" && location.title != "Camera") {
                 scroller.ticks.push_back(route.locationsLeft[i].routePercent);
             }
-            scroller.ticks.push_back(route.locationsLeft[i].routePercent);
+            //scroller.ticks.push_back(route.locationsLeft[i].routePercent);
         }
         
+        // reset project starting point based on auto system
         if (systemActive) {
             setLon(-0.125823);
             setLat(51.529976);
@@ -251,9 +249,10 @@ void ofApp::loadProject(int selection) {
             if (location.title != "" && location.title != "Camera") {
                 scroller.ticks.push_back(route.locationsRight[i].routePercent);
             }
-            scroller.ticks.push_back(route.locationsRight[i].routePercent);
+            //scroller.ticks.push_back(route.locationsRight[i].routePercent);
         }
         
+        // reset project starting point based on auto system
         if (systemActive) {
             setLon(-0.07941);
             setLat(51.51757);
@@ -358,8 +357,6 @@ void ofApp::autoSysUpdate() {
     Location & location = *route.getLocation();
     switch (currentInterval) {
         case 0:
-            if (route.isAlphaLabel) route.isAlphaLabel = false;
-            
             // travel through the route
             setLon(location.getLon());
             setLat(location.getLat());
@@ -419,16 +416,12 @@ void ofApp::autoSysUpdate() {
                 if (route.activeProject == 0) {
                     if (dist <= 1000) {
                         worldTransform(1000, 0.02, ofVec3f(-60, 0, 0), 0.1);
-                        // run content stuff...
-                        if (cam.getDistance() <= 2000) route.isAlphaLabel = true;
                     } else {
                         worldTransform(96000, 0.02, ofVec3f(0, 0, 0), 0.1);
                     }
                 } else {
                     if (dist <= 1000) {
                         worldTransform(1000, 0.02, ofVec3f(240, 0, 0), 0.1);
-                        // run content stuff...
-                        if (cam.getDistance() <= 2000) route.isAlphaLabel = true;
                     } else {
                         worldTransform(18000, 0.02, ofVec3f(180, 0, 0), 0.1);
                     }
@@ -438,7 +431,6 @@ void ofApp::autoSysUpdate() {
             
         case 2:
             // do stuff
-            if (elapsedTime > 28) route.isAlphaLabel = false;
             break;
     }
 }
@@ -477,8 +469,12 @@ void ofApp::update(){
             float dist = meshPosition.distance(meshTarget);
             if (bCove) {
                 if (route.activeProject == 0) {
-                    if (dist <= 1000)  worldTransform(1000, 0.02, ofVec3f(-60, 0, 0), 0.02);
-                    else worldTransform(206000, 0.02, ofVec3f(0, 0, 0), 0.02);
+                    if (dist <= 1000) {
+                        worldTransform(1000, 0.02, ofVec3f(-60, 0, 0), 0.02);
+                    }
+                    else {
+                        worldTransform(206000, 0.02, ofVec3f(0, 0, 0), 0.02);
+                    }
                 } else {
                     if (dist <= 1000) worldTransform(1000, 0.02, ofVec3f(240, 0, 0), 0.02);
                     else worldTransform(42500, 0.02, ofVec3f(180, 0, 0), 0.02);
@@ -555,16 +551,6 @@ void ofApp::menuUpdates(){
                 loadPoint((BUTTON_AMT-1)-i);
                 menu.buttonClicked = false;
             }
-        }
-        
-        // run content stuff...
-        if (cam.getDistance() <= 3000 && !isCam) {
-            route.isAlphaLabel = true;
-            content.draw(true);
-        }
-        else {
-            route.isAlphaLabel = false;
-            content.draw(false);
         }
         
     } else {
@@ -684,6 +670,13 @@ void ofApp::drawScene() {
         materialWater.begin();
         for (auto & tile : *tiles) tile.meshWater.draw();
         materialWater.end();
+        
+        /*
+        // Ocean
+        materialOcean.begin();
+        for (auto & tile : *tiles) tile.meshOcean.draw();
+        materialOcean.end();
+         */
         
         /*
         waterShader.begin();

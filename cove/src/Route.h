@@ -45,7 +45,6 @@ public:
     float alphaLeft;
     float alphaRight;
     bool isAlpha;
-    bool isAlphaLabel;
     
     ofParameter<float> latRange;
     ofParameter<float> lonRange;

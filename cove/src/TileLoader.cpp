@@ -3,7 +3,7 @@
 //  Cove
 //
 //  Created by Chris Mullany on 15/01/2016.
-//  Edited by Jason Walters on 5/02/2016.
+//  Edited by Jason Walters on 23/02/2016.
 //
 //
 
@@ -13,9 +13,6 @@ TileLoader::TileLoader() {
 }
 
 void TileLoader::setup() {
-//    labels.loadFont("fonts/PlainMed", 10);
-//    labels.setFontColor(ofColor::black, ofColor::white);
-//    builder.setLabelManager(&labels);
 }
 
 void TileLoader::update() {
