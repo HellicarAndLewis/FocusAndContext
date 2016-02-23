@@ -17,14 +17,14 @@ void ofApp::setup() {
     ofEnableAlphaBlending();
     
     // camera draw distance
-    cam.setFarClip(120000);
-    cam.setDistance(16000);
-    cam.setPosition(-1654.83, 1797.08, cam.getDistance());
-    camPosition = cam.getPosition();
+    cam.setFarClip(300000);
+    cam.setDistance(206000);
+    //cam.setPosition(-1654.83, 1797.08, cam.getDistance());
+    //camPosition = cam.getPosition();
     
     // center mesh on launch
-    meshPosition.set(-54840.9, 39983.3);
-    
+//    meshPosition.set(-54840.9, 39983.3);
+    meshPosition.set(-16156.9, 11756.6);
     // FBO to render scene into shader
     ofFbo::Settings settings;
     settings.width = ofGetWidth();
@@ -136,17 +136,14 @@ void ofApp::setupGui() {
 
 void ofApp::projectColors() {
     
-    // directional light - even spread across all objects
-    light.setDirectional();
-    light.setOrientation(ofVec3f(180, 0, 0));
-    // lighting color
-    light.setDiffuseColor(ofFloatColor(0.84, 0.8, 0.79));
-    
     float colorLerp = 0.08;
     
     // project is hs1, then...
     if (route.activeProject == 0) {
+        lightAngle = ofLerp(lightAngle, 180, colorLerp);
+        
         colBackground.lerp(ofColor::black, colorLerp);
+        
         colEarth.lerp(ofColor(25.5), colorLerp);
         colEarthDiff.lerp(ofColor(38.25), colorLerp);
         colRoads.lerp(ofColor(153, 153, 153), colorLerp);
@@ -155,9 +152,13 @@ void ofApp::projectColors() {
         colBuildingsDiff.lerp(ofColor(102, 102, 102), colorLerp);
         colBuildingsActive.lerp(ofColor(204, 0, 0), colorLerp);
         colBuildingsActiveDiff.lerp(ofColor(178.5, 0, 0), colorLerp);
+        
         colWater.lerp(ofColor(111, 201, 238), colorLerp);
     } else {
-        colBackground.lerp(ofColor(1, 3, 38), colorLerp);
+        lightAngle = ofLerp(lightAngle, 0, colorLerp);
+        
+        colBackground.lerp(ofColor::whiteSmoke, colorLerp);
+        
         colEarth.lerp(ofColor(255 - 25.5), colorLerp);
         colEarthDiff.lerp(ofColor(255 - 38.25), colorLerp);
         colRoads.lerp(ofColor(255 - 153, 255 - 153, 255 - 153), colorLerp);
@@ -166,10 +167,20 @@ void ofApp::projectColors() {
         colBuildingsDiff.lerp(ofColor(255 - 102, 255 - 102, 255 - 102), colorLerp);
         colBuildingsActive.lerp(ofColor(255 - 204, 0, 0), colorLerp);
         colBuildingsActiveDiff.lerp(ofColor(255 - 178.5, 0, 0), colorLerp);
+        
         colWater.lerp(ofColor(111, 201, 238), colorLerp);
     }
     
+    // directional light - even spread across all objects
+    light.setDirectional();
+    light.setOrientation(ofVec3f(lightAngle, 0, 0));
+    // lighting color
+    light.setDiffuseColor(ofFloatColor(0.84, 0.8, 0.79));
+    
+    // background color
     ofBackground(colBackground);
+    
+    // world materials
     materialEarth.setAmbientColor(colEarth);
     materialEarth.setDiffuseColor(colEarthDiff);
     materialRoads.setAmbientColor(colRoads);
@@ -178,6 +189,8 @@ void ofApp::projectColors() {
     materialBuildings.setDiffuseColor(colBuildingsDiff);
     materialBuildingsActive.setAmbientColor(colBuildingsActive);
     materialBuildingsActive.setDiffuseColor(colBuildingsActiveDiff);
+    
+    // water color
     materialWater.setAmbientColor(ofFloatColor(colWater));
     materialWater.setDiffuseColor(ofFloatColor(colWater));
 }
@@ -207,9 +220,13 @@ void ofApp::loadProject(int selection) {
             scroller.ticks.push_back(route.locationsLeft[i].routePercent);
         }
         
-        setLon(-0.125823);
-        setLat(51.529976);
-        
+        if (systemActive) {
+            setLon(-0.125823);
+            setLat(51.529976);
+        } else {
+            setLon(0.4760);
+            setLat(51.3742);
+        }
         scroller.scrollTo(location.routePercent);
         
         // clear POI vector if previously in use
@@ -224,7 +241,6 @@ void ofApp::loadProject(int selection) {
                                                    location.camRotation));
             }
         }
-        
     } else {
         // load and init route
         Location & location = *route.getLocation();
@@ -236,8 +252,13 @@ void ofApp::loadProject(int selection) {
             scroller.ticks.push_back(route.locationsRight[i].routePercent);
         }
         
-        setLon(-0.0347);
-        setLat(51.504);
+        if (systemActive) {
+            setLon(-0.07941);
+            setLat(51.51757);
+        } else {
+            setLon(-0.05501);
+            setLat(51.52058);
+        }
         scroller.scrollTo(location.routePercent);
         
         // clear POI vector if previously in use
@@ -270,6 +291,8 @@ void ofApp::loadContent(int item){
 void ofApp::worldTransform(float distance, float distEase, ofVec3f rotation, float rotEase){
     
     cam.setDistance(ofLerp(cam.getDistance(), distance, distEase));
+    //cam.setPosition(cam.getPosition().x, cam.getPosition().y, ofLerp(cam.getPosition().z, distance, distEase));
+    
     sceneRotation.x = ofLerp(sceneRotation.x, rotation.x, rotEase);
     sceneRotation.y = ofLerp(sceneRotation.y, rotation.y, rotEase);
     sceneRotation.z = ofLerp(sceneRotation.z, rotation.z, rotEase);
@@ -288,6 +311,10 @@ void ofApp::autoSysSetup() {
     currentInterval = 0;
     currentInterestPoint = 0;
     currentPoint = 0;
+    
+    camDistance = 0;
+    
+    loadProject(0);
     
     // disable
     isSysSetup = false;
@@ -329,35 +356,43 @@ void ofApp::autoSysUpdate() {
     Location & location = *route.getLocation();
     switch (currentInterval) {
         case 0:
+            if (route.isAlphaLabel) route.isAlphaLabel = false;
+            
             // travel through the route
             setLon(location.getLon());
             setLat(location.getLat());
-            scroller.scrollTo(ofMap(elapsedTime, 0.0, 30.0, 0.0, 1.0));
+            scroller.scrollTo(ofMap(elapsedTime, 4.0, 30.0, 0.0, 1.0));
             
-            camDistance = distance(ofVec2f(location.getLon(), location.getLat()),
-                                   ofVec2f(intPoints[currentInterestPoint].lon, intPoints[currentInterestPoint].lat));
-            
-            //
-            if (location.getLon() == intPoints[currentInterestPoint].lon &&
-                location.getLat() == intPoints[currentInterestPoint].lat) {
-                if (currentInterestPoint < 4) currentInterestPoint++;
+            if (elapsedTime > 4) {
+                
+                if (route.activeProject == 0) {
+                    
+                    camRotSinX = -70 - 10 * sin(elapsedTime);
+                    camRotSinY = 0 - 2 * sin(elapsedTime * 0.5);
+                    camRotSinZ = 100 + 10 * sin(elapsedTime * 0.5);
+                    
+                } else {
+                    
+                    waveDistance = 2000;
+                    camRotSinX = 250 - 10 * sin(elapsedTime);
+                    camRotSinY = 0 - 2 * sin(elapsedTime * 0.5);
+                    camRotSinZ = 100 + 10 * sin(elapsedTime * 0.5);
+                    
+                }
+                waveDistance = 2000;
+                worldTransform(waveDistance, 0.02, ofVec3f(camRotSinX, camRotSinY, camRotSinZ), 0.01);
+                
+            } else {
+                if (route.activeProject == 0) {
+                    worldTransform(96000, 0.02, ofVec3f(0, 0, 0), 0.1);
+                } else {
+                    worldTransform(18000, 0.02, ofVec3f(180, 0, 0), 0.1);
+                }
             }
-            
-            waveDistance = ofMap(camDistance, 0, 1, 10, 50);
-            
-            //waveDistance = 2000;
-            camRotSinX = -65 - 10 * sin(elapsedTime);
-            camRotSinY = 0 - 2 * sin(elapsedTime * 0.5);
-            camRotSinZ = 100 + 10 * sin(elapsedTime * 0.5);
-            worldTransform(waveDistance, 0.02, ofVec3f(camRotSinX, camRotSinY, camRotSinZ), 0.02);
-            
-            camPosition.y = cam.getPosition().y + 20 * sin(elapsedTime * 0.5);
-            cam.setPosition(camPosition.x, camPosition.y, cam.getDistance());
             
             // reset route selected to false
             if (routeSelected) routeSelected = false;
             
-            route.isAlpha = false;
             break;
             
         case 1:
@@ -379,17 +414,29 @@ void ofApp::autoSysUpdate() {
                 if (currentPoint != pointJump) currentPoint = pointJump;
                 
                 float dist = meshPosition.distance(meshTarget);
-                if (dist <= 1000) {
-                    worldTransform(1000, 0.02, ofVec3f(-60, 0, 0), 0.02);
+                if (route.activeProject == 0) {
+                    if (dist <= 1000) {
+                        worldTransform(1000, 0.02, ofVec3f(-60, 0, 0), 0.1);
+                        // run content stuff...
+                        if (cam.getDistance() <= 2000) route.isAlphaLabel = true;
+                    } else {
+                        worldTransform(96000, 0.02, ofVec3f(0, 0, 0), 0.1);
+                    }
                 } else {
-                    worldTransform(16000, 0.05, ofVec3f(0, 0, 0), 0.01);
+                    if (dist <= 1000) {
+                        worldTransform(1000, 0.02, ofVec3f(240, 0, 0), 0.1);
+                        // run content stuff...
+                        if (cam.getDistance() <= 2000) route.isAlphaLabel = true;
+                    } else {
+                        worldTransform(18000, 0.02, ofVec3f(180, 0, 0), 0.1);
+                    }
                 }
             }
             break;
             
         case 2:
-            // reset current interest points
-            if (currentInterestPoint != 0) currentInterestPoint = 0;
+            // do stuff
+            if (elapsedTime > 28) route.isAlphaLabel = false;
             break;
     }
 }
@@ -417,32 +464,39 @@ void ofApp::update(){
         posLerp = 0.02;
         
         if (isCam) {
-            worldTransform(16000, 0.05, ofVec3f(0, 0, 0), 0.2);
-            
-            content.draw(false);
-            
+            if (bCove) {
+                if (route.activeProject == 0) worldTransform(206000, 0.02, ofVec3f(0, 0, 0), 0.02);
+                else worldTransform(42500, 0.02, ofVec3f(180, 0, 0), 0.02);
+            } else {
+                if (route.activeProject == 0) worldTransform(96000, 0.02, ofVec3f(0, 0, 0), 0.02);
+                else worldTransform(18000, 0.02, ofVec3f(180, 0, 0), 0.02);
+            }
         } else {
             float dist = meshPosition.distance(meshTarget);
-            if (dist <= 1000) {
-                worldTransform(1000, 0.02, ofVec3f(-60, 0, 0), 0.02);
+            if (bCove) {
+                if (route.activeProject == 0) {
+                    if (dist <= 1000)  worldTransform(1000, 0.02, ofVec3f(-60, 0, 0), 0.02);
+                    else worldTransform(206000, 0.02, ofVec3f(0, 0, 0), 0.02);
+                } else {
+                    if (dist <= 1000) worldTransform(1000, 0.02, ofVec3f(240, 0, 0), 0.02);
+                    else worldTransform(42500, 0.02, ofVec3f(180, 0, 0), 0.02);
+                }
             } else {
-                worldTransform(16000, 0.05, ofVec3f(0, 0, 0), 0.2);
-            }
-            
-            if (cam.getDistance() <= 3000) {
-                route.isAlphaLabel = true;
-                content.draw(true);
-            }
-            else {
-                route.isAlphaLabel = false;
-                content.draw(false);
+                if (route.activeProject == 0) {
+                    if (dist <= 1000)  worldTransform(1000, 0.02, ofVec3f(-60, 0, 0), 0.02);
+                    else worldTransform(96000, 0.02, ofVec3f(0, 0, 0), 0.02);
+                } else {
+                    if (dist <= 1000) worldTransform(1000, 0.02, ofVec3f(240, 0, 0), 0.02);
+                    else worldTransform(18000, 0.02, ofVec3f(180, 0, 0), 0.02);
+                }
             }
         }
     } else {
         // lerp the actual mesh position to the target
-        posLerp = 0.008;
+        posLerp = 0.02;
     }
     
+    // mesh moves around world
     meshPosition.x = ofLerp(meshPosition.x, meshTarget.x, posLerp);
     meshPosition.y = ofLerp(meshPosition.y, meshTarget.y, posLerp);
     
@@ -501,10 +555,18 @@ void ofApp::menuUpdates(){
             }
         }
         
-        if (isCam)
+        // run content stuff...
+        if (cam.getDistance() <= 3000 && !isCam) {
+            route.isAlphaLabel = true;
+            content.draw(true);
+        }
+        else {
             route.isAlphaLabel = false;
+            content.draw(false);
+        }
         
     } else {
+        // disable drawin menu
         isDraw = false;
     }
     
@@ -542,9 +604,12 @@ void ofApp::draw(){
 
 void ofApp::drawDebugMsg(){
     
-    ofSetColor(255, 255, 0);
+    if (route.activeProject == 0) colDebug.lerp(ofColor::yellow, 0.08);
+    else colDebug.lerp(ofColor::black, 0.08);
+    ofSetColor(colDebug);
+    
     ofDrawBitmapString("TRANSFORMS ", ofGetWidth()-300, 20);
-    ofDrawBitmapString("camDistance " + ofToString(camDistance), ofGetWidth()-300, 40);
+    ofDrawBitmapString("cam.getPosition() " + ofToString(cam.getPosition()), ofGetWidth()-300, 40);
     ofDrawBitmapString("cam.getDistance() " + ofToString(cam.getDistance()), ofGetWidth()-300, 60);
     ofDrawBitmapString("sceneRotation " + ofToString(sceneRotation), ofGetWidth()-300, 80);
     ofDrawBitmapString("meshTarget " + ofToString(meshTarget), ofGetWidth()-300, 100);
@@ -681,7 +746,7 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e) {
         bCove = !bCove;
         
         if (bCove) {
-            windowResized(1080, 960);
+            windowResized(1080, 1200);
             if (systemActive) systemActive = false;
         } else {
             windowResized(1920, 1080);

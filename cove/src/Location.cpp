@@ -63,7 +63,6 @@ void Location::draw(ofCamera& cam) {
     
     // billboard to face cam
     billboardShader.begin();
-//    ofDrawRectangle(position.x - (size/2), (length * height/2) + position.y, size, height);
     ofEnablePointSprites();
     labelImage.getTexture().bind();
     glBegin(GL_POINTS);

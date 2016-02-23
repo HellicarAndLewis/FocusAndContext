@@ -86,11 +86,13 @@ public:
     void projectColors();
     bool colorProject;
     ofColor colBackground;
+    ofColor colDebug;
     ofFloatColor colEarth, colEarthDiff;
     ofFloatColor colRoads, colRoadsDiff;
     ofFloatColor colBuildings, colBuildingsDiff;
     ofFloatColor colBuildingsActive, colBuildingsActiveDiff;
     ofFloatColor colWater;
+    float lightAngle;
     
     // automatic system
     void autoSysSetup();
