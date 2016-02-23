@@ -193,6 +193,8 @@ void ofApp::projectColors() {
     // water color
     materialWater.setAmbientColor(ofFloatColor(colWater));
     materialWater.setDiffuseColor(ofFloatColor(colWater));
+    materialOcean.setAmbientColor(ofFloatColor(colWater));
+    materialOcean.setDiffuseColor(ofFloatColor(colWater));
 }
 
 void ofApp::loadProject(int selection) {

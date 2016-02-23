@@ -54,6 +54,7 @@ public:
     ofMaterial materialBuildings;
     ofMaterial materialBuildingsActive;
     ofMaterial materialWater;
+    ofMaterial materialOcean;
     ofFbo fbo;
     ofShader shader;
     ofShader waterShader;
