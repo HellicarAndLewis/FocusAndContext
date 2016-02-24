@@ -152,7 +152,10 @@ void ofApp::projectColors() {
         
         colWater.lerp(ofColor(111, 201, 238), colorLerp);
     } else {
-        lightAngle = ofLerp(lightAngle, 0, colorLerp);
+        
+        if (camTilt == 240) lightAngleDest = 180;
+        else lightAngleDest = 180;
+        lightAngle = ofLerp(lightAngle, lightAngleDest, colorLerp);
         
         colBackground.lerp(ofColor::whiteSmoke, colorLerp);
         
@@ -216,17 +219,17 @@ void ofApp::loadProject(int selection) {
             if (location.title != "" && location.title != "Camera") {
                 scroller.ticks.push_back(route.locationsLeft[i].routePercent);
             }
-            //scroller.ticks.push_back(route.locationsLeft[i].routePercent);
+            scroller.ticks.push_back(route.locationsLeft[i].routePercent);
         }
         
         // reset project starting point based on auto system
-        if (systemActive) {
-            setLon(-0.125823);
-            setLat(51.529976);
-        } else {
+//        if (systemActive) {
+//            setLon(-0.125823);
+//            setLat(51.529976);
+//        } else {
             setLon(0.4760);
             setLat(51.3742);
-        }
+//        }
         scroller.scrollTo(location.routePercent);
         
         // clear POI vector if previously in use
@@ -249,17 +252,17 @@ void ofApp::loadProject(int selection) {
             if (location.title != "" && location.title != "Camera") {
                 scroller.ticks.push_back(route.locationsRight[i].routePercent);
             }
-            //scroller.ticks.push_back(route.locationsRight[i].routePercent);
+            scroller.ticks.push_back(route.locationsRight[i].routePercent);
         }
         
         // reset project starting point based on auto system
-        if (systemActive) {
-            setLon(-0.07941);
-            setLat(51.51757);
-        } else {
+//        if (systemActive) {
+//            setLon(-0.07941);
+//            setLat(51.51757);
+//        } else {
             setLon(-0.05501);
             setLat(51.52058);
-        }
+//        }
         scroller.scrollTo(location.routePercent);
         
         // clear POI vector if previously in use
@@ -313,9 +316,7 @@ void ofApp::autoSysSetup() {
     currentInterestPoint = 0;
     currentPoint = 0;
     
-    camDistance = 0;
-    
-    loadProject(0);
+//    loadProject(0);
     
     // disable
     isSysSetup = false;
@@ -360,32 +361,21 @@ void ofApp::autoSysUpdate() {
             // travel through the route
             setLon(location.getLon());
             setLat(location.getLat());
-            scroller.scrollTo(ofMap(elapsedTime, 4.0, 30.0, 0.0, 1.0));
+            scroller.scrollTo(ofMap(elapsedTime, 4.1, 30.0, 0.0, 1.0));
             
             if (elapsedTime > 4) {
                 
-                if (route.activeProject == 0) {
-                    
-                    camRotSinX = -70 - 10 * sin(elapsedTime);
-                    camRotSinY = 0 - 2 * sin(elapsedTime * 0.5);
-                    camRotSinZ = 100 + 10 * sin(elapsedTime * 0.5);
-                    
-                } else {
-                    
-                    waveDistance = 2000;
-                    camRotSinX = 250 - 10 * sin(elapsedTime);
-                    camRotSinY = 0 - 2 * sin(elapsedTime * 0.5);
-                    camRotSinZ = 100 + 10 * sin(elapsedTime * 0.5);
-                    
-                }
+                camRotSinX = -70 - 10 * sin(elapsedTime);
+                camRotSinY = 0 - 2 * sin(elapsedTime * 0.5);
+                camRotSinZ = 100 + 10 * sin(elapsedTime * 0.5);
                 waveDistance = 2000;
-                worldTransform(waveDistance, 0.02, ofVec3f(camRotSinX, camRotSinY, camRotSinZ), 0.01);
+                worldTransform(waveDistance, 0.02, ofVec3f(camRotSinX, camRotSinY, camRotSinZ), 0.02);
                 
-            } else {
+            } else if (elapsedTime){
                 if (route.activeProject == 0) {
-                    worldTransform(96000, 0.02, ofVec3f(0, 0, 0), 0.1);
+                    worldTransform(96000, 0.02, ofVec3f(0, 0, 0), 0.02);
                 } else {
-                    worldTransform(18000, 0.02, ofVec3f(180, 0, 0), 0.1);
+                    worldTransform(18000, 0.02, ofVec3f(0, 0, 0), 0.02);
                 }
             }
             
@@ -413,19 +403,21 @@ void ofApp::autoSysUpdate() {
                 if (currentPoint != pointJump) currentPoint = pointJump;
                 
                 float dist = meshPosition.distance(meshTarget);
-                if (route.activeProject == 0) {
-                    if (dist <= 1000) {
-                        worldTransform(1000, 0.02, ofVec3f(-60, 0, 0), 0.1);
-                    } else {
-                        worldTransform(96000, 0.02, ofVec3f(0, 0, 0), 0.1);
-                    }
+                if (dist >= 1000) {
+                    camTilt = 0;
+                    if (route.activeProject == 0) camDistance = 96000;
+                    else camDistance = 18000;
                 } else {
-                    if (dist <= 1000) {
-                        worldTransform(1000, 0.02, ofVec3f(240, 0, 0), 0.1);
-                    } else {
-                        worldTransform(18000, 0.02, ofVec3f(180, 0, 0), 0.1);
+                    if (cam.getPosition().z > 3000) camTilt = 0;
+                    else {
+                        if (route.activeProject == 0) camTilt = -60;
+                        else camTilt = 240;
                     }
+                    
+                    camDistance = 1000;
                 }
+                
+                worldTransform(camDistance, 0.02, ofVec3f(camTilt, 0, 0), 0.02);
             }
             break;
             
@@ -436,7 +428,7 @@ void ofApp::autoSysUpdate() {
 }
 
 void ofApp::update(){
-    
+        
     if (ofGetFrameNum() == 2) cam.disableMouseInput();
     
     if(colorProject) projectColors();
@@ -453,48 +445,46 @@ void ofApp::update(){
     if (scroller.isScrolling) meshTarget = route.getPosition(true);
     
     // zoom in/out of points based on distance
-    if (!systemActive) {
+    if (!systemActive && bCove) {
         // lerp the actual mesh position to the target
-        posLerp = 0.02;
-        
         if (isCam) {
-            if (bCove) {
-                if (route.activeProject == 0) worldTransform(206000, 0.02, ofVec3f(0, 0, 0), 0.02);
-                else worldTransform(42500, 0.02, ofVec3f(180, 0, 0), 0.02);
-            } else {
-                if (route.activeProject == 0) worldTransform(96000, 0.02, ofVec3f(0, 0, 0), 0.02);
-                else worldTransform(18000, 0.02, ofVec3f(180, 0, 0), 0.02);
-            }
+            camTilt = 0;
+            
+            if (route.activeProject == 0) camDistance = 206000;
+            else camDistance = 42500;
         } else {
+            
             float dist = meshPosition.distance(meshTarget);
-            if (bCove) {
-                if (route.activeProject == 0) {
-                    if (dist <= 1000) {
-                        worldTransform(1000, 0.02, ofVec3f(-60, 0, 0), 0.02);
-                    }
-                    else {
-                        worldTransform(206000, 0.02, ofVec3f(0, 0, 0), 0.02);
-                    }
-                } else {
-                    if (dist <= 1000) worldTransform(1000, 0.02, ofVec3f(240, 0, 0), 0.02);
-                    else worldTransform(42500, 0.02, ofVec3f(180, 0, 0), 0.02);
-                }
+            if (dist >= 1000) {
+                
+                camTilt = 0;
+                
+                if (route.activeProject == 0) camDistance = 206000;
+                else camDistance = 42500;
+                
             } else {
-                if (route.activeProject == 0) {
-                    if (dist <= 1000)  worldTransform(1000, 0.02, ofVec3f(-60, 0, 0), 0.02);
-                    else worldTransform(96000, 0.02, ofVec3f(0, 0, 0), 0.02);
-                } else {
-                    if (dist <= 1000) worldTransform(1000, 0.02, ofVec3f(240, 0, 0), 0.02);
-                    else worldTransform(18000, 0.02, ofVec3f(180, 0, 0), 0.02);
+                if (cam.getPosition().z > 3000) camTilt = 0;
+                else {
+                    if (route.activeProject == 0) camTilt = -60;
+                    else camTilt = 240;
                 }
+                
+                camDistance = 1000;
             }
         }
-    } else {
-        // lerp the actual mesh position to the target
-        posLerp = 0.02;
+        
+        // world translation stuff
+        worldTransform(camDistance, 0.02, ofVec3f(camTilt, 0, 0), 0.02);
+    } else if (!systemActive && !bCove) {
+        if (route.activeProject == 0) camDistance = 96000;
+        else camDistance = 18000;
+        camTilt = 0;
+        // world translation stuff
+        worldTransform(camDistance, 0.02, ofVec3f(camTilt, 0, 0), 0.02);
     }
     
     // mesh moves around world
+    posLerp = 0.01;
     meshPosition.x = ofLerp(meshPosition.x, meshTarget.x, posLerp);
     meshPosition.y = ofLerp(meshPosition.y, meshTarget.y, posLerp);
     

@@ -72,6 +72,7 @@ public:
     float mapY;
     float camDistance;
     float posLerp;
+    float camTilt;
     
     float distance(ofVec2f first, ofVec2f second) {
         return first.distance(second);
@@ -94,6 +95,7 @@ public:
     ofFloatColor colBuildingsActive, colBuildingsActiveDiff;
     ofFloatColor colWater;
     float lightAngle;
+    float lightAngleDest;
     
     // automatic system
     void autoSysSetup();
