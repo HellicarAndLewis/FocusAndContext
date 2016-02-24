@@ -19,7 +19,7 @@ Location::Location() {
         billboardShader.load("shadersGL2/Billboard");
     }
     camRotation.set(-45, 0, 30);
-    camDistance = 500;
+    camDistance = 5000;
     
     percentOpen = 1.0;
 }
@@ -44,8 +44,11 @@ void Location::draw(ofCamera& cam, float _alpha) {
     
     // billboard height and size
     float height = 200;
-    float size = 400;
+    float size = ofMap(cam.getPosition().z, 3000, 1000, 80, 400);//400;
+    size = ofClamp(size, 80, 400);
     float length = ofMap(_alpha, 0, 255, 0, 1);
+    
+    //cout << cam.getPosition().z << endl;
     
     // draw line from location up to billboard when open
     ofSetLineWidth(4);

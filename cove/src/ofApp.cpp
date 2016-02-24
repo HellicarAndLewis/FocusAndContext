@@ -368,7 +368,7 @@ void ofApp::autoSysUpdate() {
                 camRotSinX = -70 - 10 * sin(elapsedTime);
                 camRotSinY = 0 - 2 * sin(elapsedTime * 0.5);
                 camRotSinZ = 100 + 10 * sin(elapsedTime * 0.5);
-                waveDistance = 2000;
+                waveDistance = 4000;
                 worldTransform(waveDistance, 0.02, ofVec3f(camRotSinX, camRotSinY, camRotSinZ), 0.02);
                 
             } else if (elapsedTime){
@@ -408,7 +408,7 @@ void ofApp::autoSysUpdate() {
                     if (route.activeProject == 0) camDistance = 96000;
                     else camDistance = 18000;
                 } else {
-                    if (cam.getPosition().z > 3000) camTilt = 0;
+                    if (cam.getPosition().z > 4000) camTilt = 0;
                     else {
                         if (route.activeProject == 0) camTilt = -60;
                         else camTilt = 240;
@@ -463,7 +463,7 @@ void ofApp::update(){
                 else camDistance = 42500;
                 
             } else {
-                if (cam.getPosition().z > 3000) camTilt = 0;
+                if (cam.getPosition().z > 4000) camTilt = 0;
                 else {
                     if (route.activeProject == 0) camTilt = -60;
                     else camTilt = 240;
