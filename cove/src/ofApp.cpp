@@ -223,13 +223,8 @@ void ofApp::loadProject(int selection) {
         }
         
         // reset project starting point based on auto system
-//        if (systemActive) {
-//            setLon(-0.125823);
-//            setLat(51.529976);
-//        } else {
-            setLon(0.4760);
-            setLat(51.3742);
-//        }
+        setLon(0.4760);
+        setLat(51.3742);
         scroller.scrollTo(location.routePercent);
         
         // clear POI vector if previously in use
@@ -256,13 +251,8 @@ void ofApp::loadProject(int selection) {
         }
         
         // reset project starting point based on auto system
-//        if (systemActive) {
-//            setLon(-0.07941);
-//            setLat(51.51757);
-//        } else {
-            setLon(-0.05501);
-            setLat(51.52058);
-//        }
+        setLon(-0.05501);
+        setLat(51.52058);
         scroller.scrollTo(location.routePercent);
         
         // clear POI vector if previously in use
@@ -294,8 +284,8 @@ void ofApp::loadContent(int item){
 
 void ofApp::worldTransform(float distance, float distEase, ofVec3f rotation, float rotEase){
     
-    cam.setDistance(ofLerp(cam.getDistance(), distance, distEase));
-    //cam.setPosition(cam.getPosition().x, cam.getPosition().y, ofLerp(cam.getPosition().z, distance, distEase));
+    //cam.setDistance(ofLerp(cam.getDistance(), distance, distEase));
+    cam.setPosition(cam.getPosition().x, cam.getPosition().y, ofLerp(cam.getPosition().z, distance, distEase));
     
     sceneRotation.x = ofLerp(sceneRotation.x, rotation.x, rotEase);
     sceneRotation.y = ofLerp(sceneRotation.y, rotation.y, rotEase);
@@ -315,8 +305,6 @@ void ofApp::autoSysSetup() {
     currentInterval = 0;
     currentInterestPoint = 0;
     currentPoint = 0;
-    
-//    loadProject(0);
     
     // disable
     isSysSetup = false;
@@ -408,13 +396,14 @@ void ofApp::autoSysUpdate() {
                     if (route.activeProject == 0) camDistance = 96000;
                     else camDistance = 18000;
                 } else {
+                    
                     if (cam.getPosition().z > 4000) camTilt = 0;
                     else {
-                        if (route.activeProject == 0) camTilt = -60;
-                        else camTilt = 240;
+                        camTilt = -60;
                     }
                     
-                    camDistance = 1000;
+                    if (route.activeProject == 0) camDistance = 1000;
+                    else camDistance = -1000;
                 }
                 
                 worldTransform(camDistance, 0.02, ofVec3f(camTilt, 0, 0), 0.02);
@@ -428,7 +417,7 @@ void ofApp::autoSysUpdate() {
 }
 
 void ofApp::update(){
-        
+    
     if (ofGetFrameNum() == 2) cam.disableMouseInput();
     
     if(colorProject) projectColors();
@@ -465,11 +454,11 @@ void ofApp::update(){
             } else {
                 if (cam.getPosition().z > 4000) camTilt = 0;
                 else {
-                    if (route.activeProject == 0) camTilt = -60;
-                    else camTilt = 240;
+                    camTilt = -60;
                 }
                 
-                camDistance = 1000;
+                if (route.activeProject == 0) camDistance = 1000;
+                else camDistance = -1000;
             }
         }
         
@@ -483,8 +472,14 @@ void ofApp::update(){
         worldTransform(camDistance, 0.02, ofVec3f(camTilt, 0, 0), 0.02);
     }
     
+    if(cam.getPosition().z > 0){
+        cam.lookAt(ofVec3f());
+    }else{
+        cam.lookAt(ofVec3f(),{0.f,-1.f,-1.f});
+    }
+    
     // mesh moves around world
-    posLerp = 0.01;
+    posLerp = 0.02;
     meshPosition.x = ofLerp(meshPosition.x, meshTarget.x, posLerp);
     meshPosition.y = ofLerp(meshPosition.y, meshTarget.y, posLerp);
     
