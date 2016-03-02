@@ -3,7 +3,7 @@
 //  Cove
 //
 //  Created by Jason Walters on 13/02/2016.
-//  Last edited by Jason Walters on 21/02/2016.
+//  Last edited by Jason Walters on 2/03/2016.
 //
 //
 
@@ -51,11 +51,11 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
                 break;
                 
             case 3:
-                objsLeft[i].title = ofToString("Ashford");
+                objsLeft[i].title = ofToString("Medway Viaduct");
                 break;
                 
             case 4:
-                objsLeft[i].title = ofToString("Warwick Gardens");
+                objsLeft[i].title = ofToString("Ashford");
                 break;
         }
     }
@@ -142,6 +142,9 @@ void InteractiveMenu::update()
     transform();
     // check button presses
     pressed();
+    
+//    if (leftClose) rightClose = false;
+//    if (rightClose) leftClose = false;
 }
 
 //--------------------------------------------------------------
@@ -174,13 +177,22 @@ void InteractiveMenu::transform()
             posLeft[i].y = ofLerp(posLeft[i].y, height - padding - mainArea + (areaDiff / 2), easeIn);
             
             sizeLeft[i] = ofLerp(sizeLeft[i], subArea, easeIn);
-            
+
             bLeftActive[i] = false;
         }
         
         // update objects position and size
         objsLeft[i].set(posLeft[i].x, posLeft[i].y, sizeLeft[i], sizeLeft[i]);
         objsLeft[i].isSelected = bLeftActive[i];
+    }
+    
+    if (leftClose) {
+        for (int i = 0; i < length; i++) {
+            sizeLeft[i] = ofLerp(sizeLeft[i], subArea, easeIn);
+            bLeftActive[i] = false;
+        }
+        
+        leftClose = false;
     }
     
     // right sub menu animations
@@ -210,13 +222,22 @@ void InteractiveMenu::transform()
             posRight[i].y = ofLerp(posRight[i].y, height - padding - mainArea + (areaDiff / 2), easeIn);
             
             sizeRight[i] = ofLerp(sizeRight[i], subArea, easeIn);
-            
+
             bRightActive[i] = false;
         }
         
         // update objects position and size
         objsRight[i].set(posRight[i].x, posRight[i].y, sizeRight[i], sizeRight[i]);
         objsRight[i].isSelected = bRightActive[i];
+    }
+    
+    if (rightClose){
+        for (int i = 0; i < length; i++) {
+            sizeRight[i] = ofLerp(sizeRight[i], subArea, easeIn);
+            bRightActive[i] = false;
+        }
+        
+        rightClose = false;
     }
 }
 

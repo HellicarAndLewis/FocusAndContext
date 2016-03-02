@@ -3,7 +3,7 @@
 //  Cove
 //
 //  Created by Chris Mullany on 14/01/2016.
-//  Last edited by Jason Walters on 21/02/2016.
+//  Last edited by Jason Walters on 2/03/2016.
 //
 //
 
@@ -22,6 +22,7 @@ void ofApp::setup() {
     
     // center mesh on launch
     meshPosition.set(-16156.9, 11756.6);
+
     // FBO to render scene into shader
     ofFbo::Settings settings;
     settings.width = ofGetWidth();
@@ -137,24 +138,6 @@ void ofApp::projectColors() {
     
     // project is hs1, then...
     if (route.activeProject == 0) {
-        lightAngle = ofLerp(lightAngle, 180, colorLerp);
-        
-        colBackground.lerp(ofColor::black, colorLerp);
-        
-        colEarth.lerp(ofColor(25.5), colorLerp);
-        colEarthDiff.lerp(ofColor(38.25), colorLerp);
-        colRoads.lerp(ofColor(153, 153, 153), colorLerp);
-        colRoadsDiff.lerp(ofColor(165.75, 165.75, 165.75), colorLerp);
-        colBuildings.lerp(ofColor(51, 51, 51), colorLerp);
-        colBuildingsDiff.lerp(ofColor(102, 102, 102), colorLerp);
-        colBuildingsActive.lerp(ofColor(204, 0, 0), colorLerp);
-        colBuildingsActiveDiff.lerp(ofColor(178.5, 0, 0), colorLerp);
-        
-        colWater.lerp(ofColor(111, 201, 238), colorLerp);
-    } else {
-        
-        if (camTilt == 240) lightAngleDest = 180;
-        else lightAngleDest = 180;
         lightAngle = ofLerp(lightAngle, lightAngleDest, colorLerp);
         
         colBackground.lerp(ofColor::whiteSmoke, colorLerp);
@@ -167,6 +150,23 @@ void ofApp::projectColors() {
         colBuildingsDiff.lerp(ofColor(255 - 102, 255 - 102, 255 - 102), colorLerp);
         colBuildingsActive.lerp(ofColor(255 - 204, 0, 0), colorLerp);
         colBuildingsActiveDiff.lerp(ofColor(255 - 178.5, 0, 0), colorLerp);
+        
+        colWater.lerp(ofColor(111, 201, 238), colorLerp);
+    } else {
+        if (camTilt == 240) lightAngleDest = 180;
+        else lightAngleDest = 180;
+        lightAngle = ofLerp(lightAngle, 180, colorLerp);
+        
+        colBackground.lerp(ofColor::black, colorLerp);
+        
+        colEarth.lerp(ofColor(25.5), colorLerp);
+        colEarthDiff.lerp(ofColor(38.25), colorLerp);
+        colRoads.lerp(ofColor(153, 153, 153), colorLerp);
+        colRoadsDiff.lerp(ofColor(165.75, 165.75, 165.75), colorLerp);
+        colBuildings.lerp(ofColor(51, 51, 51), colorLerp);
+        colBuildingsDiff.lerp(ofColor(102, 102, 102), colorLerp);
+        colBuildingsActive.lerp(ofColor(204, 0, 0), colorLerp);
+        colBuildingsActiveDiff.lerp(ofColor(178.5, 0, 0), colorLerp);
         
         colWater.lerp(ofColor(111, 201, 238), colorLerp);
     }
@@ -441,7 +441,8 @@ void ofApp::update(){
             
             if (route.activeProject == 0) camDistance = 206000;
             else camDistance = 42500;
-        } else {
+        }
+        else {
             
             float dist = meshPosition.distance(meshTarget);
             if (dist >= 1000) {
@@ -451,31 +452,33 @@ void ofApp::update(){
                 if (route.activeProject == 0) camDistance = 206000;
                 else camDistance = 42500;
                 
-            } else {
-                if (cam.getPosition().z > 4000) camTilt = 0;
+            }
+            else {
+                if (route.activeProject == 0) {
+                    if (cam.getPosition().z > 4000) camTilt = 0;
+                    else {
+                        camTilt = -60;
+                    }
+                }
                 else {
-                    camTilt = -60;
+                    if (cam.getPosition().z > 4000) camTilt = 0;
+                    else camTilt = -120;
                 }
                 
                 if (route.activeProject == 0) camDistance = 1000;
-                else camDistance = -1000;
+                else camDistance = 1000;
             }
         }
         
         // world translation stuff
         worldTransform(camDistance, 0.02, ofVec3f(camTilt, 0, 0), 0.02);
-    } else if (!systemActive && !bCove) {
+    }
+    else if (!systemActive && !bCove) {
         if (route.activeProject == 0) camDistance = 96000;
         else camDistance = 18000;
         camTilt = 0;
         // world translation stuff
         worldTransform(camDistance, 0.02, ofVec3f(camTilt, 0, 0), 0.02);
-    }
-    
-    if(cam.getPosition().z > 0){
-        cam.lookAt(ofVec3f());
-    }else{
-        cam.lookAt(ofVec3f(),{0.f,-1.f,-1.f});
     }
     
     // mesh moves around world
@@ -561,6 +564,7 @@ void ofApp::contentUpdate(){
 }
 
 void ofApp::draw(){
+    /*
     if(bShader){
         shader.begin();
         shader.setUniformTexture("colorTex", fbo, 0);
@@ -570,6 +574,9 @@ void ofApp::draw(){
     } else {
         drawScene();
     }
+     */
+    
+    drawScene();
     
     // if (!gui->getVisible()) tileLoader.labels.draw2D();
     if (bDebugMsg) drawDebugMsg();
@@ -577,7 +584,7 @@ void ofApp::draw(){
 
 void ofApp::drawDebugMsg(){
     
-    if (route.activeProject == 0) colDebug.lerp(ofColor::yellow, 0.08);
+    if (route.activeProject == 1) colDebug.lerp(ofColor::yellow, 0.08);
     else colDebug.lerp(ofColor::black, 0.08);
     ofSetColor(colDebug);
     
@@ -608,6 +615,8 @@ void ofApp::drawDebugMsg(){
     ofDrawBitmapString("pointReached " + ofToString(pointReached), ofGetWidth()-300, 500);
     ofDrawBitmapString("isCam " + ofToString(isCam), ofGetWidth()-300, 520);
     ofDrawBitmapString("route.activeProject " + ofToString(route.activeProject), ofGetWidth()-300, 540);
+    ofDrawBitmapString("leftClose " + ofToString(menu.leftClose), ofGetWidth()-300, 560);
+    ofDrawBitmapString("rightClose " + ofToString(menu.rightClose), ofGetWidth()-300, 580);
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -656,12 +665,11 @@ void ofApp::drawScene() {
         for (auto & tile : *tiles) tile.meshWater.draw();
         materialWater.end();
         
-        /*
+        
         // Ocean
         materialOcean.begin();
         for (auto & tile : *tiles) tile.meshOcean.draw();
         materialOcean.end();
-         */
         
         /*
         waterShader.begin();
@@ -823,10 +831,14 @@ void ofApp::mouseReleased(int x, int y, int button){
             menu.rightOn = false;
             menu.objRight.isSelected = false;
             
-            menu.leftOn = !menu.leftOn;
-            menu.objLeft.isSelected = !menu.objLeft.isSelected;
+            menu.leftClose = true;
+            
+            menu.leftOn = true;
+            menu.objLeft.isSelected = true;
             
             isCam = true;
+            
+            menu.buttonClicked = false;
             
             // HS1
             loadProject(0);
@@ -837,10 +849,14 @@ void ofApp::mouseReleased(int x, int y, int button){
             menu.leftOn = false;
             menu.objLeft.isSelected = false;
             
-            menu.rightOn = !menu.rightOn;
-            menu.objRight.isSelected = !menu.objRight.isSelected;
+            menu.rightClose = true;
+            
+            menu.rightOn = true;
+            menu.objRight.isSelected = true;
             
             isCam = true;
+            
+            menu.buttonClicked = false;
             
             // Crossrail
             loadProject(1);
@@ -849,7 +865,7 @@ void ofApp::mouseReleased(int x, int y, int button){
 }
 
 void ofApp::windowResized(int w, int h){
-    fbo.allocate(w,h);
+    //fbo.allocate(w,h);
     
     // resize window shape
     ofSetWindowShape(w, h);

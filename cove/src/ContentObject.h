@@ -25,7 +25,7 @@ public:
 		enableMouseEvents();
 		enableKeyEvents();
         
-        font.load("fonts/PlainMed", 12);
+        font.load("fonts/Plain-Medium.ttf", 12);
 	}
 	
 	void exit() {

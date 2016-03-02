@@ -3,7 +3,7 @@
 //  Cove
 //
 //  Created by Chris Mullany on 19/01/2016.
-//  Edited by Jason Walters on 15/02/2016.
+//  Edited by Jason Walters on 2/03/2016.
 //
 //
 
@@ -159,7 +159,7 @@ void Route::loadLeft(string path, ofVec3f posOffset) {
     }
     
     folderPath = path;
-    titleFont.load("fonts/PlainMed", 40);
+    titleFont.load("fonts/Plain-Medium.ttf", 40);
     
     contentImages[0].load(path + "/detail/Content_Text.png");
     contentImages[1].load(path + "/detail/Content_3D.png");
@@ -227,7 +227,7 @@ void Route::loadRight(string path, ofVec3f posOffset) {
     }
     
     folderPath = path;
-    titleFont.load("fonts/PlainMed", 40);
+    titleFont.load("fonts/Plain-Medium.ttf", 40);
     
     contentImages[0].load(path + "/detail/Content_Text.png");
     contentImages[1].load(path + "/detail/Content_3D.png");

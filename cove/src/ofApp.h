@@ -3,7 +3,7 @@
 //  Cove
 //
 //  Created by Chris Mullany on 14/01/2016.
-//  Edited by Jason Walters on 5/02/2016.
+//  Edited by Jason Walters on 2/03/2016.
 //
 //
 
@@ -73,6 +73,7 @@ public:
     float camDistance;
     float posLerp;
     float camTilt;
+    ofVec3f camLook;
     
     float distance(ofVec2f first, ofVec2f second) {
         return first.distance(second);

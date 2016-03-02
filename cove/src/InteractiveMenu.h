@@ -3,7 +3,7 @@
 //  Cove
 //
 //  Created by Jason Walters on 13/02/2016.
-//  Last edited by Jason Walters on 21/02/2016.
+//  Last edited by Jason Walters on 2/03/2016.
 //
 //
 
@@ -37,8 +37,8 @@ public:
     
     bool bLeftActive[BUTTON_AMT];
     bool bRightActive[BUTTON_AMT];
-    bool leftOn;
-    bool rightOn;
+    bool leftOn, rightOn;
+    bool leftClose, rightClose;
     bool buttonClicked;
     int length;
     int width;
