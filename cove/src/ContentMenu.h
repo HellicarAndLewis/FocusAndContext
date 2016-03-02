@@ -20,7 +20,7 @@ class ContentMenu
 public:
     void setup(int _w, int _h, float _area, float _padding);
     void update();
-    void draw(bool _draw);
+    void draw(int _project, bool _draw);
     void transform();
     void pressed();
 

@@ -87,6 +87,7 @@ public:
     
     // colors
     void projectColors();
+    void drawVignette();
     bool colorProject;
     ofColor colBackground;
     ofColor colDebug;
@@ -97,6 +98,7 @@ public:
     ofFloatColor colWater;
     float lightAngle;
     float lightAngleDest;
+    ofColor colVignette;
     
     // automatic system
     void autoSysSetup();

@@ -156,13 +156,22 @@ void ContentMenu::update()
 }
 
 //--------------------------------------------------------------
-void ContentMenu::draw(bool _draw)
+void ContentMenu::draw(int _project, bool _draw)
 {
-    for (int i = 0; i < POINTS; i++) {
-        for (int j = 0; j < CONTENT_AMT; j++) {
-            float x = i * (area + padding);
-            contentLeft[i][j].isDraw = _draw;
-            contentRight[i][j].isDraw = _draw;
+    if (_project == 0) {
+        for (int i = 0; i < POINTS; i++) {
+            for (int j = 0; j < CONTENT_AMT; j++) {
+                float x = i * (area + padding);
+                contentLeft[i][j].isDraw = _draw;
+            }
+        }
+    }
+    else {
+        for (int i = 0; i < POINTS; i++) {
+            for (int j = 0; j < CONTENT_AMT; j++) {
+                float x = i * (area + padding);
+                contentRight[i][j].isDraw = _draw;
+            }
         }
     }
 }

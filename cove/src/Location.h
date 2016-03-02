@@ -15,7 +15,7 @@ public:
     
 	void setup(string title);
 	void update();
-	void draw(ofCamera& cam, float _alpha);
+	void draw(ofCamera& cam, float _alpha, float _height);
     void draw2d();
     
     float getLon();

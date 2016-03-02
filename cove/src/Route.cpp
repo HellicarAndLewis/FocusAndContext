@@ -105,7 +105,7 @@ void Route::draw(ofCamera& cam) {
     
     ofSetColor(255);
     for (auto &location: locationsLeft) {
-        location.draw(cam, alphaLeft);
+        location.draw(cam, alphaLeft, 200);
     }
     ofEnableDepthTest();
     
@@ -122,7 +122,7 @@ void Route::draw(ofCamera& cam) {
     
     ofSetColor(255);
     for (auto &location: locationsRight) {
-        location.draw(cam, alphaRight);
+        location.draw(cam, alphaRight, -200);
     }
     ofEnableDepthTest();
 }

@@ -3,7 +3,7 @@
 //  Cove
 //
 //  Created by Chris Mullany on 18/01/2016.
-//  Edited by Jason Walters on 23/02/2016.
+//  Edited by Jason Walters on 2/03/2016.
 //
 //
 
@@ -37,13 +37,13 @@ void Location::setup(string title) {
 void Location::update() {
 }
 
-void Location::draw(ofCamera& cam, float _alpha) {
+void Location::draw(ofCamera& cam, float _alpha, float _height) {
     if (!hasLabel) return;
     
     ofSetColor(255, 255, 255, _alpha);
     
     // billboard height and size
-    float height = 200;
+    float height = _height;//200;
     float size = ofMap(cam.getPosition().z, 3000, 1000, 80, 400);//400;
     size = ofClamp(size, 80, 400);
     float length = ofMap(_alpha, 0, 255, 0, 1);

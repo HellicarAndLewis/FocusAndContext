@@ -280,6 +280,7 @@ void ofApp::loadPoint(int point){
 
 void ofApp::loadContent(int item){
     // content loading here...
+    
 }
 
 void ofApp::worldTransform(float distance, float distEase, ofVec3f rotation, float rotEase){
@@ -396,14 +397,19 @@ void ofApp::autoSysUpdate() {
                     if (route.activeProject == 0) camDistance = 96000;
                     else camDistance = 18000;
                 } else {
-                    
-                    if (cam.getPosition().z > 4000) camTilt = 0;
+                    if (route.activeProject == 0) {
+                        if (cam.getPosition().z > 4000) camTilt = 0;
+                        else {
+                            camTilt = -60;
+                        }
+                    }
                     else {
-                        camTilt = -60;
+                        if (cam.getPosition().z > 4000) camTilt = 0;
+                        else camTilt = -120;
                     }
                     
                     if (route.activeProject == 0) camDistance = 1000;
-                    else camDistance = -1000;
+                    else camDistance = 1000;
                 }
                 
                 worldTransform(camDistance, 0.02, ofVec3f(camTilt, 0, 0), 0.02);
@@ -578,8 +584,23 @@ void ofApp::draw(){
     
     drawScene();
     
+    // draw ontop of all graphics
+    drawVignette();
+    
     // if (!gui->getVisible()) tileLoader.labels.draw2D();
     if (bDebugMsg) drawDebugMsg();
+}
+
+void ofApp::drawVignette(){
+    
+    if (route.activeProject == 0) {
+        colVignette.lerp(ofColor::white, 0.1);
+    }
+    else {
+        colVignette.lerp(ofColor::black, 0.1);
+    }
+    
+    ofBackgroundGradient(ofColor(0,0,0,0), colVignette);
 }
 
 void ofApp::drawDebugMsg(){
@@ -687,6 +708,18 @@ void ofApp::drawScene() {
     }
     ofPopMatrix();
     endScene();
+    
+    /*
+    if (route.activeProject == 0)
+    {
+        content.draw(0, true);
+        content.draw(1, false);
+    }
+    else {
+        content.draw(0, false);
+        content.draw(1, true);
+    }
+     */
     
     // draw the zoomed-in content for locations in 2D
     // this is outside of the camera so it can ignore perspective
