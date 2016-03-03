@@ -3,7 +3,7 @@
 //  Cove
 //
 //  Created by Chris Mullany on 15/01/2016.
-//  Edited by Jason Walters on 23/02/2016.
+//  Edited by Jason Walters on 2/03/2016.
 //
 //
 
@@ -62,7 +62,7 @@ void TileLoader::loadDir(string path) {
             localTile.meshBuildings = localTile.tile.getMeshFor("buildings");
             localTile.meshRoads = localTile.tile.getMeshFor("roads");
             localTile.meshWater = localTile.tile.getMeshFor("water");
-            localTile.meshOcean = localTile.tile.getMeshFor("ocean");
+            //localTile.meshOcean = localTile.tile.getMeshFor("ocean");
             
             if (localTile.zoom < 14) macroTiles.push_back(localTile);
             else microTiles.push_back(localTile);

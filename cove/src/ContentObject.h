@@ -3,7 +3,7 @@
 //  Cove
 //
 //  Created by Jason Walters on 21/02/2016.
-//  Last edited by Jason Walters on 21/02/2016.
+//  Last edited by Jason Walters on 2/03/2016.
 //
 //
 
@@ -18,14 +18,18 @@ public:
     ofTrueTypeFont font;
     string title;
     float color;
+    float heightDiff;
     bool isSelected;
     bool isDraw;
     
-	void setup() {
+	void setup()
+    {
 		enableMouseEvents();
 		enableKeyEvents();
         
         font.load("fonts/Plain-Medium.ttf", 12);
+        
+        color = 0;
 	}
 	
 	void exit() {
@@ -35,17 +39,29 @@ public:
 	void update() {
 	}
 	
-	void draw() {
-        
-        if (isDraw) {
+	void draw()
+    {
+        if (isDraw)
+        {
+            //if (isSelected) color = ofLerp(color, 255, 0.2);
+            color = ofLerp(color, 255, 0.2);
+//            heightDiff = ofLerp(heightDiff, 0, 0.2);
             
-            if (isSelected) color = ofLerp(color, 255, 0.2);
-            else color = ofLerp(color, 225, 0.2);
-            
-            ofSetColor(color);
+            ofSetColor(255, 255, 255, color);
             ofDrawRectangle(x, y, width, height);
             
-            ofSetColor(0);
+            ofSetColor(0, color);
+            font.drawString(title, x + 10, y + 20);
+        }
+        else
+        {
+            color = ofLerp(color, 0, 0.2);
+//            heightDiff = ofLerp(heightDiff, 400, 0.2);
+            
+            ofSetColor(255, 255, 255, color);
+            ofDrawRectangle(x, y, width, height);
+            
+            ofSetColor(0, color);
             font.drawString(title, x + 10, y + 20);
         }
 	}

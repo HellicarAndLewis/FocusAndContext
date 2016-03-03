@@ -3,7 +3,7 @@
 //  Cove
 //
 //  Created by Jason Walters on 21/02/2016.
-//  Last edited by Jason Walters on 21/02/2016.
+//  Last edited by Jason Walters on 3/03/2016.
 //
 //
 
@@ -22,128 +22,19 @@ void ContentMenu::setup(int _w, int _h, float _area, float _padding)
     buttonClicked = false;
     
     // setup content menu for both projects (left/right menu)
-    for (int i = 0; i < POINTS; i++) {
-        for (int j = 0; j < CONTENT_AMT; j++) {
-            float x = i * (area + padding);
-            contentLeft[i][j].set(padding + x, height - padding - (area * 2 + padding), area, area);
-            contentRight[i][j].set(padding + x, height - padding - (area * 2 + padding), area, area);
+    for (int i = 0; i < POI; i++)
+    {
+        for (int j = 0; j < CONTENT_AMT; j++)
+        {
+            float x = j * (area + padding);
+            float y = area * 2 + padding/2;
+            contentLeft[i][j].set(padding + x, height - padding/2 - y, area, area);
+            contentRight[i][j].set(padding + x, height - padding/2 - y, area, area);
             
-            contentLeft[i][j].title = "LT Content " + ofToString(i);
-            contentRight[i][j].title = "RT Content " + ofToString(i);
+            contentLeft[i][j].title = "L " + ofToString(i) + " " + ofToString(j);
+            contentRight[i][j].title = "R " + ofToString(i) + " " + ofToString(j);
         }
     }
-    
-    /*
-    // setup left sub menu
-    for (int i = 0; i < length; i++) {
-        posLeft[i].set(padding, height - padding - mainArea + (areaDiff / 2));
-        sizeLeft[i] = subArea;
-        
-        objsLeft[i].drawType = 0;
-        objsLeft[i].set(padding, height - padding - mainArea + (areaDiff / 2),
-                        subArea,
-                        subArea);
-        objsLeft[i].isMainTile = false;
-        
-        switch (i) {
-            case 0:
-                objsLeft[i].title = ofToString("St Pancras");
-                break;
-                
-            case 1:
-                objsLeft[i].title = ofToString("Stratford");
-                break;
-                
-            case 2:
-                objsLeft[i].title = ofToString("Ebbsfleet");
-                break;
-                
-            case 3:
-                objsLeft[i].title = ofToString("Ashford");
-                break;
-                
-            case 4:
-                objsLeft[i].title = ofToString("Warwick Gardens");
-                break;
-        }
-    }
-     */
-    
-    /*
-    // setup right sub menu
-    for (int i = 0; i < length; i++) {
-        
-        posRight[i].set(width - padding - subArea, height - padding - mainArea + (areaDiff / 2));
-        sizeRight[i] = subArea;
-    
-        objsRight[i].drawType = 0;
-        objsRight[i].set(width - padding - subArea,
-                         height - padding - mainArea + (areaDiff / 2),
-                         subArea,
-                         subArea);
-        objsRight[i].isMainTile = false;
-
-        switch (i) {
-            case 4:
-                objsRight[i].title = ofToString("Tottenham Ct Rd");
-                break;
-                
-            case 3:
-                objsRight[i].title = ofToString("Barbican");
-                break;
-                
-            case 2:
-                objsRight[i].title = ofToString("Canary Wharf");
-                break;
-                
-            case 1:
-                objsRight[i].title = ofToString("Custom House");
-                break;
-                
-            case 0:
-                objsRight[i].title = ofToString("Woolwich");
-                break;
-        }
-    }
-     */
-    
-    /*
-    // setup left menu main
-    objLeft.isMainTile = true;
-    objLeft.title = "HS1";
-    objLeft.lineLength = 0;
-    objLeft.drawType = 0;
-    objLeft.set(padding,
-                height - padding - mainArea,
-                mainArea,
-                mainArea);
-    
-    // setup right menu main
-    objRight.isMainTile = true;
-    objRight.title = "Crossrail";
-    objRight.lineLength = 0;
-    objRight.drawType = 0;
-    objRight.set((width - padding) - mainArea,
-                 height - padding - mainArea,
-                 mainArea,
-                 mainArea);
-    
-    // setup left menu line
-    objLeftLine.lineLength = 0;
-    objLeftLine.drawType = 1;
-    objLeftLine.set(padding,
-                    height - padding - mainArea,
-                    0,
-                    mainArea);
-    
-    // setup right menu line
-    objRightLine.lineLength = 0;
-    objRightLine.drawType = 2;//2;
-    objRightLine.set((width - padding),
-                     height - padding - mainArea,
-                     0,
-                     mainArea);
-     */
 }
 
 //--------------------------------------------------------------
@@ -156,21 +47,39 @@ void ContentMenu::update()
 }
 
 //--------------------------------------------------------------
-void ContentMenu::draw(int _project, bool _draw)
+void ContentMenu::draw(int _project, int _point, bool _draw)
 {
-    if (_project == 0) {
-        for (int i = 0; i < POINTS; i++) {
-            for (int j = 0; j < CONTENT_AMT; j++) {
-                float x = i * (area + padding);
-                contentLeft[i][j].isDraw = _draw;
+    if (_project == 0)
+    {
+        int i = _point;
+        for (int j = 0; j < CONTENT_AMT; j++)
+        {
+            float x = j * (area + padding);
+            float y = area * 2 + padding/2;
+            
+            if (_draw) {
+                contentLeft[i][j].isDraw = true;
+                contentLeft[i][j].set(padding + x, height - padding/2 - y, area, area);
+            } else {
+                contentLeft[i][j].isDraw = false;
+                contentLeft[i][j].set(padding + x, height + height/2, area, area);
             }
         }
     }
-    else {
-        for (int i = 0; i < POINTS; i++) {
-            for (int j = 0; j < CONTENT_AMT; j++) {
-                float x = i * (area + padding);
-                contentRight[i][j].isDraw = _draw;
+    else
+    {
+        int i = _point;
+        for (int j = 0; j < CONTENT_AMT; j++)
+        {
+            float x = j * (area + padding);
+            float y = area * 2 + padding/2;
+            
+            if (_draw) {
+                contentRight[i][j].isDraw = true;
+                contentRight[i][j].set(padding + x, height - padding/2 - y, area, area);
+            } else {
+                contentRight[i][j].isDraw = false;
+                contentRight[i][j].set(padding + x, height + height/2, area, area);
             }
         }
     }
@@ -257,99 +166,527 @@ void ContentMenu::transform()
 //--------------------------------------------------------------
 void ContentMenu::pressed()
 {
-//    for (int i = 0; i < POINTS; i++) {
-//        for (int j = 0; j < CONTENT_AMT; j++) {
-//            //
-//            contentLeft[i][j]
-//        }
-//    }
     
-    /*
-    for (int i = 0; i < length; i++) {
-        if (objsLeft[i].isMousePressed(0) == 1 && leftOn && !bLeftActive[i] && !buttonClicked) {
-            switch (i) {
-                case 0:
-                    bLeftActive[0] = true;
-                    bLeftActive[1] = false;
-                    bLeftActive[2] = false;
-                    bLeftActive[3] = false;
-                    bLeftActive[4] = false;
-                    break;
-                case 1:
-                    bLeftActive[0] = false;
-                    bLeftActive[1] = true;
-                    bLeftActive[2] = false;
-                    bLeftActive[3] = false;
-                    bLeftActive[4] = false;
-                    break;
-                case 2:
-                    bLeftActive[0] = false;
-                    bLeftActive[1] = false;
-                    bLeftActive[2] = true;
-                    bLeftActive[3] = false;
-                    bLeftActive[4] = false;
-                    break;
-                case 3:
-                    bLeftActive[0] = false;
-                    bLeftActive[1] = false;
-                    bLeftActive[2] = false;
-                    bLeftActive[3] = true;
-                    bLeftActive[4] = false;
-                    break;
-                case 4:
-                    bLeftActive[0] = false;
-                    bLeftActive[1] = false;
-                    bLeftActive[2] = false;
-                    bLeftActive[3] = false;
-                    bLeftActive[4] = true;
-                    break;
+    for (int i = 0; i < POI; i++)
+    {
+        for (int j = 0; j < CONTENT_AMT; j++)
+        {
+            if (contentLeft[i][j].isMousePressed(0) == 1 && leftOn && !bLeftActive[i][j] && !buttonClicked)
+            {
+                //cout << "hs1 " << ofToString(i) << " " << ofToString(j) << endl;
+                
+                switch (i) {
+                    case 0:
+                        
+                        switch (j) {
+                            case 0:
+                                bLeftActive[i][0] = true;
+                                bLeftActive[i][1] = false;
+                                bLeftActive[i][2] = false;
+                                bLeftActive[i][3] = false;
+                                bLeftActive[i][4] = false;
+                                cout << "button0, content0 " << ofToString(i) << " " << ofToString(j) << endl;
+                                break;
+                                
+                            case 1:
+                                bLeftActive[i][0] = false;
+                                bLeftActive[i][1] = true;
+                                bLeftActive[i][2] = false;
+                                bLeftActive[i][3] = false;
+                                bLeftActive[i][4] = false;
+                                cout << "button0, content1 " << ofToString(i) << " " << ofToString(j) << endl;
+                                break;
+                                
+                            case 2:
+                                bLeftActive[i][0] = false;
+                                bLeftActive[i][1] = false;
+                                bLeftActive[i][2] = true;
+                                bLeftActive[i][3] = false;
+                                bLeftActive[i][4] = false;
+                                cout << "button0, content2 " << ofToString(i) << " " << ofToString(j) << endl;
+                                break;
+                                
+                            case 3:
+                                bLeftActive[i][0] = false;
+                                bLeftActive[i][1] = false;
+                                bLeftActive[i][2] = false;
+                                bLeftActive[i][3] = true;
+                                bLeftActive[i][4] = false;
+                                cout << "button0, content3 " << ofToString(i) << " " << ofToString(j) << endl;
+                                break;
+                                
+                            case 4:
+                                bLeftActive[i][0] = false;
+                                bLeftActive[i][1] = false;
+                                bLeftActive[i][2] = false;
+                                bLeftActive[i][3] = false;
+                                bLeftActive[i][4] = true;
+                                cout << "button0, content4 " << ofToString(i) << " " << ofToString(j) << endl;
+                                break;
+                        }
+                        break;
+                    
+                    case 1:
+                        switch (j) {
+                            case 0:
+                                bLeftActive[i][0] = true;
+                                bLeftActive[i][1] = false;
+                                bLeftActive[i][2] = false;
+                                bLeftActive[i][3] = false;
+                                bLeftActive[i][4] = false;
+                                cout << "button 1, content 0" << endl;
+                                break;
+                                
+                            case 1:
+                                bLeftActive[i][0] = false;
+                                bLeftActive[i][1] = true;
+                                bLeftActive[i][2] = false;
+                                bLeftActive[i][3] = false;
+                                bLeftActive[i][4] = false;
+                                cout << "button 1, content 1" << endl;
+                                break;
+                                
+                            case 2:
+                                bLeftActive[i][0] = false;
+                                bLeftActive[i][1] = false;
+                                bLeftActive[i][2] = true;
+                                bLeftActive[i][3] = false;
+                                bLeftActive[i][4] = false;
+                                cout << "button 1, content 2" << endl;
+                                break;
+                                
+                            case 3:
+                                bLeftActive[i][0] = false;
+                                bLeftActive[i][1] = false;
+                                bLeftActive[i][2] = false;
+                                bLeftActive[i][3] = true;
+                                bLeftActive[i][4] = false;
+                                cout << "button 1, content 3" << endl;
+                                break;
+                                
+                            case 4:
+                                bLeftActive[i][0] = false;
+                                bLeftActive[i][1] = false;
+                                bLeftActive[i][2] = false;
+                                bLeftActive[i][3] = false;
+                                bLeftActive[i][4] = true;
+                                cout << "button 1, content 4" << endl;
+                                break;
+                        }
+                        break;
+                        
+                    case 2:
+                        switch (j) {
+                            case 0:
+                                bLeftActive[i][0] = true;
+                                bLeftActive[i][1] = false;
+                                bLeftActive[i][2] = false;
+                                bLeftActive[i][3] = false;
+                                bLeftActive[i][4] = false;
+                                cout << "button 2, content 0" << endl;
+                                break;
+                                
+                            case 1:
+                                bLeftActive[i][0] = false;
+                                bLeftActive[i][1] = true;
+                                bLeftActive[i][2] = false;
+                                bLeftActive[i][3] = false;
+                                bLeftActive[i][4] = false;
+                                cout << "button 2, content 1" << endl;
+                                break;
+                                
+                            case 2:
+                                bLeftActive[i][0] = false;
+                                bLeftActive[i][1] = false;
+                                bLeftActive[i][2] = true;
+                                bLeftActive[i][3] = false;
+                                bLeftActive[i][4] = false;
+                                cout << "button 2, content 2" << endl;
+                                break;
+                                
+                            case 3:
+                                bLeftActive[i][0] = false;
+                                bLeftActive[i][1] = false;
+                                bLeftActive[i][2] = false;
+                                bLeftActive[i][3] = true;
+                                bLeftActive[i][4] = false;
+                                cout << "button 2, content 3" << endl;
+                                break;
+                                
+                            case 4:
+                                bLeftActive[i][0] = false;
+                                bLeftActive[i][1] = false;
+                                bLeftActive[i][2] = false;
+                                bLeftActive[i][3] = false;
+                                bLeftActive[i][4] = true;
+                                cout << "button 2, content 4" << endl;
+                                break;
+                        }
+                        break;
+                        
+                    case 3:
+                        switch (j) {
+                            case 0:
+                                bLeftActive[i][0] = true;
+                                bLeftActive[i][1] = false;
+                                bLeftActive[i][2] = false;
+                                bLeftActive[i][3] = false;
+                                bLeftActive[i][4] = false;
+                                cout << "button 3, content 0" << endl;
+                                break;
+                                
+                            case 1:
+                                bLeftActive[i][0] = false;
+                                bLeftActive[i][1] = true;
+                                bLeftActive[i][2] = false;
+                                bLeftActive[i][3] = false;
+                                bLeftActive[i][4] = false;
+                                cout << "button 3, content 1" << endl;
+                                break;
+                                
+                            case 2:
+                                bLeftActive[i][0] = false;
+                                bLeftActive[i][1] = false;
+                                bLeftActive[i][2] = true;
+                                bLeftActive[i][3] = false;
+                                bLeftActive[i][4] = false;
+                                cout << "button 3, content 2" << endl;
+                                break;
+                                
+                            case 3:
+                                bLeftActive[i][0] = false;
+                                bLeftActive[i][1] = false;
+                                bLeftActive[i][2] = false;
+                                bLeftActive[i][3] = true;
+                                bLeftActive[i][4] = false;
+                                cout << "button 3, content 3" << endl;
+                                break;
+                                
+                            case 4:
+                                bLeftActive[i][0] = false;
+                                bLeftActive[i][1] = false;
+                                bLeftActive[i][2] = false;
+                                bLeftActive[i][3] = false;
+                                bLeftActive[i][4] = true;
+                                cout << "button 3, content 4" << endl;
+                                break;
+                        }
+                        break;
+                        
+                    case 4:
+                        switch (j) {
+                            case 0:
+                                bLeftActive[i][0] = true;
+                                bLeftActive[i][1] = false;
+                                bLeftActive[i][2] = false;
+                                bLeftActive[i][3] = false;
+                                bLeftActive[i][4] = false;
+                                cout << "button 4, content 0" << endl;
+                                break;
+                                
+                            case 1:
+                                bLeftActive[i][0] = false;
+                                bLeftActive[i][1] = true;
+                                bLeftActive[i][2] = false;
+                                bLeftActive[i][3] = false;
+                                bLeftActive[i][4] = false;
+                                cout << "button 4, content 1" << endl;
+                                break;
+                                
+                            case 2:
+                                bLeftActive[i][0] = false;
+                                bLeftActive[i][1] = false;
+                                bLeftActive[i][2] = true;
+                                bLeftActive[i][3] = false;
+                                bLeftActive[i][4] = false;
+                                cout << "button 4, content 2" << endl;
+                                break;
+                                
+                            case 3:
+                                bLeftActive[i][0] = false;
+                                bLeftActive[i][1] = false;
+                                bLeftActive[i][2] = false;
+                                bLeftActive[i][3] = true;
+                                bLeftActive[i][4] = false;
+                                cout << "button 4, content 3" << endl;
+                                break;
+                                
+                            case 4:
+                                bLeftActive[i][0] = false;
+                                bLeftActive[i][1] = false;
+                                bLeftActive[i][2] = false;
+                                bLeftActive[i][3] = false;
+                                bLeftActive[i][4] = true;
+                                cout << "button 4, content 4" << endl;
+                                break;
+                        }
+                        break;
+                }
+                
+                buttonClicked = true;
             }
-            
-            buttonClicked = true;
-        }
-    
-        // check for right button clicks
-        if (objsRight[i].isMousePressed(0) == 1 && rightOn && !bRightActive[i] && !buttonClicked) {
-            switch (i) {
-                case 0:
-                    bRightActive[0] = true;
-                    bRightActive[1] = false;
-                    bRightActive[2] = false;
-                    bRightActive[3] = false;
-                    bRightActive[4] = false;
-                    break;
-                case 1:
-                    bRightActive[0] = false;
-                    bRightActive[1] = true;
-                    bRightActive[2] = false;
-                    bRightActive[3] = false;
-                    bRightActive[4] = false;
-                    break;
-                case 2:
-                    bRightActive[0] = false;
-                    bRightActive[1] = false;
-                    bRightActive[2] = true;
-                    bRightActive[3] = false;
-                    bRightActive[4] = false;
-                    break;
-                case 3:
-                    bRightActive[0] = false;
-                    bRightActive[1] = false;
-                    bRightActive[2] = false;
-                    bRightActive[3] = true;
-                    bRightActive[4] = false;
-                    break;
-                case 4:
-                    bRightActive[0] = false;
-                    bRightActive[1] = false;
-                    bRightActive[2] = false;
-                    bRightActive[3] = false;
-                    bRightActive[4] = true;
-                    break;
-            }
-            
-            buttonClicked = true;
         }
     }
-     */
+    
+    for (int i = 0; i < POI; i++)
+    {
+        for (int j = 0; j < CONTENT_AMT; j++)
+        {
+            
+            if (contentRight[i][j].isMousePressed(0) == 1 && rightOn && !bRightActive[i][j] && !buttonClicked)
+            {
+                //cout << "crossrail " << ofToString(i) << " " << ofToString(j) << endl;
+                
+                switch (i) {
+                    case 0:
+                        
+                        switch (j) {
+                            case 0:
+                                bRightActive[i][0] = true;
+                                bRightActive[i][1] = false;
+                                bRightActive[i][2] = false;
+                                bRightActive[i][3] = false;
+                                bRightActive[i][4] = false;
+                                cout << "button0, content0 " << ofToString(i) << " " << ofToString(j) << endl;
+                                break;
+                                
+                            case 1:
+                                bRightActive[i][0] = false;
+                                bRightActive[i][1] = true;
+                                bRightActive[i][2] = false;
+                                bRightActive[i][3] = false;
+                                bRightActive[i][4] = false;
+                                cout << "button0, content1 " << ofToString(i) << " " << ofToString(j) << endl;
+                                break;
+                                
+                            case 2:
+                                bRightActive[i][0] = false;
+                                bRightActive[i][1] = false;
+                                bRightActive[i][2] = true;
+                                bRightActive[i][3] = false;
+                                bRightActive[i][4] = false;
+                                cout << "button0, content2 " << ofToString(i) << " " << ofToString(j) << endl;
+                                break;
+                                
+                            case 3:
+                                bRightActive[i][0] = false;
+                                bRightActive[i][1] = false;
+                                bRightActive[i][2] = false;
+                                bRightActive[i][3] = true;
+                                bRightActive[i][4] = false;
+                                cout << "button0, content3 " << ofToString(i) << " " << ofToString(j) << endl;
+                                break;
+                                
+                            case 4:
+                                bRightActive[i][0] = false;
+                                bRightActive[i][1] = false;
+                                bRightActive[i][2] = false;
+                                bRightActive[i][3] = false;
+                                bRightActive[i][4] = true;
+                                cout << "button0, content4 " << ofToString(i) << " " << ofToString(j) << endl;
+                                break;
+                        }
+                        break;
+                        
+                    case 1:
+                        switch (j) {
+                            case 0:
+                                bRightActive[i][0] = true;
+                                bRightActive[i][1] = false;
+                                bRightActive[i][2] = false;
+                                bRightActive[i][3] = false;
+                                bRightActive[i][4] = false;
+                                cout << "button 1, content 0" << endl;
+                                break;
+                                
+                            case 1:
+                                bRightActive[i][0] = false;
+                                bRightActive[i][1] = true;
+                                bRightActive[i][2] = false;
+                                bRightActive[i][3] = false;
+                                bRightActive[i][4] = false;
+                                cout << "button 1, content 1" << endl;
+                                break;
+                                
+                            case 2:
+                                bRightActive[i][0] = false;
+                                bRightActive[i][1] = false;
+                                bRightActive[i][2] = true;
+                                bRightActive[i][3] = false;
+                                bRightActive[i][4] = false;
+                                cout << "button 1, content 2" << endl;
+                                break;
+                                
+                            case 3:
+                                bRightActive[i][0] = false;
+                                bRightActive[i][1] = false;
+                                bRightActive[i][2] = false;
+                                bRightActive[i][3] = true;
+                                bRightActive[i][4] = false;
+                                cout << "button 1, content 3" << endl;
+                                break;
+                                
+                            case 4:
+                                bRightActive[i][0] = false;
+                                bRightActive[i][1] = false;
+                                bRightActive[i][2] = false;
+                                bRightActive[i][3] = false;
+                                bRightActive[i][4] = true;
+                                cout << "button 1, content 4" << endl;
+                                break;
+                        }
+                        break;
+                        
+                    case 2:
+                        switch (j) {
+                            case 0:
+                                bRightActive[i][0] = true;
+                                bRightActive[i][1] = false;
+                                bRightActive[i][2] = false;
+                                bRightActive[i][3] = false;
+                                bRightActive[i][4] = false;
+                                cout << "button 2, content 0" << endl;
+                                break;
+                                
+                            case 1:
+                                bRightActive[i][0] = false;
+                                bRightActive[i][1] = true;
+                                bRightActive[i][2] = false;
+                                bRightActive[i][3] = false;
+                                bRightActive[i][4] = false;
+                                cout << "button 2, content 1" << endl;
+                                break;
+                                
+                            case 2:
+                                bRightActive[i][0] = false;
+                                bRightActive[i][1] = false;
+                                bRightActive[i][2] = true;
+                                bRightActive[i][3] = false;
+                                bRightActive[i][4] = false;
+                                cout << "button 2, content 2" << endl;
+                                break;
+                                
+                            case 3:
+                                bRightActive[i][0] = false;
+                                bRightActive[i][1] = false;
+                                bRightActive[i][2] = false;
+                                bRightActive[i][3] = true;
+                                bRightActive[i][4] = false;
+                                cout << "button 2, content 3" << endl;
+                                break;
+                                
+                            case 4:
+                                bRightActive[i][0] = false;
+                                bRightActive[i][1] = false;
+                                bRightActive[i][2] = false;
+                                bRightActive[i][3] = false;
+                                bRightActive[i][4] = true;
+                                cout << "button 2, content 4" << endl;
+                                break;
+                        }
+                        break;
+                        
+                    case 3:
+                        switch (j) {
+                            case 0:
+                                bRightActive[i][0] = true;
+                                bRightActive[i][1] = false;
+                                bRightActive[i][2] = false;
+                                bRightActive[i][3] = false;
+                                bRightActive[i][4] = false;
+                                cout << "button 3, content 0" << endl;
+                                break;
+                                
+                            case 1:
+                                bRightActive[i][0] = false;
+                                bRightActive[i][1] = true;
+                                bRightActive[i][2] = false;
+                                bRightActive[i][3] = false;
+                                bRightActive[i][4] = false;
+                                cout << "button 3, content 1" << endl;
+                                break;
+                                
+                            case 2:
+                                bRightActive[i][0] = false;
+                                bRightActive[i][1] = false;
+                                bRightActive[i][2] = true;
+                                bRightActive[i][3] = false;
+                                bRightActive[i][4] = false;
+                                cout << "button 3, content 2" << endl;
+                                break;
+                                
+                            case 3:
+                                bRightActive[i][0] = false;
+                                bRightActive[i][1] = false;
+                                bRightActive[i][2] = false;
+                                bRightActive[i][3] = true;
+                                bRightActive[i][4] = false;
+                                cout << "button 3, content 3" << endl;
+                                break;
+                                
+                            case 4:
+                                bRightActive[i][0] = false;
+                                bRightActive[i][1] = false;
+                                bRightActive[i][2] = false;
+                                bRightActive[i][3] = false;
+                                bRightActive[i][4] = true;
+                                cout << "button 3, content 4" << endl;
+                                break;
+                        }
+                        break;
+                        
+                    case 4:
+                        switch (j) {
+                            case 0:
+                                bRightActive[i][0] = true;
+                                bRightActive[i][1] = false;
+                                bRightActive[i][2] = false;
+                                bRightActive[i][3] = false;
+                                bRightActive[i][4] = false;
+                                cout << "button 4, content 0" << endl;
+                                break;
+                                
+                            case 1:
+                                bRightActive[i][0] = false;
+                                bRightActive[i][1] = true;
+                                bRightActive[i][2] = false;
+                                bRightActive[i][3] = false;
+                                bRightActive[i][4] = false;
+                                cout << "button 4, content 1" << endl;
+                                break;
+                                
+                            case 2:
+                                bRightActive[i][0] = false;
+                                bRightActive[i][1] = false;
+                                bRightActive[i][2] = true;
+                                bRightActive[i][3] = false;
+                                bRightActive[i][4] = false;
+                                cout << "button 4, content 2" << endl;
+                                break;
+                                
+                            case 3:
+                                bRightActive[i][0] = false;
+                                bRightActive[i][1] = false;
+                                bRightActive[i][2] = false;
+                                bRightActive[i][3] = true;
+                                bRightActive[i][4] = false;
+                                cout << "button 4, content 3" << endl;
+                                break;
+                                
+                            case 4:
+                                bRightActive[i][0] = false;
+                                bRightActive[i][1] = false;
+                                bRightActive[i][2] = false;
+                                bRightActive[i][3] = false;
+                                bRightActive[i][4] = true;
+                                cout << "button 4, content 4" << endl;
+                                break;
+                        }
+                        break;
+                }
+                
+                buttonClicked = true;
+            }
+        }
+    }
 }
