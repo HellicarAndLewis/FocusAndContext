@@ -11,6 +11,7 @@
 
 #include "ofMain.h"
 #include "InteractiveObject.h"
+//#include "Globals.h"
 
 #define		BUTTON_AMT		5
 
@@ -49,4 +50,7 @@ public:
     float padding;
     float easeIn;
     float easeOut;
+    
+    bool contentKill;
+//    Globals g;
 };

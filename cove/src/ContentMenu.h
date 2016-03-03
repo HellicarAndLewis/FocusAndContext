@@ -11,7 +11,8 @@
 
 #include "ofMain.h"
 #include "ContentObject.h"
-#include "InteractiveMenu.h"
+//#include "InteractiveMenu.h"
+//#include "Globals.h"
 
 #define     POI             5
 #define		CONTENT_AMT		5
@@ -22,6 +23,8 @@ public:
     void setup(int _w, int _h, float _area, float _padding);
     void update();
     void draw(int _project, int _point, bool _draw);
+    void drawContent();
+    void destroyContent();
     void transform();
     void pressed();
 
@@ -42,5 +45,19 @@ public:
     float area;
     float padding;
     
-    InteractiveMenu menu;
+    //InteractiveMenu menu;
+    
+    // content
+    ofImage img[CONTENT_AMT];
+    ofSoundPlayer snd[CONTENT_AMT];
+    ofVideoPlayer vid[CONTENT_AMT];
+    float scale[CONTENT_AMT];
+    bool item[CONTENT_AMT];
+    string path[CONTENT_AMT];
+    int category;
+    bool display;
+    bool scaleDown;
+    
+//    Globals g;
+    
 };

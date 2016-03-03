@@ -8,6 +8,7 @@
 //
 
 #include "InteractiveMenu.h"
+#include "Globals.h"
 
 //--------------------------------------------------------------
 void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, float _padding, float _easeIn, float _easeOut)
@@ -306,6 +307,7 @@ void InteractiveMenu::pressed()
             }
             
             buttonClicked = true;
+            Globals::buttonPressed = true;
         }
     
         // check for right button clicks
@@ -349,6 +351,7 @@ void InteractiveMenu::pressed()
             }
             
             buttonClicked = true;
+            Globals::buttonPressed = true;
         }
     }
 }

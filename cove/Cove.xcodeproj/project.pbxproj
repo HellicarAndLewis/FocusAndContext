@@ -48,6 +48,7 @@
 		966DCCAD1C71F6810041F5CF /* ofxMSAInteractiveObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 966DCCA71C71F6810041F5CF /* ofxMSAInteractiveObject.cpp */; };
 		966DCCB21C71F6CC0041F5CF /* InteractiveMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 966DCCAF1C71F6CC0041F5CF /* InteractiveMenu.cpp */; };
 		969189B21C7A4C4A00746006 /* ContentMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 969189B01C7A4C4A00746006 /* ContentMenu.cpp */; };
+		96E6C8F31C88F5CC00DE32FC /* Globals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96E6C8F21C88F5CC00DE32FC /* Globals.cpp */; };
 		9D44DC88EF9E7991B4A09951 /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 832BDC407620CDBA568B713D /* tinyxmlerror.cpp */; };
 		B266578FC55D23BFEBC042E7 /* ofxGuiGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ECF8674C7975F1063C5E30CA /* ofxGuiGroup.cpp */; };
 		B56FE57CC35806596D38118C /* ofxSliderGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 802251BAF1B35B1D67B32FD0 /* ofxSliderGroup.cpp */; };
@@ -458,6 +459,8 @@
 		969189B01C7A4C4A00746006 /* ContentMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ContentMenu.cpp; sourceTree = "<group>"; };
 		969189B11C7A4C4A00746006 /* ContentMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentMenu.h; sourceTree = "<group>"; };
 		96E5EE631C66B43A003AE767 /* InterestPoints.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InterestPoints.h; sourceTree = "<group>"; };
+		96E6C8F11C88EFB400DE32FC /* Globals.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Globals.h; sourceTree = "<group>"; };
+		96E6C8F21C88F5CC00DE32FC /* Globals.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Globals.cpp; sourceTree = "<group>"; };
 		B21E7E5F548EEA92F368040B /* tinyxml.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = tinyxml.h; path = ../../../addons/ofxXmlSettings/libs/tinyxml.h; sourceTree = SOURCE_ROOT; };
 		B87C60311EC1FE841C1ECD89 /* ofxLabel.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxLabel.h; path = ../../../addons/ofxGui/src/ofxLabel.h; sourceTree = SOURCE_ROOT; };
 		C70D8946940288799E82131E /* ofxSliderGroup.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxSliderGroup.h; path = ../../../addons/ofxGui/src/ofxSliderGroup.h; sourceTree = SOURCE_ROOT; };
@@ -563,6 +566,8 @@
 		833FE11F1C47DF5B007E9685 /* common */ = {
 			isa = PBXGroup;
 			children = (
+				96E6C8F21C88F5CC00DE32FC /* Globals.cpp */,
+				96E6C8F11C88EFB400DE32FC /* Globals.h */,
 				833FE1211C47E008007E9685 /* Interactive.h */,
 				833FE1241C47E0C5007E9685 /* Scrollable.h */,
 			);
@@ -1360,6 +1365,7 @@
 				839648E31C47BC0B00C227EB /* ofxDatGuiComponent.cpp in Sources */,
 				83AC280F1C469366009E1CD1 /* glmFont.cpp in Sources */,
 				63B57AC5BF4EF088491E0317 /* ofxXmlSettings.cpp in Sources */,
+				96E6C8F31C88F5CC00DE32FC /* Globals.cpp in Sources */,
 				933A2227713C720CEFF80FD9 /* tinyxml.cpp in Sources */,
 				83AC281A1C469366009E1CD1 /* ofxVectorTile.cpp in Sources */,
 				839648E41C47BC0B00C227EB /* ofxDatGui.cpp in Sources */,

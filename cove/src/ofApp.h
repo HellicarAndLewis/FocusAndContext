@@ -20,6 +20,8 @@
 
 #define EASEING 0.08
 
+extern float jasonTest;
+
 class ofApp : public ofBaseApp{
 public:
     void setup();
@@ -159,5 +161,4 @@ public:
     void onSliderEvent(ofxDatGuiSliderEvent e);
     void on2dPadEvent(ofxDatGui2dPadEvent e);
     void onDropdownEvent(ofxDatGuiDropdownEvent e);
-    
 };

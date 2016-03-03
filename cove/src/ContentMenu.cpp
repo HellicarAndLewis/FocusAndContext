@@ -8,6 +8,7 @@
 //
 
 #include "ContentMenu.h"
+#include "Globals.h"
 
 //--------------------------------------------------------------
 void ContentMenu::setup(int _w, int _h, float _area, float _padding)
@@ -44,6 +45,8 @@ void ContentMenu::update()
     transform();
     // check button presses
     pressed();
+    
+    destroyContent();
 }
 
 //--------------------------------------------------------------
@@ -86,81 +89,69 @@ void ContentMenu::draw(int _project, int _point, bool _draw)
 }
 
 //--------------------------------------------------------------
-void ContentMenu::transform()
+void ContentMenu::drawContent()
 {
-    /*
-    // left sub menu animations
-    for (int i = 0; i < length; i++) {
-        
-        if (leftOn) {
-            
-            if (bLeftActive[i]) {
+    ofSetRectMode(OF_RECTMODE_CENTER);
+    
+    float lerpValue = 0.2;
+    for (int j = 0; j < CONTENT_AMT; j++)
+    {
+        if (item[j])
+        {
+            if (display)
+            {
+                scale[j] = ofLerp(scale[j], 1.3, lerpValue);
+                img[j].load(path[j]);
                 
-                float distance = i  * (subArea + padding) + (padding * 2) + mainArea;
-                posLeft[i].x = ofLerp(posLeft[i].x, distance - areaDiff/2, easeOut);
-                posLeft[i].y = ofLerp(posLeft[i].y, height - padding - mainArea, easeOut);
-                
-                sizeLeft[i] = ofLerp(sizeLeft[i], mainArea, easeOut);
-            } else {
-                
-                float distance = i  * (subArea + padding) + (padding * 2) + mainArea;
-                posLeft[i].x = ofLerp(posLeft[i].x, distance, easeOut);
-                posLeft[i].y = ofLerp(posLeft[i].y, height - padding - mainArea + (areaDiff / 2), easeOut);
-                
-                sizeLeft[i] = ofLerp(sizeLeft[i], subArea, easeOut);
+                if (scale[j] >= 1.2999)//0.999)
+                {
+                    display = false;
+                }
             }
-            
-        } else {
-            
-            posLeft[i].x = ofLerp(posLeft[i].x, padding, easeIn);
-            posLeft[i].y = ofLerp(posLeft[i].y, height - padding - mainArea + (areaDiff / 2), easeIn);
-            
-            sizeLeft[i] = ofLerp(sizeLeft[i], subArea, easeIn);
-            
-            bLeftActive[i] = false;
+        }
+        else
+        {
+            scale[j] = ofLerp(scale[j], 0.0, lerpValue);
         }
         
-        // update objects position and size
-        objsLeft[i].set(posLeft[i].x, posLeft[i].y, sizeLeft[i], sizeLeft[i]);
-        objsLeft[i].isSelected = bLeftActive[i];
+        // if allocated then draw
+        if (img[j].isAllocated()) {
+            ofSetColor(0, 0, 0, 20);
+            ofDrawRectangle(width/2 + 6, height/2 + 6, img[j].getWidth() * scale[j], img[j].getHeight() * scale[j]);
+            
+            ofSetColor(255, 255, 255);
+            img[j].draw(width/2, height/2, img[j].getWidth() * scale[j], img[j].getHeight() * scale[j]);
+        }
+        
+        // if all scales near zero, can launch next content
+        if (scale[0] <= 0.0001 && scale[1] <= 0.0001 && scale[2] <= 0.0001 && scale[3] <= 0.0001 && scale[4] <= 0.0001)
+        {
+            display = true;
+        }
     }
     
-    // right sub menu animations
-    for (int i = 0; i < length; i++) {
-        
-        if (rightOn) {
+    ofSetRectMode(OF_RECTMODE_CORNER);
+}
+//--------------------------------------------------------------
+void ContentMenu::destroyContent()
+{
+    float lerpValue = 0.4;
+    if (Globals::buttonPressed)
+    {
+        for (int j = 0; j < CONTENT_AMT; j++) {
+            item[j] = false;
+            scale[j] = ofLerp(scale[j], 0.0, lerpValue);
             
-            float distance = width - padding - subArea - (i  * (subArea + padding) + padding + mainArea);
-            
-            if (bRightActive[i]) {
-                
-                posRight[i].x = ofLerp(posRight[i].x, distance - areaDiff/2, easeOut);
-                posRight[i].y = ofLerp(posRight[i].y, height - padding - mainArea, easeOut);
-                
-                sizeRight[i] = ofLerp(sizeRight[i], mainArea, easeOut);
-            } else {
-                
-                posRight[i].x = ofLerp(posRight[i].x, distance, easeOut);
-                posRight[i].y = ofLerp(posRight[i].y, height - padding - mainArea + (areaDiff / 2), easeOut);
-                
-                sizeRight[i] = ofLerp(sizeRight[i], subArea, easeOut);
-            }
-            
-        } else {
-            
-            posRight[i].x = ofLerp(posRight[i].x, width - padding - subArea, easeIn);
-            posRight[i].y = ofLerp(posRight[i].y, height - padding - mainArea + (areaDiff / 2), easeIn);
-            
-            sizeRight[i] = ofLerp(sizeRight[i], subArea, easeIn);
-            
-            bRightActive[i] = false;
+            if (scale[j] <= 0.0001)
+                Globals::buttonPressed = false;
         }
-        
-        // update objects position and size
-        objsRight[i].set(posRight[i].x, posRight[i].y, sizeRight[i], sizeRight[i]);
-        objsRight[i].isSelected = bRightActive[i];
     }
-     */
+}
+
+//--------------------------------------------------------------
+void ContentMenu::transform()
+{
+    
 }
 
 //--------------------------------------------------------------
@@ -179,13 +170,22 @@ void ContentMenu::pressed()
                     case 0:
                         
                         switch (j) {
+                                
                             case 0:
                                 bLeftActive[i][0] = true;
                                 bLeftActive[i][1] = false;
                                 bLeftActive[i][2] = false;
                                 bLeftActive[i][3] = false;
                                 bLeftActive[i][4] = false;
-                                cout << "button0, content0 " << ofToString(i) << " " << ofToString(j) << endl;
+                               //cout << "button0, content0 " << ofToString(i) << " " << ofToString(j) << endl;
+                                
+                                display = false;
+                                path[0] = "content/media/text.png";
+                                item[0] = bLeftActive[i][0];
+                                item[1] = bLeftActive[i][1];
+                                item[2] = bLeftActive[i][2];
+                                item[3] = bLeftActive[i][3];
+                                item[4] = bLeftActive[i][4];
                                 break;
                                 
                             case 1:
@@ -194,7 +194,15 @@ void ContentMenu::pressed()
                                 bLeftActive[i][2] = false;
                                 bLeftActive[i][3] = false;
                                 bLeftActive[i][4] = false;
-                                cout << "button0, content1 " << ofToString(i) << " " << ofToString(j) << endl;
+                               //cout << "button0, content1 " << ofToString(i) << " " << ofToString(j) << endl;
+                                
+                                display = false;
+                                path[1] = "content/media/image.png";
+                                item[0] = bLeftActive[i][0];
+                                item[1] = bLeftActive[i][1];
+                                item[2] = bLeftActive[i][2];
+                                item[3] = bLeftActive[i][3];
+                                item[4] = bLeftActive[i][4];
                                 break;
                                 
                             case 2:
@@ -203,7 +211,15 @@ void ContentMenu::pressed()
                                 bLeftActive[i][2] = true;
                                 bLeftActive[i][3] = false;
                                 bLeftActive[i][4] = false;
-                                cout << "button0, content2 " << ofToString(i) << " " << ofToString(j) << endl;
+                               //cout << "button0, content2 " << ofToString(i) << " " << ofToString(j) << endl;
+                                
+                                display = false;
+                                path[2] = "content/media/video.png";
+                                item[0] = bLeftActive[i][0];
+                                item[1] = bLeftActive[i][1];
+                                item[2] = bLeftActive[i][2];
+                                item[3] = bLeftActive[i][3];
+                                item[4] = bLeftActive[i][4];
                                 break;
                                 
                             case 3:
@@ -212,7 +228,15 @@ void ContentMenu::pressed()
                                 bLeftActive[i][2] = false;
                                 bLeftActive[i][3] = true;
                                 bLeftActive[i][4] = false;
-                                cout << "button0, content3 " << ofToString(i) << " " << ofToString(j) << endl;
+                               //cout << "button0, content3 " << ofToString(i) << " " << ofToString(j) << endl;
+                                
+                                display = false;
+                                path[3] = "content/media/model.png";
+                                item[0] = bLeftActive[i][0];
+                                item[1] = bLeftActive[i][1];
+                                item[2] = bLeftActive[i][2];
+                                item[3] = bLeftActive[i][3];
+                                item[4] = bLeftActive[i][4];
                                 break;
                                 
                             case 4:
@@ -221,7 +245,15 @@ void ContentMenu::pressed()
                                 bLeftActive[i][2] = false;
                                 bLeftActive[i][3] = false;
                                 bLeftActive[i][4] = true;
-                                cout << "button0, content4 " << ofToString(i) << " " << ofToString(j) << endl;
+                               //cout << "button0, content4 " << ofToString(i) << " " << ofToString(j) << endl;
+                                
+                                display = false;
+                                path[4] = "content/media/audio.png";
+                                item[0] = bLeftActive[i][0];
+                                item[1] = bLeftActive[i][1];
+                                item[2] = bLeftActive[i][2];
+                                item[3] = bLeftActive[i][3];
+                                item[4] = bLeftActive[i][4];
                                 break;
                         }
                         break;
@@ -234,7 +266,14 @@ void ContentMenu::pressed()
                                 bLeftActive[i][2] = false;
                                 bLeftActive[i][3] = false;
                                 bLeftActive[i][4] = false;
-                                cout << "button 1, content 0" << endl;
+                               //cout << "button 1, content 0" << endl;
+                                display = false;
+                                path[0] = "content/media/text.png";
+                                item[0] = bLeftActive[i][0];
+                                item[1] = bLeftActive[i][1];
+                                item[2] = bLeftActive[i][2];
+                                item[3] = bLeftActive[i][3];
+                                item[4] = bLeftActive[i][4];
                                 break;
                                 
                             case 1:
@@ -243,7 +282,14 @@ void ContentMenu::pressed()
                                 bLeftActive[i][2] = false;
                                 bLeftActive[i][3] = false;
                                 bLeftActive[i][4] = false;
-                                cout << "button 1, content 1" << endl;
+                               //cout << "button 1, content 1" << endl;
+                                display = false;
+                                path[1] = "content/media/image.png";
+                                item[0] = bLeftActive[i][0];
+                                item[1] = bLeftActive[i][1];
+                                item[2] = bLeftActive[i][2];
+                                item[3] = bLeftActive[i][3];
+                                item[4] = bLeftActive[i][4];
                                 break;
                                 
                             case 2:
@@ -252,7 +298,14 @@ void ContentMenu::pressed()
                                 bLeftActive[i][2] = true;
                                 bLeftActive[i][3] = false;
                                 bLeftActive[i][4] = false;
-                                cout << "button 1, content 2" << endl;
+                               //cout << "button 1, content 2" << endl;
+                                display = false;
+                                path[2] = "content/media/video.png";
+                                item[0] = bLeftActive[i][0];
+                                item[1] = bLeftActive[i][1];
+                                item[2] = bLeftActive[i][2];
+                                item[3] = bLeftActive[i][3];
+                                item[4] = bLeftActive[i][4];
                                 break;
                                 
                             case 3:
@@ -261,7 +314,14 @@ void ContentMenu::pressed()
                                 bLeftActive[i][2] = false;
                                 bLeftActive[i][3] = true;
                                 bLeftActive[i][4] = false;
-                                cout << "button 1, content 3" << endl;
+                               //cout << "button 1, content 3" << endl;
+                                display = false;
+                                path[3] = "content/media/model.png";
+                                item[0] = bLeftActive[i][0];
+                                item[1] = bLeftActive[i][1];
+                                item[2] = bLeftActive[i][2];
+                                item[3] = bLeftActive[i][3];
+                                item[4] = bLeftActive[i][4];
                                 break;
                                 
                             case 4:
@@ -270,7 +330,14 @@ void ContentMenu::pressed()
                                 bLeftActive[i][2] = false;
                                 bLeftActive[i][3] = false;
                                 bLeftActive[i][4] = true;
-                                cout << "button 1, content 4" << endl;
+                               //cout << "button 1, content 4" << endl;
+                                display = false;
+                                path[4] = "content/media/audio.png";
+                                item[0] = bLeftActive[i][0];
+                                item[1] = bLeftActive[i][1];
+                                item[2] = bLeftActive[i][2];
+                                item[3] = bLeftActive[i][3];
+                                item[4] = bLeftActive[i][4];
                                 break;
                         }
                         break;
@@ -283,7 +350,14 @@ void ContentMenu::pressed()
                                 bLeftActive[i][2] = false;
                                 bLeftActive[i][3] = false;
                                 bLeftActive[i][4] = false;
-                                cout << "button 2, content 0" << endl;
+                               //cout << "button 2, content 0" << endl;
+                                display = false;
+                                path[0] = "content/media/text.png";
+                                item[0] = bLeftActive[i][0];
+                                item[1] = bLeftActive[i][1];
+                                item[2] = bLeftActive[i][2];
+                                item[3] = bLeftActive[i][3];
+                                item[4] = bLeftActive[i][4];
                                 break;
                                 
                             case 1:
@@ -292,7 +366,14 @@ void ContentMenu::pressed()
                                 bLeftActive[i][2] = false;
                                 bLeftActive[i][3] = false;
                                 bLeftActive[i][4] = false;
-                                cout << "button 2, content 1" << endl;
+                               //cout << "button 2, content 1" << endl;
+                                display = false;
+                                path[1] = "content/media/image.png";
+                                item[0] = bLeftActive[i][0];
+                                item[1] = bLeftActive[i][1];
+                                item[2] = bLeftActive[i][2];
+                                item[3] = bLeftActive[i][3];
+                                item[4] = bLeftActive[i][4];
                                 break;
                                 
                             case 2:
@@ -301,7 +382,14 @@ void ContentMenu::pressed()
                                 bLeftActive[i][2] = true;
                                 bLeftActive[i][3] = false;
                                 bLeftActive[i][4] = false;
-                                cout << "button 2, content 2" << endl;
+                               //cout << "button 2, content 2" << endl;
+                                display = false;
+                                path[2] = "content/media/video.png";
+                                item[0] = bLeftActive[i][0];
+                                item[1] = bLeftActive[i][1];
+                                item[2] = bLeftActive[i][2];
+                                item[3] = bLeftActive[i][3];
+                                item[4] = bLeftActive[i][4];
                                 break;
                                 
                             case 3:
@@ -310,7 +398,14 @@ void ContentMenu::pressed()
                                 bLeftActive[i][2] = false;
                                 bLeftActive[i][3] = true;
                                 bLeftActive[i][4] = false;
-                                cout << "button 2, content 3" << endl;
+                               //cout << "button 2, content 3" << endl;
+                                display = false;
+                                path[3] = "content/media/model.png";
+                                item[0] = bLeftActive[i][0];
+                                item[1] = bLeftActive[i][1];
+                                item[2] = bLeftActive[i][2];
+                                item[3] = bLeftActive[i][3];
+                                item[4] = bLeftActive[i][4];
                                 break;
                                 
                             case 4:
@@ -319,7 +414,14 @@ void ContentMenu::pressed()
                                 bLeftActive[i][2] = false;
                                 bLeftActive[i][3] = false;
                                 bLeftActive[i][4] = true;
-                                cout << "button 2, content 4" << endl;
+                               //cout << "button 2, content 4" << endl;
+                                display = false;
+                                path[4] = "content/media/audio.png";
+                                item[0] = bLeftActive[i][0];
+                                item[1] = bLeftActive[i][1];
+                                item[2] = bLeftActive[i][2];
+                                item[3] = bLeftActive[i][3];
+                                item[4] = bLeftActive[i][4];
                                 break;
                         }
                         break;
@@ -332,7 +434,14 @@ void ContentMenu::pressed()
                                 bLeftActive[i][2] = false;
                                 bLeftActive[i][3] = false;
                                 bLeftActive[i][4] = false;
-                                cout << "button 3, content 0" << endl;
+                               //cout << "button 3, content 0" << endl;
+                                display = false;
+                                path[0] = "content/media/text.png";
+                                item[0] = bLeftActive[i][0];
+                                item[1] = bLeftActive[i][1];
+                                item[2] = bLeftActive[i][2];
+                                item[3] = bLeftActive[i][3];
+                                item[4] = bLeftActive[i][4];
                                 break;
                                 
                             case 1:
@@ -341,7 +450,14 @@ void ContentMenu::pressed()
                                 bLeftActive[i][2] = false;
                                 bLeftActive[i][3] = false;
                                 bLeftActive[i][4] = false;
-                                cout << "button 3, content 1" << endl;
+                               //cout << "button 3, content 1" << endl;
+                                display = false;
+                                path[1] = "content/media/image.png";
+                                item[0] = bLeftActive[i][0];
+                                item[1] = bLeftActive[i][1];
+                                item[2] = bLeftActive[i][2];
+                                item[3] = bLeftActive[i][3];
+                                item[4] = bLeftActive[i][4];
                                 break;
                                 
                             case 2:
@@ -350,7 +466,14 @@ void ContentMenu::pressed()
                                 bLeftActive[i][2] = true;
                                 bLeftActive[i][3] = false;
                                 bLeftActive[i][4] = false;
-                                cout << "button 3, content 2" << endl;
+                               //cout << "button 3, content 2" << endl;
+                                display = false;
+                                path[2] = "content/media/video.png";
+                                item[0] = bLeftActive[i][0];
+                                item[1] = bLeftActive[i][1];
+                                item[2] = bLeftActive[i][2];
+                                item[3] = bLeftActive[i][3];
+                                item[4] = bLeftActive[i][4];
                                 break;
                                 
                             case 3:
@@ -359,7 +482,14 @@ void ContentMenu::pressed()
                                 bLeftActive[i][2] = false;
                                 bLeftActive[i][3] = true;
                                 bLeftActive[i][4] = false;
-                                cout << "button 3, content 3" << endl;
+                               //cout << "button 3, content 3" << endl;
+                                display = false;
+                                path[3] = "content/media/model.png";
+                                item[0] = bLeftActive[i][0];
+                                item[1] = bLeftActive[i][1];
+                                item[2] = bLeftActive[i][2];
+                                item[3] = bLeftActive[i][3];
+                                item[4] = bLeftActive[i][4];
                                 break;
                                 
                             case 4:
@@ -368,7 +498,14 @@ void ContentMenu::pressed()
                                 bLeftActive[i][2] = false;
                                 bLeftActive[i][3] = false;
                                 bLeftActive[i][4] = true;
-                                cout << "button 3, content 4" << endl;
+                               //cout << "button 3, content 4" << endl;
+                                display = false;
+                                path[4] = "content/media/audio.png";
+                                item[0] = bLeftActive[i][0];
+                                item[1] = bLeftActive[i][1];
+                                item[2] = bLeftActive[i][2];
+                                item[3] = bLeftActive[i][3];
+                                item[4] = bLeftActive[i][4];
                                 break;
                         }
                         break;
@@ -381,7 +518,14 @@ void ContentMenu::pressed()
                                 bLeftActive[i][2] = false;
                                 bLeftActive[i][3] = false;
                                 bLeftActive[i][4] = false;
-                                cout << "button 4, content 0" << endl;
+                               //cout << "button 4, content 0" << endl;
+                                display = false;
+                                path[0] = "content/media/text.png";
+                                item[0] = bLeftActive[i][0];
+                                item[1] = bLeftActive[i][1];
+                                item[2] = bLeftActive[i][2];
+                                item[3] = bLeftActive[i][3];
+                                item[4] = bLeftActive[i][4];
                                 break;
                                 
                             case 1:
@@ -390,7 +534,14 @@ void ContentMenu::pressed()
                                 bLeftActive[i][2] = false;
                                 bLeftActive[i][3] = false;
                                 bLeftActive[i][4] = false;
-                                cout << "button 4, content 1" << endl;
+                               //cout << "button 4, content 1" << endl;
+                                display = false;
+                                path[1] = "content/media/image.png";
+                                item[0] = bLeftActive[i][0];
+                                item[1] = bLeftActive[i][1];
+                                item[2] = bLeftActive[i][2];
+                                item[3] = bLeftActive[i][3];
+                                item[4] = bLeftActive[i][4];
                                 break;
                                 
                             case 2:
@@ -399,7 +550,14 @@ void ContentMenu::pressed()
                                 bLeftActive[i][2] = true;
                                 bLeftActive[i][3] = false;
                                 bLeftActive[i][4] = false;
-                                cout << "button 4, content 2" << endl;
+                               //cout << "button 4, content 2" << endl;
+                                display = false;
+                                path[2] = "content/media/video.png";
+                                item[0] = bLeftActive[i][0];
+                                item[1] = bLeftActive[i][1];
+                                item[2] = bLeftActive[i][2];
+                                item[3] = bLeftActive[i][3];
+                                item[4] = bLeftActive[i][4];
                                 break;
                                 
                             case 3:
@@ -408,7 +566,14 @@ void ContentMenu::pressed()
                                 bLeftActive[i][2] = false;
                                 bLeftActive[i][3] = true;
                                 bLeftActive[i][4] = false;
-                                cout << "button 4, content 3" << endl;
+                               //cout << "button 4, content 3" << endl;
+                                display = false;
+                                path[3] = "content/media/model.png";
+                                item[0] = bLeftActive[i][0];
+                                item[1] = bLeftActive[i][1];
+                                item[2] = bLeftActive[i][2];
+                                item[3] = bLeftActive[i][3];
+                                item[4] = bLeftActive[i][4];
                                 break;
                                 
                             case 4:
@@ -417,7 +582,14 @@ void ContentMenu::pressed()
                                 bLeftActive[i][2] = false;
                                 bLeftActive[i][3] = false;
                                 bLeftActive[i][4] = true;
-                                cout << "button 4, content 4" << endl;
+                               //cout << "button 4, content 4" << endl;
+                                display = false;
+                                path[4] = "content/media/audio.png";
+                                item[0] = bLeftActive[i][0];
+                                item[1] = bLeftActive[i][1];
+                                item[2] = bLeftActive[i][2];
+                                item[3] = bLeftActive[i][3];
+                                item[4] = bLeftActive[i][4];
                                 break;
                         }
                         break;
@@ -447,7 +619,14 @@ void ContentMenu::pressed()
                                 bRightActive[i][2] = false;
                                 bRightActive[i][3] = false;
                                 bRightActive[i][4] = false;
-                                cout << "button0, content0 " << ofToString(i) << " " << ofToString(j) << endl;
+                               //cout << "button0, content0 " << ofToString(i) << " " << ofToString(j) << endl;
+                                display = false;
+                                path[0] = "content/media/text.png";
+                                item[0] = bRightActive[i][0];
+                                item[1] = bRightActive[i][1];
+                                item[2] = bRightActive[i][2];
+                                item[3] = bRightActive[i][3];
+                                item[4] = bRightActive[i][4];
                                 break;
                                 
                             case 1:
@@ -456,7 +635,14 @@ void ContentMenu::pressed()
                                 bRightActive[i][2] = false;
                                 bRightActive[i][3] = false;
                                 bRightActive[i][4] = false;
-                                cout << "button0, content1 " << ofToString(i) << " " << ofToString(j) << endl;
+                               //cout << "button0, content1 " << ofToString(i) << " " << ofToString(j) << endl;
+                                display = false;
+                                path[1] = "content/media/image.png";
+                                item[0] = bRightActive[i][0];
+                                item[1] = bRightActive[i][1];
+                                item[2] = bRightActive[i][2];
+                                item[3] = bRightActive[i][3];
+                                item[4] = bRightActive[i][4];
                                 break;
                                 
                             case 2:
@@ -465,7 +651,14 @@ void ContentMenu::pressed()
                                 bRightActive[i][2] = true;
                                 bRightActive[i][3] = false;
                                 bRightActive[i][4] = false;
-                                cout << "button0, content2 " << ofToString(i) << " " << ofToString(j) << endl;
+                               //cout << "button0, content2 " << ofToString(i) << " " << ofToString(j) << endl;
+                                display = false;
+                                path[2] = "content/media/video.png";
+                                item[0] = bRightActive[i][0];
+                                item[1] = bRightActive[i][1];
+                                item[2] = bRightActive[i][2];
+                                item[3] = bRightActive[i][3];
+                                item[4] = bRightActive[i][4];
                                 break;
                                 
                             case 3:
@@ -474,7 +667,14 @@ void ContentMenu::pressed()
                                 bRightActive[i][2] = false;
                                 bRightActive[i][3] = true;
                                 bRightActive[i][4] = false;
-                                cout << "button0, content3 " << ofToString(i) << " " << ofToString(j) << endl;
+                               //cout << "button0, content3 " << ofToString(i) << " " << ofToString(j) << endl;
+                                display = false;
+                                path[3] = "content/media/model.png";
+                                item[0] = bRightActive[i][0];
+                                item[1] = bRightActive[i][1];
+                                item[2] = bRightActive[i][2];
+                                item[3] = bRightActive[i][3];
+                                item[4] = bRightActive[i][4];
                                 break;
                                 
                             case 4:
@@ -483,7 +683,14 @@ void ContentMenu::pressed()
                                 bRightActive[i][2] = false;
                                 bRightActive[i][3] = false;
                                 bRightActive[i][4] = true;
-                                cout << "button0, content4 " << ofToString(i) << " " << ofToString(j) << endl;
+                               //cout << "button0, content4 " << ofToString(i) << " " << ofToString(j) << endl;
+                                display = false;
+                                path[4] = "content/media/audio.png";
+                                item[0] = bRightActive[i][0];
+                                item[1] = bRightActive[i][1];
+                                item[2] = bRightActive[i][2];
+                                item[3] = bRightActive[i][3];
+                                item[4] = bRightActive[i][4];
                                 break;
                         }
                         break;
@@ -496,7 +703,14 @@ void ContentMenu::pressed()
                                 bRightActive[i][2] = false;
                                 bRightActive[i][3] = false;
                                 bRightActive[i][4] = false;
-                                cout << "button 1, content 0" << endl;
+                               //cout << "button 1, content 0" << endl;
+                                display = false;
+                                path[0] = "content/media/text.png";
+                                item[0] = bRightActive[i][0];
+                                item[1] = bRightActive[i][1];
+                                item[2] = bRightActive[i][2];
+                                item[3] = bRightActive[i][3];
+                                item[4] = bRightActive[i][4];
                                 break;
                                 
                             case 1:
@@ -505,7 +719,14 @@ void ContentMenu::pressed()
                                 bRightActive[i][2] = false;
                                 bRightActive[i][3] = false;
                                 bRightActive[i][4] = false;
-                                cout << "button 1, content 1" << endl;
+                               //cout << "button 1, content 1" << endl;
+                                display = false;
+                                path[1] = "content/media/image.png";
+                                item[0] = bRightActive[i][0];
+                                item[1] = bRightActive[i][1];
+                                item[2] = bRightActive[i][2];
+                                item[3] = bRightActive[i][3];
+                                item[4] = bRightActive[i][4];
                                 break;
                                 
                             case 2:
@@ -514,7 +735,14 @@ void ContentMenu::pressed()
                                 bRightActive[i][2] = true;
                                 bRightActive[i][3] = false;
                                 bRightActive[i][4] = false;
-                                cout << "button 1, content 2" << endl;
+                               //cout << "button 1, content 2" << endl;
+                                display = false;
+                                path[2] = "content/media/video.png";
+                                item[0] = bRightActive[i][0];
+                                item[1] = bRightActive[i][1];
+                                item[2] = bRightActive[i][2];
+                                item[3] = bRightActive[i][3];
+                                item[4] = bRightActive[i][4];
                                 break;
                                 
                             case 3:
@@ -523,7 +751,14 @@ void ContentMenu::pressed()
                                 bRightActive[i][2] = false;
                                 bRightActive[i][3] = true;
                                 bRightActive[i][4] = false;
-                                cout << "button 1, content 3" << endl;
+                               //cout << "button 1, content 3" << endl;
+                                display = false;
+                                path[3] = "content/media/model.png";
+                                item[0] = bRightActive[i][0];
+                                item[1] = bRightActive[i][1];
+                                item[2] = bRightActive[i][2];
+                                item[3] = bRightActive[i][3];
+                                item[4] = bRightActive[i][4];
                                 break;
                                 
                             case 4:
@@ -532,7 +767,14 @@ void ContentMenu::pressed()
                                 bRightActive[i][2] = false;
                                 bRightActive[i][3] = false;
                                 bRightActive[i][4] = true;
-                                cout << "button 1, content 4" << endl;
+                               //cout << "button 1, content 4" << endl;
+                                display = false;
+                                path[4] = "content/media/audio.png";
+                                item[0] = bRightActive[i][0];
+                                item[1] = bRightActive[i][1];
+                                item[2] = bRightActive[i][2];
+                                item[3] = bRightActive[i][3];
+                                item[4] = bRightActive[i][4];
                                 break;
                         }
                         break;
@@ -545,7 +787,14 @@ void ContentMenu::pressed()
                                 bRightActive[i][2] = false;
                                 bRightActive[i][3] = false;
                                 bRightActive[i][4] = false;
-                                cout << "button 2, content 0" << endl;
+                               //cout << "button 2, content 0" << endl;
+                                display = false;
+                                path[0] = "content/media/text.png";
+                                item[0] = bRightActive[i][0];
+                                item[1] = bRightActive[i][1];
+                                item[2] = bRightActive[i][2];
+                                item[3] = bRightActive[i][3];
+                                item[4] = bRightActive[i][4];
                                 break;
                                 
                             case 1:
@@ -554,7 +803,14 @@ void ContentMenu::pressed()
                                 bRightActive[i][2] = false;
                                 bRightActive[i][3] = false;
                                 bRightActive[i][4] = false;
-                                cout << "button 2, content 1" << endl;
+                               //cout << "button 2, content 1" << endl;
+                                display = false;
+                                path[1] = "content/media/image.png";
+                                item[0] = bRightActive[i][0];
+                                item[1] = bRightActive[i][1];
+                                item[2] = bRightActive[i][2];
+                                item[3] = bRightActive[i][3];
+                                item[4] = bRightActive[i][4];
                                 break;
                                 
                             case 2:
@@ -563,7 +819,14 @@ void ContentMenu::pressed()
                                 bRightActive[i][2] = true;
                                 bRightActive[i][3] = false;
                                 bRightActive[i][4] = false;
-                                cout << "button 2, content 2" << endl;
+                               //cout << "button 2, content 2" << endl;
+                                display = false;
+                                path[2] = "content/media/video.png";
+                                item[0] = bRightActive[i][0];
+                                item[1] = bRightActive[i][1];
+                                item[2] = bRightActive[i][2];
+                                item[3] = bRightActive[i][3];
+                                item[4] = bRightActive[i][4];
                                 break;
                                 
                             case 3:
@@ -572,7 +835,14 @@ void ContentMenu::pressed()
                                 bRightActive[i][2] = false;
                                 bRightActive[i][3] = true;
                                 bRightActive[i][4] = false;
-                                cout << "button 2, content 3" << endl;
+                               //cout << "button 2, content 3" << endl;
+                                display = false;
+                                path[3] = "content/media/model.png";
+                                item[0] = bRightActive[i][0];
+                                item[1] = bRightActive[i][1];
+                                item[2] = bRightActive[i][2];
+                                item[3] = bRightActive[i][3];
+                                item[4] = bRightActive[i][4];
                                 break;
                                 
                             case 4:
@@ -581,7 +851,14 @@ void ContentMenu::pressed()
                                 bRightActive[i][2] = false;
                                 bRightActive[i][3] = false;
                                 bRightActive[i][4] = true;
-                                cout << "button 2, content 4" << endl;
+                               //cout << "button 2, content 4" << endl;
+                                display = false;
+                                path[4] = "content/media/audio.png";
+                                item[0] = bRightActive[i][0];
+                                item[1] = bRightActive[i][1];
+                                item[2] = bRightActive[i][2];
+                                item[3] = bRightActive[i][3];
+                                item[4] = bRightActive[i][4];
                                 break;
                         }
                         break;
@@ -594,7 +871,14 @@ void ContentMenu::pressed()
                                 bRightActive[i][2] = false;
                                 bRightActive[i][3] = false;
                                 bRightActive[i][4] = false;
-                                cout << "button 3, content 0" << endl;
+                               //cout << "button 3, content 0" << endl;
+                                display = false;
+                                path[0] = "content/media/text.png";
+                                item[0] = bRightActive[i][0];
+                                item[1] = bRightActive[i][1];
+                                item[2] = bRightActive[i][2];
+                                item[3] = bRightActive[i][3];
+                                item[4] = bRightActive[i][4];
                                 break;
                                 
                             case 1:
@@ -603,7 +887,14 @@ void ContentMenu::pressed()
                                 bRightActive[i][2] = false;
                                 bRightActive[i][3] = false;
                                 bRightActive[i][4] = false;
-                                cout << "button 3, content 1" << endl;
+                               //cout << "button 3, content 1" << endl;
+                                display = false;
+                                path[1] = "content/media/image.png";
+                                item[0] = bRightActive[i][0];
+                                item[1] = bRightActive[i][1];
+                                item[2] = bRightActive[i][2];
+                                item[3] = bRightActive[i][3];
+                                item[4] = bRightActive[i][4];
                                 break;
                                 
                             case 2:
@@ -612,7 +903,14 @@ void ContentMenu::pressed()
                                 bRightActive[i][2] = true;
                                 bRightActive[i][3] = false;
                                 bRightActive[i][4] = false;
-                                cout << "button 3, content 2" << endl;
+                               //cout << "button 3, content 2" << endl;
+                                display = false;
+                                path[2] = "content/media/video.png";
+                                item[0] = bRightActive[i][0];
+                                item[1] = bRightActive[i][1];
+                                item[2] = bRightActive[i][2];
+                                item[3] = bRightActive[i][3];
+                                item[4] = bRightActive[i][4];
                                 break;
                                 
                             case 3:
@@ -621,7 +919,14 @@ void ContentMenu::pressed()
                                 bRightActive[i][2] = false;
                                 bRightActive[i][3] = true;
                                 bRightActive[i][4] = false;
-                                cout << "button 3, content 3" << endl;
+                               //cout << "button 3, content 3" << endl;
+                                display = false;
+                                path[3] = "content/media/model.png";
+                                item[0] = bRightActive[i][0];
+                                item[1] = bRightActive[i][1];
+                                item[2] = bRightActive[i][2];
+                                item[3] = bRightActive[i][3];
+                                item[4] = bRightActive[i][4];
                                 break;
                                 
                             case 4:
@@ -630,7 +935,14 @@ void ContentMenu::pressed()
                                 bRightActive[i][2] = false;
                                 bRightActive[i][3] = false;
                                 bRightActive[i][4] = true;
-                                cout << "button 3, content 4" << endl;
+                               //cout << "button 3, content 4" << endl;
+                                display = false;
+                                path[4] = "content/media/audio.png";
+                                item[0] = bRightActive[i][0];
+                                item[1] = bRightActive[i][1];
+                                item[2] = bRightActive[i][2];
+                                item[3] = bRightActive[i][3];
+                                item[4] = bRightActive[i][4];
                                 break;
                         }
                         break;
@@ -643,7 +955,14 @@ void ContentMenu::pressed()
                                 bRightActive[i][2] = false;
                                 bRightActive[i][3] = false;
                                 bRightActive[i][4] = false;
-                                cout << "button 4, content 0" << endl;
+                               //cout << "button 4, content 0" << endl;
+                                display = false;
+                                path[0] = "content/media/text.png";
+                                item[0] = bRightActive[i][0];
+                                item[1] = bRightActive[i][1];
+                                item[2] = bRightActive[i][2];
+                                item[3] = bRightActive[i][3];
+                                item[4] = bRightActive[i][4];
                                 break;
                                 
                             case 1:
@@ -652,7 +971,14 @@ void ContentMenu::pressed()
                                 bRightActive[i][2] = false;
                                 bRightActive[i][3] = false;
                                 bRightActive[i][4] = false;
-                                cout << "button 4, content 1" << endl;
+                               //cout << "button 4, content 1" << endl;
+                                display = false;
+                                path[1] = "content/media/image.png";
+                                item[0] = bRightActive[i][0];
+                                item[1] = bRightActive[i][1];
+                                item[2] = bRightActive[i][2];
+                                item[3] = bRightActive[i][3];
+                                item[4] = bRightActive[i][4];
                                 break;
                                 
                             case 2:
@@ -661,7 +987,14 @@ void ContentMenu::pressed()
                                 bRightActive[i][2] = true;
                                 bRightActive[i][3] = false;
                                 bRightActive[i][4] = false;
-                                cout << "button 4, content 2" << endl;
+                               //cout << "button 4, content 2" << endl;
+                                display = false;
+                                path[2] = "content/media/video.png";
+                                item[0] = bRightActive[i][0];
+                                item[1] = bRightActive[i][1];
+                                item[2] = bRightActive[i][2];
+                                item[3] = bRightActive[i][3];
+                                item[4] = bRightActive[i][4];
                                 break;
                                 
                             case 3:
@@ -670,7 +1003,14 @@ void ContentMenu::pressed()
                                 bRightActive[i][2] = false;
                                 bRightActive[i][3] = true;
                                 bRightActive[i][4] = false;
-                                cout << "button 4, content 3" << endl;
+                               //cout << "button 4, content 3" << endl;
+                                display = false;
+                                path[3] = "content/media/model.png";
+                                item[0] = bRightActive[i][0];
+                                item[1] = bRightActive[i][1];
+                                item[2] = bRightActive[i][2];
+                                item[3] = bRightActive[i][3];
+                                item[4] = bRightActive[i][4];
                                 break;
                                 
                             case 4:
@@ -679,7 +1019,14 @@ void ContentMenu::pressed()
                                 bRightActive[i][2] = false;
                                 bRightActive[i][3] = false;
                                 bRightActive[i][4] = true;
-                                cout << "button 4, content 4" << endl;
+                               //cout << "button 4, content 4" << endl;
+                                display = false;
+                                path[4] = "content/media/audio.png";
+                                item[0] = bRightActive[i][0];
+                                item[1] = bRightActive[i][1];
+                                item[2] = bRightActive[i][2];
+                                item[3] = bRightActive[i][3];
+                                item[4] = bRightActive[i][4];
                                 break;
                         }
                         break;

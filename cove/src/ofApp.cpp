@@ -10,6 +10,7 @@
 #include "ofApp.h"
 #include "glmGeo.h"
 #include "glmGeom.h"
+#include "Globals.h"
 
 void ofApp::setup()
 {
@@ -595,7 +596,6 @@ void ofApp::menuUpdates()
                 menu.buttonClicked = false;
             }
         }
-        
     }
     else
     {
@@ -639,7 +639,6 @@ void ofApp::contentUpdate()
             
             content.leftOn = true;
             content.rightOn = false;
-            
             content.buttonClicked = false;
         }
         else
@@ -655,7 +654,6 @@ void ofApp::contentUpdate()
             
             content.leftOn = false;
             content.rightOn = true;
-            
             content.buttonClicked = false;
         }
     }
@@ -691,6 +689,9 @@ void ofApp::draw()
     // draw ontop of all graphics
     //drawVignette();
     
+    // draw project content
+    content.drawContent();
+    
     // if (!gui->getVisible()) tileLoader.labels.draw2D();
     if (bDebugMsg) drawDebugMsg();
 }
@@ -708,10 +709,10 @@ void ofApp::drawVignette()
 void ofApp::drawDebugMsg()
 {
     if (route.activeProject == 1) colDebug.lerp(ofColor::yellow, 0.08);
-    else colDebug.lerp(ofColor::black, 0.08);
+    else colDebug.lerp(ofColor::red, 0.08);
     ofSetColor(colDebug);
     
-    ofDrawBitmapString("TRANSFORMS ", ofGetWidth()-300, 20);
+    ofDrawBitmapString("TRANSFORMS", ofGetWidth()-300, 20);
     ofDrawBitmapString("cam.getPosition() " + ofToString(cam.getPosition()), ofGetWidth()-300, 40);
     ofDrawBitmapString("cam.getDistance() " + ofToString(cam.getDistance()), ofGetWidth()-300, 60);
     ofDrawBitmapString("sceneRotation " + ofToString(sceneRotation), ofGetWidth()-300, 80);
@@ -722,7 +723,7 @@ void ofApp::drawDebugMsg()
     ofDrawBitmapString("enabled " + ofToString(scroller.isEnabled()), ofGetWidth()-300, 180);
     ofDrawBitmapString("percent " + ofToString(scrollPercent), ofGetWidth()-300, 200);
     
-    ofDrawBitmapString("AUTO SYSTEM ", ofGetWidth()-300, 240);
+    ofDrawBitmapString("AUTO SYSTEM", ofGetWidth()-300, 240);
     ofDrawBitmapString("enabled " + ofToString(systemActive), ofGetWidth()-300, 260);
     ofDrawBitmapString("elapsedTime " + ofToString(elapsedTime), ofGetWidth()-300, 280);
     ofDrawBitmapString("currentInterval " + ofToString(currentInterval), ofGetWidth()-300, 300);
@@ -731,7 +732,7 @@ void ofApp::drawDebugMsg()
     ofDrawBitmapString("route selected " + ofToString(routeSelection), ofGetWidth()-300, 360);
     ofDrawBitmapString("camRotSinX " + ofToString(camRotSinX), ofGetWidth()-300, 380);
     
-    ofDrawBitmapString("MENU ", ofGetWidth()-300, 420);
+    ofDrawBitmapString("MENU", ofGetWidth()-300, 420);
     ofDrawBitmapString("buttonClicked " + ofToString(menu.buttonClicked), ofGetWidth()-300, 440);
     ofDrawBitmapString("leftOn " + ofToString(menu.leftOn), ofGetWidth()-300, 460);
     ofDrawBitmapString("rightOn " + ofToString(menu.rightOn), ofGetWidth()-300, 480);
@@ -740,6 +741,30 @@ void ofApp::drawDebugMsg()
     ofDrawBitmapString("route.activeProject " + ofToString(route.activeProject), ofGetWidth()-300, 540);
     ofDrawBitmapString("leftClose " + ofToString(menu.leftClose), ofGetWidth()-300, 560);
     ofDrawBitmapString("rightClose " + ofToString(menu.rightClose), ofGetWidth()-300, 580);
+    
+    ofDrawBitmapString("CONTENT", ofGetWidth()-300, 620);
+    ofDrawBitmapString("leftOn " + ofToString(content.leftOn), ofGetWidth()-300, 640);
+    ofDrawBitmapString("rightOn " + ofToString(content.rightOn), ofGetWidth()-300, 680);
+    ofDrawBitmapString("category " + ofToString(content.category), ofGetWidth()-300, 700);
+    ofDrawBitmapString("buttonClicked " + ofToString(content.buttonClicked), ofGetWidth()-300, 720);
+    //ofDrawBitmapString("destroy " + ofToString(content.destroy), ofGetWidth()-300, 740);
+    ofDrawBitmapString("display " + ofToString(content.display), ofGetWidth()-300, 760);
+    ofDrawBitmapString("scales " + ofToString(content.scale[0]) + " " + ofToString(content.scale[1]) + " " + ofToString(content.scale[2]) + " " + ofToString(content.scale[3]) + " " + ofToString(content.scale[4]), ofGetWidth()-300, 780);
+    ofDrawBitmapString("item[0] " + ofToString(content.item[0]), ofGetWidth()-300, 800);
+    ofDrawBitmapString("item[1] " + ofToString(content.item[1]), ofGetWidth()-300, 820);
+    ofDrawBitmapString("item[2] " + ofToString(content.item[2]), ofGetWidth()-300, 840);
+    ofDrawBitmapString("item[3] " + ofToString(content.item[3]), ofGetWidth()-300, 860);
+    ofDrawBitmapString("item[4] " + ofToString(content.item[4]), ofGetWidth()-300, 880);
+    
+    
+    ofDrawBitmapString("IMAGE", ofGetWidth()-300, 920);
+    //ofDrawBitmapString("allocated " + ofToString(content.img.isAllocated()), ofGetWidth()-300, 940);
+//
+//    ofDrawBitmapString("VIDEO", ofGetWidth()-300, 880);
+//    ofDrawBitmapString("isLoaded " + ofToString(content.vid.isLoaded()), ofGetWidth()-300, 900);
+//    ofDrawBitmapString("isPlaying " + ofToString(content.vid.isPlaying()), ofGetWidth()-300, 920);
+    
+    
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -995,6 +1020,8 @@ void ofApp::mouseReleased(int x, int y, int button)
             
             menu.buttonClicked = false;
             
+            Globals::buttonPressed = true;
+            
             // HS1
             loadProject(0);
         }
@@ -1013,6 +1040,8 @@ void ofApp::mouseReleased(int x, int y, int button)
             isCam = true;
             
             menu.buttonClicked = false;
+            
+            Globals::buttonPressed = true;
             
             // Crossrail
             loadProject(1);
