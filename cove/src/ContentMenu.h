@@ -3,7 +3,7 @@
 //  Cove
 //
 //  Created by Jason Walters on 21/02/2016.
-//  Last edited by Jason Walters on 3/03/2016.
+//  Last edited by Jason Walters on 4/03/2016.
 //
 //
 
@@ -11,8 +11,6 @@
 
 #include "ofMain.h"
 #include "ContentObject.h"
-//#include "InteractiveMenu.h"
-//#include "Globals.h"
 
 #define     POI             5
 #define		CONTENT_AMT		5
@@ -24,6 +22,7 @@ public:
     void update();
     void draw(int _project, int _point, bool _draw);
     void drawContent();
+    void drawContentTotem(int _project, int _point, int _item, bool _itemActive);
     void destroyContent();
     void transform();
     void pressed();
@@ -45,8 +44,6 @@ public:
     float area;
     float padding;
     
-    //InteractiveMenu menu;
-    
     // content
     ofImage img[CONTENT_AMT];
     ofSoundPlayer snd[CONTENT_AMT];
@@ -57,7 +54,4 @@ public:
     int category;
     bool display;
     bool scaleDown;
-    
-//    Globals g;
-    
 };

@@ -20,8 +20,6 @@
 
 #define EASEING 0.08
 
-extern float jasonTest;
-
 class ofApp : public ofBaseApp{
 public:
     void setup();
@@ -112,6 +110,7 @@ public:
     bool drawRoute2d;
     bool dropCam;
     bool isCam;
+    bool contentActive;
     float elapsedTime;
     float maxTime;
     float elapsedTimeInterestPoints;
@@ -124,6 +123,7 @@ public:
     int maxInterval;
     int currentPoint;
     int currentInterestPoint;
+    int randomItem;
     
     // routes
     Route route;
@@ -161,4 +161,10 @@ public:
     void onSliderEvent(ofxDatGuiSliderEvent e);
     void on2dPadEvent(ofxDatGui2dPadEvent e);
     void onDropdownEvent(ofxDatGuiDropdownEvent e);
+    
+    ofSoundPlayer snds;
+    string sndPath;
+    float volume;
+    ofSoundPlayer sndButton1;
+    ofSoundPlayer sndButton2;
 };

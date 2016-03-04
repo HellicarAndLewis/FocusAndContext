@@ -67,15 +67,24 @@ void ofApp::setup()
     setupGui();
     showGui(!gui->getVisible());
     
+    // default to cove setup
+    bCove = true;
+    
     // load default route
     loadProject(0); // 0: High Speed 1, 1: Crossrail
     
-    // default to cove setup
-    bCove = true;
     // configure menu for screen shape
     menuSetup(ofGetWidth(), ofGetHeight());
     // configure content
     contentSetup(ofGetWidth(), ofGetHeight());
+    
+    sndButton1.load("content/audio/Arup_buttonPress1.wav");
+    sndButton1.setMultiPlay(false);
+    sndButton1.setVolume(0.7);
+    
+    sndButton2.load("content/audio/Arup_buttonPress2.wav");
+    sndButton2.setMultiPlay(false);
+    sndButton2.setVolume(0.7);
 }
 
 void ofApp::setupGui()
@@ -222,6 +231,14 @@ void ofApp::loadProject(int selection)
     
     if (selection == 0)
     {
+        if (bCove)
+        {
+            // select sound file
+            sndPath = "content/audio/Arup_Project0_Intro.wav";
+            volume = 0.7;
+            snds.setVolume(volume);
+        }
+        
         for (int i=0; i<route.locationsLeft.size();  i++)
         {
             if (location.title != "" && location.title != "Camera")
@@ -253,6 +270,14 @@ void ofApp::loadProject(int selection)
     }
     else
     {
+        if (bCove)
+        {
+            // select sound file
+            sndPath = "content/audio/Arup_Project1_Intro.wav";
+            volume = 0.7;
+            snds.setVolume(volume);
+        }
+        
         // load and init route
         Location & location = *route.getLocation();
         
@@ -283,6 +308,15 @@ void ofApp::loadProject(int selection)
                                                    location.camRotation));
             }
         }
+    }
+    
+    // sound stuff
+    if (bCove)
+    {
+        // play sound file
+        snds.load(sndPath);
+        snds.play();
+        snds.setMultiPlay(false);
     }
 }
 
@@ -367,6 +401,11 @@ void ofApp::autoSysUpdate()
     switch (currentInterval)
     {
         case 0:
+            // content stuff
+            Globals::buttonPressed = true;
+            randomItem = ofRandom(0, 4);
+            contentActive = false;
+            
             // travel through the route
             setLon(location.getLon());
             setLat(location.getLat());
@@ -378,18 +417,18 @@ void ofApp::autoSysUpdate()
                 camRotSinY = 0 - 2 * sin(elapsedTime * 0.5);
                 camRotSinZ = 100 + 10 * sin(elapsedTime * 0.5);
                 waveDistance = 4000;
-                worldTransform(waveDistance, 0.02, ofVec3f(camRotSinX, camRotSinY, camRotSinZ), 0.02);
+                worldTransform(waveDistance, 0.03, ofVec3f(camRotSinX, camRotSinY, camRotSinZ), 0.03);
                 
             }
             else if (elapsedTime)
             {
                 if (route.activeProject == 0)
                 {
-                    worldTransform(96000, 0.02, ofVec3f(0, 0, 0), 0.02);
+                    worldTransform(96000, 0.03, ofVec3f(0, 0, 0), 0.03);
                 }
                 else
                 {
-                    worldTransform(18000, 0.02, ofVec3f(0, 0, 0), 0.02);
+                    worldTransform(18000, 0.03, ofVec3f(0, 0, 0), 0.03);
                 }
             }
             
@@ -442,20 +481,35 @@ void ofApp::autoSysUpdate()
                     
                     if (route.activeProject == 0) camDistance = 1000;
                     else camDistance = 1000;
+                    
+                    if (cam.getPosition().z <= 1200) {
+                        // content stuff
+                        content.display = false;
+                        content.buttonClicked = true;
+                        contentActive = true;
+                    }
                 }
                 
-                worldTransform(camDistance, 0.02, ofVec3f(camTilt, 0, 0), 0.02);
+                worldTransform(camDistance, 0.03, ofVec3f(camTilt, 0, 0), 0.03);
             }
             break;
             
         case 2:
             // do stuff
+            Globals::vignetteOn = true;
             break;
     }
 }
 
 void ofApp::update()
 {
+    // update sounds
+    if (snds.isPlaying() && bCove) {
+        ofSoundUpdate();
+        snds.setVolume(volume);
+        volume = ofLerp(volume, 0.0001, 0.01);
+    }
+    
     if (ofGetFrameNum() == 2) cam.disableMouseInput();
     
     if(colorProject) projectColors();
@@ -497,10 +551,7 @@ void ofApp::update()
                 if (route.activeProject == 0)
                 {
                     if (cam.getPosition().z > 4000) camTilt = 0;
-                    else
-                    {
-                        camTilt = -60;
-                    }
+                    else camTilt = -60;
                 }
                 else
                 {
@@ -513,11 +564,8 @@ void ofApp::update()
             }
         }
         
-        // draw content menu
-        contentUpdate();
-        
         // world translation stuff
-        worldTransform(camDistance, 0.02, ofVec3f(camTilt, 0, 0), 0.02);
+        worldTransform(camDistance, 0.06, ofVec3f(camTilt, 0, 0), 0.03);
     }
     else if (!systemActive && !bCove)
     {
@@ -525,11 +573,12 @@ void ofApp::update()
         else camDistance = 18000;
         camTilt = 0;
         // world translation stuff
-        worldTransform(camDistance, 0.02, ofVec3f(camTilt, 0, 0), 0.02);
+        worldTransform(camDistance, 0.06, ofVec3f(camTilt, 0, 0), 0.03);
     }
     
     // mesh moves around world
-    posLerp = 0.02;
+    if (bCove) posLerp = 0.06;
+    else posLerp = 0.01;
     meshPosition.x = ofLerp(meshPosition.x, meshTarget.x, posLerp);
     meshPosition.y = ofLerp(meshPosition.y, meshTarget.y, posLerp);
     
@@ -543,6 +592,9 @@ void ofApp::update()
     
     // update menu
     menuUpdates();
+    
+    // draw content menu
+    contentUpdate();
     
     // if auto system is active, run
     if (systemActive) autoSysUpdate();
@@ -588,6 +640,7 @@ void ofApp::menuUpdates()
             // based on left button, load point
             if (menu.bLeftActive[i] && menu.buttonClicked)
             {
+                sndButton1.play();
                 loadPoint(i);
                 menu.buttonClicked = false;
             }
@@ -595,6 +648,7 @@ void ofApp::menuUpdates()
             // based on right button, load point
             if (menu.bRightActive[i] && menu.buttonClicked)
             {
+                sndButton1.play();
                 loadPoint((BUTTON_AMT-1)-i);
                 menu.buttonClicked = false;
             }
@@ -626,50 +680,63 @@ void ofApp::contentUpdate()
 {
     content.update();
     
-    // display content menu
-    if (cam.getPosition().z <= 1200)
+    if (bCove)
     {
-        if (route.activeProject == 0)
+        // display content menu
+        if (cam.getPosition().z <= 1200)
         {
-            for (int i = 0; i < BUTTON_AMT; i++)
+            if (route.activeProject == 0)
             {
-                if (menu.bLeftActive[i] == true)
+                for (int i = 0; i < BUTTON_AMT; i++)
                 {
-                    content.draw(0, i, true);
-                    content.draw(1, i, false);
+                    if (menu.bLeftActive[i] == true)
+                    {
+                        content.draw(0, i, true);
+                        content.draw(1, i, false);
+                    }
                 }
+                
+                if (content.buttonClicked)
+                {
+                    sndButton2.play();
+                    content.buttonClicked = false;
+                }
+                
+                content.leftOn = true;
+                content.rightOn = false;
             }
-            
-            content.leftOn = true;
-            content.rightOn = false;
-            content.buttonClicked = false;
+            else
+            {
+                for (int i = 0; i < BUTTON_AMT; i++)
+                {
+                    if (menu.bRightActive[i] == true)
+                    {
+                        content.draw(0, i, false);
+                        content.draw(1, i, true);
+                    }
+                }
+                
+                if (content.buttonClicked)
+                {
+                    sndButton2.play();
+                    content.buttonClicked = false;
+                }
+                
+                content.leftOn = false;
+                content.rightOn = true;
+            }
         }
         else
         {
             for (int i = 0; i < BUTTON_AMT; i++)
             {
-                if (menu.bRightActive[i] == true)
-                {
-                    content.draw(0, i, false);
-                    content.draw(1, i, true);
-                }
+                content.draw(0, i, false);
+                content.draw(1, i, false);
             }
             
-            content.leftOn = false;
-            content.rightOn = true;
-            content.buttonClicked = false;
+            if (content.leftOn) content.leftOn = false;
+            if (content.rightOn) content.rightOn = false;
         }
-    }
-    else
-    {
-        for (int i = 0; i < BUTTON_AMT; i++)
-        {
-            content.draw(0, i, false);
-            content.draw(1, i, false);
-        }
-        
-        content.leftOn = false;
-        content.rightOn = false;
     }
 }
 
@@ -693,7 +760,8 @@ void ofApp::draw()
     drawVignette();
     
     // draw project content
-    content.drawContent();
+    if (bCove) content.drawContent();
+    else content.drawContentTotem(route.activeProject, pointJump, randomItem, contentActive);
     
     // if (!gui->getVisible()) tileLoader.labels.draw2D();
     if (bDebugMsg) drawDebugMsg();
@@ -722,57 +790,48 @@ void ofApp::drawDebugMsg()
     else colDebug.lerp(ofColor::red, 0.08);
     ofSetColor(colDebug);
     
-    ofDrawBitmapString("TRANSFORMS", ofGetWidth()-300, 20);
-    ofDrawBitmapString("cam.getPosition() " + ofToString(cam.getPosition()), ofGetWidth()-300, 40);
-    ofDrawBitmapString("cam.getDistance() " + ofToString(cam.getDistance()), ofGetWidth()-300, 60);
-    ofDrawBitmapString("sceneRotation " + ofToString(sceneRotation), ofGetWidth()-300, 80);
-    ofDrawBitmapString("meshTarget " + ofToString(meshTarget), ofGetWidth()-300, 100);
-    ofDrawBitmapString("meshPosition " + ofToString(meshPosition), ofGetWidth()-300, 120);
+    ofDrawBitmapString("TRANSFORMS", 30, 20);
+    ofDrawBitmapString("cam.getPosition() " + ofToString(cam.getPosition()), 30, 40);
+    ofDrawBitmapString("cam.getDistance() " + ofToString(cam.getDistance()), 30, 60);
+    ofDrawBitmapString("sceneRotation " + ofToString(sceneRotation), 30, 80);
+    ofDrawBitmapString("meshTarget " + ofToString(meshTarget), 30, 100);
+    ofDrawBitmapString("meshPosition " + ofToString(meshPosition), 30, 120);
     
-    ofDrawBitmapString("SCROLLER ", ofGetWidth()-300, 160);
-    ofDrawBitmapString("enabled " + ofToString(scroller.isEnabled()), ofGetWidth()-300, 180);
-    ofDrawBitmapString("percent " + ofToString(scrollPercent), ofGetWidth()-300, 200);
+    ofDrawBitmapString("SCROLLER ", 30, 160);
+    ofDrawBitmapString("enabled " + ofToString(scroller.isEnabled()), 30, 180);
+    ofDrawBitmapString("percent " + ofToString(scrollPercent), 30, 200);
     
-    ofDrawBitmapString("AUTO SYSTEM", ofGetWidth()-300, 240);
-    ofDrawBitmapString("enabled " + ofToString(systemActive), ofGetWidth()-300, 260);
-    ofDrawBitmapString("elapsedTime " + ofToString(elapsedTime), ofGetWidth()-300, 280);
-    ofDrawBitmapString("currentInterval " + ofToString(currentInterval), ofGetWidth()-300, 300);
-    ofDrawBitmapString("currentPoint " + ofToString(currentPoint), ofGetWidth()-300, 320);
-    ofDrawBitmapString("current interest point " + ofToString(currentInterestPoint), ofGetWidth()-300, 340);
-    ofDrawBitmapString("route selected " + ofToString(routeSelection), ofGetWidth()-300, 360);
-    ofDrawBitmapString("camRotSinX " + ofToString(camRotSinX), ofGetWidth()-300, 380);
+    ofDrawBitmapString("AUTO SYSTEM", 30, 240);
+    ofDrawBitmapString("enabled " + ofToString(systemActive), 30, 260);
+    ofDrawBitmapString("elapsedTime " + ofToString(elapsedTime), 30, 280);
+    ofDrawBitmapString("currentInterval " + ofToString(currentInterval), 30, 300);
+    ofDrawBitmapString("currentPoint " + ofToString(currentPoint), 30, 320);
+    ofDrawBitmapString("current interest point " + ofToString(currentInterestPoint), 30, 340);
+    ofDrawBitmapString("route selected " + ofToString(routeSelection), 30, 360);
+    ofDrawBitmapString("camRotSinX " + ofToString(camRotSinX), 30, 380);
     
-    ofDrawBitmapString("MENU", ofGetWidth()-300, 420);
-    ofDrawBitmapString("buttonClicked " + ofToString(menu.buttonClicked), ofGetWidth()-300, 440);
-    ofDrawBitmapString("leftOn " + ofToString(menu.leftOn), ofGetWidth()-300, 460);
-    ofDrawBitmapString("rightOn " + ofToString(menu.rightOn), ofGetWidth()-300, 480);
-    ofDrawBitmapString("pointReached " + ofToString(pointReached), ofGetWidth()-300, 500);
-    ofDrawBitmapString("isCam " + ofToString(isCam), ofGetWidth()-300, 520);
-    ofDrawBitmapString("route.activeProject " + ofToString(route.activeProject), ofGetWidth()-300, 540);
-    ofDrawBitmapString("leftClose " + ofToString(menu.leftClose), ofGetWidth()-300, 560);
-    ofDrawBitmapString("rightClose " + ofToString(menu.rightClose), ofGetWidth()-300, 580);
+    ofDrawBitmapString("MENU", 30, 420);
+    ofDrawBitmapString("buttonClicked " + ofToString(menu.buttonClicked), 30, 440);
+    ofDrawBitmapString("leftOn " + ofToString(menu.leftOn), 30, 460);
+    ofDrawBitmapString("rightOn " + ofToString(menu.rightOn), 30, 480);
+    ofDrawBitmapString("pointReached " + ofToString(pointReached), 30, 500);
+    ofDrawBitmapString("isCam " + ofToString(isCam), 30, 520);
+    ofDrawBitmapString("route.activeProject " + ofToString(route.activeProject), 30, 540);
+    ofDrawBitmapString("leftClose " + ofToString(menu.leftClose), 30, 560);
+    ofDrawBitmapString("rightClose " + ofToString(menu.rightClose), 30, 580);
     
-    ofDrawBitmapString("CONTENT", ofGetWidth()-300, 620);
-    ofDrawBitmapString("leftOn " + ofToString(content.leftOn), ofGetWidth()-300, 640);
-    ofDrawBitmapString("rightOn " + ofToString(content.rightOn), ofGetWidth()-300, 680);
-    ofDrawBitmapString("category " + ofToString(content.category), ofGetWidth()-300, 700);
-    ofDrawBitmapString("buttonClicked " + ofToString(content.buttonClicked), ofGetWidth()-300, 720);
-    //ofDrawBitmapString("destroy " + ofToString(content.destroy), ofGetWidth()-300, 740);
-    ofDrawBitmapString("display " + ofToString(content.display), ofGetWidth()-300, 760);
-    ofDrawBitmapString("scales " + ofToString(content.scale[0]) + " " + ofToString(content.scale[1]) + " " + ofToString(content.scale[2]) + " " + ofToString(content.scale[3]) + " " + ofToString(content.scale[4]), ofGetWidth()-300, 780);
-    ofDrawBitmapString("item[0] " + ofToString(content.item[0]), ofGetWidth()-300, 800);
-    ofDrawBitmapString("item[1] " + ofToString(content.item[1]), ofGetWidth()-300, 820);
-    ofDrawBitmapString("item[2] " + ofToString(content.item[2]), ofGetWidth()-300, 840);
-    ofDrawBitmapString("item[3] " + ofToString(content.item[3]), ofGetWidth()-300, 860);
-    ofDrawBitmapString("item[4] " + ofToString(content.item[4]), ofGetWidth()-300, 880);
-    
-    
-    ofDrawBitmapString("IMAGE", ofGetWidth()-300, 920);
-    //ofDrawBitmapString("allocated " + ofToString(content.img.isAllocated()), ofGetWidth()-300, 940);
-//
-//    ofDrawBitmapString("VIDEO", ofGetWidth()-300, 880);
-//    ofDrawBitmapString("isLoaded " + ofToString(content.vid.isLoaded()), ofGetWidth()-300, 900);
-//    ofDrawBitmapString("isPlaying " + ofToString(content.vid.isPlaying()), ofGetWidth()-300, 920);
+    ofDrawBitmapString("CONTENT", 30, 620);
+    ofDrawBitmapString("leftOn " + ofToString(content.leftOn), 30, 640);
+    ofDrawBitmapString("rightOn " + ofToString(content.rightOn), 30, 660);
+    ofDrawBitmapString("category " + ofToString(content.category), 30, 680);
+    ofDrawBitmapString("buttonClicked " + ofToString(content.buttonClicked), 30, 700);
+    ofDrawBitmapString("display " + ofToString(content.display), 30, 720);
+    ofDrawBitmapString("scales " + ofToString(content.scale[0]) + " " + ofToString(content.scale[1]) + " " + ofToString(content.scale[2]) + " " + ofToString(content.scale[3]) + " " + ofToString(content.scale[4]), 30, 740);
+    ofDrawBitmapString("item[0] " + ofToString(content.item[0]), 30, 760);
+    ofDrawBitmapString("item[1] " + ofToString(content.item[1]), 30, 780);
+    ofDrawBitmapString("item[2] " + ofToString(content.item[2]), 30, 800);
+    ofDrawBitmapString("item[3] " + ofToString(content.item[3]), 30, 820);
+    ofDrawBitmapString("item[4] " + ofToString(content.item[4]), 30, 840);
     
     
 }
