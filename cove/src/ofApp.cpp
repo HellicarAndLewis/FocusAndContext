@@ -77,6 +77,7 @@ void ofApp::setup()
     menuSetup(ofGetWidth(), ofGetHeight());
     // configure content
     contentSetup(ofGetWidth(), ofGetHeight());
+    content.loadVideo();
     
     sndButton1.load("content/audio/Arup_buttonPress1.wav");
     sndButton1.setMultiPlay(false);
@@ -153,14 +154,14 @@ void ofApp::projectColors()
         else lightAngleDest = 180;
         lightAngle = ofLerp(lightAngle, 180, colorLerp);
         
-        colBackground.lerp(ofColor::whiteSmoke, colorLerp);
+        colBackground.lerp(ofColor(215, 228, 239), colorLerp);
         
         colEarth.lerp(ofColor(255 - 25.5), colorLerp);
         colEarthDiff.lerp(ofColor(255 - 38.25), colorLerp);
-        colRoads.lerp(ofColor(255 - 153, 255 - 153, 255 - 153), colorLerp);
-        colRoadsDiff.lerp(ofColor(255 - 165.75, 255 - 165.75, 255 - 165.75), colorLerp);
-        colBuildings.lerp(ofColor(255 - 51, 255 - 51, 255 - 51), colorLerp);
-        colBuildingsDiff.lerp(ofColor(255 - 102, 255 - 102, 255 - 102), colorLerp);
+        colRoads.lerp(ofColor(30, 40, 60), colorLerp);
+        colRoadsDiff.lerp(ofColor(30, 40, 60), colorLerp);
+        colBuildings.lerp(ofColor(52, 67, 95), colorLerp);
+        colBuildingsDiff.lerp(ofColor(52, 67, 95), colorLerp);
         colBuildingsActive.lerp(ofColor(255 - 204, 0, 0), colorLerp);
         colBuildingsActiveDiff.lerp(ofColor(255 - 178.5, 0, 0), colorLerp);
         
@@ -172,14 +173,14 @@ void ofApp::projectColors()
         else lightAngleDest = 180;
         lightAngle = ofLerp(lightAngle, 180, colorLerp);
         
-        colBackground.lerp(ofColor::black, colorLerp);
+        colBackground.lerp(ofColor(0,0,0), colorLerp);
         
         colEarth.lerp(ofColor(25.5), colorLerp);
         colEarthDiff.lerp(ofColor(38.25), colorLerp);
-        colRoads.lerp(ofColor(153, 153, 153), colorLerp);
-        colRoadsDiff.lerp(ofColor(165.75, 165.75, 165.75), colorLerp);
-        colBuildings.lerp(ofColor(51, 51, 51), colorLerp);
-        colBuildingsDiff.lerp(ofColor(102, 102, 102), colorLerp);
+        colRoads.lerp(ofColor(164, 167, 172), colorLerp);
+        colRoadsDiff.lerp(ofColor(164, 167, 172), colorLerp);
+        colBuildings.lerp(ofColor(103, 110, 121), colorLerp);
+        colBuildingsDiff.lerp(ofColor(103, 110, 121), colorLerp);
         colBuildingsActive.lerp(ofColor(204, 0, 0), colorLerp);
         colBuildingsActiveDiff.lerp(ofColor(178.5, 0, 0), colorLerp);
         

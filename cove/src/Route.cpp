@@ -93,7 +93,8 @@ void Route::draw(ofCamera& cam) {
     
     // draw hs1/left project route
     ofDisableDepthTest();
-    ofSetColor(180, 0, 0, alphaLeft);
+    //ofSetColor(225, 178, 148, alphaLeft);
+    ofSetColor(255, 130, 0, alphaLeft);
     ofPushMatrix();
     {
         ofTranslate(0, 0, 0);
@@ -110,7 +111,7 @@ void Route::draw(ofCamera& cam) {
     ofEnableDepthTest();
     
     ofDisableDepthTest();
-    ofSetColor(180, 0, 0, alphaRight);
+    ofSetColor(255, 130, 0, alphaRight);
     ofPushMatrix();
     {
         ofTranslate(0, 0, 0);

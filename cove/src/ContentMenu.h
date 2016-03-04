@@ -11,6 +11,7 @@
 
 #include "ofMain.h"
 #include "ContentObject.h"
+#include "ofxOBJModel.h"
 
 #define     POI             5
 #define		CONTENT_AMT		5
@@ -26,6 +27,8 @@ public:
     void destroyContent();
     void transform();
     void pressed();
+    void loadVideo();
+    void contentSize(int _item);
 
     ContentObject contentLeft[POI][CONTENT_AMT];
     ContentObject contentRight[POI][CONTENT_AMT];
@@ -46,7 +49,7 @@ public:
     
     // content
     ofImage img[CONTENT_AMT];
-    ofSoundPlayer snd[CONTENT_AMT];
+    ofSoundPlayer snd;
     ofVideoPlayer vid;
     float scale[CONTENT_AMT];
     bool item[CONTENT_AMT];
@@ -54,4 +57,8 @@ public:
     int category;
     bool display;
     bool scaleDown;
+    
+    ofEasyCam cam;
+    float camZoom;
+    ofxOBJModel model;
 };

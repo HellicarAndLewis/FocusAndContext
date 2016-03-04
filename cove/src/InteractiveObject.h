@@ -59,13 +59,13 @@ public:
                     
                 case 1:
                     ofSetLineWidth(3);
-                    ofSetColor(255,0,0);
+                    ofSetColor(255, 130, 0);
                     ofDrawLine(x+width, y+height/2, x+width+lineLength, y+height/2);
                     break;
                     
                 case 2:
                     ofSetLineWidth(3);
-                    ofSetColor(255,0,0);
+                    ofSetColor(255, 130, 0);
                     ofDrawLine(x+lineLength, y+height/2, x, y+height/2);
                     break;
             }

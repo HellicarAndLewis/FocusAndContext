@@ -71,7 +71,8 @@ void ContentMenu::update()
     
     destroyContent();
     
-    //vid.update();
+    vid.update();
+    ofSoundUpdate();
 }
 
 //--------------------------------------------------------------
@@ -126,13 +127,13 @@ void ContentMenu::drawContentTotem(int _project, int _point, int _item, bool _it
             path[0] = "content/media/text.png";
             break;
         case 1:
-            path[1] = "content/media/image.png";
+            path[1] = "content/media/High Speed 1 _HS1_(c) Arup19.jpg";
             break;
         case 2:
-            path[2] = "content/media/video.png";
+            //path[2] = "content/media/video.png";
             break;
         case 3:
-            path[3] = "content/media/model.png";
+            //path[3] = "content/media/model.png";
             break;
         case 4:
             path[4] = "content/media/audio.png";
@@ -147,14 +148,30 @@ void ContentMenu::drawContentTotem(int _project, int _point, int _item, bool _it
         {
             scale[j] = ofLerp(scale[j], 1.3, lerpValue);
             
-            //if (j != 2)
-            img[j].load(path[j]);
-            //else {
-            //  vid.load(path[j]);
-            //  vid.play();
-            //}
+            switch (j) {
+                case 0:
+                    img[j].load(path[j]);
+                    break;
+                    
+                case 1:
+                    img[j].load(path[j]);
+                    break;
+                    
+                case 2:
+                    if (!vid.isPlaying()) vid.play();
+                    break;
+                    
+                case 3:
+                    //model.load(path[3]);
+                    break;
+                    
+                case 4:
+                    img[j].load(path[j]);
+                    if (!snd.isPlaying()) snd.play();
+                    break;
+            }
             
-            if (scale[j] >= 1.2999)//0.999)
+            if (scale[j] >= 1.2999)
             {
                 display = false;
             }
@@ -165,21 +182,25 @@ void ContentMenu::drawContentTotem(int _project, int _point, int _item, bool _it
         scale[j] = ofLerp(scale[j], 0.0, lerpValue);
     }
     
-    // if allocated then draw
-    if (img[j].isAllocated()) {
-        ofSetColor(0, 0, 0, 20);
-        ofDrawRectangle(width/2 + 6, height/2 + 6, img[j].getWidth() * scale[j], img[j].getHeight() * scale[j]);
-        
-        ofSetColor(255, 255, 255);
-        img[j].draw(width/2, height/2, img[j].getWidth() * scale[j], img[j].getHeight() * scale[j]);
-    }
+    // configure content sizes
+    contentSize(j);
+    
+//    // if allocated then draw
+//    if (img[j].isAllocated()) {
+//        ofSetColor(0, 0, 0, 20);
+//        ofDrawRectangle(width/2 + 6, height/2 + 6, img[j].getWidth() * scale[j], img[j].getHeight() * scale[j]);
+//        
+//        ofSetColor(255, 255, 255);
+//        img[j].draw(width/2, height/2, img[j].getWidth() * scale[j], img[j].getHeight() * scale[j]);
+//    }
     
     // if all scales near zero, can launch next content
     if (scale[0] <= 0.0001 && scale[1] <= 0.0001 && scale[2] <= 0.0001 && scale[3] <= 0.0001 && scale[4] <= 0.0001)
     {
         display = true;
         
-        //if (vid.isPlaying()) vid.stop();
+        if (vid.isPlaying()) vid.stop();
+        if (snd.isPlaying()) snd.stop();
     }
     
     ofSetRectMode(OF_RECTMODE_CORNER);
@@ -214,7 +235,6 @@ void ContentMenu::drawContentTotem(int _project, int _point, int _item, bool _it
         item[3] = false;
         item[0] = false;
     }
-    
 }
 
 //--------------------------------------------------------------
@@ -230,17 +250,29 @@ void ContentMenu::drawContent()
             if (display)
             {
                 scale[j] = ofLerp(scale[j], 1.3, lerpValue);
-                img[j].load(path[j]);
                 
-                /*
-                if (j != 2)
-                    img[j].load(path[j]);
-                else {
-                    //vid.load(path[j]);
-                    vid.loadAsync(path[j]);
-                    vid.play();
+                switch (j) {
+                    case 0:
+                        img[j].load(path[j]);
+                        break;
+                        
+                    case 1:
+                        img[j].load(path[j]);
+                        break;
+                        
+                    case 2:
+                        if (!vid.isPlaying()) vid.play();
+                        break;
+                        
+                    case 3:
+                        //model.load(path[3]);
+                        break;
+                        
+                    case 4:
+                        img[j].load(path[j]);
+                        if (!snd.isPlaying()) snd.play();
+                        break;
                 }
-                 */
                 
                 if (scale[j] >= 1.2999) display = false;
             }
@@ -250,23 +282,10 @@ void ContentMenu::drawContent()
             scale[j] = ofLerp(scale[j], 0.0, lerpValue);
         }
         
-        /*
-        if (j != 2)
-        {
-            // if allocated then draw
-            if (img[j].isAllocated()) {
-                ofSetColor(0, 0, 0, 20);
-                ofDrawRectangle(width/2 + 6, height/2 + 6, img[j].getWidth() * scale[j], img[j].getHeight() * scale[j]);
-                
-                ofSetColor(255, 255, 255);
-                img[j].draw(width/2, height/2, img[j].getWidth() * scale[j], img[j].getHeight() * scale[j]);
-            }
-        }
-        else {
-                if (vid.isInitialized()) vid.draw(width/2, height/2, vid.getWidth() * scale[j], vid.getHeight() * scale[j]);
-        }
-         */
+        // configure content sizes
+        contentSize(j);
         
+        /*
         // if allocated then draw
         if (img[j].isAllocated()) {
             ofSetColor(0, 0, 0, 20);
@@ -275,25 +294,98 @@ void ContentMenu::drawContent()
             ofSetColor(255, 255, 255);
             img[j].draw(width/2, height/2, img[j].getWidth() * scale[j], img[j].getHeight() * scale[j]);
         }
+         */
         
         // if all scales near zero, can launch next content
         if (scale[0] <= 0.0001 && scale[1] <= 0.0001 && scale[2] <= 0.0001 && scale[3] <= 0.0001 && scale[4] <= 0.0001)
         {
             display = true;
 
-            //if (vid.isPlaying()) vid.stop();
+            if (vid.isPlaying()) vid.stop();
+            if (snd.isPlaying()) snd.stop();
         }
     }
     
     ofSetRectMode(OF_RECTMODE_CORNER);
 }
+
+void ContentMenu::contentSize(int _item)
+{
+    float shadowPadding = 6;
+    if (_item == 0)
+    {
+        // if allocated then draw
+        if (img[_item].isAllocated()) {
+            float extraSize = 0.9;
+            ofSetColor(0, 0, 0, 20);
+            ofDrawRectangle(width/2 + shadowPadding, height/2 + shadowPadding, (img[_item].getWidth() * extraSize) * scale[_item], (img[_item].getHeight() * extraSize) * scale[_item]);
+            
+            ofSetColor(255, 255, 255);
+            img[_item].draw(width/2, height/2, (img[_item].getWidth() * extraSize) * scale[_item], (img[_item].getHeight() * extraSize) * scale[_item]);
+        }
+    }
+    else if (_item == 1)
+    {
+        // if allocated then draw
+        if (img[_item].isAllocated()) {
+            float extraSize = 0.8;
+            ofSetColor(0, 0, 0, 20);
+            ofDrawRectangle(width/2 + shadowPadding, height/2 + shadowPadding, (img[_item].getWidth() * extraSize) * scale[_item], (img[_item].getHeight() * extraSize) * scale[_item]);
+            
+            ofSetColor(255, 255, 255);
+            img[_item].draw(width/2, height/2, (img[_item].getWidth() * extraSize) * scale[_item], (img[_item].getHeight() * extraSize) * scale[_item]);
+        }
+    }
+    else if (_item == 2)
+    {
+        float extraSize = 2;
+        ofSetColor(0, 0, 0, 20);
+        ofDrawRectangle(width/2 + shadowPadding, height/2 + shadowPadding, (vid.getWidth() * extraSize) * scale[_item], (vid.getHeight() * extraSize) * scale[_item]);
+        
+        ofSetColor(255, 255, 255);
+        if (vid.isInitialized()) vid.draw(width/2, height/2, (vid.getWidth() * extraSize) * scale[_item], (vid.getHeight() * extraSize) * scale[_item]);
+    }
+    else if (_item == 3)
+    {
+        camZoom = ofMap(scale[_item], 0.0001, 1.299, 5000.0, 250.0);
+        cam.setDistance(camZoom);
+        if (item[3]) {
+            ofEnableDepthTest();
+            cam.begin();
+            model.getVboMesh()->draw();
+            cam.end();
+            ofDisableDepthTest();
+        }
+    }
+    else if (_item == 4)
+    {
+        // if allocated then draw
+        if (img[_item].isAllocated())
+        {
+            float extraSize = 0.8;
+            ofSetColor(0, 0, 0, 20);
+            ofDrawRectangle(width/2 + shadowPadding, height/2 + shadowPadding, (img[_item].getWidth() * extraSize) * scale[_item], (img[_item].getHeight() * extraSize) * scale[_item]);
+            
+            ofSetColor(255, 255, 255);
+            img[_item].draw(width/2, height/2, (img[_item].getWidth() * extraSize) * scale[_item], (img[_item].getHeight() * extraSize) * scale[_item]);
+        }
+        
+        if (snd.isPlaying())
+        {
+            float volume = ofMap(scale[4], 0, 0.5, 0, 1.2);
+            snd.setVolume(volume);
+        }
+    }
+}
+
 //--------------------------------------------------------------
 void ContentMenu::destroyContent()
 {
     float lerpValue = 0.4;
     if (Globals::buttonPressed)
     {
-        //if (vid.isPlaying()) vid.stop();
+        if (vid.isPlaying()) vid.stop();
+        if (snd.isPlaying()) snd.stop();
         
         // disable vignette
         Globals::vignetteOn = false;
@@ -312,6 +404,22 @@ void ContentMenu::destroyContent()
 void ContentMenu::transform()
 {
     
+}
+
+//--------------------------------------------------------------
+void ContentMenu::loadVideo()
+{
+    path[2] = "content/media/bridge_push.mpg";
+    vid.load(path[2]);
+    
+    path[3] = "content/media/pigeon.obj";
+    model.load(path[3]);
+    
+    camZoom = 15000;
+    cam.setDistance(camZoom);
+    
+    snd.load("content/media/Arup_AudioSample.wav");
+    snd.setMultiPlay(false);
 }
 
 //--------------------------------------------------------------
@@ -358,7 +466,7 @@ void ContentMenu::pressed()
                                 item[3] = bLeftActive[i][3];
                                 item[4] = bLeftActive[i][4];
                                 
-                                path[1] = "content/media/image.png";
+                                path[1] = "content/media/High Speed 1 _HS1_(c) Arup19.jpg";
                                 break;
                                 
                             case 2:
@@ -374,7 +482,7 @@ void ContentMenu::pressed()
                                 item[3] = bLeftActive[i][3];
                                 item[4] = bLeftActive[i][4];
                                 
-                                path[2] = "content/media/video.png";
+                                //path[2] = "content/media/video.png";
                                 break;
                                 
                             case 3:
@@ -390,7 +498,8 @@ void ContentMenu::pressed()
                                 item[3] = bLeftActive[i][3];
                                 item[4] = bLeftActive[i][4];
                                 
-                                path[3] = "content/media/model.png";
+                                //path[3] = "content/media/model.png";
+                                path[3] = "content/media/pigeon.obj";
                                 break;
                                 
                             case 4:
@@ -442,7 +551,7 @@ void ContentMenu::pressed()
                                 item[3] = bLeftActive[i][3];
                                 item[4] = bLeftActive[i][4];
                                 
-                                path[1] = "content/media/image.png";
+                                path[1] = "content/media/High Speed 1 _HS1_(c) Arup19.jpg";
                                 break;
                                 
                             case 2:
@@ -458,7 +567,7 @@ void ContentMenu::pressed()
                                 item[3] = bLeftActive[i][3];
                                 item[4] = bLeftActive[i][4];
                                 
-                                path[2] = "content/media/video.png";
+                                //path[2] = "content/media/video.png";
                                 break;
                                 
                             case 3:
@@ -474,7 +583,8 @@ void ContentMenu::pressed()
                                 item[3] = bLeftActive[i][3];
                                 item[4] = bLeftActive[i][4];
                                 
-                                path[3] = "content/media/model.png";
+                                //path[3] = "content/media/model.png";
+                                path[3] = "content/media/pigeon.obj";
                                 break;
                                 
                             case 4:
@@ -526,7 +636,7 @@ void ContentMenu::pressed()
                                 item[3] = bLeftActive[i][3];
                                 item[4] = bLeftActive[i][4];
                                 
-                                path[1] = "content/media/image.png";
+                                path[1] = "content/media/High Speed 1 _HS1_(c) Arup19.jpg";
                                 break;
                                 
                             case 2:
@@ -542,7 +652,7 @@ void ContentMenu::pressed()
                                 item[3] = bLeftActive[i][3];
                                 item[4] = bLeftActive[i][4];
                                 
-                                path[2] = "content/media/video.png";
+                                //path[2] = "content/media/video.png";
                                 break;
                                 
                             case 3:
@@ -558,7 +668,8 @@ void ContentMenu::pressed()
                                 item[3] = bLeftActive[i][3];
                                 item[4] = bLeftActive[i][4];
                                 
-                                path[3] = "content/media/model.png";
+                                //path[3] = "content/media/model.png";
+                                path[3] = "content/media/pigeon.obj";
                                 break;
                                 
                             case 4:
@@ -610,7 +721,7 @@ void ContentMenu::pressed()
                                 item[3] = bLeftActive[i][3];
                                 item[4] = bLeftActive[i][4];
                                 
-                                path[1] = "content/media/image.png";
+                                path[1] = "content/media/High Speed 1 _HS1_(c) Arup19.jpg";
                                 break;
                                 
                             case 2:
@@ -626,7 +737,7 @@ void ContentMenu::pressed()
                                 item[3] = bLeftActive[i][3];
                                 item[4] = bLeftActive[i][4];
                                 
-                                path[2] = "content/media/video.png";
+                                //path[2] = "content/media/video.png";
                                 break;
                                 
                             case 3:
@@ -642,7 +753,8 @@ void ContentMenu::pressed()
                                 item[3] = bLeftActive[i][3];
                                 item[4] = bLeftActive[i][4];
                                 
-                                path[3] = "content/media/model.png";
+                                //path[3] = "content/media/model.png";
+                                path[3] = "content/media/pigeon.obj";
                                 break;
                                 
                             case 4:
@@ -694,7 +806,7 @@ void ContentMenu::pressed()
                                 item[3] = bLeftActive[i][3];
                                 item[4] = bLeftActive[i][4];
                                 
-                                path[1] = "content/media/image.png";
+                                path[1] = "content/media/High Speed 1 _HS1_(c) Arup19.jpg";
                                 break;
                                 
                             case 2:
@@ -710,7 +822,7 @@ void ContentMenu::pressed()
                                 item[3] = bLeftActive[i][3];
                                 item[4] = bLeftActive[i][4];
                                 
-                                path[2] = "content/media/video.png";
+                                //path[2] = "content/media/video.png";
                                 break;
                                 
                             case 3:
@@ -726,7 +838,8 @@ void ContentMenu::pressed()
                                 item[3] = bLeftActive[i][3];
                                 item[4] = bLeftActive[i][4];
                                 
-                                path[3] = "content/media/model.png";
+                                //path[3] = "content/media/model.png";
+                                path[3] = "content/media/pigeon.obj";
                                 break;
                                 
                             case 4:
@@ -795,7 +908,7 @@ void ContentMenu::pressed()
                                 item[3] = bRightActive[i][3];
                                 item[4] = bRightActive[i][4];
                                 
-                                path[1] = "content/media/image.png";
+                                path[1] = "content/media/High Speed 1 _HS1_(c) Arup19.jpg";
                                 break;
                                 
                             case 2:
@@ -811,7 +924,7 @@ void ContentMenu::pressed()
                                 item[3] = bRightActive[i][3];
                                 item[4] = bRightActive[i][4];
                                 
-                                path[2] = "content/media/video.png";
+                                //path[2] = "content/media/video.png";
                                 break;
                                 
                             case 3:
@@ -827,7 +940,8 @@ void ContentMenu::pressed()
                                 item[3] = bRightActive[i][3];
                                 item[4] = bRightActive[i][4];
                                 
-                                path[3] = "content/media/model.png";
+                                //path[3] = "content/media/model.png";
+                                path[3] = "content/media/pigeon.obj";
                                 break;
                                 
                             case 4:
@@ -879,7 +993,7 @@ void ContentMenu::pressed()
                                 item[3] = bRightActive[i][3];
                                 item[4] = bRightActive[i][4];
                                 
-                                path[1] = "content/media/image.png";
+                                path[1] = "content/media/High Speed 1 _HS1_(c) Arup19.jpg";
                                 break;
                                 
                             case 2:
@@ -895,7 +1009,7 @@ void ContentMenu::pressed()
                                 item[3] = bRightActive[i][3];
                                 item[4] = bRightActive[i][4];
                                 
-                                path[2] = "content/media/video.png";
+                                //path[2] = "content/media/video.png";
                                 break;
                                 
                             case 3:
@@ -911,7 +1025,8 @@ void ContentMenu::pressed()
                                 item[3] = bRightActive[i][3];
                                 item[4] = bRightActive[i][4];
                                 
-                                path[3] = "content/media/model.png";
+                                //path[3] = "content/media/model.png";
+                                path[3] = "content/media/pigeon.obj";
                                 break;
                                 
                             case 4:
@@ -963,7 +1078,7 @@ void ContentMenu::pressed()
                                 item[3] = bRightActive[i][3];
                                 item[4] = bRightActive[i][4];
                                 
-                                path[1] = "content/media/image.png";
+                                path[1] = "content/media/High Speed 1 _HS1_(c) Arup19.jpg";
                                 break;
                                 
                             case 2:
@@ -979,7 +1094,7 @@ void ContentMenu::pressed()
                                 item[3] = bRightActive[i][3];
                                 item[4] = bRightActive[i][4];
                                 
-                                path[2] = "content/media/video.png";
+                                //path[2] = "content/media/video.png";
                                 break;
                                 
                             case 3:
@@ -995,7 +1110,8 @@ void ContentMenu::pressed()
                                 item[3] = bRightActive[i][3];
                                 item[4] = bRightActive[i][4];
                                 
-                                path[3] = "content/media/model.png";
+                                //path[3] = "content/media/model.png";
+                                path[3] = "content/media/pigeon.obj";
                                 break;
                                 
                             case 4:
@@ -1047,7 +1163,7 @@ void ContentMenu::pressed()
                                 item[3] = bRightActive[i][3];
                                 item[4] = bRightActive[i][4];
                                 
-                                path[1] = "content/media/image.png";
+                                path[1] = "content/media/High Speed 1 _HS1_(c) Arup19.jpg";
                                 break;
                                 
                             case 2:
@@ -1063,7 +1179,7 @@ void ContentMenu::pressed()
                                 item[3] = bRightActive[i][3];
                                 item[4] = bRightActive[i][4];
                                 
-                                path[2] = "content/media/video.png";
+                                //path[2] = "content/media/video.png";
                                 break;
                                 
                             case 3:
@@ -1079,7 +1195,8 @@ void ContentMenu::pressed()
                                 item[3] = bRightActive[i][3];
                                 item[4] = bRightActive[i][4];
                                 
-                                path[3] = "content/media/model.png";
+                                //path[3] = "content/media/model.png";
+                                path[3] = "content/media/pigeon.obj";
                                 break;
                                 
                             case 4:
@@ -1131,7 +1248,7 @@ void ContentMenu::pressed()
                                 item[3] = bRightActive[i][3];
                                 item[4] = bRightActive[i][4];
                                 
-                                path[1] = "content/media/image.png";
+                                path[1] = "content/media/High Speed 1 _HS1_(c) Arup19.jpg";
                                 break;
                                 
                             case 2:
@@ -1147,7 +1264,7 @@ void ContentMenu::pressed()
                                 item[3] = bRightActive[i][3];
                                 item[4] = bRightActive[i][4];
                                 
-                                path[2] = "content/media/video.png";
+                                //path[2] = "content/media/video.png";
                                 break;
                                 
                             case 3:
@@ -1163,7 +1280,8 @@ void ContentMenu::pressed()
                                 item[3] = bRightActive[i][3];
                                 item[4] = bRightActive[i][4];
                                 
-                                path[3] = "content/media/model.png";
+                                //path[3] = "content/media/model.png";
+                                path[3] = "content/media/pigeon.obj";
                                 break;
                                 
                             case 4:

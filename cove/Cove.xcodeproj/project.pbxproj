@@ -49,6 +49,9 @@
 		966DCCB21C71F6CC0041F5CF /* InteractiveMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 966DCCAF1C71F6CC0041F5CF /* InteractiveMenu.cpp */; };
 		969189B21C7A4C4A00746006 /* ContentMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 969189B01C7A4C4A00746006 /* ContentMenu.cpp */; };
 		96E6C8F31C88F5CC00DE32FC /* Globals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96E6C8F21C88F5CC00DE32FC /* Globals.cpp */; };
+		96E6C9021C89E84B00DE32FC /* ofxOBJFace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96E6C8FC1C89E84B00DE32FC /* ofxOBJFace.cpp */; };
+		96E6C9031C89E84B00DE32FC /* ofxOBJGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96E6C8FE1C89E84B00DE32FC /* ofxOBJGroup.cpp */; };
+		96E6C9041C89E84B00DE32FC /* ofxOBJModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96E6C9001C89E84B00DE32FC /* ofxOBJModel.cpp */; };
 		9D44DC88EF9E7991B4A09951 /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 832BDC407620CDBA568B713D /* tinyxmlerror.cpp */; };
 		B266578FC55D23BFEBC042E7 /* ofxGuiGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ECF8674C7975F1063C5E30CA /* ofxGuiGroup.cpp */; };
 		B56FE57CC35806596D38118C /* ofxSliderGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 802251BAF1B35B1D67B32FD0 /* ofxSliderGroup.cpp */; };
@@ -461,6 +464,12 @@
 		96E5EE631C66B43A003AE767 /* InterestPoints.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InterestPoints.h; sourceTree = "<group>"; };
 		96E6C8F11C88EFB400DE32FC /* Globals.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Globals.h; sourceTree = "<group>"; };
 		96E6C8F21C88F5CC00DE32FC /* Globals.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Globals.cpp; sourceTree = "<group>"; };
+		96E6C8FC1C89E84B00DE32FC /* ofxOBJFace.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxOBJFace.cpp; sourceTree = "<group>"; };
+		96E6C8FD1C89E84B00DE32FC /* ofxOBJFace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxOBJFace.h; sourceTree = "<group>"; };
+		96E6C8FE1C89E84B00DE32FC /* ofxOBJGroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxOBJGroup.cpp; sourceTree = "<group>"; };
+		96E6C8FF1C89E84B00DE32FC /* ofxOBJGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxOBJGroup.h; sourceTree = "<group>"; };
+		96E6C9001C89E84B00DE32FC /* ofxOBJModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxOBJModel.cpp; sourceTree = "<group>"; };
+		96E6C9011C89E84B00DE32FC /* ofxOBJModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxOBJModel.h; sourceTree = "<group>"; };
 		B21E7E5F548EEA92F368040B /* tinyxml.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = tinyxml.h; path = ../../../addons/ofxXmlSettings/libs/tinyxml.h; sourceTree = SOURCE_ROOT; };
 		B87C60311EC1FE841C1ECD89 /* ofxLabel.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxLabel.h; path = ../../../addons/ofxGui/src/ofxLabel.h; sourceTree = SOURCE_ROOT; };
 		C70D8946940288799E82131E /* ofxSliderGroup.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxSliderGroup.h; path = ../../../addons/ofxGui/src/ofxSliderGroup.h; sourceTree = SOURCE_ROOT; };
@@ -1124,6 +1133,19 @@
 			name = content;
 			sourceTree = "<group>";
 		};
+		96E6C8FB1C89E84B00DE32FC /* ofxOBJ */ = {
+			isa = PBXGroup;
+			children = (
+				96E6C8FC1C89E84B00DE32FC /* ofxOBJFace.cpp */,
+				96E6C8FD1C89E84B00DE32FC /* ofxOBJFace.h */,
+				96E6C8FE1C89E84B00DE32FC /* ofxOBJGroup.cpp */,
+				96E6C8FF1C89E84B00DE32FC /* ofxOBJGroup.h */,
+				96E6C9001C89E84B00DE32FC /* ofxOBJModel.cpp */,
+				96E6C9011C89E84B00DE32FC /* ofxOBJModel.h */,
+			);
+			path = ofxOBJ;
+			sourceTree = "<group>";
+		};
 		977A836DD2C489CCC5E330FF /* jsoncpp */ = {
 			isa = PBXGroup;
 			children = (
@@ -1211,6 +1233,7 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				96E6C8FB1C89E84B00DE32FC /* ofxOBJ */,
 				969189AE1C7A4AE000746006 /* content */,
 				966DCCAE1C71F6A60041F5CF /* menu */,
 				83536CA81C4D03E2000F5018 /* route */,
@@ -1333,6 +1356,7 @@
 				83AC294A1C4693F0009E1CD1 /* glmGL.cpp in Sources */,
 				966DCCAB1C71F6810041F5CF /* license.md in Sources */,
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
+				96E6C9021C89E84B00DE32FC /* ofxOBJFace.cpp in Sources */,
 				966DCCAC1C71F6810041F5CF /* README.md in Sources */,
 				83AC28191C469366009E1CD1 /* ofxVectorLabels.cpp in Sources */,
 				83AC294E1C4693F0009E1CD1 /* glmFastPolyline.cpp in Sources */,
@@ -1343,6 +1367,7 @@
 				B266578FC55D23BFEBC042E7 /* ofxGuiGroup.cpp in Sources */,
 				966DCCAD1C71F6810041F5CF /* ofxMSAInteractiveObject.cpp in Sources */,
 				83AC294D1C4693F0009E1CD1 /* glmTesselation.cpp in Sources */,
+				96E6C9041C89E84B00DE32FC /* ofxOBJModel.cpp in Sources */,
 				483908258D00B98B4BE69F07 /* ofxLabel.cpp in Sources */,
 				83AC29491C4693F0009E1CD1 /* glmGeom.cpp in Sources */,
 				F285EB3169F1566CA3D93C20 /* ofxPanel.cpp in Sources */,
@@ -1375,6 +1400,7 @@
 				5A4349E9754D6FA14C0F2A3A /* tinyxmlparser.cpp in Sources */,
 				83AC29541C4693F0009E1CD1 /* ofxGlmTools.cpp in Sources */,
 				83C837DE1C4EB26D00A1F52D /* Route.cpp in Sources */,
+				96E6C9031C89E84B00DE32FC /* ofxOBJGroup.cpp in Sources */,
 				83470C351C4900B100B3FED4 /* TileLoader.cpp in Sources */,
 				83AC28151C469366009E1CD1 /* glmFeatureLabelPoint.cpp in Sources */,
 			);
