@@ -15,5 +15,11 @@ class Globals
 {
 public:
     
+    // content launch
     static bool buttonPressed;
+    // content vignette
+    static bool vignetteOn;
+    
+    // project selected
+    static bool programType;
 };

@@ -10,3 +10,5 @@
 #include "Globals.h"
 
 bool Globals::buttonPressed = false;
+bool Globals::vignetteOn = false;
+bool Globals::programType = false;

@@ -8,6 +8,7 @@
 //
 
 #include "Location.h"
+#include "Globals.h"
 
 // script for controlling the POI labels
 Location::Location() {
@@ -44,7 +45,13 @@ void Location::draw(ofCamera& cam, float _alpha, float _height) {
     
     // billboard height and size
     float height = _height;//200;
-    float size = ofMap(cam.getPosition().z, 3000, 1000, 80, 400);//400;
+    
+    if (Globals::programType) {
+        size = ofMap(cam.getPosition().z, 20000, 1000, 80, 400);//400;
+    }
+    else
+        size = ofMap(cam.getPosition().z, 3000, 1000, 80, 400);//400;
+    
     size = ofClamp(size, 80, 400);
     float length = ofMap(_alpha, 0, 255, 0, 1);
     

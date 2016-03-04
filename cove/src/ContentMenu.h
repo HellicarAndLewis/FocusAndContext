@@ -50,7 +50,7 @@ public:
     // content
     ofImage img[CONTENT_AMT];
     ofSoundPlayer snd[CONTENT_AMT];
-    ofVideoPlayer vid[CONTENT_AMT];
+    ofVideoPlayer vid;
     float scale[CONTENT_AMT];
     bool item[CONTENT_AMT];
     string path[CONTENT_AMT];

@@ -3,7 +3,7 @@
 //  Cove
 //
 //  Created by Jason Walters on 21/02/2016.
-//  Last edited by Jason Walters on 3/03/2016.
+//  Last edited by Jason Walters on 4/03/2016.
 //
 //
 
@@ -32,8 +32,31 @@ void ContentMenu::setup(int _w, int _h, float _area, float _padding)
             contentLeft[i][j].set(padding + x, height - padding/2 - y, area, area);
             contentRight[i][j].set(padding + x, height - padding/2 - y, area, area);
             
-            contentLeft[i][j].title = "L " + ofToString(i) + " " + ofToString(j);
-            contentRight[i][j].title = "R " + ofToString(i) + " " + ofToString(j);
+            if (j == 0)
+            {
+                contentLeft[i][j].title = "Text";
+                contentRight[i][j].title = "Text";
+            }
+            else if (j == 1)
+            {
+                contentLeft[i][j].title = "Image";
+                contentRight[i][j].title = "Image";
+            }
+            else if (j == 2)
+            {
+                contentLeft[i][j].title = "Video";
+                contentRight[i][j].title = "Video";
+            }
+            else if (j == 3)
+            {
+                contentLeft[i][j].title = "Model";
+                contentRight[i][j].title = "Model";
+            }
+            else if (j == 4)
+            {
+                contentLeft[i][j].title = "Audio";
+                contentRight[i][j].title = "Audio";
+            }
         }
     }
 }
@@ -47,6 +70,8 @@ void ContentMenu::update()
     pressed();
     
     destroyContent();
+    
+    vid.update();
 }
 
 //--------------------------------------------------------------
@@ -101,7 +126,13 @@ void ContentMenu::drawContent()
             if (display)
             {
                 scale[j] = ofLerp(scale[j], 1.3, lerpValue);
-                img[j].load(path[j]);
+                
+                //if (j != 2)
+                    img[j].load(path[j]);
+                //else {
+                  //  vid.load(path[j]);
+                  //  vid.play();
+                //}
                 
                 if (scale[j] >= 1.2999)//0.999)
                 {
@@ -113,6 +144,23 @@ void ContentMenu::drawContent()
         {
             scale[j] = ofLerp(scale[j], 0.0, lerpValue);
         }
+        
+        /*
+        if (j != 2)
+        {
+            // if allocated then draw
+            if (img[j].isAllocated()) {
+                ofSetColor(0, 0, 0, 20);
+                ofDrawRectangle(width/2 + 6, height/2 + 6, img[j].getWidth() * scale[j], img[j].getHeight() * scale[j]);
+                
+                ofSetColor(255, 255, 255);
+                img[j].draw(width/2, height/2, img[j].getWidth() * scale[j], img[j].getHeight() * scale[j]);
+            }
+        }
+        else {
+                vid.draw(width/2, height/2, vid.getWidth() * scale[j], vid.getHeight() * scale[j]);
+        }
+         */
         
         // if allocated then draw
         if (img[j].isAllocated()) {
@@ -127,6 +175,8 @@ void ContentMenu::drawContent()
         if (scale[0] <= 0.0001 && scale[1] <= 0.0001 && scale[2] <= 0.0001 && scale[3] <= 0.0001 && scale[4] <= 0.0001)
         {
             display = true;
+
+            //if (vid.isPlaying()) vid.stop();
         }
     }
     
@@ -138,6 +188,11 @@ void ContentMenu::destroyContent()
     float lerpValue = 0.4;
     if (Globals::buttonPressed)
     {
+        //if (vid.isPlaying()) vid.stop();
+        
+        // disable vignette
+        Globals::vignetteOn = false;
+        
         for (int j = 0; j < CONTENT_AMT; j++) {
             item[j] = false;
             scale[j] = ofLerp(scale[j], 0.0, lerpValue);
@@ -596,6 +651,7 @@ void ContentMenu::pressed()
                 }
                 
                 buttonClicked = true;
+                Globals::vignetteOn = true;
             }
         }
     }
@@ -1033,6 +1089,7 @@ void ContentMenu::pressed()
                 }
                 
                 buttonClicked = true;
+                Globals::vignetteOn = true;
             }
         }
     }

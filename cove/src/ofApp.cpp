@@ -3,7 +3,7 @@
 //  Cove
 //
 //  Created by Chris Mullany on 14/01/2016.
-//  Last edited by Jason Walters on 2/03/2016.
+//  Last edited by Jason Walters on 4/03/2016.
 //
 //
 
@@ -568,6 +568,9 @@ void ofApp::menuSetup(int _w, int _h)
     }
     
     isCam = true;
+    
+    // pass along which mode we're in to global variable
+    Globals::programType = bCove;
 }
 
 void ofApp::menuUpdates()
@@ -687,7 +690,7 @@ void ofApp::draw()
     drawScene();
     
     // draw ontop of all graphics
-    //drawVignette();
+    drawVignette();
     
     // draw project content
     content.drawContent();
@@ -698,10 +701,17 @@ void ofApp::draw()
 
 void ofApp::drawVignette()
 {
-    if (route.activeProject == 0)
-        colVignette.lerp(ofColor::white, 0.1);
+    if (Globals::vignetteOn)
+    {
+        if (route.activeProject == 0)
+            colVignette.lerp(ofColor::white, 0.1);
+        else
+            colVignette.lerp(ofColor::black, 0.1);
+    }
     else
-        colVignette.lerp(ofColor::black, 0.1);
+    {
+        colVignette.lerp(ofColor(0,0,0,0), 0.1);
+    }
     
     ofBackgroundGradient(ofColor(0,0,0,0), colVignette);
 }

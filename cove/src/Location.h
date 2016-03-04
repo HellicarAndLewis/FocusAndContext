@@ -33,6 +33,7 @@ public:
     float percentOpenLabelLeft;
     float percentOpenLabelRight;
     float alphaTarget;
+    float size;
     int project;
     ofTrueTypeFont* titleFont;
     
