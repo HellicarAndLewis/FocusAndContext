@@ -98,7 +98,7 @@ void Route::draw(ofCamera& cam) {
     ofPushMatrix();
     {
         ofTranslate(0, 0, 0);
-        ofSetLineWidth(5);
+        ofSetLineWidth(3);
         routeRenderLeft.draw();
         ofSetLineWidth(1);
     }
@@ -106,7 +106,7 @@ void Route::draw(ofCamera& cam) {
     
     ofSetColor(255);
     for (auto &location: locationsLeft) {
-        location.draw(cam, alphaLeft, 200);
+        location.draw(cam, alphaLeft, -1150);
     }
     ofEnableDepthTest();
     
@@ -115,7 +115,7 @@ void Route::draw(ofCamera& cam) {
     ofPushMatrix();
     {
         ofTranslate(0, 0, 0);
-        ofSetLineWidth(5);
+        ofSetLineWidth(3);
         routeRenderRight.draw();
         ofSetLineWidth(1);
     }
@@ -123,7 +123,7 @@ void Route::draw(ofCamera& cam) {
     
     ofSetColor(255);
     for (auto &location: locationsRight) {
-        location.draw(cam, alphaRight, -200);
+        location.draw(cam, alphaRight, -1600);
     }
     ofEnableDepthTest();
 }

@@ -22,4 +22,8 @@ public:
     
     // project selected
     static bool programType;
+    static int project;
+    
+    static float mY;
+    static float mX;
 };

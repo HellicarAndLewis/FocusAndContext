@@ -3,7 +3,7 @@
 //  Cove
 //
 //  Created by Jason Walters on 13/02/2016.
-//  Last edited by Jason Walters on 2/03/2016.
+//  Last edited by Jason Walters on 8/03/2016.
 //
 //
 
@@ -11,7 +11,6 @@
 
 #include "ofMain.h"
 #include "InteractiveObject.h"
-//#include "Globals.h"
 
 #define		BUTTON_AMT		5
 
@@ -19,26 +18,109 @@ class InteractiveMenu
 {
 public:
     void setup(int _w, int _h, float _mainArea, float _subArea, float _padding, float _easeIn, float _easeOut);
+    void setupLeftContent();
+    void setupRightContent();
     void update();
-    void drawLines();
+    void drawMenu();
+    void drawContent();
     void transform();
+    void transformLeftContent0();
+    void transformLeftContent1();
+    void transformLeftContent2();
+    void transformLeftContent3();
+    void transformLeftContent4();
+    void transformRightContent0();
+    void transformRightContent1();
+    void transformRightContent2();
+    void transformRightContent3();
+    void transformRightContent4();
     void pressed();
-
-    InteractiveObject objLeftLine;
-    InteractiveObject objRightLine;
-    InteractiveObject objsLeft[BUTTON_AMT];
-    InteractiveObject objsRight[BUTTON_AMT];
-    InteractiveObject objLeft;
-    InteractiveObject objRight;
+    void pressedContent();
     
+    // content menu right
+    InteractiveObject rCon4HLine;
+    InteractiveObject rCon4VLine;
+    InteractiveObject rCon4[BUTTON_AMT];
+    InteractiveObject rCon3HLine;
+    InteractiveObject rCon3VLine;
+    InteractiveObject rCon3[BUTTON_AMT];
+    InteractiveObject rCon2HLine;
+    InteractiveObject rCon2VLine;
+    InteractiveObject rCon2[BUTTON_AMT];
+    InteractiveObject rCon1HLine;
+    InteractiveObject rCon1VLine;
+    InteractiveObject rCon1[BUTTON_AMT];
+    InteractiveObject rCon0HLine;
+    InteractiveObject rCon0VLine;
+    InteractiveObject rCon0[BUTTON_AMT];
+    
+    // content menu left
+    InteractiveObject lCon4HLine;
+    InteractiveObject lCon4VLine;
+    InteractiveObject lCon4[BUTTON_AMT];
+    InteractiveObject lCon3HLine;
+    InteractiveObject lCon3VLine;
+    InteractiveObject lCon3[BUTTON_AMT];
+    InteractiveObject lCon2HLine;
+    InteractiveObject lCon2VLine;
+    InteractiveObject lCon2[BUTTON_AMT];
+    InteractiveObject lCon1HLine;
+    InteractiveObject lCon1VLine;
+    InteractiveObject lCon1[BUTTON_AMT];
+    InteractiveObject lCon0HLine;
+    InteractiveObject lCon0VLine;
+    InteractiveObject lCon0[BUTTON_AMT];
+    
+    // main menu stuff
+    InteractiveObject lLine;
+    InteractiveObject rLine;
+    InteractiveObject lPoints[BUTTON_AMT];
+    InteractiveObject rPoints[BUTTON_AMT];
+    InteractiveObject leftMain;
+    InteractiveObject rightMain;
+    
+    bool bLLineH[BUTTON_AMT];
+    bool bRLineH[BUTTON_AMT];
+    bool bLPlace[BUTTON_AMT];
+    bool bRPlace[BUTTON_AMT];
+    string contentLLabels[BUTTON_AMT];
+    string contentRLabels[BUTTON_AMT];
+    
+    // left content positions and sizes
+    ofVec2f posLCon0[BUTTON_AMT];
+    ofVec2f posLCon1[BUTTON_AMT];
+    ofVec2f posLCon2[BUTTON_AMT];
+    ofVec2f posLCon3[BUTTON_AMT];
+    ofVec2f posLCon4[BUTTON_AMT];
+    float sizeLCon0[BUTTON_AMT];
+    float sizeLCon1[BUTTON_AMT];
+    float sizeLCon2[BUTTON_AMT];
+    float sizeLCon3[BUTTON_AMT];
+    float sizeLCon4[BUTTON_AMT];
+    
+    // right content positions and sizes
+    ofVec2f posRCon0[BUTTON_AMT];
+    ofVec2f posRCon1[BUTTON_AMT];
+    ofVec2f posRCon2[BUTTON_AMT];
+    ofVec2f posRCon3[BUTTON_AMT];
+    ofVec2f posRCon4[BUTTON_AMT];
+    float sizeRCon0[BUTTON_AMT];
+    float sizeRCon1[BUTTON_AMT];
+    float sizeRCon2[BUTTON_AMT];
+    float sizeRCon3[BUTTON_AMT];
+    float sizeRCon4[BUTTON_AMT];
+    
+    // main menu positions and sizes
     ofVec2f posLeft[BUTTON_AMT];
     ofVec2f posRight[BUTTON_AMT];
     float sizeLeft[BUTTON_AMT];
     float sizeRight[BUTTON_AMT];
     
+    // variables
     bool bLeftActive[BUTTON_AMT];
     bool bRightActive[BUTTON_AMT];
     bool leftOn, rightOn;
+    bool leftSwitch, rightSwitch;
     bool leftClose, rightClose;
     bool buttonClicked;
     int length;
@@ -50,7 +132,6 @@ public:
     float padding;
     float easeIn;
     float easeOut;
-    
-    bool contentKill;
-//    Globals g;
+    float paddingVertical;
+    float contentHeight;
 };

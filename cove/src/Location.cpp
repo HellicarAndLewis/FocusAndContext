@@ -47,19 +47,25 @@ void Location::draw(ofCamera& cam, float _alpha, float _height) {
     float height = _height;//200;
     
     if (Globals::programType) {
-        size = ofMap(cam.getPosition().z, 20000, 1000, 80, 400);//400;
+        size = ofMap(cam.getPosition().z, 20000, 4000, 80, 400);//400;
     }
     else
-        size = ofMap(cam.getPosition().z, 3000, 1000, 80, 400);//400;
+        size = ofMap(cam.getPosition().z, 8000, 4000, 80, 400);//400;
     
     size = ofClamp(size, 80, 400);
-    float length = ofMap(_alpha, 0, 255, 0, 1);
-    
-    //cout << cam.getPosition().z << endl;
-    
+    float length = ofMap(_alpha, 0, 255, 0, 200);
+
     // draw line from location up to billboard when open
     ofSetLineWidth(4);
-    ofDrawLine(position.x, position.y, length * height/2.1, position.x, position.y, 0);
+    if (Globals::project == 0)
+    {
+        lineHeight = 1600;
+        ofDrawLine(position.x, position.y - lineHeight, 0, position.x, position.y - lineHeight + length, 0);
+    }
+    else if (Globals::project == 1) {
+        lineHeight = 1600;
+        ofDrawLine(position.x, position.y - lineHeight, 0, position.x, position.y - lineHeight - length * 1.8, 0);
+    }
     ofSetLineWidth(1);
     
     // billboard to face cam
@@ -67,7 +73,7 @@ void Location::draw(ofCamera& cam, float _alpha, float _height) {
     ofEnablePointSprites();
     labelImage.getTexture().bind();
     glBegin(GL_POINTS);
-    glVertex3f(position.x, position.y, height);
+    glVertex3f(position.x, position.y + height, 0);
     glNormal3f(size, 0, 0);
     glEnd();
     labelImage.getTexture().unbind();

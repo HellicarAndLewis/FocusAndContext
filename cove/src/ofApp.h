@@ -3,7 +3,7 @@
 //  Cove
 //
 //  Created by Chris Mullany on 14/01/2016.
-//  Edited by Jason Walters on 2/03/2016.
+//  Edited by Jason Walters on 10/03/2016.
 //
 //
 
@@ -16,7 +16,7 @@
 #include "Route.h"
 #include "InterestPoints.h"
 #include "InteractiveMenu.h"
-#include "ContentMenu.h"
+#include "Content.h"
 
 #define EASEING 0.08
 
@@ -143,11 +143,6 @@ public:
     InteractiveMenu menu;
     bool pointReached;
     bool isDraw;
-    
-    // content menu
-    void contentSetup(int _w, int _h);
-    void contentUpdate();
-    ContentMenu content;
     
     // GUI
     ofxDatGui* gui;
