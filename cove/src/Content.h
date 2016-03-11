@@ -19,6 +19,7 @@ public:
     void setup();
     void fileLocation();
     void update();
+    void scaling();
     void draw();
     void load(int _project, int _point, int _item);
     void stop();

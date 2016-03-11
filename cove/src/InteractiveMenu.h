@@ -137,6 +137,10 @@ public:
     float paddingVertical;
     float contentHeight;
     
+    // content media system
     Content c;
-    bool contentDraw;
+    
+    // menu button sounds
+    ofSoundPlayer snd1;
+    ofSoundPlayer snd2;
 };

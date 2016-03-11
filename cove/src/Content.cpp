@@ -90,6 +90,7 @@ void Content::fileLocation()
     path[1][4][1] = "content/media/Placeholder/no_data.jpg";
     path[1][4][0] = "content/media/Placeholder/no_data.jpg";
     
+    // pre-load all videos
     vid[0][0].load(path[0][0][2]);
     vid[0][1].load(path[0][1][2]);
     vid[0][2].load(path[0][2][2]);
@@ -111,10 +112,13 @@ void Content::update()
         if (vid[0][i].isPlaying()) vid[0][i].update();
         if (vid[1][i].isPlaying()) vid[1][i].update();
     }
+    
+    // content scaling
+    scaling();
 }
 
 //--------------------------------------------------------------
-void Content::draw()
+void Content::scaling()
 {
     float dest = 0.001;
     float lerpOut = 0.1;
@@ -198,18 +202,27 @@ void Content::draw()
             scale[2] = ofLerp(scale[2], 0.0, lerpIn);
             scale[3] = ofLerp(scale[3], 0.0, lerpIn);
             scale[4] = ofLerp(scale[4], 0.0, lerpIn);
+            
+            if (scale[2] <= dest)
+                stop();
             break;
     }
-    
-    
+}
+
+//--------------------------------------------------------------
+void Content::draw()
+{
+    float screenWidth = 1080;
     float percentage = 0.75;
     float alpha = 75;
     int sOffset = 6;
     
+    // draws text content (text is currently an image)
     ofSetRectMode(OF_RECTMODE_CENTER);
     if (img[0].isAllocated())
     {
-        float diff = 1080 / img[0].getWidth();
+        // gets the difference between screen width and adjusts
+        float diff = screenWidth / img[0].getWidth();
         float w = (img[0].getWidth() * diff) * percentage;
         float h = (img[0].getHeight() * diff) * percentage;
         
@@ -222,9 +235,11 @@ void Content::draw()
         img[0].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[0], h * scale[0]);
     }
     
+    // draws image content
     if (img[1].isAllocated())
     {
-        float diff = 1080 / img[1].getWidth();
+        // gets the difference between screen width and adjusts
+        float diff = screenWidth / img[1].getWidth();
         float w = (img[1].getWidth() * diff) * percentage;
         float h = (img[1].getHeight() * diff) * percentage;
         
@@ -237,12 +252,14 @@ void Content::draw()
         img[1].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[1], h * scale[1]);
     }
     
-    ofSetColor(255);
+    // draws video content
     for (int i = 0; i < 5; i++)
     {
+        // hs1 project video content
         if (vid[0][i].isPlaying())
         {
-            float diff = 1080 / vid[0][i].getWidth();
+            // gets the difference between screen width and adjusts
+            float diff = screenWidth / vid[0][i].getWidth();
             float w = (vid[0][i].getWidth() * diff) * percentage;
             float h = (vid[0][i].getHeight() * diff) * percentage;
             
@@ -254,9 +271,12 @@ void Content::draw()
             ofSetColor(255);
             vid[0][i].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[2], h * scale[2]);
         }
+        
+        // crossrail project video content
         if (vid[1][i].isPlaying())
         {
-            float diff = 1080 / vid[1][i].getWidth();
+            // gets the difference between screen width and adjusts
+            float diff = screenWidth / vid[1][i].getWidth();
             float w = (vid[1][i].getWidth() * diff) * percentage;
             float h = (vid[1][i].getHeight() * diff) * percentage;
             
@@ -270,9 +290,11 @@ void Content::draw()
         }
     }
     
+    // image 3 is placeholder for model content
     if (img[3].isAllocated())
     {
-        float diff = 1080 / img[3].getWidth();
+        // gets the difference between screen width and adjusts
+        float diff = screenWidth / img[3].getWidth();
         float w = (img[3].getWidth() * diff) * percentage;
         float h = (img[3].getHeight() * diff) * percentage;
         
@@ -285,9 +307,11 @@ void Content::draw()
         img[3].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[3], h * scale[3]);
     }
     
+    // image 4 is placeholder for audio content
     if (img[4].isAllocated())
     {
-        float diff = 1080 / img[4].getWidth();
+        // gets the difference between screen width and adjusts
+        float diff = screenWidth / img[4].getWidth();
         float w = (img[4].getWidth() * diff) * percentage;
         float h = (img[4].getHeight() * diff) * percentage;
         
@@ -311,10 +335,12 @@ void Content::load(int _project, int _point, int _item)
     
     if (item != 2)
     {
+        // loads specific image
         img[item].load(path[project][point][item]);
     }
     else
     {
+        // videos are pre-loaded, play video selection
         if (!vid[project][point].isPlaying()) vid[project][point].play();
     }
 }
@@ -322,7 +348,7 @@ void Content::load(int _project, int _point, int _item)
 //--------------------------------------------------------------
 void Content::stop()
 {
-    // stop any running videos
+    // stop all project running videos
     for (int i = 0; i < 5; i++)
     {
         if (vid[0][i].isPlaying()) vid[0][i].stop();

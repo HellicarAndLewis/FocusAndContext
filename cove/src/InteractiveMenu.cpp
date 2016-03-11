@@ -29,6 +29,15 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     rightOn = false;
     buttonClicked = false;
     
+    // menu button sounds
+    snd1.load("content/audio/Arup_buttonPress1.wav");
+    snd1.setMultiPlay(false);
+    snd1.setVolume(0.7);
+    
+    snd2.load("content/audio/Arup_buttonPress2.wav");
+    snd2.setMultiPlay(false);
+    snd2.setVolume(0.7);
+    
     // setup left sub menu
     for (int i = 0; i < length; i++)
     {
@@ -98,6 +107,7 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     rLine.isDraw = true;
     rLine.set(width - padding, height - padding - mainArea, 0, mainArea);
     
+    
     //----------------------
     // content stuff
     //----------------------
@@ -107,16 +117,19 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     contentLLabels[2] = "Video";
     contentLLabels[3] = "3D Model";
     contentLLabels[4] = "Audio";
+    
     // labels right
     contentRLabels[4] = "Text";
     contentRLabels[3] = "Image";
     contentRLabels[2] = "Video";
     contentRLabels[1] = "3D Model";
     contentRLabels[0] = "Audio";
-    // setup menu items
+    
+    // setup content menu items
     setupLeftContent();
     setupRightContent();
     
+    // content media setup
     c.setup();
 }
 
@@ -387,28 +400,34 @@ void InteractiveMenu::update()
 {
     // draw menu objects and lines
     drawMenu();
+    
     // check button presses
     pressed();
+    
     // button position and size
     transform();
     
     // draw menu content objects and lines
     drawContentMenu();
+    
     // content pressed
     pressedContent();
-    // content position and size
+    
+    // hs1 project content menu position and size
     transformLeftContent0();
     transformLeftContent1();
     transformLeftContent2();
     transformLeftContent3();
     transformLeftContent4();
     
+    // crossrail project content menu position and size
     transformRightContent0();
     transformRightContent1();
     transformRightContent2();
     transformRightContent3();
     transformRightContent4();
     
+    // delayed project selection swtich
     if (leftSwitch && !bRLineH[0] && !bRLineH[1] && !bRLineH[2] && !bRLineH[3] && !bRLineH[4])
     {
         if (!leftOn) leftOn = true;
@@ -416,8 +435,7 @@ void InteractiveMenu::update()
         
         leftSwitch = false;
     }
-    
-    if (rightSwitch && !bLLineH[0] && !bLLineH[1] && !bLLineH[2] && !bLLineH[3] && !bLLineH[4])
+    else if (rightSwitch && !bLLineH[0] && !bLLineH[1] && !bLLineH[2] && !bLLineH[3] && !bLLineH[4])
     {
         if (leftOn) leftOn = false;
         if (!rightOn) rightOn = true;
@@ -1967,6 +1985,9 @@ void InteractiveMenu::pressed()
                     break;
             }
             
+            // play menu button sound
+            snd1.play();
+            
             buttonClicked = true;
             Globals::buttonPressed = true;
         }
@@ -2012,6 +2033,9 @@ void InteractiveMenu::pressed()
                     break;
             }
             
+            // play menu button sound
+            snd1.play();
+            
             buttonClicked = true;
             Globals::buttonPressed = true;
         }
@@ -2032,7 +2056,8 @@ void InteractiveMenu::pressedContent()
         lCon0[3].isSelected = false;
         lCon0[4].isSelected = false;
         
-        cout << "left content 0 button 0 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(0, 0, 0);
@@ -2047,7 +2072,8 @@ void InteractiveMenu::pressedContent()
         lCon0[3].isSelected = false;
         lCon0[4].isSelected = false;
         
-        cout << "left content 0 button 1 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(0, 0, 1);
@@ -2062,7 +2088,8 @@ void InteractiveMenu::pressedContent()
         lCon0[3].isSelected = false;
         lCon0[4].isSelected = false;
         
-        cout << "left content 0 button 2 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(0, 0, 2);
@@ -2077,7 +2104,8 @@ void InteractiveMenu::pressedContent()
         lCon0[3].isSelected = true;
         lCon0[4].isSelected = false;
         
-        cout << "left content 0 button 3 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(0, 0, 3);
@@ -2092,7 +2120,8 @@ void InteractiveMenu::pressedContent()
         lCon0[3].isSelected = false;
         lCon0[4].isSelected = true;
         
-        cout << "left content 0 button 4 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(0, 0, 4);
@@ -2126,7 +2155,8 @@ void InteractiveMenu::pressedContent()
         lCon1[3].isSelected = false;
         lCon1[4].isSelected = false;
         
-        cout << "left content 1 button 0 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(0, 1, 0);
@@ -2140,7 +2170,8 @@ void InteractiveMenu::pressedContent()
         lCon1[3].isSelected = false;
         lCon1[4].isSelected = false;
         
-        cout << "left content 1 button 1 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(0, 1, 1);
@@ -2154,7 +2185,8 @@ void InteractiveMenu::pressedContent()
         lCon1[3].isSelected = false;
         lCon1[4].isSelected = false;
         
-        cout << "left content 1 button 2 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(0, 1, 2);
@@ -2168,7 +2200,8 @@ void InteractiveMenu::pressedContent()
         lCon1[3].isSelected = true;
         lCon1[4].isSelected = false;
         
-        cout << "left content 1 button 3 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(0, 1, 3);
@@ -2182,7 +2215,8 @@ void InteractiveMenu::pressedContent()
         lCon1[3].isSelected = false;
         lCon1[4].isSelected = true;
         
-        cout << "left content 1 button 4 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(0, 1, 4);
@@ -2214,7 +2248,8 @@ void InteractiveMenu::pressedContent()
         lCon2[3].isSelected = false;
         lCon2[4].isSelected = false;
         
-        cout << "left content 2 button 0 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(0, 2, 0);
@@ -2228,7 +2263,8 @@ void InteractiveMenu::pressedContent()
         lCon2[3].isSelected = false;
         lCon2[4].isSelected = false;
         
-        cout << "left content 2 button 1 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(0, 2, 1);
@@ -2242,7 +2278,8 @@ void InteractiveMenu::pressedContent()
         lCon2[3].isSelected = false;
         lCon2[4].isSelected = false;
         
-        cout << "left content 2 button 2 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(0, 2, 2);
@@ -2256,7 +2293,8 @@ void InteractiveMenu::pressedContent()
         lCon2[3].isSelected = true;
         lCon2[4].isSelected = false;
         
-        cout << "left content 2 button 3 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(0, 2, 3);
@@ -2270,7 +2308,8 @@ void InteractiveMenu::pressedContent()
         lCon2[3].isSelected = false;
         lCon2[4].isSelected = true;
         
-        cout << "left content 2 button 4 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(0, 2, 4);
@@ -2302,7 +2341,8 @@ void InteractiveMenu::pressedContent()
         lCon3[3].isSelected = false;
         lCon3[4].isSelected = false;
         
-        cout << "left content 3 button 0 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(0, 3, 0);
@@ -2316,7 +2356,8 @@ void InteractiveMenu::pressedContent()
         lCon3[3].isSelected = false;
         lCon3[4].isSelected = false;
         
-        cout << "left content 3 button 1 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(0, 3, 1);
@@ -2330,7 +2371,8 @@ void InteractiveMenu::pressedContent()
         lCon3[3].isSelected = false;
         lCon3[4].isSelected = false;
         
-        cout << "left content 3 button 2 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(0, 3, 2);
@@ -2344,7 +2386,8 @@ void InteractiveMenu::pressedContent()
         lCon3[3].isSelected = true;
         lCon3[4].isSelected = false;
         
-        cout << "left content 3 button 3 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(0, 3, 3);
@@ -2358,7 +2401,8 @@ void InteractiveMenu::pressedContent()
         lCon3[3].isSelected = false;
         lCon3[4].isSelected = true;
         
-        cout << "left content 3 button 4 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(0, 3, 4);
@@ -2389,7 +2433,8 @@ void InteractiveMenu::pressedContent()
         lCon4[3].isSelected = false;
         lCon4[4].isSelected = false;
         
-        cout << "left content 4 button 0 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(0, 4, 0);
@@ -2403,7 +2448,8 @@ void InteractiveMenu::pressedContent()
         lCon4[3].isSelected = false;
         lCon4[4].isSelected = false;
         
-        cout << "left content 4 button 1 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(0, 4, 1);
@@ -2417,7 +2463,8 @@ void InteractiveMenu::pressedContent()
         lCon4[3].isSelected = false;
         lCon4[4].isSelected = false;
         
-        cout << "left content 4 button 2 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(0, 4, 2);
@@ -2431,7 +2478,8 @@ void InteractiveMenu::pressedContent()
         lCon4[3].isSelected = true;
         lCon4[4].isSelected = false;
         
-        cout << "left content 4 button 3 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(0, 4, 3);
@@ -2445,7 +2493,8 @@ void InteractiveMenu::pressedContent()
         lCon4[3].isSelected = false;
         lCon4[4].isSelected = true;
         
-        cout << "left content 4 button 4 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(0, 4, 4);
@@ -2477,7 +2526,8 @@ void InteractiveMenu::pressedContent()
         rCon0[3].isSelected = false;
         rCon0[4].isSelected = false;
         
-        cout << "right content 0 button 0 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(1, 0, 0);
@@ -2491,7 +2541,8 @@ void InteractiveMenu::pressedContent()
         rCon0[3].isSelected = false;
         rCon0[4].isSelected = false;
         
-        cout << "right content 0 button 1 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(1, 0, 1);
@@ -2505,7 +2556,8 @@ void InteractiveMenu::pressedContent()
         rCon0[3].isSelected = false;
         rCon0[4].isSelected = false;
         
-        cout << "right content 0 button 2 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(1, 0, 2);
@@ -2519,7 +2571,8 @@ void InteractiveMenu::pressedContent()
         rCon0[3].isSelected = true;
         rCon0[4].isSelected = false;
         
-        cout << "right content 0 button 3 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(1, 0, 3);
@@ -2533,7 +2586,8 @@ void InteractiveMenu::pressedContent()
         rCon0[3].isSelected = false;
         rCon0[4].isSelected = true;
         
-        cout << "right content 0 button 4 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(1, 0, 4);
@@ -2565,7 +2619,8 @@ void InteractiveMenu::pressedContent()
         rCon1[3].isSelected = false;
         rCon1[4].isSelected = false;
         
-        cout << "right content 1 button 0 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(1, 1, 0);
@@ -2579,7 +2634,8 @@ void InteractiveMenu::pressedContent()
         rCon1[3].isSelected = false;
         rCon1[4].isSelected = false;
         
-        cout << "right content 1 button 1 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(1, 1, 1);
@@ -2593,7 +2649,8 @@ void InteractiveMenu::pressedContent()
         rCon1[3].isSelected = false;
         rCon1[4].isSelected = false;
         
-        cout << "right content 1 button 2 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(1, 1, 2);
@@ -2607,7 +2664,8 @@ void InteractiveMenu::pressedContent()
         rCon1[3].isSelected = true;
         rCon1[4].isSelected = false;
         
-        cout << "right content 1 button 3 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(1, 1, 3);
@@ -2621,7 +2679,8 @@ void InteractiveMenu::pressedContent()
         rCon1[3].isSelected = false;
         rCon1[4].isSelected = true;
         
-        cout << "right content 1 button 4 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(1, 1, 4);
@@ -2653,7 +2712,8 @@ void InteractiveMenu::pressedContent()
         rCon2[3].isSelected = false;
         rCon2[4].isSelected = false;
         
-        cout << "right content 2 button 0 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(1, 2, 0);
@@ -2667,7 +2727,8 @@ void InteractiveMenu::pressedContent()
         rCon2[3].isSelected = false;
         rCon2[4].isSelected = false;
         
-        cout << "right content 2 button 1 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(1, 2, 1);
@@ -2681,7 +2742,8 @@ void InteractiveMenu::pressedContent()
         rCon2[3].isSelected = false;
         rCon2[4].isSelected = false;
         
-        cout << "right content 2 button 2 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(1, 2, 2);
@@ -2695,7 +2757,8 @@ void InteractiveMenu::pressedContent()
         rCon2[3].isSelected = true;
         rCon2[4].isSelected = false;
         
-        cout << "right content 2 button 3 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(1, 2, 3);
@@ -2709,7 +2772,8 @@ void InteractiveMenu::pressedContent()
         rCon2[3].isSelected = false;
         rCon2[4].isSelected = true;
         
-        cout << "right content 2 button 4 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(1, 2, 4);
@@ -2741,7 +2805,8 @@ void InteractiveMenu::pressedContent()
         rCon3[3].isSelected = false;
         rCon3[4].isSelected = false;
         
-        cout << "right content 3 button 0 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(1, 3, 0);
@@ -2755,7 +2820,8 @@ void InteractiveMenu::pressedContent()
         rCon3[3].isSelected = false;
         rCon3[4].isSelected = false;
         
-        cout << "right content 3 button 1 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(1, 3, 1);
@@ -2769,7 +2835,8 @@ void InteractiveMenu::pressedContent()
         rCon3[3].isSelected = false;
         rCon3[4].isSelected = false;
         
-        cout << "right content 3 button 2 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(1, 3, 2);
@@ -2783,7 +2850,8 @@ void InteractiveMenu::pressedContent()
         rCon3[3].isSelected = true;
         rCon3[4].isSelected = false;
         
-        cout << "right content 3 button 3 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(1, 3, 3);
@@ -2797,7 +2865,8 @@ void InteractiveMenu::pressedContent()
         rCon3[3].isSelected = false;
         rCon3[4].isSelected = true;
         
-        cout << "right content 3 button 4 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(1, 3, 4);
@@ -2829,7 +2898,8 @@ void InteractiveMenu::pressedContent()
         rCon4[3].isSelected = false;
         rCon4[4].isSelected = false;
         
-        cout << "right content 4 button 0 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(1, 4, 0);
@@ -2843,7 +2913,8 @@ void InteractiveMenu::pressedContent()
         rCon4[3].isSelected = false;
         rCon4[4].isSelected = false;
         
-        cout << "right content 4 button 1 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(1, 4, 1);
@@ -2857,7 +2928,8 @@ void InteractiveMenu::pressedContent()
         rCon4[3].isSelected = false;
         rCon4[4].isSelected = false;
         
-        cout << "right content 4 button 2 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(1, 4, 2);
@@ -2871,7 +2943,8 @@ void InteractiveMenu::pressedContent()
         rCon4[3].isSelected = true;
         rCon4[4].isSelected = false;
         
-        cout << "right content 4 button 3 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(1, 4, 3);
@@ -2885,7 +2958,8 @@ void InteractiveMenu::pressedContent()
         rCon4[3].isSelected = false;
         rCon4[4].isSelected = true;
         
-        cout << "right content 4 button 4 was selected." << endl;
+        // play button sound
+        snd2.play();
         
         // load current content, enable vignette
         c.load(1, 4, 4);

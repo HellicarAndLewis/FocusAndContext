@@ -14,8 +14,8 @@
 
 void ofApp::setup()
 {
-    //ofSetLogLevel(OF_LOG_NOTICE);
     ofEnableAlphaBlending();
+    
     //ofToggleFullscreen();
     
     // camera draw distance
@@ -74,22 +74,9 @@ void ofApp::setup()
     // load default route
     loadProject(0); // 0: High Speed 1, 1: Crossrail
     
-    // configure menu for screen shape
-    menuSetup(ofGetWidth(), ofGetHeight());
-    // setup content
-    //c.setup();
-    
-    // configure content
-//    contentSetup(ofGetWidth(), ofGetHeight());
-//    content.loadVideo();
-    
-    sndButton1.load("content/audio/Arup_buttonPress1.wav");
-    sndButton1.setMultiPlay(false);
-    sndButton1.setVolume(0.7);
-    
-    sndButton2.load("content/audio/Arup_buttonPress2.wav");
-    sndButton2.setMultiPlay(false);
-    sndButton2.setVolume(0.7);
+    // configure menu or content setup
+    if (bCove) menuSetup(ofGetWidth(), ofGetHeight());
+    else c.setup();
 }
 
 void ofApp::setupGui()
@@ -407,9 +394,11 @@ void ofApp::autoSysUpdate()
     {
         case 0:
             // content stuff
+            Globals::vignetteOn = false;
             Globals::buttonPressed = true;
             randomItem = ofRandom(0, 4);
             contentActive = true;
+            if (c.item != 5) c.item = 5;  // downscales the content
             
             // travel through the route
             setLon(location.getLon());
@@ -486,15 +475,6 @@ void ofApp::autoSysUpdate()
                     
                     if (route.activeProject == 0) camDistance = 1000;
                     else camDistance = 1000;
-                    
-                    if (cam.getPosition().z <= 1200) {
-                        // content stuff
-                        if (contentActive) {
-                            c.load(route.activeProject, pointJump, randomItem);
-                            
-                            contentActive = false;
-                        }
-                    }
                 }
                 
                 worldTransform(camDistance, 0.03, ofVec3f(camTilt, 0, 0), 0.03);
@@ -504,6 +484,12 @@ void ofApp::autoSysUpdate()
         case 2:
             // do stuff
             Globals::vignetteOn = true;
+            
+            // content stuff
+            if (contentActive) {
+                c.load(route.activeProject, pointJump, randomItem);
+                contentActive = false;
+            }
             break;
     }
 }
@@ -589,6 +575,7 @@ void ofApp::update()
     meshPosition.x = ofLerp(meshPosition.x, meshTarget.x, posLerp);
     meshPosition.y = ofLerp(meshPosition.y, meshTarget.y, posLerp);
     
+    /*
     if(bShader)
     {
         fbo.begin();
@@ -596,6 +583,7 @@ void ofApp::update()
         drawScene();
         fbo.end();
     }
+     */
     
     // update menu
     if (bCove) menuUpdates();
@@ -613,10 +601,16 @@ void ofApp::update()
 
 void ofApp::menuSetup(int _w, int _h)
 {
-    menu.setup(_w, _h, 112, 100, 40, 0.2, 0.08);
+    // configure menu
+    menu.setup(_w, _h, 112, 100, 40, 0.2, 0.09);
+    
+    // default left side on at start
     menu.leftOn = true;
+    
+    // make sure left main button is highlighted
     menu.leftMain.isSelected = true;
     
+    // first point is cam
     isCam = true;
 }
 
@@ -625,8 +619,6 @@ void ofApp::menuUpdates()
     // draw menu
     if (bCove)
     {
-        //isDraw = true;
-        
         menu.update();
         
         // menu button check
@@ -635,7 +627,6 @@ void ofApp::menuUpdates()
             // based on left button, load point
             if (menu.bLeftActive[i] && menu.buttonClicked)
             {
-                sndButton1.play();
                 loadPoint(i);
                 menu.buttonClicked = false;
             }
@@ -643,99 +634,12 @@ void ofApp::menuUpdates()
             // based on right button, load point
             if (menu.bRightActive[i] && menu.buttonClicked)
             {
-                sndButton1.play();
                 loadPoint((BUTTON_AMT-1)-i);
                 menu.buttonClicked = false;
             }
         }
     }
-//    else
-//    {
-//        // disable draw menu
-//        isDraw = false;
-//    }
-    
-//    menu.objLeftLine.isDraw = isDraw;
-//    menu.objRightLine.isDraw = isDraw;
-//    for (int i = 0; i < BUTTON_AMT; i++)
-//    {
-//        menu.objsLeft[i].isDraw = isDraw;
-//        menu.objsRight[i].isDraw = isDraw;
-//    }
-//    menu.objLeft.isDraw = isDraw;
-//    menu.objRight.isDraw = isDraw;
 }
-
-//void ofApp::contentSetup(int _w, int _h)
-//{
-//    content.setup(_w, _h, 100, 96);
-//}
-
-/*
-void ofApp::contentUpdate()
-{
-    content.update();
-    
-    if (bCove)
-    {
-        // display content menu
-        if (cam.getPosition().z <= 1200)
-        {
-            if (route.activeProject == 0)
-            {
-                for (int i = 0; i < BUTTON_AMT; i++)
-                {
-                    if (menu.bLeftActive[i] == true)
-                    {
-                        content.draw(0, i, true);
-                        content.draw(1, i, false);
-                    }
-                }
-                
-                if (content.buttonClicked)
-                {
-                    sndButton2.play();
-                    content.buttonClicked = false;
-                }
-                
-                content.leftOn = true;
-                content.rightOn = false;
-            }
-            else
-            {
-                for (int i = 0; i < BUTTON_AMT; i++)
-                {
-                    if (menu.bRightActive[i] == true)
-                    {
-                        content.draw(0, i, false);
-                        content.draw(1, i, true);
-                    }
-                }
-                
-                if (content.buttonClicked)
-                {
-                    sndButton2.play();
-                    content.buttonClicked = false;
-                }
-                
-                content.leftOn = false;
-                content.rightOn = true;
-            }
-        }
-        else
-        {
-            for (int i = 0; i < BUTTON_AMT; i++)
-            {
-                content.draw(0, i, false);
-                content.draw(1, i, false);
-            }
-            
-            if (content.leftOn) content.leftOn = false;
-            if (content.rightOn) content.rightOn = false;
-        }
-    }
-}
- */
 
 void ofApp::draw()
 {
@@ -818,21 +722,6 @@ void ofApp::drawDebugMsg()
     ofDrawBitmapString("route.activeProject " + ofToString(route.activeProject), 30, 540);
     ofDrawBitmapString("leftClose " + ofToString(menu.leftClose), 30, 560);
     ofDrawBitmapString("rightClose " + ofToString(menu.rightClose), 30, 580);
-    
-//    ofDrawBitmapString("CONTENT", 30, 620);
-//    ofDrawBitmapString("leftOn " + ofToString(content.leftOn), 30, 640);
-//    ofDrawBitmapString("rightOn " + ofToString(content.rightOn), 30, 660);
-//    ofDrawBitmapString("category " + ofToString(content.category), 30, 680);
-//    ofDrawBitmapString("buttonClicked " + ofToString(content.buttonClicked), 30, 700);
-//    ofDrawBitmapString("display " + ofToString(content.display), 30, 720);
-//    ofDrawBitmapString("scales " + ofToString(content.scale[0]) + " " + ofToString(content.scale[1]) + " " + ofToString(content.scale[2]) + " " + ofToString(content.scale[3]) + " " + ofToString(content.scale[4]), 30, 740);
-//    ofDrawBitmapString("item[0] " + ofToString(content.item[0]), 30, 760);
-//    ofDrawBitmapString("item[1] " + ofToString(content.item[1]), 30, 780);
-//    ofDrawBitmapString("item[2] " + ofToString(content.item[2]), 30, 800);
-//    ofDrawBitmapString("item[3] " + ofToString(content.item[3]), 30, 820);
-//    ofDrawBitmapString("item[4] " + ofToString(content.item[4]), 30, 840);
-    
-    
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -1114,50 +1003,6 @@ void ofApp::mouseReleased(int x, int y, int button)
             // crossrail
             loadProject(1);
         }
-        
-        /*
-        // loads hs1 project
-        if (menu.objLeft.isMousePressed(0) == 1)
-        {
-            menu.rightOn = false;
-            menu.objRight.isSelected = false;
-            
-            menu.leftClose = true;
-            
-            menu.leftOn = true;
-            menu.objLeft.isSelected = true;
-            
-            isCam = true;
-            
-            menu.buttonClicked = false;
-            
-            Globals::buttonPressed = true;
-            
-            // HS1
-            loadProject(0);
-        }
-        
-        // loads crossrail project
-        if (menu.objRight.isMousePressed(0) == 1)
-        {
-            menu.leftOn = false;
-            menu.objLeft.isSelected = false;
-            
-            menu.rightClose = true;
-            
-            menu.rightOn = true;
-            menu.objRight.isSelected = true;
-            
-            isCam = true;
-            
-            menu.buttonClicked = false;
-            
-            Globals::buttonPressed = true;
-            
-            // Crossrail
-            loadProject(1);
-        }
-         */
     }
 }
 
@@ -1167,10 +1012,10 @@ void ofApp::windowResized(int w, int h)
     
     // resize window shape
     ofSetWindowShape(w, h);
+    
     // reconfigure menu for new window shape
-    menuSetup(w, h);
-    // reconfigure content menu for new window shape
-//    contentSetup(w, h);
+    if (bCove) menuSetup(w, h);
+    else c.setup();
 }
 
 void ofApp::gotMessage(ofMessage msg){

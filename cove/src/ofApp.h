@@ -160,9 +160,8 @@ public:
     void on2dPadEvent(ofxDatGui2dPadEvent e);
     void onDropdownEvent(ofxDatGuiDropdownEvent e);
     
+    // system sounds
     ofSoundPlayer snds;
     string sndPath;
     float volume;
-    ofSoundPlayer sndButton1;
-    ofSoundPlayer sndButton2;
 };

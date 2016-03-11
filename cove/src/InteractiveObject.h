@@ -33,6 +33,9 @@ public:
         
         fontMain.load("fonts/Plain-Medium.ttf", 12);
         fontSub.load("fonts/Plain-Medium.ttf", 7);
+        
+        // default color is darkened
+        color = 240;
     }
     
     void exit() {
