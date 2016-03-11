@@ -11,6 +11,7 @@
 
 #include "ofMain.h"
 #include "InteractiveObject.h"
+#include "Content.h"
 
 #define		BUTTON_AMT		5
 
@@ -22,6 +23,7 @@ public:
     void setupRightContent();
     void update();
     void drawMenu();
+    void drawContentMenu();
     void drawContent();
     void transform();
     void transformLeftContent0();
@@ -134,4 +136,7 @@ public:
     float easeOut;
     float paddingVertical;
     float contentHeight;
+    
+    Content c;
+    bool contentDraw;
 };

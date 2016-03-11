@@ -144,6 +144,9 @@ public:
     bool pointReached;
     bool isDraw;
     
+    // content
+    Content c;
+    
     // GUI
     ofxDatGui* gui;
     ofxDatGuiSlider* guiTileAlpha;

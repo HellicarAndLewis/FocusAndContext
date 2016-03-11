@@ -16,6 +16,7 @@ void ofApp::setup()
 {
     //ofSetLogLevel(OF_LOG_NOTICE);
     ofEnableAlphaBlending();
+    //ofToggleFullscreen();
     
     // camera draw distance
     cam.setFarClip(300000);
@@ -75,6 +76,9 @@ void ofApp::setup()
     
     // configure menu for screen shape
     menuSetup(ofGetWidth(), ofGetHeight());
+    // setup content
+    //c.setup();
+    
     // configure content
 //    contentSetup(ofGetWidth(), ofGetHeight());
 //    content.loadVideo();
@@ -405,7 +409,7 @@ void ofApp::autoSysUpdate()
             // content stuff
             Globals::buttonPressed = true;
             randomItem = ofRandom(0, 4);
-            contentActive = false;
+            contentActive = true;
             
             // travel through the route
             setLon(location.getLon());
@@ -485,9 +489,11 @@ void ofApp::autoSysUpdate()
                     
                     if (cam.getPosition().z <= 1200) {
                         // content stuff
-//                        content.display = false;
-//                        content.buttonClicked = true;
-                        contentActive = true;
+                        if (contentActive) {
+                            c.load(route.activeProject, pointJump, randomItem);
+                            
+                            contentActive = false;
+                        }
                     }
                 }
                 
@@ -592,10 +598,10 @@ void ofApp::update()
     }
     
     // update menu
-    menuUpdates();
+    if (bCove) menuUpdates();
     
-    // draw content menu
-    //contentUpdate();
+    // update auto system content
+    if (!bCove) c.update();
     
     // if auto system is active, run
     if (systemActive) autoSysUpdate();
@@ -750,9 +756,11 @@ void ofApp::draw()
     // draw ontop of all graphics
     drawVignette();
     
-    // draw project content
-//    if (bCove) content.drawContent();
-//    else content.drawContentTotem(route.activeProject, pointJump, randomItem, contentActive);
+    // draw cove content
+    if (bCove) menu.drawContent();
+    
+    // draw totem content
+    if (!bCove) c.draw();
     
     // if (!gui->getVisible()) tileLoader.labels.draw2D();
     if (bDebugMsg) drawDebugMsg();

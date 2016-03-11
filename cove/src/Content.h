@@ -10,18 +10,35 @@
 #pragma once
 
 #include "ofMain.h"
+//#include "InteractiveMenu.h"
 #include "ofxOBJModel.h"
-
-#define     POI             5
-#define		CONTENT_AMT		5
 
 class Content
 {
 public:
-    void setup(int _w, int _h, float _area, float _padding);
+    void setup();
+    void fileLocation();
     void update();
-    void draw(int _project, int _point, bool _draw);
+    void draw();
+    void load(int _project, int _point, int _item);
+    void stop();
     
-    // content
-    ofImage img[CONTENT_AMT];
+    // content locations
+    string path[2][5][5];
+    
+    // content type
+    ofImage img[5];
+    ofVideoPlayer vid[2][5];
+    
+    float scale[5];
+
+    
+    //InteractiveMenu menu;
+    
+    int project;
+    int point;
+    int item;
+    
+    bool loadData;
+    bool clear;
 };

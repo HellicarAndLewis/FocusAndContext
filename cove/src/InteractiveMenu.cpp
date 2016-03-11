@@ -64,8 +64,8 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     // right sub menu titles
     rPoints[4].title = "Tottenham Ct Rd";
     rPoints[3].title = "Barbican";
-    rPoints[2].title = "Canary Wharf";
-    rPoints[1].title = "Custom House";
+    rPoints[2].title = "Liverpool";
+    rPoints[1].title = "Canary Wharf";
     rPoints[0].title = "Woolwich";
     
     // setup left menu main
@@ -116,6 +116,8 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     // setup menu items
     setupLeftContent();
     setupRightContent();
+    
+    c.setup();
 }
 
 //--------------------------------------------------------------
@@ -391,7 +393,7 @@ void InteractiveMenu::update()
     transform();
     
     // draw menu content objects and lines
-    drawContent();
+    drawContentMenu();
     // content pressed
     pressedContent();
     // content position and size
@@ -422,6 +424,9 @@ void InteractiveMenu::update()
         
         rightSwitch = false;
     }
+    
+    // update content
+    c.update();
 }
 
 //--------------------------------------------------------------
@@ -1751,7 +1756,7 @@ void InteractiveMenu::transform()
 }
 
 //--------------------------------------------------------------
-void InteractiveMenu::drawContent()
+void InteractiveMenu::drawContentMenu()
 {
     // ----------------------------------
     // left content menu item 0 drawing
@@ -2028,6 +2033,11 @@ void InteractiveMenu::pressedContent()
         lCon0[4].isSelected = false;
         
         cout << "left content 0 button 0 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(0, 0, 0);
+        if (!Globals::vignetteOn)
+            Globals::vignetteOn = true;
     }
     else if (lCon0[1].isMousePressed() && bLPlace[0] && !lCon0[1].isSelected)
     {
@@ -2038,6 +2048,11 @@ void InteractiveMenu::pressedContent()
         lCon0[4].isSelected = false;
         
         cout << "left content 0 button 1 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(0, 0, 1);
+        if (!Globals::vignetteOn)
+            Globals::vignetteOn = true;
     }
     else if (lCon0[2].isMousePressed() && bLPlace[0] && !lCon0[2].isSelected)
     {
@@ -2048,6 +2063,11 @@ void InteractiveMenu::pressedContent()
         lCon0[4].isSelected = false;
         
         cout << "left content 0 button 2 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(0, 0, 2);
+        if (!Globals::vignetteOn)
+            Globals::vignetteOn = true;
     }
     else if (lCon0[3].isMousePressed() && bLPlace[0] && !lCon0[3].isSelected)
     {
@@ -2058,6 +2078,11 @@ void InteractiveMenu::pressedContent()
         lCon0[4].isSelected = false;
         
         cout << "left content 0 button 3 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(0, 0, 3);
+        if (!Globals::vignetteOn)
+            Globals::vignetteOn = true;
     }
     else if (lCon0[4].isMousePressed() && bLPlace[0] && !lCon0[4].isSelected)
     {
@@ -2068,14 +2093,25 @@ void InteractiveMenu::pressedContent()
         lCon0[4].isSelected = true;
         
         cout << "left content 0 button 4 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(0, 0, 4);
+        if (!Globals::vignetteOn)
+            Globals::vignetteOn = true;
     }
-    else if (!bLPlace[0])
+    else if (!bLPlace[0] && !bLPlace[1] && !bLPlace[2] && !bLPlace[3] && !bLPlace[4] && !bRPlace[0] && !bRPlace[1] && !bRPlace[2] && !bRPlace[3] && !bRPlace[4])
     {
         lCon0[0].isSelected = false;
         lCon0[1].isSelected = false;
         lCon0[2].isSelected = false;
         lCon0[3].isSelected = false;
         lCon0[4].isSelected = false;
+        
+        // close content, stop video, and disable vignette
+        c.item = 5;
+        c.stop();
+        if (Globals::vignetteOn)
+            Globals::vignetteOn = false;
     }
     
     
@@ -2091,6 +2127,10 @@ void InteractiveMenu::pressedContent()
         lCon1[4].isSelected = false;
         
         cout << "left content 1 button 0 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(0, 1, 0);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (lCon1[1].isMousePressed() && bLPlace[1] && !lCon1[1].isSelected)
     {
@@ -2101,6 +2141,10 @@ void InteractiveMenu::pressedContent()
         lCon1[4].isSelected = false;
         
         cout << "left content 1 button 1 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(0, 1, 1);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (lCon1[2].isMousePressed() && bLPlace[1] && !lCon1[2].isSelected)
     {
@@ -2111,6 +2155,10 @@ void InteractiveMenu::pressedContent()
         lCon1[4].isSelected = false;
         
         cout << "left content 1 button 2 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(0, 1, 2);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (lCon1[3].isMousePressed() && bLPlace[1] && !lCon1[3].isSelected)
     {
@@ -2121,6 +2169,10 @@ void InteractiveMenu::pressedContent()
         lCon1[4].isSelected = false;
         
         cout << "left content 1 button 3 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(0, 1, 3);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (lCon1[4].isMousePressed() && bLPlace[1] && !lCon1[4].isSelected)
     {
@@ -2131,14 +2183,23 @@ void InteractiveMenu::pressedContent()
         lCon1[4].isSelected = true;
         
         cout << "left content 1 button 4 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(0, 1, 4);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
-    else if (!bLPlace[1])
+    else if (!bLPlace[0] && !bLPlace[1] && !bLPlace[2] && !bLPlace[3] && !bLPlace[4] && !bRPlace[0] && !bRPlace[1] && !bRPlace[2] && !bRPlace[3] && !bRPlace[4])
     {
         lCon1[0].isSelected = false;
         lCon1[1].isSelected = false;
         lCon1[2].isSelected = false;
         lCon1[3].isSelected = false;
         lCon1[4].isSelected = false;
+        
+        // close content, stop video, and disable vignette
+        c.item = 5;
+        c.stop();
+        if (Globals::vignetteOn) Globals::vignetteOn = false;
     }
     
     
@@ -2154,6 +2215,10 @@ void InteractiveMenu::pressedContent()
         lCon2[4].isSelected = false;
         
         cout << "left content 2 button 0 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(0, 2, 0);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (lCon2[1].isMousePressed() && bLPlace[2] && !lCon2[1].isSelected)
     {
@@ -2164,6 +2229,10 @@ void InteractiveMenu::pressedContent()
         lCon2[4].isSelected = false;
         
         cout << "left content 2 button 1 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(0, 2, 1);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (lCon2[2].isMousePressed() && bLPlace[2] && !lCon2[2].isSelected)
     {
@@ -2174,6 +2243,10 @@ void InteractiveMenu::pressedContent()
         lCon2[4].isSelected = false;
         
         cout << "left content 2 button 2 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(0, 2, 2);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (lCon2[3].isMousePressed() && bLPlace[2] && !lCon2[3].isSelected)
     {
@@ -2184,6 +2257,10 @@ void InteractiveMenu::pressedContent()
         lCon2[4].isSelected = false;
         
         cout << "left content 2 button 3 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(0, 2, 3);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (lCon2[4].isMousePressed() && bLPlace[2] && !lCon2[4].isSelected)
     {
@@ -2194,14 +2271,23 @@ void InteractiveMenu::pressedContent()
         lCon2[4].isSelected = true;
         
         cout << "left content 2 button 4 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(0, 2, 4);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
-    else if (!bLPlace[2])
+    else if (!bLPlace[0] && !bLPlace[1] && !bLPlace[2] && !bLPlace[3] && !bLPlace[4] && !bRPlace[0] && !bRPlace[1] && !bRPlace[2] && !bRPlace[3] && !bRPlace[4])
     {
         lCon2[0].isSelected = false;
         lCon2[1].isSelected = false;
         lCon2[2].isSelected = false;
         lCon2[3].isSelected = false;
         lCon2[4].isSelected = false;
+        
+        // close content, stop video, and disable vignette
+        c.item = 5;
+        c.stop();
+        if (Globals::vignetteOn) Globals::vignetteOn = false;
     }
     
     
@@ -2217,6 +2303,10 @@ void InteractiveMenu::pressedContent()
         lCon3[4].isSelected = false;
         
         cout << "left content 3 button 0 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(0, 3, 0);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (lCon3[1].isMousePressed() && bLPlace[3] && !lCon3[1].isSelected)
     {
@@ -2227,6 +2317,10 @@ void InteractiveMenu::pressedContent()
         lCon3[4].isSelected = false;
         
         cout << "left content 3 button 1 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(0, 3, 1);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (lCon3[2].isMousePressed() && bLPlace[3] && !lCon3[2].isSelected)
     {
@@ -2237,6 +2331,10 @@ void InteractiveMenu::pressedContent()
         lCon3[4].isSelected = false;
         
         cout << "left content 3 button 2 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(0, 3, 2);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (lCon3[3].isMousePressed() && bLPlace[3] && !lCon3[3].isSelected)
     {
@@ -2247,6 +2345,10 @@ void InteractiveMenu::pressedContent()
         lCon3[4].isSelected = false;
         
         cout << "left content 3 button 3 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(0, 3, 3);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (lCon3[4].isMousePressed() && bLPlace[3] && !lCon3[4].isSelected)
     {
@@ -2257,14 +2359,23 @@ void InteractiveMenu::pressedContent()
         lCon3[4].isSelected = true;
         
         cout << "left content 3 button 4 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(0, 3, 4);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
-    else if (!bLPlace[3])
+    else if (!bLPlace[0] && !bLPlace[1] && !bLPlace[2] && !bLPlace[3] && !bLPlace[4] && !bRPlace[0] && !bRPlace[1] && !bRPlace[2] && !bRPlace[3] && !bRPlace[4])
     {
         lCon3[0].isSelected = false;
         lCon3[1].isSelected = false;
         lCon3[2].isSelected = false;
         lCon3[3].isSelected = false;
         lCon3[4].isSelected = false;
+        
+        // close content, stop video, and disable vignette
+        c.item = 5;
+        c.stop();
+        if (Globals::vignetteOn) Globals::vignetteOn = false;
     }
     
     // ------------------------------------
@@ -2279,6 +2390,10 @@ void InteractiveMenu::pressedContent()
         lCon4[4].isSelected = false;
         
         cout << "left content 4 button 0 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(0, 4, 0);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (lCon4[1].isMousePressed() && bLPlace[4] && !lCon4[1].isSelected)
     {
@@ -2289,6 +2404,10 @@ void InteractiveMenu::pressedContent()
         lCon4[4].isSelected = false;
         
         cout << "left content 4 button 1 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(0, 4, 1);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (lCon4[2].isMousePressed() && bLPlace[4] && !lCon4[2].isSelected)
     {
@@ -2299,6 +2418,10 @@ void InteractiveMenu::pressedContent()
         lCon4[4].isSelected = false;
         
         cout << "left content 4 button 2 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(0, 4, 2);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (lCon4[3].isMousePressed() && bLPlace[4] && !lCon4[3].isSelected)
     {
@@ -2309,6 +2432,10 @@ void InteractiveMenu::pressedContent()
         lCon4[4].isSelected = false;
         
         cout << "left content 4 button 3 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(0, 4, 3);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (lCon4[4].isMousePressed() && bLPlace[4] && !lCon4[4].isSelected)
     {
@@ -2319,14 +2446,23 @@ void InteractiveMenu::pressedContent()
         lCon4[4].isSelected = true;
         
         cout << "left content 4 button 4 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(0, 4, 4);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
-    else if (!bLPlace[4])
+    else if (!bLPlace[0] && !bLPlace[1] && !bLPlace[2] && !bLPlace[3] && !bLPlace[4] && !bRPlace[0] && !bRPlace[1] && !bRPlace[2] && !bRPlace[3] && !bRPlace[4])
     {
         lCon4[0].isSelected = false;
         lCon4[1].isSelected = false;
         lCon4[2].isSelected = false;
         lCon4[3].isSelected = false;
         lCon4[4].isSelected = false;
+        
+        // close content, stop video, and disable vignette
+        c.item = 5;
+        c.stop();
+        if (Globals::vignetteOn) Globals::vignetteOn = false;
     }
     
     
@@ -2342,6 +2478,10 @@ void InteractiveMenu::pressedContent()
         rCon0[4].isSelected = false;
         
         cout << "right content 0 button 0 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(1, 0, 0);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon0[1].isMousePressed() && bRPlace[0] && !rCon0[1].isSelected)
     {
@@ -2352,6 +2492,10 @@ void InteractiveMenu::pressedContent()
         rCon0[4].isSelected = false;
         
         cout << "right content 0 button 1 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(1, 0, 1);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon0[2].isMousePressed() && bRPlace[0] && !rCon0[2].isSelected)
     {
@@ -2362,6 +2506,10 @@ void InteractiveMenu::pressedContent()
         rCon0[4].isSelected = false;
         
         cout << "right content 0 button 2 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(1, 0, 2);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon0[3].isMousePressed() && bRPlace[0] && !rCon0[3].isSelected)
     {
@@ -2372,6 +2520,10 @@ void InteractiveMenu::pressedContent()
         rCon0[4].isSelected = false;
         
         cout << "right content 0 button 3 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(1, 0, 3);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon0[4].isMousePressed() && bRPlace[0] && !rCon0[4].isSelected)
     {
@@ -2382,14 +2534,23 @@ void InteractiveMenu::pressedContent()
         rCon0[4].isSelected = true;
         
         cout << "right content 0 button 4 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(1, 0, 4);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
-    else if (!bRPlace[0])
+    else if (!bLPlace[0] && !bLPlace[1] && !bLPlace[2] && !bLPlace[3] && !bLPlace[4] && !bRPlace[0] && !bRPlace[1] && !bRPlace[2] && !bRPlace[3] && !bRPlace[4])
     {
         rCon0[0].isSelected = false;
         rCon0[1].isSelected = false;
         rCon0[2].isSelected = false;
         rCon0[3].isSelected = false;
         rCon0[4].isSelected = false;
+        
+        // close content, stop video, and disable vignette
+        c.item = 5;
+        c.stop();
+        if (Globals::vignetteOn) Globals::vignetteOn = false;
     }
     
     
@@ -2405,6 +2566,10 @@ void InteractiveMenu::pressedContent()
         rCon1[4].isSelected = false;
         
         cout << "right content 1 button 0 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(1, 1, 0);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon1[1].isMousePressed() && bRPlace[1] && !rCon1[1].isSelected)
     {
@@ -2415,6 +2580,10 @@ void InteractiveMenu::pressedContent()
         rCon1[4].isSelected = false;
         
         cout << "right content 1 button 1 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(1, 1, 1);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon1[2].isMousePressed() && bRPlace[1] && !rCon1[2].isSelected)
     {
@@ -2425,6 +2594,10 @@ void InteractiveMenu::pressedContent()
         rCon1[4].isSelected = false;
         
         cout << "right content 1 button 2 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(1, 1, 2);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon1[3].isMousePressed() && bRPlace[1] && !rCon1[3].isSelected)
     {
@@ -2435,6 +2608,10 @@ void InteractiveMenu::pressedContent()
         rCon1[4].isSelected = false;
         
         cout << "right content 1 button 3 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(1, 1, 3);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon1[4].isMousePressed() && bRPlace[1] && !rCon1[4].isSelected)
     {
@@ -2445,14 +2622,23 @@ void InteractiveMenu::pressedContent()
         rCon1[4].isSelected = true;
         
         cout << "right content 1 button 4 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(1, 1, 4);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
-    else if (!bRPlace[1])
+    else if (!bLPlace[0] && !bLPlace[1] && !bLPlace[2] && !bLPlace[3] && !bLPlace[4] && !bRPlace[0] && !bRPlace[1] && !bRPlace[2] && !bRPlace[3] && !bRPlace[4])
     {
         rCon1[0].isSelected = false;
         rCon1[1].isSelected = false;
         rCon1[2].isSelected = false;
         rCon1[3].isSelected = false;
         rCon1[4].isSelected = false;
+        
+        // close content, stop video, and disable vignette
+        c.item = 5;
+        c.stop();
+        if (Globals::vignetteOn) Globals::vignetteOn = false;
     }
     
     
@@ -2468,6 +2654,10 @@ void InteractiveMenu::pressedContent()
         rCon2[4].isSelected = false;
         
         cout << "right content 2 button 0 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(1, 2, 0);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon2[1].isMousePressed() && bRPlace[2] && !rCon2[1].isSelected)
     {
@@ -2478,6 +2668,10 @@ void InteractiveMenu::pressedContent()
         rCon2[4].isSelected = false;
         
         cout << "right content 2 button 1 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(1, 2, 1);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon2[2].isMousePressed() && bRPlace[2] && !rCon2[2].isSelected)
     {
@@ -2488,6 +2682,10 @@ void InteractiveMenu::pressedContent()
         rCon2[4].isSelected = false;
         
         cout << "right content 2 button 2 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(1, 2, 2);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon2[3].isMousePressed() && bRPlace[2] && !rCon2[3].isSelected)
     {
@@ -2498,6 +2696,10 @@ void InteractiveMenu::pressedContent()
         rCon2[4].isSelected = false;
         
         cout << "right content 2 button 3 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(1, 2, 3);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon2[4].isMousePressed() && bRPlace[2] && !rCon2[4].isSelected)
     {
@@ -2508,14 +2710,23 @@ void InteractiveMenu::pressedContent()
         rCon2[4].isSelected = true;
         
         cout << "right content 2 button 4 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(1, 2, 4);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
-    else if (!bRPlace[2])
+    else if (!bLPlace[0] && !bLPlace[1] && !bLPlace[2] && !bLPlace[3] && !bLPlace[4] && !bRPlace[0] && !bRPlace[1] && !bRPlace[2] && !bRPlace[3] && !bRPlace[4])
     {
         rCon2[0].isSelected = false;
         rCon2[1].isSelected = false;
         rCon2[2].isSelected = false;
         rCon2[3].isSelected = false;
         rCon2[4].isSelected = false;
+        
+        // close content, stop video, and disable vignette
+        c.item = 5;
+        c.stop();
+        if (Globals::vignetteOn) Globals::vignetteOn = false;
     }
     
     
@@ -2531,6 +2742,10 @@ void InteractiveMenu::pressedContent()
         rCon3[4].isSelected = false;
         
         cout << "right content 3 button 0 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(1, 3, 0);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon3[1].isMousePressed() && bRPlace[3] && !rCon3[1].isSelected)
     {
@@ -2541,6 +2756,10 @@ void InteractiveMenu::pressedContent()
         rCon3[4].isSelected = false;
         
         cout << "right content 3 button 1 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(1, 3, 1);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon3[2].isMousePressed() && bRPlace[3] && !rCon3[2].isSelected)
     {
@@ -2551,6 +2770,10 @@ void InteractiveMenu::pressedContent()
         rCon3[4].isSelected = false;
         
         cout << "right content 3 button 2 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(1, 3, 2);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon3[3].isMousePressed() && bRPlace[3] && !rCon3[3].isSelected)
     {
@@ -2561,6 +2784,10 @@ void InteractiveMenu::pressedContent()
         rCon3[4].isSelected = false;
         
         cout << "right content 3 button 3 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(1, 3, 3);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon3[4].isMousePressed() && bRPlace[3] && !rCon3[4].isSelected)
     {
@@ -2571,14 +2798,23 @@ void InteractiveMenu::pressedContent()
         rCon3[4].isSelected = true;
         
         cout << "right content 3 button 4 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(1, 3, 4);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
-    else if (!bRPlace[3])
+    else if (!bLPlace[0] && !bLPlace[1] && !bLPlace[2] && !bLPlace[3] && !bLPlace[4] && !bRPlace[0] && !bRPlace[1] && !bRPlace[2] && !bRPlace[3] && !bRPlace[4])
     {
         rCon3[0].isSelected = false;
         rCon3[1].isSelected = false;
         rCon3[2].isSelected = false;
         rCon3[3].isSelected = false;
         rCon3[4].isSelected = false;
+        
+        // close content, stop video, and disable vignette
+        c.item = 5;
+        c.stop();
+        if (Globals::vignetteOn) Globals::vignetteOn = false;
     }
     
     
@@ -2594,6 +2830,10 @@ void InteractiveMenu::pressedContent()
         rCon4[4].isSelected = false;
         
         cout << "right content 4 button 0 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(1, 4, 0);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon4[1].isMousePressed() && bRPlace[4] && !rCon4[1].isSelected)
     {
@@ -2604,6 +2844,10 @@ void InteractiveMenu::pressedContent()
         rCon4[4].isSelected = false;
         
         cout << "right content 4 button 1 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(1, 4, 1);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon4[2].isMousePressed() && bRPlace[4] && !rCon4[2].isSelected)
     {
@@ -2614,6 +2858,10 @@ void InteractiveMenu::pressedContent()
         rCon4[4].isSelected = false;
         
         cout << "right content 4 button 2 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(1, 4, 2);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon4[3].isMousePressed() && bRPlace[4] && !rCon4[3].isSelected)
     {
@@ -2624,6 +2872,10 @@ void InteractiveMenu::pressedContent()
         rCon4[4].isSelected = false;
         
         cout << "right content 4 button 3 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(1, 4, 3);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon4[4].isMousePressed() && bRPlace[4] && !rCon4[4].isSelected)
     {
@@ -2634,13 +2886,29 @@ void InteractiveMenu::pressedContent()
         rCon4[4].isSelected = true;
         
         cout << "right content 4 button 4 was selected." << endl;
+        
+        // load current content, enable vignette
+        c.load(1, 4, 4);
+        if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
-    else if (!bRPlace[4])
+    else if (!bLPlace[0] && !bLPlace[1] && !bLPlace[2] && !bLPlace[3] && !bLPlace[4] && !bRPlace[0] && !bRPlace[1] && !bRPlace[2] && !bRPlace[3] && !bRPlace[4])
     {
         rCon4[0].isSelected = false;
         rCon4[1].isSelected = false;
         rCon4[2].isSelected = false;
         rCon4[3].isSelected = false;
         rCon4[4].isSelected = false;
+        
+        // close content, stop video, and disable vignette
+        c.item = 5;
+        c.stop();
+        if (Globals::vignetteOn) Globals::vignetteOn = false;
     }
+}
+
+//--------------------------------------------------------------
+void InteractiveMenu::drawContent()
+{
+    // content class draw function
+    c.draw();
 }

@@ -222,11 +222,11 @@
         <detailImg></detailImg>
     </location>
     <location>
-        <title></title>
-        <lat>-0.08945</lat>
-        <lon>51.51836</lon>
-        <titleImg></titleImg>
-        <detailImg></detailImg>
+        <title>Liverpool</title>
+        <lat>-0.081437</lat>
+        <lon>51.518745</lon>
+        <titleImg>Liverpool.png</titleImg>
+        <detailImg>Liverpool.png</detailImg>
     </location>
     <location>
         <title></title>
@@ -430,13 +430,6 @@
         <lon>51.5090</lon>
         <titleImg></titleImg>
         <detailImg></detailImg>
-    </location>
-    <location>
-        <title>Custom House</title>
-        <lat>0.0266709</lat>
-        <lon>51.5099393</lon>
-        <titleImg>Custom House.png</titleImg>
-        <detailImg>Custom House.png</detailImg>
     </location>
     <location>
         <title></title>
