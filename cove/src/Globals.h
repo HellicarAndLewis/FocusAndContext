@@ -3,7 +3,7 @@
 //  Cove
 //
 //  Created by Jason Walters on 3/03/2016.
-//  Last edited by Jason Walters on 3/03/2016.
+//  Last edited by Jason Walters on 11/03/2016.
 //
 //
 
@@ -22,6 +22,7 @@ public:
     
     // project selected
     static bool programType;
+    static bool autoRoute;
     static int project;
     
     static float mY;

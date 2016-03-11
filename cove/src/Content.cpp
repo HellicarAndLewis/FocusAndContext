@@ -13,6 +13,9 @@
 //--------------------------------------------------------------
 void Content::setup()
 {
+    // model camera view distance
+    cam.setFarClip(6000);
+    
     // setup file paths
     fileLocation();
 }
@@ -24,70 +27,70 @@ void Content::fileLocation()
     path[0][0][0] = "content/media/HS1/Location/StPancras/Text/StPancras.png";
     path[0][0][1] = "content/media/HS1/Location/StPancras/Image/ModelSlabPressuresKingsCross.jpg";
     path[0][0][2] = "content/media/Placeholder/no_video.mp4";
-    path[0][0][3] = "content/media/Placeholder/no_data.jpg";
+    path[0][0][3] = "content/media/Placeholder/no_model.obj";
     path[0][0][4] = "content/media/Placeholder/no_data.jpg";
     
     // HS1 - Stratford - StratfordInternational
     path[0][1][0] = "content/media/HS1/Location/StratfordInternational/Text/StratfordInternational.png";
     path[0][1][1] = "content/media/HS1/Location/StratfordInternational/Image/HighSpeedHS1HawkEditions.jpg";
     path[0][1][2] = "content/media/Placeholder/no_video.mp4";
-    path[0][1][3] = "content/media/Placeholder/no_data.jpg";
+    path[0][1][3] = "content/media/Placeholder/no_model.obj";
     path[0][1][4] = "content/media/Placeholder/no_data.jpg";
     
     // HS1 - Ebbsfleet - EbbsfleetInternational
     path[0][2][0] = "content/media/HS1/Location/EbbsfleetInternational/Text/EbbsfleetInternational.png";
     path[0][2][1] = "content/media/HS1/Location/EbbsfleetInternational/Image/EbbsfleetElephant.jpg";
     path[0][2][2] = "content/media/HS1/Location/EbbsfleetInternational/Video/BridgePush.mpg";
-    path[0][2][3] = "content/media/Placeholder/no_data.jpg";
+    path[0][2][3] = "content/media/Placeholder/no_model.obj";
     path[0][2][4] = "content/media/Placeholder/no_data.jpg";
     
     // HS1 - Medway Viaduct
     path[0][3][0] = "content/media/HS1/Location/MedwayViaduct/Text/MedwayViaduct.png";
     path[0][3][1] = "content/media/HS1/Location/MedwayViaduct/Image/MedwayViaduct01.jpg";
     path[0][3][2] = "content/media/HS1/Location/MedwayViaduct/Video/CTRL.mp4";
-    path[0][3][3] = "content/media/Placeholder/no_data.jpg";
+    path[0][3][3] = "content/media/Placeholder/no_model.obj";
     path[0][3][4] = "content/media/Placeholder/no_data.jpg";
     
     // HS1 - Ashford
     path[0][4][0] = "content/media/HS1/Location/AshfordInternational/Text/PlanningTheRoute.png";
     path[0][4][1] = "content/media/HS1/Location/AshfordInternational/Image/HS1RouteIntersectingWithExistingRailLinks.jpg";
     path[0][4][2] = "content/media/HS1/Location/AshfordInternational/Video/Ctrl.mp4";
-    path[0][4][3] = "content/media/Placeholder/no_data.jpg";
+    path[0][4][3] = "content/media/Placeholder/no_model.obj";
     path[0][4][4] = "content/media/Placeholder/no_data.jpg";
     
     // Crossrail - Woolwich
     path[1][0][4] = "content/media/Placeholder/no_data.jpg";
     path[1][0][3] = "content/media/Placeholder/no_data.jpg";
     path[1][0][2] = "content/media/Placeholder/no_video.mp4";
-    path[1][0][1] = "content/media/Placeholder/no_data.jpg";
+    path[1][0][1] = "content/media/Placeholder/no_model.obj";
     path[1][0][0] = "content/media/Placeholder/no_data.jpg";
     
     // Crossrail - Canary Wharf
     path[1][1][4] = "content/media/Crossrail/Location/CanaryWharf/Text/PlanningForAShipImpact.png";
     path[1][1][3] = "content/media/Crossrail/Location/CanaryWharf/Image/CanaryWharfStation.jpg";
     path[1][1][2] = "content/media/Crossrail/Location/CanaryWharf/Video/CrossrailTimeLapseVideoDrainingOfNorthDock.mov";
-    path[1][1][1] = "content/media/Placeholder/no_data.jpg";
+    path[1][1][1] = "content/media/Placeholder/no_model.obj";
     path[1][1][0] = "content/media/Placeholder/no_data.jpg";
     
     // Crossrail - Liverpool
     path[1][2][4] = "content/media/Crossrail/Location/LiverpoolStreet/Text/ArcheologicalDiscoveries.png";
     path[1][2][3] = "content/media/Crossrail/Location/LiverpoolStreet/Image/RomanCopperAlloyAndSilverCoins.jpg";
     path[1][2][2] = "content/media/Crossrail/Location/LiverpoolStreet/Video/CrossrailArchaeologyLiverpoolStreet.mp4";
-    path[1][2][1] = "content/media/Placeholder/no_data.jpg";
+    path[1][2][1] = "content/media/Placeholder/no_model.obj";
     path[1][2][0] = "content/media/Placeholder/no_data.jpg";
     
     // Crossrail - Barbican
     path[1][3][4] = "content/media/Crossrail/Location/Barbican/Text/FloatingTracks.png";
     path[1][3][3] = "content/media/Crossrail/Location/Barbican/Image/Gantry3dModel.jpg";
     path[1][3][2] = "content/media/Crossrail/Location/Barbican/Video/CrossrailRailwaySystems.mp4";
-    path[1][3][1] = "content/media/Placeholder/no_data.jpg";
+    path[1][3][1] = "content/media/Placeholder/no_model.obj";
     path[1][3][0] = "content/media/Placeholder/no_data.jpg";
     
     // Crossrail - Tottenham Court Road
     path[1][4][4] = "content/media/Crossrail/Location/TottenhamCourtRoad/Text/TheEyeOfTheNeedle.png";
     path[1][4][3] = "content/media/Crossrail/Location/TottenhamCourtRoad/Image/TottenhamCourtRoadStationArchitectsImpression01.jpg";
     path[1][4][2] = "content/media/Crossrail/Location/TottenhamCourtRoad/Video/BreakthroughCrossrailsTunnellingStory.mp4";
-    path[1][4][1] = "content/media/Placeholder/no_data.jpg";
+    path[1][4][1] = "content/media/Placeholder/no_model.obj";
     path[1][4][0] = "content/media/Placeholder/no_data.jpg";
     
     // pre-load all videos
@@ -137,12 +140,15 @@ void Content::scaling()
             scale[2] = ofLerp(scale[2], 0.0, lerpIn);
             scale[3] = ofLerp(scale[3], 0.0, lerpIn);
             scale[4] = ofLerp(scale[4], 0.0, lerpIn);
+            camZoom = ofLerp(camZoom, 8000, lerpIn * 0.1);
             break;
             
         case 1:
             if (scale[0] <= dest && scale[2] <= dest && scale[3] <= dest && scale[4] <= dest)
             {
                 scale[1] = ofLerp(scale[1], 1.0, lerpOut);
+                
+                if (project == 1) camZoom = ofLerp(camZoom, 250, lerpOut);
                 
                 // stop any videos running
                 stop();
@@ -152,6 +158,7 @@ void Content::scaling()
             scale[2] = ofLerp(scale[2], 0.0, lerpIn);
             scale[3] = ofLerp(scale[3], 0.0, lerpIn);
             scale[4] = ofLerp(scale[4], 0.0, lerpIn);
+            if (project == 0)  camZoom = ofLerp(camZoom, 8000, lerpIn * 0.1);
             break;
             
         case 2:
@@ -164,12 +171,15 @@ void Content::scaling()
             scale[1] = ofLerp(scale[1], 0.0, lerpIn);
             scale[3] = ofLerp(scale[3], 0.0, lerpIn);
             scale[4] = ofLerp(scale[4], 0.0, lerpIn);
+            camZoom = ofLerp(camZoom, 8000, lerpIn * 0.1);
             break;
             
         case 3:
             if (scale[0] <= dest && scale[1] <= dest && scale[2] <= dest && scale[4] <= dest)
             {
                 scale[3] = ofLerp(scale[3], 1.0, lerpOut);
+                
+                if (project == 0) camZoom = ofLerp(camZoom, 250, lerpOut);
                 
                 // stop any videos running
                 stop();
@@ -179,6 +189,8 @@ void Content::scaling()
             scale[1] = ofLerp(scale[1], 0.0, lerpIn);
             scale[2] = ofLerp(scale[2], 0.0, lerpIn);
             scale[4] = ofLerp(scale[4], 0.0, lerpIn);
+            
+            if (project == 1) camZoom = ofLerp(camZoom, 8000, lerpIn * 0.1);
             break;
             
         case 4:
@@ -194,6 +206,7 @@ void Content::scaling()
             scale[1] = ofLerp(scale[1], 0.0, lerpIn);
             scale[2] = ofLerp(scale[2], 0.0, lerpIn);
             scale[3] = ofLerp(scale[3], 0.0, lerpIn);
+            camZoom = ofLerp(camZoom, 8000, lerpIn * 0.1);
             break;
             
         case 5:
@@ -202,6 +215,7 @@ void Content::scaling()
             scale[2] = ofLerp(scale[2], 0.0, lerpIn);
             scale[3] = ofLerp(scale[3], 0.0, lerpIn);
             scale[4] = ofLerp(scale[4], 0.0, lerpIn);
+            camZoom = ofLerp(camZoom, 8000, lerpIn * 0.1);
             
             if (scale[2] <= dest)
                 stop();
@@ -212,118 +226,201 @@ void Content::scaling()
 //--------------------------------------------------------------
 void Content::draw()
 {
-    float screenWidth = 1080;
+    if (Globals::programType) screenWidth = 1080;
+    else screenWidth = 1600;
+    
     float percentage = 0.75;
     float alpha = 75;
+    float camPam = 0.5;
     int sOffset = 6;
     
-    // draws text content (text is currently an image)
-    ofSetRectMode(OF_RECTMODE_CENTER);
-    if (img[0].isAllocated())
-    {
-        // gets the difference between screen width and adjusts
-        float diff = screenWidth / img[0].getWidth();
-        float w = (img[0].getWidth() * diff) * percentage;
-        float h = (img[0].getHeight() * diff) * percentage;
-        
-        // content shadow
-        ofSetColor(0, alpha);
-        ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[0], h * scale[0]);
-        
-        // content item
-        ofSetColor(255);
-        img[0].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[0], h * scale[0]);
-    }
-    
-    // draws image content
-    if (img[1].isAllocated())
-    {
-        // gets the difference between screen width and adjusts
-        float diff = screenWidth / img[1].getWidth();
-        float w = (img[1].getWidth() * diff) * percentage;
-        float h = (img[1].getHeight() * diff) * percentage;
-        
-        // content shadow
-        ofSetColor(0, alpha);
-        ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[1], h * scale[1]);
-        
-        // content item
-        ofSetColor(255);
-        img[1].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[1], h * scale[1]);
-    }
-    
-    // draws video content
-    for (int i = 0; i < 5; i++)
-    {
-        // hs1 project video content
-        if (vid[0][i].isPlaying())
+    if (project == 0) {
+        // draws text content (text is currently an image)
+        ofSetRectMode(OF_RECTMODE_CENTER);
+        if (img[0].isAllocated())
         {
             // gets the difference between screen width and adjusts
-            float diff = screenWidth / vid[0][i].getWidth();
-            float w = (vid[0][i].getWidth() * diff) * percentage;
-            float h = (vid[0][i].getHeight() * diff) * percentage;
+            float diff = screenWidth / img[0].getWidth();
+            float w = (img[0].getWidth() * diff) * percentage;
+            float h = (img[0].getHeight() * diff) * percentage;
             
             // content shadow
             ofSetColor(0, alpha);
-            ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[2], h * scale[2]);
+            ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[0], h * scale[0]);
             
             // content item
             ofSetColor(255);
-            vid[0][i].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[2], h * scale[2]);
+            img[0].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[0], h * scale[0]);
         }
         
-        // crossrail project video content
-        if (vid[1][i].isPlaying())
+        // draws image content
+        if (img[1].isAllocated())
         {
             // gets the difference between screen width and adjusts
-            float diff = screenWidth / vid[1][i].getWidth();
-            float w = (vid[1][i].getWidth() * diff) * percentage;
-            float h = (vid[1][i].getHeight() * diff) * percentage;
+            float diff = screenWidth / img[1].getWidth();
+            float w = (img[1].getWidth() * diff) * percentage;
+            float h = (img[1].getHeight() * diff) * percentage;
             
             // content shadow
             ofSetColor(0, alpha);
-            ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[2], h * scale[2]);
+            ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[1], h * scale[1]);
             
             // content item
             ofSetColor(255);
-            vid[1][i].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[2], h * scale[2]);
+            img[1].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[1], h * scale[1]);
         }
+        
+        // draws video content
+        for (int i = 0; i < 5; i++)
+        {
+            // hs1 project video content
+            if (vid[0][i].isPlaying())
+            {
+                // gets the difference between screen width and adjusts
+                float diff = screenWidth / vid[0][i].getWidth();
+                float w = (vid[0][i].getWidth() * diff) * percentage;
+                float h = (vid[0][i].getHeight() * diff) * percentage;
+                
+                // content shadow
+                ofSetColor(0, alpha);
+                ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[2], h * scale[2]);
+                
+                // content item
+                ofSetColor(255);
+                vid[0][i].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[2], h * scale[2]);
+            }
+            
+            // crossrail project video content
+            if (vid[1][i].isPlaying())
+            {
+                // gets the difference between screen width and adjusts
+                float diff = screenWidth / vid[1][i].getWidth();
+                float w = (vid[1][i].getWidth() * diff) * percentage;
+                float h = (vid[1][i].getHeight() * diff) * percentage;
+                
+                // content shadow
+                ofSetColor(0, alpha);
+                ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[2], h * scale[2]);
+                
+                // content item
+                ofSetColor(255);
+                vid[1][i].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[2], h * scale[2]);
+            }
+        }
+        
+        // model drawing
+        // rotate on y axis
+        cam.pan(camPam);
+        cam.setDistance(camZoom);
+        ofEnableDepthTest();
+        cam.begin();
+        model.getVboMesh()->drawFaces();
+        cam.end();
+        ofDisableDepthTest();
+        
+        // image 4 is placeholder for audio content
+        if (img[4].isAllocated())
+        {
+            // gets the difference between screen width and adjusts
+            float diff = screenWidth / img[4].getWidth();
+            float w = (img[4].getWidth() * diff) * percentage;
+            float h = (img[4].getHeight() * diff) * percentage;
+            
+            // content shadow
+            ofSetColor(0, alpha);
+            ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[4], h * scale[4]);
+            
+            // content item
+            ofSetColor(255);
+            img[4].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[4], h * scale[4]);
+        }
+        ofSetRectMode(OF_RECTMODE_CORNER);
     }
-    
-    // image 3 is placeholder for model content
-    if (img[3].isAllocated())
-    {
-        // gets the difference between screen width and adjusts
-        float diff = screenWidth / img[3].getWidth();
-        float w = (img[3].getWidth() * diff) * percentage;
-        float h = (img[3].getHeight() * diff) * percentage;
+    else {
+        // draws text content (text is currently an image)
+        ofSetRectMode(OF_RECTMODE_CENTER);
+        if (img[4].isAllocated())
+        {
+            // gets the difference between screen width and adjusts
+            float diff = screenWidth / img[4].getWidth();
+            float w = (img[4].getWidth() * diff) * percentage;
+            float h = (img[4].getHeight() * diff) * percentage;
+            
+            // content shadow
+            ofSetColor(0, alpha);
+            ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[4], h * scale[4]);
+            
+            // content item
+            ofSetColor(255);
+            img[4].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[4], h * scale[4]);
+        }
         
-        // content shadow
-        ofSetColor(0, alpha);
-        ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[3], h * scale[3]);
+        // draws image content
+        if (img[3].isAllocated())
+        {
+            // gets the difference between screen width and adjusts
+            float diff = screenWidth / img[3].getWidth();
+            float w = (img[3].getWidth() * diff) * percentage;
+            float h = (img[3].getHeight() * diff) * percentage;
+            
+            // content shadow
+            ofSetColor(0, alpha);
+            ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[3], h * scale[3]);
+            
+            // content item
+            ofSetColor(255);
+            img[3].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[3], h * scale[3]);
+        }
         
-        // content item
-        ofSetColor(255);
-        img[3].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[3], h * scale[3]);
+        // draws video content
+        for (int i = 0; i < 5; i++)
+        {
+            // crossrail project video content
+            if (vid[1][i].isPlaying())
+            {
+                // gets the difference between screen width and adjusts
+                float diff = screenWidth / vid[1][i].getWidth();
+                float w = (vid[1][i].getWidth() * diff) * percentage;
+                float h = (vid[1][i].getHeight() * diff) * percentage;
+                
+                // content shadow
+                ofSetColor(0, alpha);
+                ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[2], h * scale[2]);
+                
+                // content item
+                ofSetColor(255);
+                vid[1][i].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[2], h * scale[2]);
+            }
+        }
+        
+        // model drawing
+        // rotate on y axis
+        cam.pan(camPam);
+        cam.setDistance(camZoom);
+        ofEnableDepthTest();
+        cam.begin();
+        model.getVboMesh()->draw();
+        cam.end();
+        ofDisableDepthTest();
+        
+        // image is placeholder for audio content
+        if (img[0].isAllocated())
+        {
+            // gets the difference between screen width and adjusts
+            float diff = screenWidth / img[0].getWidth();
+            float w = (img[0].getWidth() * diff) * percentage;
+            float h = (img[0].getHeight() * diff) * percentage;
+            
+            // content shadow
+            ofSetColor(0, alpha);
+            ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[0], h * scale[0]);
+            
+            // content item
+            ofSetColor(255);
+            img[0].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[0], h * scale[0]);
+        }
+        ofSetRectMode(OF_RECTMODE_CORNER);
     }
-    
-    // image 4 is placeholder for audio content
-    if (img[4].isAllocated())
-    {
-        // gets the difference between screen width and adjusts
-        float diff = screenWidth / img[4].getWidth();
-        float w = (img[4].getWidth() * diff) * percentage;
-        float h = (img[4].getHeight() * diff) * percentage;
-        
-        // content shadow
-        ofSetColor(0, alpha);
-        ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[4], h * scale[4]);
-        
-        // content item
-        ofSetColor(255);
-        img[4].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[4], h * scale[4]);
-    }
-    ofSetRectMode(OF_RECTMODE_CORNER);
 }
 
 //--------------------------------------------------------------
@@ -333,15 +430,53 @@ void Content::load(int _project, int _point, int _item)
     point = _point;
     item = _item;
     
-    if (item != 2)
-    {
-        // loads specific image
-        img[item].load(path[project][point][item]);
+    if (project == 0) {
+        switch (item) {
+            case 0:
+                // loads specific image
+                img[item].load(path[project][point][item]);
+                break;
+            case 1:
+                // loads specific image
+                img[item].load(path[project][point][item]);
+                break;
+            case 2:
+                // videos are pre-loaded, play video selection
+                if (!vid[project][point].isPlaying()) vid[project][point].play();
+                break;
+            case 3:
+                // load models
+                model.load(path[project][point][item]);
+                break;
+            case 4:
+                // loads specific image
+                img[item].load(path[project][point][item]);
+                break;
+        }
     }
-    else
-    {
-        // videos are pre-loaded, play video selection
-        if (!vid[project][point].isPlaying()) vid[project][point].play();
+    else {
+        switch (item) {
+            case 4:
+                // loads specific image
+                img[item].load(path[project][point][item]);
+                break;
+            case 3:
+                // loads specific image
+                img[item].load(path[project][point][item]);
+                break;
+            case 2:
+                // videos are pre-loaded, play video selection
+                if (!vid[project][point].isPlaying()) vid[project][point].play();
+                break;
+            case 1:
+                // load models
+                model.load(path[project][point][item]);
+                break;
+            case 0:
+                // loads specific image
+                img[item].load(path[project][point][item]);
+                break;
+        }
     }
 }
 

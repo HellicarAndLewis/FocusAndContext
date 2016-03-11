@@ -75,8 +75,8 @@ void ofApp::setup()
     loadProject(0); // 0: High Speed 1, 1: Crossrail
     
     // configure menu or content setup
-    if (bCove) menuSetup(ofGetWidth(), ofGetHeight());
-    else c.setup();
+    //if (bCove) menuSetup(ofGetWidth(), ofGetHeight());
+    //else c.setup();
 }
 
 void ofApp::setupGui()
@@ -394,11 +394,13 @@ void ofApp::autoSysUpdate()
     {
         case 0:
             // content stuff
-            Globals::vignetteOn = false;
-            Globals::buttonPressed = true;
+            if (Globals::vignetteOn) Globals::vignetteOn = false;
+            if (!Globals::buttonPressed) Globals::buttonPressed = true;
+            if (!Globals::autoRoute) Globals::autoRoute = true;
+            
             randomItem = ofRandom(0, 4);
-            contentActive = true;
-            if (c.item != 5) c.item = 5;  // downscales the content
+            if (!contentActive) contentActive = true;
+            if (c.item != 5) c.item = 5;
             
             // travel through the route
             setLon(location.getLon());
@@ -407,10 +409,10 @@ void ofApp::autoSysUpdate()
             
             if (elapsedTime > 4)
             {
-                camRotSinX = -70 - 10 * sin(elapsedTime);
-                camRotSinY = 0 - 2 * sin(elapsedTime * 0.5);
-                camRotSinZ = 100 + 10 * sin(elapsedTime * 0.5);
-                waveDistance = 4000;
+                camRotSinX = -70 - 10 * sin(elapsedTime * 0.6);
+                camRotSinY = 0 - 2 * sin(elapsedTime * 0.6);
+                camRotSinZ = 100 + 10 * sin(elapsedTime * 0.6);
+                waveDistance = 7500;
                 worldTransform(waveDistance, 0.03, ofVec3f(camRotSinX, camRotSinY, camRotSinZ), 0.03);
                 
             }
@@ -444,7 +446,7 @@ void ofApp::autoSysUpdate()
                 loadPoint(pointJump);
                 
                 // route has been selected
-                routeSelected = true;
+                if (!routeSelected) routeSelected = true;
             }
             else if (routeSelected)
             {
@@ -455,13 +457,30 @@ void ofApp::autoSysUpdate()
                 if (dist >= 1000)
                 {
                     camTilt = 0;
-                    if (route.activeProject == 0) camDistance = 96000;
-                    else camDistance = 18000;
+                    if (route.activeProject == 0)
+                    {
+                        camDistance = 96000;
+                        
+                        if (cam.getDistance() >= 95900)
+                        {
+                            if (Globals::autoRoute) Globals::autoRoute = false;
+                        }
+                    }
+                    else
+                    {
+                        camDistance = 18000;
+                        
+                        if (cam.getDistance() >= 17900)
+                        {
+                            if (Globals::autoRoute) Globals::autoRoute = false;
+                        }
+                    }
                 }
                 else
                 {
-                    if (route.activeProject == 0) {
-                        if (cam.getPosition().z > 4000) camTilt = 0;
+                    if (route.activeProject == 0)
+                    {
+                        if (cam.getPosition().z > 6000) camTilt = 0;
                         else
                         {
                             camTilt = -60;
@@ -469,12 +488,12 @@ void ofApp::autoSysUpdate()
                     }
                     else
                     {
-                        if (cam.getPosition().z > 4000) camTilt = 0;
+                        if (cam.getPosition().z > 6000) camTilt = 0;
                         else camTilt = -120;
                     }
                     
-                    if (route.activeProject == 0) camDistance = 1000;
-                    else camDistance = 1000;
+                    if (route.activeProject == 0) camDistance = 4000;
+                    else camDistance = 4000;
                 }
                 
                 worldTransform(camDistance, 0.03, ofVec3f(camTilt, 0, 0), 0.03);
@@ -483,10 +502,11 @@ void ofApp::autoSysUpdate()
             
         case 2:
             // do stuff
-            Globals::vignetteOn = true;
+            if (!Globals::vignetteOn) Globals::vignetteOn = true;
             
             // content stuff
-            if (contentActive) {
+            if (contentActive)
+            {
                 c.load(route.activeProject, pointJump, randomItem);
                 contentActive = false;
             }
@@ -497,7 +517,8 @@ void ofApp::autoSysUpdate()
 void ofApp::update()
 {
     // update sounds
-    if (snds.isPlaying() && bCove) {
+    if (snds.isPlaying() && bCove)
+    {
         ofSoundUpdate();
         snds.setVolume(volume);
         volume = ofLerp(volume, 0.0001, 0.01);
@@ -558,7 +579,7 @@ void ofApp::update()
         }
         
         // world translation stuff
-        worldTransform(camDistance, 0.06, ofVec3f(camTilt, 0, 0), 0.03);
+        worldTransform(camDistance, 0.03, ofVec3f(camTilt, 0, 0), 0.03);
     }
     else if (!systemActive && !bCove)
     {
@@ -566,11 +587,11 @@ void ofApp::update()
         else camDistance = 18000;
         camTilt = 0;
         // world translation stuff
-        worldTransform(camDistance, 0.06, ofVec3f(camTilt, 0, 0), 0.03);
+        worldTransform(camDistance, 0.03, ofVec3f(camTilt, 0, 0), 0.03);
     }
     
     // mesh moves around world
-    if (bCove) posLerp = 0.06;
+    if (bCove) posLerp = 0.03;
     else posLerp = 0.01;
     meshPosition.x = ofLerp(meshPosition.x, meshTarget.x, posLerp);
     meshPosition.y = ofLerp(meshPosition.y, meshTarget.y, posLerp);

@@ -3,7 +3,7 @@
 //  Cove
 //
 //  Created by Chris Mullany on 18/01/2016.
-//  Edited by Jason Walters on 2/03/2016.
+//  Edited by Jason Walters on 11/03/2016.
 //
 //
 
@@ -38,35 +38,89 @@ void Location::setup(string title) {
 void Location::update() {
 }
 
-void Location::draw(ofCamera& cam, float _alpha, float _height) {
+void Location::draw(ofCamera& cam, float _alpha, float _height)
+{
     if (!hasLabel) return;
     
-    ofSetColor(255, 255, 255, _alpha);
-    
-    // billboard height and size
-    float height = _height;//200;
-    
-    if (Globals::programType) {
-        size = ofMap(cam.getPosition().z, 20000, 4000, 80, 400);//400;
+    // if in cove mode
+    if (Globals::programType)
+    {
+        // if project is hs1
+        if (Globals::project == 0)
+        {
+            height = ofMap(cam.getPosition().z, 10000, 4000, 0, -1150, true);
+            size = ofMap(cam.getPosition().z, 10000, 4000, 30, 400, true);
+        }
+        else
+        {
+            height = ofMap(cam.getPosition().z, 10000, 4000, 0, -1600, true);
+            size = ofMap(cam.getPosition().z, 10000, 4000, 30, 400, true);
+        }
     }
     else
-        size = ofMap(cam.getPosition().z, 8000, 4000, 80, 400);//400;
+    {
+        // if auto system is running...
+        // if project is hs1
+        if (Globals::project == 0)
+        {
+            // if traveling through auto route
+            if (Globals::autoRoute)
+            {
+                height = ofLerp(height, 0, 0.2);
+                size = ofLerp(size, 0, 0.2);
+            }
+            else
+            {
+                height = ofMap(cam.getPosition().z, 10000, 4000, 0, -1150, true);
+                
+                //if (cam.getPosition().z > 10000) size = ofLerp(size, 30, 0.02);
+                //else size = ofMap(cam.getPosition().z, 10000, 4000, 30, 400, true);
+                size = ofMap(cam.getPosition().z, 10000, 4000, 0, 400, true);
+            }
+        }
+        else
+        {
+            // if traveling through auto route
+            if (Globals::autoRoute)
+            {
+                height = ofLerp(height, 0, 0.2);
+                size = ofLerp(size, 0, 0.2);
+            }
+            else
+            {
+                height = ofMap(cam.getPosition().z, 10000, 4000, 0, -1600, true);
+                
+                //if (cam.getPosition().z > 10000) size = ofLerp(size, 30, 0.02);
+                //else size = ofMap(cam.getPosition().z, 10000, 4000, 30, 400, true);
+                size = ofMap(cam.getPosition().z, 10000, 4000, 0, 400, true);
+            }
+        }
+    }
     
-    size = ofClamp(size, 80, 400);
-    float length = ofMap(_alpha, 0, 255, 0, 200);
-
+    ofSetColor(255, 255, 255, _alpha);
+    length = ofMap(_alpha, 0, 255, 0, 200, true);
+    lineHeight = ofMap(_alpha, 0, 255, 0, 1600, true);
+    //lineHeight = ofMap(cam.getPosition().z, 10000, 4000, 0, 1600, true);
+    
+    /*
     // draw line from location up to billboard when open
-    ofSetLineWidth(4);
+    ofSetLineWidth(3);
     if (Globals::project == 0)
     {
-        lineHeight = 1600;
         ofDrawLine(position.x, position.y - lineHeight, 0, position.x, position.y - lineHeight + length, 0);
     }
     else if (Globals::project == 1) {
-        lineHeight = 1600;
         ofDrawLine(position.x, position.y - lineHeight, 0, position.x, position.y - lineHeight - length * 1.8, 0);
     }
     ofSetLineWidth(1);
+     */
+    
+    /*
+    ofSetLineWidth(3);
+    lineHeight = 1600;
+    ofDrawLine(position.x, position.y, 0, position.x, position.y, lineHeight);
+    ofSetLineWidth(1);
+     */
     
     // billboard to face cam
     billboardShader.begin();
@@ -85,6 +139,7 @@ void Location::draw(ofCamera& cam, float _alpha, float _height) {
 
 void Location::draw2d() {
     
+    /*
     if (!hasLabel)
         return;
     
@@ -106,6 +161,7 @@ void Location::draw2d() {
     contentImages[4]->draw(x, y, w, h);
     
     ofSetColor(255);
+     */
 }
 
 //////////////////////////////////////////////////////////////////////////////////

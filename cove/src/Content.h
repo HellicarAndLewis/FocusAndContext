@@ -10,7 +10,6 @@
 #pragma once
 
 #include "ofMain.h"
-//#include "InteractiveMenu.h"
 #include "ofxOBJModel.h"
 
 class Content
@@ -30,11 +29,13 @@ public:
     // content type
     ofImage img[5];
     ofVideoPlayer vid[2][5];
+    ofxOBJModel model;
+    
+    ofEasyCam cam;
+    float camZoom;
     
     float scale[5];
-
-    
-    //InteractiveMenu menu;
+    float screenWidth;
     
     int project;
     int point;
