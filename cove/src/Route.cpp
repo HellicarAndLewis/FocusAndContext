@@ -3,7 +3,7 @@
 //  Cove
 //
 //  Created by Chris Mullany on 19/01/2016.
-//  Edited by Jason Walters on 2/03/2016.
+//  Edited by Jason Walters on 22/03/2016.
 //
 //
 
@@ -93,7 +93,6 @@ void Route::draw(ofCamera& cam) {
     
     // draw hs1/left project route
     ofDisableDepthTest();
-    //ofSetColor(225, 178, 148, alphaLeft);
     ofSetColor(255, 130, 0, alphaLeft);
     ofPushMatrix();
     {

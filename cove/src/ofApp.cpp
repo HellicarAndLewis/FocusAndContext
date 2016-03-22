@@ -153,8 +153,8 @@ void ofApp::projectColors()
         colRoadsDiff.lerp(ofColor(30, 40, 60), colorLerp);
         colBuildings.lerp(ofColor(52, 67, 95), colorLerp);
         colBuildingsDiff.lerp(ofColor(52, 67, 95), colorLerp);
-        colBuildingsActive.lerp(ofColor(255 - 204, 0, 0), colorLerp);
-        colBuildingsActiveDiff.lerp(ofColor(255 - 178.5, 0, 0), colorLerp);
+        colBuildingsActive.lerp(ofColor(204, 0, 0), colorLerp);
+        colBuildingsActiveDiff.lerp(ofColor(178.5, 0, 0), colorLerp);
         
         colWater.lerp(ofColor(111, 201, 238), colorLerp);
     }
@@ -180,7 +180,7 @@ void ofApp::projectColors()
     
     // directional light - even spread across all objects
     light.setDirectional();
-    light.setOrientation(ofVec3f(lightAngle, 0, 0));
+    light.setOrientation(sceneRotation + ofVec3f(lightAngle, 0, 0));
     // lighting color
     light.setDiffuseColor(ofFloatColor(0.84, 0.8, 0.79));
     
@@ -381,13 +381,13 @@ void ofApp::autoSysUpdate()
         elapsedTime = 0.0;
     }
     
-    /*
-     if (currentInterval != 0) {
-     // get the active tile and colour it
-     ofPoint activeTilePos = route.getLocation()->tilePos;
-     tileLoader.setActive(activeTilePos.x, activeTilePos.y);
-     }
-     */
+    // colors active poi tiles red
+    if (currentInterval != 0)
+    {
+    // get the active tile and colour it
+    ofPoint activeTilePos = route.getLocation()->tilePos;
+    tileLoader.setActive(activeTilePos.x, activeTilePos.y);
+    }
     
     Location & location = *route.getLocation();
     switch (currentInterval)
@@ -552,6 +552,10 @@ void ofApp::update()
         }
         else
         {
+            // get the active tile and colour it
+            ofPoint activeTilePos = route.getLocation()->tilePos;
+            tileLoader.setActive(activeTilePos.x, activeTilePos.y);
+            
             float dist = meshPosition.distance(meshTarget);
             if (dist >= 1000)
             {
@@ -799,6 +803,16 @@ void ofApp::drawScene()
             }
         }
         materialBuildings.end();
+        
+        /*
+        // buildings shader
+        buildingsShader.begin();
+        buildingsShader.setUniform1f("maxHeight", 2.0);
+        buildingsShader.setUniform1f("posHeight", 20.0);
+        buildingsShader.setUniform1f("time", ofGetElapsedTimef());
+        for (auto & tile : *tiles) tile.meshBuildings.draw();
+        buildingsShader.end();
+         */
         
         // Water
         materialWater.begin();
