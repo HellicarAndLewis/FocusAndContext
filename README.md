@@ -31,6 +31,9 @@ This is the main area of the application.
 #### Globals.h/.cpp
 Global variables can be defined here and accessed anywhere.
 
+#### Route XML Data
+Route points are hardcoded in an XML called route.xml for each project located in '/data/content/{project name}/route.xml'.
+
 #### Route Group
 These files control the routes for each project, interest points, and tiles for locations.
 - Location.h/.cpp
@@ -60,6 +63,11 @@ These files handle the interactive menu system.
 #### Content Group
 Handles all content media loading, drawing, setup, etc.
 - Content.h/.cpp
+
+###### Content.cpp
+- void Content::fileLocation() - ALL content paths are defined here.  Thing to note, Crossrail content goes backwards in the array vs HS1.
+- HS1 Buttons {0,1,2,3,4} = {Text Image, Image, Video, Model, ??? (Currently an Image)}
+- Crossrail Buttons {4,3,2,1,0} = {??? (Currently an Image), Model, Video, Image, Text Image}
 
 ## ofxVectorTile
 I made a modification to the file 'glmGeometryBuilder.cpp'.  Hacked the last function so that buildings with zero height could have some varying/random height.  Make sure to replace the file here with the one in your addon folder, as addon's do not sync to github.
