@@ -15,9 +15,11 @@ void Content::setup()
 {
     // model camera view distance
     cam.lookAt(ofVec3f(0,0,0));
-    cam.setFarClip(18000);
+    cam.setFarClip(5000);
     cam.setNearClip(.5f);
-    camZoom = 20000;
+    camMaxZoom = 6000;
+    camMinZoom = 250;
+    camZoom = camMaxZoom;
     
     // setup file paths
     fileLocation();
@@ -180,7 +182,7 @@ void Content::scaling()
             scale[2] = ofLerp(scale[2], 0.0, lerpIn);
             scale[3] = ofLerp(scale[3], 0.0, lerpIn);
             scale[4] = ofLerp(scale[4], 0.0, lerpIn);
-            camZoom = ofLerp(camZoom, 20000, lerpIn);
+            camZoom = ofLerp(camZoom, camMaxZoom, lerpIn);
             break;
             
         case 1:
@@ -188,7 +190,7 @@ void Content::scaling()
             {
                 scale[1] = ofLerp(scale[1], 1.0, lerpOut);
                 
-                if (project == 1) camZoom = ofLerp(camZoom, 7000, lerpOut);
+                if (project == 1) camZoom = ofLerp(camZoom, camMinZoom, lerpOut);
                 
                 // stop any videos running
                 stop();
@@ -198,7 +200,7 @@ void Content::scaling()
             scale[2] = ofLerp(scale[2], 0.0, lerpIn);
             scale[3] = ofLerp(scale[3], 0.0, lerpIn);
             scale[4] = ofLerp(scale[4], 0.0, lerpIn);
-            if (project == 0)  camZoom = ofLerp(camZoom, 20000, lerpIn);
+            if (project == 0)  camZoom = ofLerp(camZoom, camMaxZoom, lerpIn);
             break;
             
         case 2:
@@ -219,7 +221,7 @@ void Content::scaling()
             {
                 scale[3] = ofLerp(scale[3], 1.0, lerpOut);
                 
-                if (project == 0) camZoom = ofLerp(camZoom, 7000, lerpOut);
+                if (project == 0) camZoom = ofLerp(camZoom, camMinZoom, lerpOut);
                 
                 // stop any videos running
                 stop();
@@ -230,7 +232,7 @@ void Content::scaling()
             scale[2] = ofLerp(scale[2], 0.0, lerpIn);
             scale[4] = ofLerp(scale[4], 0.0, lerpIn);
             
-            if (project == 1) camZoom = ofLerp(camZoom, 20000, lerpIn);
+            if (project == 1) camZoom = ofLerp(camZoom, camMaxZoom, lerpIn);
             break;
             
         case 4:
@@ -246,7 +248,7 @@ void Content::scaling()
             scale[1] = ofLerp(scale[1], 0.0, lerpIn);
             scale[2] = ofLerp(scale[2], 0.0, lerpIn);
             scale[3] = ofLerp(scale[3], 0.0, lerpIn);
-            camZoom = ofLerp(camZoom, 20000, lerpIn);
+            camZoom = ofLerp(camZoom, camMaxZoom, lerpIn);
             break;
             
         case 5:
@@ -255,7 +257,7 @@ void Content::scaling()
             scale[2] = ofLerp(scale[2], 0.0, lerpIn);
             scale[3] = ofLerp(scale[3], 0.0, lerpIn);
             scale[4] = ofLerp(scale[4], 0.0, lerpIn);
-            camZoom = ofLerp(camZoom, 20000, lerpIn);
+            camZoom = ofLerp(camZoom, camMaxZoom, lerpIn);
             
             if (scale[2] <= dest)
                 stop();

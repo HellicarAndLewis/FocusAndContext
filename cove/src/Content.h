@@ -40,6 +40,8 @@ public:
     
     //ofEasyCam cam;
     float camZoom;
+    float camMinZoom;
+    float camMaxZoom;
     float camXaxis;
     
     float scale[5];
