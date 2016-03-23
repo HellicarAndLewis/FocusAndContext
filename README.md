@@ -2,15 +2,15 @@
 An series of interactions that place content in geographical space.
 
 ## Addons
-- ofxDatGui
-- ofxFBX
-- ofxGlmTools
-- ofxGui
-- ofxJSON
-- ofxMSAInteractiveObject
-- ofxPostProcessing
-- ofxVectorTile
-- ofxXMLSettings
+- ofxDatGui: https://github.com/braitsch/ofxDatGui
+- ofxFBX: https://github.com/NickHardeman/ofxFBX/tree/develop
+- ofxGlmTools: https://github.com/patriciogonzalezvivo/ofxGlmTools
+- ofxGui: included w/ openFrameworks
+- ofxJSON: https://github.com/jefftimesten/ofxJSON
+- ofxMSAInteractiveObject: https://github.com/memo/ofxMSAInteractiveObject
+- ofxPostProcessing: https://github.com/neilmendoza/ofxPostProcessing
+- ofxVectorTile: https://github.com/tangrams/ofxVectorTile
+- ofxXMLSettings: included w/ openFrameworks
 
 ## Areas
 #### ofApp.h/.cpp
