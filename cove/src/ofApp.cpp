@@ -77,6 +77,18 @@ void ofApp::setup()
     // configure menu or content setup
     //if (bCove) menuSetup(ofGetWidth(), ofGetHeight());
     //else c.setup();
+    
+    // effects
+    effectsSetup(ofGetWidth(), ofGetHeight());
+    post.createPass<FxaaPass>()->setEnabled(false);
+    post.createPass<BloomPass>()->setEnabled(false);
+    post.createPass<DofPass>()->setEnabled(false);
+    post.createPass<DofAltPass>()->setEnabled(false);
+    post.createPass<ContrastPass>()->setEnabled(false);
+    post.createPass<EdgePass>()->setEnabled(false);
+    post.createPass<HorizontalTiltShifPass>()->setEnabled(true);
+    post.createPass<VerticalTiltShifPass>()->setEnabled(true);
+    post.createPass<ToonPass>()->setEnabled(false);
 }
 
 void ofApp::setupGui()
@@ -138,15 +150,6 @@ void ofApp::effectsSetup(float _w, float _h)
 {
     // Setup post-processing chain
     post.init(_w, _h);
-    post.createPass<FxaaPass>()->setEnabled(true);
-    post.createPass<BloomPass>()->setEnabled(false);
-    post.createPass<DofPass>()->setEnabled(false);
-    post.createPass<DofAltPass>()->setEnabled(false);
-    post.createPass<ContrastPass>()->setEnabled(false);
-    post.createPass<EdgePass>()->setEnabled(false);
-    post.createPass<HorizontalTiltShifPass>()->setEnabled(true);
-    post.createPass<VerticalTiltShifPass>()->setEnabled(true);
-    post.createPass<ToonPass>()->setEnabled(false);
 }
 
 void ofApp::projectColors()
@@ -156,10 +159,6 @@ void ofApp::projectColors()
     // project is hs1, then...
     if (route.activeProject == 0)
     {
-        if (camTilt == 120) lightAngleDest = 180;
-        else lightAngleDest = 180;
-        lightAngle = ofLerp(lightAngle, 180, colorLerp);
-        
         colBackground.lerp(ofColor(215, 228, 239), colorLerp);
         
         colEarth.lerp(ofColor(255 - 25.5), colorLerp);
@@ -175,10 +174,6 @@ void ofApp::projectColors()
     }
     else
     {
-        if (camTilt == 120) lightAngleDest = 180;
-        else lightAngleDest = 180;
-        lightAngle = ofLerp(lightAngle, 180, colorLerp);
-        
         colBackground.lerp(ofColor(0,0,0), colorLerp);
         
         colEarth.lerp(ofColor(25.5), colorLerp);
@@ -193,10 +188,9 @@ void ofApp::projectColors()
         colWater.lerp(ofColor(111, 201, 238), colorLerp);
     }
     
-    // directional light - even spread across all objects
+    // directional light
     light.setDirectional();
-    light.setOrientation(sceneRotation + ofVec3f(lightAngle, 0, 0));
-    // lighting color
+    light.setOrientation(ofVec3f(180 + sceneRotation.x, sceneRotation.y, 0));
     light.setDiffuseColor(ofFloatColor(0.84, 0.8, 0.79));
     
     // background color
@@ -696,9 +690,7 @@ void ofApp::draw()
     
     // draw cove content
     if (bCove) menu.drawContent();
-    
-    // draw totem content
-    if (!bCove) c.draw();
+    else c.draw();
     
     // if (!gui->getVisible()) tileLoader.labels.draw2D();
     if (bDebugMsg) drawDebugMsg();
@@ -756,6 +748,11 @@ void ofApp::drawDebugMsg()
     ofDrawBitmapString("route.activeProject " + ofToString(route.activeProject), 30, 540);
     ofDrawBitmapString("leftClose " + ofToString(menu.leftClose), 30, 560);
     ofDrawBitmapString("rightClose " + ofToString(menu.rightClose), 30, 580);
+    
+    ofDrawBitmapString("LIGHTS", 30, 620);
+    ofDrawBitmapString("orientation " + ofToString(light.getOrientationEuler()), 30, 640);
+    
+    
     
     
     // draw help
@@ -857,11 +854,13 @@ void ofApp::drawScene()
         waterShader.end();
          */
         
+        /*
         // draw the route and location content without lighting
         // this ensures consistent colour and legibility
         ofDisableLighting();
-//        route.draw(cam);
+        route.draw(cam);
         ofEnableLighting();
+         */
     }
     ofPopMatrix();
     endScene();

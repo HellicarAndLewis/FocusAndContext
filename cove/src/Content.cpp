@@ -286,13 +286,13 @@ void Content::draw()
             float w = (img[0].getWidth() * diff) * percentage;
             float h = (img[0].getHeight() * diff) * percentage;
             
-            // content shadow
-            ofSetColor(0, alpha);
-            ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[0], h * scale[0]);
-            
             // content item
             ofSetColor(255);
             img[0].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[0], h * scale[0]);
+            
+            // content shadow
+            ofSetColor(0, alpha);
+            ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[0], h * scale[0]);
         }
         
         // draws image content
@@ -303,13 +303,13 @@ void Content::draw()
             float w = (img[1].getWidth() * diff) * percentage;
             float h = (img[1].getHeight() * diff) * percentage;
             
-            // content shadow
-            ofSetColor(0, alpha);
-            ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[1], h * scale[1]);
-            
             // content item
             ofSetColor(255);
             img[1].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[1], h * scale[1]);
+            
+            // content shadow
+            ofSetColor(0, alpha);
+            ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[1], h * scale[1]);
         }
         
         // draws video content
@@ -323,13 +323,13 @@ void Content::draw()
                 float w = (vid[0][i].getWidth() * diff) * percentage;
                 float h = (vid[0][i].getHeight() * diff) * percentage;
                 
-                // content shadow
-                ofSetColor(0, alpha);
-                ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[2], h * scale[2]);
-                
                 // content item
                 ofSetColor(255);
                 vid[0][i].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[2], h * scale[2]);
+                
+                // content shadow
+                ofSetColor(0, alpha);
+                ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[2], h * scale[2]);
             }
             
             // crossrail project video content
@@ -340,13 +340,13 @@ void Content::draw()
                 float w = (vid[1][i].getWidth() * diff) * percentage;
                 float h = (vid[1][i].getHeight() * diff) * percentage;
                 
-                // content shadow
-                ofSetColor(0, alpha);
-                ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[2], h * scale[2]);
-                
                 // content item
                 ofSetColor(255);
                 vid[1][i].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[2], h * scale[2]);
+                
+                // content shadow
+                ofSetColor(0, alpha);
+                ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[2], h * scale[2]);
             }
         }
         
@@ -354,7 +354,6 @@ void Content::draw()
         // rotate on y axis
         cam.pan(camPam);
         cam.setDistance(camZoom);
-        glDisable(GL_BLEND);
         ofEnableDepthTest();
         cam.begin();
         ofEnableLighting();
@@ -365,7 +364,6 @@ void Content::draw()
         ofDisableLighting();
         cam.end();
         ofDisableDepthTest();
-        glEnable(GL_BLEND);
         
         // image 4 is placeholder for audio content
         if (img[4].isAllocated())
@@ -395,13 +393,13 @@ void Content::draw()
             float w = (img[4].getWidth() * diff) * percentage;
             float h = (img[4].getHeight() * diff) * percentage;
             
-            // content shadow
-            ofSetColor(0, alpha);
-            ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[4], h * scale[4]);
-            
             // content item
             ofSetColor(255);
             img[4].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[4], h * scale[4]);
+            
+            // content shadow
+            ofSetColor(0, alpha);
+            ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[4], h * scale[4]);
         }
         
         // draws image content
@@ -412,13 +410,13 @@ void Content::draw()
             float w = (img[3].getWidth() * diff) * percentage;
             float h = (img[3].getHeight() * diff) * percentage;
             
-            // content shadow
-            ofSetColor(0, alpha);
-            ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[3], h * scale[3]);
-            
             // content item
             ofSetColor(255);
             img[3].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[3], h * scale[3]);
+            
+            // content shadow
+            ofSetColor(0, alpha);
+            ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[3], h * scale[3]);
         }
         
         // draws video content
@@ -432,13 +430,13 @@ void Content::draw()
                 float w = (vid[1][i].getWidth() * diff) * percentage;
                 float h = (vid[1][i].getHeight() * diff) * percentage;
                 
-                // content shadow
-                ofSetColor(0, alpha);
-                ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[2], h * scale[2]);
-                
                 // content item
                 ofSetColor(255);
                 vid[1][i].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[2], h * scale[2]);
+                
+                // content shadow
+                ofSetColor(0, alpha);
+                ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[2], h * scale[2]);
             }
         }
         
