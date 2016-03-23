@@ -15,7 +15,6 @@
 		1E615236D6D182DED6C8A8B2 /* RenderPass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54F36382628E4D0FF07206D7 /* RenderPass.cpp */; };
 		1F92FEF583A0EB8B69714758 /* ofxVectorBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 576809FA14D5E841B45DE68D /* ofxVectorBuilder.cpp */; };
 		203095EEEA732AC16FA8C9EC /* glmGeom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00F4981AEA0DE6B37C753300 /* glmGeom.cpp */; };
-		22846B7A98C3EC08F4495E48 /* ofxOBJGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D18C3089D40C82A112BA4A75 /* ofxOBJGroup.cpp */; };
 		22FAD71C4C85BA2A59638F67 /* ofxFBXSkeleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E43F5FD5CB7F1965F1A06E7 /* ofxFBXSkeleton.cpp */; };
 		26F07296EF544ED53757C86A /* glmRectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ADA661C2CEA691F4397961B2 /* glmRectangle.cpp */; };
 		28AFD6FA9B9C885AFD9FF1C7 /* HorizontalTiltShifPass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FAF7EF26FE0FF19EA6D9419D /* HorizontalTiltShifPass.cpp */; };
@@ -27,7 +26,6 @@
 		4355FD81C3F9DDE40B10CE94 /* SSAOPass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C127DCF305861E6D5D6332E6 /* SSAOPass.cpp */; };
 		483908258D00B98B4BE69F07 /* ofxLabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78D67A00EB899FAC09430597 /* ofxLabel.cpp */; };
 		4A2B684DF41F7779B2947319 /* RimHighlightingPass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74BDDD14F49833AD24862E87 /* RimHighlightingPass.cpp */; };
-		50D483E275BD7196391A7DA9 /* ofxOBJModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 362BBAD1403257601B5FCFA9 /* ofxOBJModel.cpp */; };
 		560699F20E0E736EFD3A0B47 /* ofxVectorTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1FFCA0B70DFD26F1FBF354DC /* ofxVectorTile.cpp */; };
 		564DA339E60AFCF2C05341DD /* TileLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 39B8C1B181BA5DECB5FA50BF /* TileLoader.cpp */; };
 		5A4349E9754D6FA14C0F2A3A /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC5DA1C87211D4F6377DA719 /* tinyxmlparser.cpp */; };
@@ -39,7 +37,6 @@
 		64C3C92089EBEA7EC1C41130 /* glmFastPolyline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C68050EE6BCE4C6857799C73 /* glmFastPolyline.cpp */; };
 		65CF1066220B6EAF92170D24 /* ofxFBXAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 39380BD5970FE92C8FDEC5D2 /* ofxFBXAnimation.cpp */; };
 		6A505EAE8088949A9180FFE7 /* GodRaysPass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C07AAE715D8853EDA76BC909 /* GodRaysPass.cpp */; };
-		72179A58F6197627F71D0ED6 /* ofxOBJFace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A678612F78CDF65E80ACD118 /* ofxOBJFace.cpp */; };
 		76932F2BDEBF5975C7B78E8F /* ofxFBXBone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 22CDCA220E183DD55BC133AD /* ofxFBXBone.cpp */; };
 		778DCA6792476E5B9F57F175 /* ConvolutionPass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AACD9661AF21261E24A05A4 /* ConvolutionPass.cpp */; };
 		783CEF4CB6421016AAD923C0 /* glmFeatureLabelPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDA7A6C9E8AEB158A6F551C3 /* glmFeatureLabelPoint.cpp */; };
@@ -164,7 +161,6 @@
 		0AC8B4DE8CD341280FDE798A /* EdgePass.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = EdgePass.cpp; path = ../../../addons/ofxPostProcessing/src/EdgePass.cpp; sourceTree = SOURCE_ROOT; };
 		0BC82FF9BACF54030E42E808 /* RGBShiftPass.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = RGBShiftPass.h; path = ../../../addons/ofxPostProcessing/src/RGBShiftPass.h; sourceTree = SOURCE_ROOT; };
 		0BCF68CFC95A98F4FBDB64FE /* fbxproceduraltexture.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxproceduraltexture.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/scene/shading/fbxproceduraltexture.h; sourceTree = SOURCE_ROOT; };
-		0D6AF6EE65176CBEB4428BE7 /* ofxOBJFace.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxOBJFace.h; path = src/ofxOBJ/ofxOBJFace.h; sourceTree = SOURCE_ROOT; };
 		0D811F3E1817C17351F97CCF /* BleachBypassPass.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = BleachBypassPass.h; path = ../../../addons/ofxPostProcessing/src/BleachBypassPass.h; sourceTree = SOURCE_ROOT; };
 		0DC70B0E0C1DC58996AB2BE5 /* fbxembeddedfilesaccumulator.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxembeddedfilesaccumulator.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/utils/fbxembeddedfilesaccumulator.h; sourceTree = SOURCE_ROOT; };
 		0F298D7D173DA2F93C7E6BD3 /* type_precision.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = type_precision.hpp; path = ../../../addons/ofxGlmTools/libs/glm/gtc/type_precision.hpp; sourceTree = SOURCE_ROOT; };
@@ -247,7 +243,6 @@
 		340012355BB4AE82E3CC19B5 /* ofxFBXManager.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxFBXManager.h; path = ../../../addons/ofxFBX/src/ofxFBXManager.h; sourceTree = SOURCE_ROOT; };
 		3564512A6A54532042E017CE /* raw_data.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = raw_data.hpp; path = ../../../addons/ofxGlmTools/libs/glm/gtx/raw_data.hpp; sourceTree = SOURCE_ROOT; };
 		35E518B1D652890EC5C94375 /* ofxVectorLabels.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxVectorLabels.cpp; path = ../../../addons/ofxVectorTile/src/ofxVectorLabels.cpp; sourceTree = SOURCE_ROOT; };
-		362BBAD1403257601B5FCFA9 /* ofxOBJModel.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxOBJModel.cpp; path = src/ofxOBJ/ofxOBJModel.cpp; sourceTree = SOURCE_ROOT; };
 		3796500E31E49B25DB6CABAF /* fbxdeformer.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxdeformer.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/scene/geometry/fbxdeformer.h; sourceTree = SOURCE_ROOT; };
 		3828F048C9067DE707794AC8 /* type_vec.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = type_vec.hpp; path = ../../../addons/ofxGlmTools/libs/glm/detail/type_vec.hpp; sourceTree = SOURCE_ROOT; };
 		3862FF69DAE981FCCF60CF88 /* fbxcharacter.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxcharacter.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/scene/constraint/fbxcharacter.h; sourceTree = SOURCE_ROOT; };
@@ -461,7 +456,6 @@
 		96A3136A57452E002F02E6C1 /* fbxperipheral.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxperipheral.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/core/fbxperipheral.h; sourceTree = SOURCE_ROOT; };
 		9705D66270ED89ECA6E6FECE /* ofxDatGui.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGui.h; path = ../../../addons/ofxDatGui/src/ofxDatGui.h; sourceTree = SOURCE_ROOT; };
 		9727D58BA8C4024DD8151046 /* type_mat4x4.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = type_mat4x4.hpp; path = ../../../addons/ofxGlmTools/libs/glm/detail/type_mat4x4.hpp; sourceTree = SOURCE_ROOT; };
-		991EC5AD6B8EFF27F7A2DBA1 /* ofxOBJModel.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxOBJModel.h; path = src/ofxOBJ/ofxOBJModel.h; sourceTree = SOURCE_ROOT; };
 		9A4CCCB454F0770032C2E3C7 /* fbxevent.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxevent.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/core/fbxevent.h; sourceTree = SOURCE_ROOT; };
 		9A6C85244D481FB7BBA1B697 /* type_mat4x3.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = type_mat4x3.hpp; path = ../../../addons/ofxGlmTools/libs/glm/detail/type_mat4x3.hpp; sourceTree = SOURCE_ROOT; };
 		9AACF31BAE533E8F81AD4043 /* LUTPass.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = LUTPass.h; path = ../../../addons/ofxPostProcessing/src/LUTPass.h; sourceTree = SOURCE_ROOT; };
@@ -483,7 +477,6 @@
 		A2DB87FB6CA14519C9FB9A72 /* ofxFBXSkeleton.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxFBXSkeleton.h; path = ../../../addons/ofxFBX/src/ofxFBXSkeleton.h; sourceTree = SOURCE_ROOT; };
 		A580423CF8EC14A71B21629D /* fbxgeometryweightedmap.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxgeometryweightedmap.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/scene/geometry/fbxgeometryweightedmap.h; sourceTree = SOURCE_ROOT; };
 		A5CF72CFDA5564FAF8EBE27E /* intrinsic_geometric.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = intrinsic_geometric.hpp; path = ../../../addons/ofxGlmTools/libs/glm/detail/intrinsic_geometric.hpp; sourceTree = SOURCE_ROOT; };
-		A678612F78CDF65E80ACD118 /* ofxOBJFace.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxOBJFace.cpp; path = src/ofxOBJ/ofxOBJFace.cpp; sourceTree = SOURCE_ROOT; };
 		A880822FB78E10C56647B0A8 /* type_half.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = type_half.hpp; path = ../../../addons/ofxGlmTools/libs/glm/detail/type_half.hpp; sourceTree = SOURCE_ROOT; };
 		A8B8347FEE6FDDD3039EE84F /* glmTesselation.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = glmTesselation.cpp; path = ../../../addons/ofxGlmTools/libs/glmTools/glmTesselation.cpp; sourceTree = SOURCE_ROOT; };
 		A9D80196A894A801BD9D02C2 /* fbxanimcurvebase.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxanimcurvebase.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/scene/animation/fbxanimcurvebase.h; sourceTree = SOURCE_ROOT; };
@@ -582,12 +575,10 @@
 		CDAEC80D9A4E6F21587B15F0 /* LocalTile.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = LocalTile.h; path = src/LocalTile.h; sourceTree = SOURCE_ROOT; };
 		CDF7278CB636137FE7BF91A5 /* ofxDatGuiMatrix.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiMatrix.h; path = ../../../addons/ofxDatGui/src/components/ofxDatGuiMatrix.h; sourceTree = SOURCE_ROOT; };
 		CE0949C9F18BE455D5E6CD10 /* ofxMSAInteractiveObject.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxMSAInteractiveObject.cpp; path = ../../../addons/ofxMSAInteractiveObject/src/ofxMSAInteractiveObject.cpp; sourceTree = SOURCE_ROOT; };
-		CE8C271C056AB349F24C9C39 /* ofxOBJGroup.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxOBJGroup.h; path = src/ofxOBJ/ofxOBJGroup.h; sourceTree = SOURCE_ROOT; };
 		CF9A9D1E3346B02B3ED5AB4C /* fbxmodule.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxmodule.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/core/fbxmodule.h; sourceTree = SOURCE_ROOT; };
 		CFDC17959ABC4373F5005D55 /* fbxcontrolset.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxcontrolset.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/scene/constraint/fbxcontrolset.h; sourceTree = SOURCE_ROOT; };
 		D058BE38AE0AF940002A4D3D /* fbxcamera.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxcamera.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/scene/geometry/fbxcamera.h; sourceTree = SOURCE_ROOT; };
 		D0D6A66BEBA820EA1D396889 /* ofxDatGuiSlider.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiSlider.h; path = ../../../addons/ofxDatGui/src/components/ofxDatGuiSlider.h; sourceTree = SOURCE_ROOT; };
-		D18C3089D40C82A112BA4A75 /* ofxOBJGroup.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxOBJGroup.cpp; path = src/ofxOBJ/ofxOBJGroup.cpp; sourceTree = SOURCE_ROOT; };
 		D2195C763B855EDE0D58AEB8 /* GetPosition.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = GetPosition.h; path = ../../../addons/ofxFBX/src/GetPosition.h; sourceTree = SOURCE_ROOT; };
 		D2763A0F63423201C0E86AE0 /* mat4x4.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = mat4x4.hpp; path = ../../../addons/ofxGlmTools/libs/glm/mat4x4.hpp; sourceTree = SOURCE_ROOT; };
 		D27BC36170A3E90EFC1A7957 /* fbxthread.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxthread.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/core/sync/fbxthread.h; sourceTree = SOURCE_ROOT; };
@@ -809,19 +800,6 @@
 				7D254F0BC72BEA2376E13B17 /* type_vec4.hpp */,
 			);
 			name = detail;
-			sourceTree = "<group>";
-		};
-		1AE67C0627201C0FB2591FDF /* ofxOBJ */ = {
-			isa = PBXGroup;
-			children = (
-				A678612F78CDF65E80ACD118 /* ofxOBJFace.cpp */,
-				0D6AF6EE65176CBEB4428BE7 /* ofxOBJFace.h */,
-				D18C3089D40C82A112BA4A75 /* ofxOBJGroup.cpp */,
-				CE8C271C056AB349F24C9C39 /* ofxOBJGroup.h */,
-				362BBAD1403257601B5FCFA9 /* ofxOBJModel.cpp */,
-				991EC5AD6B8EFF27F7A2DBA1 /* ofxOBJModel.h */,
-			);
-			name = ofxOBJ;
 			sourceTree = "<group>";
 		};
 		1F4FB5C423662B96ADFDCC0B /* ofxXmlSettings */ = {
@@ -1808,7 +1786,6 @@
 				7A246416748EA2F045E7FAAA /* common */,
 				9D6E8A8AABF45023A89537B1 /* Globals.cpp */,
 				84BAD2976B092BD5C550757F /* Globals.h */,
-				1AE67C0627201C0FB2591FDF /* ofxOBJ */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -2000,9 +1977,6 @@
 				432C3F78A0E9FDE157A1DC91 /* Globals.cpp in Sources */,
 				3D645690B8DD82F5119B9EAC /* InteractiveMenu.cpp in Sources */,
 				8D7FAA54B8C82620C5E2712F /* Location.cpp in Sources */,
-				72179A58F6197627F71D0ED6 /* ofxOBJFace.cpp in Sources */,
-				22846B7A98C3EC08F4495E48 /* ofxOBJGroup.cpp in Sources */,
-				50D483E275BD7196391A7DA9 /* ofxOBJModel.cpp in Sources */,
 				8746D4D2EAD452DE6F233825 /* Route.cpp in Sources */,
 				564DA339E60AFCF2C05341DD /* TileLoader.cpp in Sources */,
 				D3C1C48E59CAA2D68C0DD477 /* ofxDatGuiComponent.cpp in Sources */,
