@@ -17,6 +17,7 @@
 #include "InterestPoints.h"
 #include "InteractiveMenu.h"
 #include "Content.h"
+#include "ofxPostProcessing.h"
 
 #define EASEING 0.08
 
@@ -164,4 +165,8 @@ public:
     ofSoundPlayer snds;
     string sndPath;
     float volume;
+    
+    // effects
+    ofxPostProcessing post;
+    void effectsSetup();
 };

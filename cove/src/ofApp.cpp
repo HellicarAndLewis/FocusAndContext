@@ -22,24 +22,27 @@ void ofApp::setup()
     cam.setFarClip(300000);
     cam.setDistance(250000);
     
+    // post processing setup
+    effectsSetup();
+    
     // center mesh on launch
     meshPosition.set(-16156.9, 11756.6);
 
-//    // FBO to render scene into shader
-//    ofFbo::Settings settings;
-//    settings.width = ofGetWidth();
-//    settings.height = ofGetHeight();
-//    settings.internalformat = GL_RGB;
-//    settings.numSamples = 0;
-//    settings.useDepth = true;
-//    settings.useStencil = true;
-//    settings.depthStencilAsTexture = true;
-//#ifdef TARGET_OPENGLES
-//    settings.textureTarget = GL_TEXTURE_2D;
-//#else
-//    settings.textureTarget = ofGetUsingArbTex() ? GL_TEXTURE_RECTANGLE_ARB : GL_TEXTURE_2D;
-//#endif
-//    fbo.allocate(settings);
+    // FBO to render scene into shader
+    ofFbo::Settings settings;
+    settings.width = ofGetWidth();
+    settings.height = ofGetHeight();
+    settings.internalformat = GL_RGB;
+    settings.numSamples = 0;
+    settings.useDepth = true;
+    settings.useStencil = true;
+    settings.depthStencilAsTexture = true;
+#ifdef TARGET_OPENGLES
+    settings.textureTarget = GL_TEXTURE_2D;
+#else
+    settings.textureTarget = ofGetUsingArbTex() ? GL_TEXTURE_RECTANGLE_ARB : GL_TEXTURE_2D;
+#endif
+    fbo.allocate(settings);
     shader.load("", "shader.frag");
     // waterShader.load("shadersGL2/water.vert", "shadersGL2/water.frag");
     buildingsShader.load("shadersGL2/buildings.vert", "shadersGL2/buildings.frag");
@@ -133,6 +136,20 @@ void ofApp::setupGui()
     gui->onButtonEvent(this, &ofApp::onButtonEvent);
     gui->onSliderEvent(this, &ofApp::onSliderEvent);
 }
+
+void ofApp::effectsSetup()
+{
+    // Setup post-processing chain
+    post.init(ofGetWidth(), ofGetHeight());
+    post.createPass<FxaaPass>()->setEnabled(true);
+    post.createPass<BloomPass>()->setEnabled(false);
+    post.createPass<DofPass>()->setEnabled(false);
+    post.createPass<DofAltPass>()->setEnabled(false);
+    post.createPass<ContrastPass>()->setEnabled(false);
+    post.createPass<EdgePass>()->setEnabled(false);
+    post.createPass<HorizontalTiltShifPass>()->setEnabled(true);
+    post.createPass<VerticalTiltShifPass>()->setEnabled(true);
+    post.createPass<ToonPass>()->setEnabled(false);}
 
 void ofApp::projectColors()
 {
@@ -741,6 +758,19 @@ void ofApp::drawDebugMsg()
     ofDrawBitmapString("route.activeProject " + ofToString(route.activeProject), 30, 540);
     ofDrawBitmapString("leftClose " + ofToString(menu.leftClose), 30, 560);
     ofDrawBitmapString("rightClose " + ofToString(menu.rightClose), 30, 580);
+    
+    
+    // draw help
+    ofSetColor(0, 255, 255);
+    ofDrawBitmapString("Number keys toggle effects, mouse rotates scene", 10, 20);
+    for (unsigned i = 0; i < post.size(); ++i)
+    {
+        if (post[i]->getEnabled()) ofSetColor(0, 255, 255);
+        else ofSetColor(255, 0, 0);
+        ostringstream oss;
+        oss << i << ": " << post[i]->getName() << (post[i]->getEnabled()?" (on)":" (off)");
+        ofDrawBitmapString(oss.str(), ofGetWidth()/2, 20 * (i + 2));
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -844,7 +874,8 @@ void ofApp::drawScene()
 
 void ofApp::startScene()
 {
-    cam.begin();
+    post.begin(cam);
+    //cam.begin();
     ofEnableDepthTest();
     ofEnableLighting();
     light.enable();
@@ -855,7 +886,8 @@ void ofApp::endScene()
     light.disable();
     ofDisableLighting();
     ofDisableDepthTest();
-    cam.end();
+    //cam.end();
+    post.end();
 }
 
 void ofApp::showGui(bool show)
@@ -973,6 +1005,9 @@ void ofApp::keyPressed(int key)
             showGui(!gui->getVisible());
             break;
     }
+    
+    unsigned idx = key - '0';
+    if (idx < post.size()) post[idx]->setEnabled(!post[idx]->getEnabled());
 }
 
 void ofApp::keyReleased(int key){
