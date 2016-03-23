@@ -27,14 +27,16 @@ public:
     bool isDraw;
     bool fadeLabel;
     
-    void setup() {
+    void setup()
+    {
         enableMouseEvents();
         enableKeyEvents();
         
+        // menu fonts and sizes
         fontMain.load("fonts/Plain-Medium.ttf", 12);
         fontSub.load("fonts/Plain-Medium.ttf", 7);
         
-        // default color is darkened
+        // default color is darkened white
         color = 240;
     }
     
@@ -50,34 +52,48 @@ public:
         if (isDraw) {
             switch (drawType) {
                 case 0:
+                    // when selected, lerp to white
                     if (isSelected) color = ofLerp(color, 255, 0.2);
                     else color = ofLerp(color, 240, 0.2);
                     
+                    // draws menu tiles
                     ofSetColor(color);
                     ofDrawRectangle(x, y, width, height);
                     
+                    // fades content titles
                     if (fadeLabel) alpha = ofLerp(alpha, 0, 0.1);
                     else alpha = ofLerp(alpha, 255, 0.2);
                     ofSetColor(0, alpha);
+                    
+                    // title location changes based on main tile or menu tiles
                     if (isMainTile) fontMain.drawString(title, x + 10, y + 20);
                     else fontSub.drawString(title, x + 5, y + 10);
                     
                     break;
                     
                 case 1:
+                    // left menu line
+                    // line thickness
                     ofSetLineWidth(3);
+                    // menu line color
                     ofSetColor(255, 130, 0);
                     ofDrawLine(x, y+height/2, x+lineLength, y+height/2);
                     break;
                     
                 case 2:
+                    // right menu line
+                    // line thickness
                     ofSetLineWidth(3);
+                    // menu line color
                     ofSetColor(255, 130, 0);
                     ofDrawLine(x-lineLength, y+height/2, x, y+height/2);
                     break;
                     
                 case 3:
+                    // vertical content menu line
+                    // line thickness
                     ofSetLineWidth(3);
+                    // menu line color
                     ofSetColor(255, 130, 0);
                     ofDrawLine(x, y+height/2, x, y+height/2-lineLength);
                     break;
