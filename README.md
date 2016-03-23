@@ -66,8 +66,9 @@ Handles all content media loading, drawing, setup, etc.
 
 ###### Content.cpp
 - void Content::fileLocation() - ALL content paths are defined here.  Thing to note, Crossrail content goes backwards in the array vs HS1.
-- HS1 Buttons {0,1,2,3,4} = {Text Image, Image, Video, Model, ??? (Currently an Image)}
-- Crossrail Buttons {4,3,2,1,0} = {??? (Currently an Image), Model, Video, Image, Text Image}
+-- HS1 Buttons {0,1,2,3,4} = {Text Image, Image, Video, Model, ??? (Currently an Image)}
+-- Crossrail Buttons {4,3,2,1,0} = {??? (Currently an Image), Model, Video, Image, Text Image}
+** If any content type is changed, you'll need to make sure it's corrected in all functions.  i.e. if you change an image to a video, now all the update/load/draw functions need to reflect this...
 
 ## ofxVectorTile
 I made a modification to the file 'glmGeometryBuilder.cpp'.  Hacked the last function so that buildings with zero height could have some varying/random height.  Make sure to replace the file here with the one in your addon folder, as addon's do not sync to github.
