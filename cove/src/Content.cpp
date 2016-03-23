@@ -3,7 +3,7 @@
 //  Cove
 //
 //  Created by Jason Walters on 10/03/2016.
-//  Last edited by Jason Walters on 10/03/2016.
+//  Last edited by Jason Walters on 23/03/2016.
 //
 //
 
@@ -14,10 +14,23 @@
 void Content::setup()
 {
     // model camera view distance
-    cam.setFarClip(6000);
+    cam.lookAt(ofVec3f(0,0,0));
+    cam.setFarClip(18000);
+    cam.setNearClip(.5f);
+    camZoom = 20000;
     
     // setup file paths
     fileLocation();
+    
+    // setup FBX scene
+    ofxFBXSceneSettings settings;
+    string filename = path[0][0][3];
+    if( scene.load(filename, settings) ) {
+        cout << "ofApp :: loaded the scene OK" << endl;
+    } else {
+        cout << "ofApp :: Error loading the scene" << endl;
+    }
+    model.setup( &scene );
 }
 
 //--------------------------------------------------------------
@@ -27,70 +40,70 @@ void Content::fileLocation()
     path[0][0][0] = "content/media/HS1/Location/StPancras/Text/StPancras.png";
     path[0][0][1] = "content/media/HS1/Location/StPancras/Image/ModelSlabPressuresKingsCross.jpg";
     path[0][0][2] = "content/media/Placeholder/no_video.mp4";
-    path[0][0][3] = "content/media/Placeholder/no_model.obj";
+    path[0][0][3] = "content/media/Placeholder/no_model.fbx";
     path[0][0][4] = "content/media/Placeholder/no_data.jpg";
     
     // HS1 - Stratford - StratfordInternational
     path[0][1][0] = "content/media/HS1/Location/StratfordInternational/Text/StratfordInternational.png";
     path[0][1][1] = "content/media/HS1/Location/StratfordInternational/Image/HighSpeedHS1HawkEditions.jpg";
     path[0][1][2] = "content/media/Placeholder/no_video.mp4";
-    path[0][1][3] = "content/media/Placeholder/no_model.obj";
+    path[0][1][3] = "content/media/Placeholder/no_model.fbx";
     path[0][1][4] = "content/media/Placeholder/no_data.jpg";
     
     // HS1 - Ebbsfleet - EbbsfleetInternational
     path[0][2][0] = "content/media/HS1/Location/EbbsfleetInternational/Text/EbbsfleetInternational.png";
     path[0][2][1] = "content/media/HS1/Location/EbbsfleetInternational/Image/EbbsfleetElephant.jpg";
     path[0][2][2] = "content/media/HS1/Location/EbbsfleetInternational/Video/BridgePush.mpg";
-    path[0][2][3] = "content/media/Placeholder/no_model.obj";
+    path[0][2][3] = "content/media/Placeholder/no_model.fbx";
     path[0][2][4] = "content/media/Placeholder/no_data.jpg";
     
     // HS1 - Medway Viaduct
     path[0][3][0] = "content/media/HS1/Location/MedwayViaduct/Text/MedwayViaduct.png";
     path[0][3][1] = "content/media/HS1/Location/MedwayViaduct/Image/MedwayViaduct01.jpg";
     path[0][3][2] = "content/media/HS1/Location/MedwayViaduct/Video/CTRL.mp4";
-    path[0][3][3] = "content/media/Placeholder/no_model.obj";
+    path[0][3][3] = "content/media/Placeholder/no_model.fbx";
     path[0][3][4] = "content/media/Placeholder/no_data.jpg";
     
     // HS1 - Ashford
     path[0][4][0] = "content/media/HS1/Location/AshfordInternational/Text/PlanningTheRoute.png";
     path[0][4][1] = "content/media/HS1/Location/AshfordInternational/Image/HS1RouteIntersectingWithExistingRailLinks.jpg";
     path[0][4][2] = "content/media/HS1/Location/AshfordInternational/Video/Ctrl.mp4";
-    path[0][4][3] = "content/media/Placeholder/no_model.obj";
+    path[0][4][3] = "content/media/Placeholder/no_model.fbx";
     path[0][4][4] = "content/media/Placeholder/no_data.jpg";
     
     // Crossrail - Woolwich
     path[1][0][4] = "content/media/Placeholder/no_data.jpg";
     path[1][0][3] = "content/media/Placeholder/no_data.jpg";
     path[1][0][2] = "content/media/Placeholder/no_video.mp4";
-    path[1][0][1] = "content/media/Placeholder/no_model.obj";
+    path[1][0][1] = "content/media/Placeholder/no_model.fbx";
     path[1][0][0] = "content/media/Placeholder/no_data.jpg";
     
     // Crossrail - Canary Wharf
     path[1][1][4] = "content/media/Crossrail/Location/CanaryWharf/Text/PlanningForAShipImpact.png";
     path[1][1][3] = "content/media/Crossrail/Location/CanaryWharf/Image/CanaryWharfStation.jpg";
     path[1][1][2] = "content/media/Crossrail/Location/CanaryWharf/Video/CrossrailTimeLapseVideoDrainingOfNorthDock.mov";
-    path[1][1][1] = "content/media/Placeholder/no_model.obj";
+    path[1][1][1] = "content/media/Placeholder/no_model.fbx";
     path[1][1][0] = "content/media/Placeholder/no_data.jpg";
     
     // Crossrail - Liverpool
     path[1][2][4] = "content/media/Crossrail/Location/LiverpoolStreet/Text/ArcheologicalDiscoveries.png";
     path[1][2][3] = "content/media/Crossrail/Location/LiverpoolStreet/Image/RomanCopperAlloyAndSilverCoins.jpg";
     path[1][2][2] = "content/media/Crossrail/Location/LiverpoolStreet/Video/CrossrailArchaeologyLiverpoolStreet.mp4";
-    path[1][2][1] = "content/media/Placeholder/no_model.obj";
+    path[1][2][1] = "content/media/Placeholder/no_model.fbx";
     path[1][2][0] = "content/media/Placeholder/no_data.jpg";
     
     // Crossrail - Barbican
     path[1][3][4] = "content/media/Crossrail/Location/Barbican/Text/FloatingTracks.png";
     path[1][3][3] = "content/media/Crossrail/Location/Barbican/Image/Gantry3dModel.jpg";
     path[1][3][2] = "content/media/Crossrail/Location/Barbican/Video/CrossrailRailwaySystems.mp4";
-    path[1][3][1] = "content/media/Placeholder/no_model.obj";
+    path[1][3][1] = "content/media/Placeholder/no_model.fbx";
     path[1][3][0] = "content/media/Placeholder/no_data.jpg";
     
     // Crossrail - Tottenham Court Road
     path[1][4][4] = "content/media/Crossrail/Location/TottenhamCourtRoad/Text/TheEyeOfTheNeedle.png";
     path[1][4][3] = "content/media/Crossrail/Location/TottenhamCourtRoad/Image/TottenhamCourtRoadStationArchitectsImpression01.jpg";
     path[1][4][2] = "content/media/Crossrail/Location/TottenhamCourtRoad/Video/BreakthroughCrossrailsTunnellingStory.mp4";
-    path[1][4][1] = "content/media/Placeholder/no_model.obj";
+    path[1][4][1] = "content/media/Placeholder/no_model.fbx";
     path[1][4][0] = "content/media/Placeholder/no_data.jpg";
     
     // pre-load all videos
@@ -118,6 +131,33 @@ void Content::update()
     
     // content scaling
     scaling();
+    
+    // fbx model updates
+    if (project == 0 && item == 3)
+    {
+        // update model
+        model.update();
+        
+        // perform any bone manipulation here
+        model.lateUpdate();
+    }
+    else if (project == 1 && item == 1)
+    {
+        // update model
+        model.update();
+        
+        // perform any bone manipulation here
+        model.lateUpdate();
+    }
+    
+    // update light position
+    light.setPosition(cam.getPosition());
+    light.setOrientation(cam.getOrientationEuler());
+    
+    // camera reset x axis
+    camXaxis = ofLerp(camXaxis, 0, 0.2);
+    cam.setOrientation(ofVec3f(camXaxis, cam.getOrientationEuler().y, cam.getOrientationEuler().z));
+    
 }
 
 //--------------------------------------------------------------
@@ -140,7 +180,7 @@ void Content::scaling()
             scale[2] = ofLerp(scale[2], 0.0, lerpIn);
             scale[3] = ofLerp(scale[3], 0.0, lerpIn);
             scale[4] = ofLerp(scale[4], 0.0, lerpIn);
-            camZoom = ofLerp(camZoom, 8000, lerpIn * 0.1);
+            camZoom = ofLerp(camZoom, 20000, lerpIn);
             break;
             
         case 1:
@@ -148,7 +188,7 @@ void Content::scaling()
             {
                 scale[1] = ofLerp(scale[1], 1.0, lerpOut);
                 
-                if (project == 1) camZoom = ofLerp(camZoom, 250, lerpOut);
+                if (project == 1) camZoom = ofLerp(camZoom, 7000, lerpOut);
                 
                 // stop any videos running
                 stop();
@@ -158,7 +198,7 @@ void Content::scaling()
             scale[2] = ofLerp(scale[2], 0.0, lerpIn);
             scale[3] = ofLerp(scale[3], 0.0, lerpIn);
             scale[4] = ofLerp(scale[4], 0.0, lerpIn);
-            if (project == 0)  camZoom = ofLerp(camZoom, 8000, lerpIn * 0.1);
+            if (project == 0)  camZoom = ofLerp(camZoom, 20000, lerpIn);
             break;
             
         case 2:
@@ -171,7 +211,7 @@ void Content::scaling()
             scale[1] = ofLerp(scale[1], 0.0, lerpIn);
             scale[3] = ofLerp(scale[3], 0.0, lerpIn);
             scale[4] = ofLerp(scale[4], 0.0, lerpIn);
-            camZoom = ofLerp(camZoom, 8000, lerpIn * 0.1);
+            camZoom = ofLerp(camZoom, 20000, lerpIn);
             break;
             
         case 3:
@@ -179,7 +219,7 @@ void Content::scaling()
             {
                 scale[3] = ofLerp(scale[3], 1.0, lerpOut);
                 
-                if (project == 0) camZoom = ofLerp(camZoom, 250, lerpOut);
+                if (project == 0) camZoom = ofLerp(camZoom, 7000, lerpOut);
                 
                 // stop any videos running
                 stop();
@@ -190,7 +230,7 @@ void Content::scaling()
             scale[2] = ofLerp(scale[2], 0.0, lerpIn);
             scale[4] = ofLerp(scale[4], 0.0, lerpIn);
             
-            if (project == 1) camZoom = ofLerp(camZoom, 8000, lerpIn * 0.1);
+            if (project == 1) camZoom = ofLerp(camZoom, 20000, lerpIn);
             break;
             
         case 4:
@@ -206,7 +246,7 @@ void Content::scaling()
             scale[1] = ofLerp(scale[1], 0.0, lerpIn);
             scale[2] = ofLerp(scale[2], 0.0, lerpIn);
             scale[3] = ofLerp(scale[3], 0.0, lerpIn);
-            camZoom = ofLerp(camZoom, 8000, lerpIn * 0.1);
+            camZoom = ofLerp(camZoom, 20000, lerpIn);
             break;
             
         case 5:
@@ -215,7 +255,7 @@ void Content::scaling()
             scale[2] = ofLerp(scale[2], 0.0, lerpIn);
             scale[3] = ofLerp(scale[3], 0.0, lerpIn);
             scale[4] = ofLerp(scale[4], 0.0, lerpIn);
-            camZoom = ofLerp(camZoom, 8000, lerpIn * 0.1);
+            camZoom = ofLerp(camZoom, 20000, lerpIn);
             
             if (scale[2] <= dest)
                 stop();
@@ -312,11 +352,18 @@ void Content::draw()
         // rotate on y axis
         cam.pan(camPam);
         cam.setDistance(camZoom);
+        glDisable(GL_BLEND);
         ofEnableDepthTest();
         cam.begin();
-        model.getVboMesh()->drawFaces();
+        ofEnableLighting();
+        light.enable();
+        ofSetColor(255, 255, 255);
+        model.draw();
+        light.disable();
+        ofDisableLighting();
         cam.end();
         ofDisableDepthTest();
+        glEnable(GL_BLEND);
         
         // image 4 is placeholder for audio content
         if (img[4].isAllocated())
@@ -399,7 +446,12 @@ void Content::draw()
         cam.setDistance(camZoom);
         ofEnableDepthTest();
         cam.begin();
-        model.getVboMesh()->draw();
+        ofEnableLighting();
+        light.enable();
+        ofSetColor(255, 255, 255);
+        model.draw();
+        light.disable();
+        ofDisableLighting();
         cam.end();
         ofDisableDepthTest();
         
@@ -431,51 +483,73 @@ void Content::load(int _project, int _point, int _item)
     item = _item;
     
     if (project == 0) {
-        switch (item) {
-            case 0:
-                // loads specific image
-                img[item].load(path[project][point][item]);
-                break;
-            case 1:
-                // loads specific image
-                img[item].load(path[project][point][item]);
-                break;
-            case 2:
-                // videos are pre-loaded, play video selection
-                if (!vid[project][point].isPlaying()) vid[project][point].play();
-                break;
-            case 3:
-                // load models
-                model.load(path[project][point][item]);
-                break;
-            case 4:
-                // loads specific image
-                img[item].load(path[project][point][item]);
-                break;
+        
+        if (item == 0)
+        {
+            // loads specific image
+            img[item].load(path[project][point][item]);
+        }
+        else if (item == 1)
+        {
+            // loads specific image
+            img[item].load(path[project][point][item]);
+        }
+        else if (item == 2)
+        {
+            // videos are pre-loaded, play video selection
+            if (!vid[project][point].isPlaying()) vid[project][point].play();
+        }
+        else if (item == 3)
+        {
+            // setup FBX scene
+            ofxFBXSceneSettings settings;
+            string filename = path[project][point][item];
+            if( scene.load(filename, settings) ) {
+                cout << "ofApp :: loaded the scene OK" << endl;
+            } else {
+                cout << "ofApp :: Error loading the scene" << endl;
+            }
+            model.setup( &scene );
+        }
+        else if (item == 4)
+        {
+            // loads specific image
+            img[item].load(path[project][point][item]);
         }
     }
     else {
-        switch (item) {
-            case 4:
-                // loads specific image
-                img[item].load(path[project][point][item]);
-                break;
-            case 3:
-                // loads specific image
-                img[item].load(path[project][point][item]);
-                break;
-            case 2:
-                // videos are pre-loaded, play video selection
-                if (!vid[project][point].isPlaying()) vid[project][point].play();
-                break;
-            case 1:
-                // load models
-                model.load(path[project][point][item]);
-                break;
-            case 0:
-                // loads specific image
-                img[item].load(path[project][point][item]);
-                break;
+        
+        if (item == 0)
+        {
+            // loads specific image
+            img[item].load(path[project][point][item]);
+        }
+        else if (item == 1)
+        {
+            // setup FBX scene
+            ofxFBXSceneSettings settings;
+            string filename = path[project][point][item];
+            if( scene.load(filename, settings) ) {
+                cout << "ofApp :: loaded the scene OK" << endl;
+            } else {
+                cout << "ofApp :: Error loading the scene" << endl;
+            }
+            model.setup( &scene );
+        }
+        else if (item == 2)
+        {
+            // videos are pre-loaded, play video selection
+            if (!vid[project][point].isPlaying()) vid[project][point].play();
+        }
+        else if (item == 3)
+        {
+            // loads specific image
+            img[item].load(path[project][point][item]);
+        }
+        else if (item == 4)
+        {
+            // loads specific image
+            img[item].load(path[project][point][item]);
         }
     }
 }

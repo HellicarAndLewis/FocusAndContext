@@ -1,6 +1,9 @@
+ofxDatGui
+ofxFBX
 ofxGlmTools
 ofxGui
 ofxJSON
+ofxMSAInteractiveObject
+ofxPostProcessing
 ofxVectorTile
 ofxXmlSettings
-ofxMSAInteractiveObject

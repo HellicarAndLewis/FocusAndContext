@@ -10,7 +10,8 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxOBJModel.h"
+//#include "ofxOBJModel.h"
+#include "ofxFBX.h"
 
 class Content
 {
@@ -29,10 +30,17 @@ public:
     // content type
     ofImage img[5];
     ofVideoPlayer vid[2][5];
-    ofxOBJModel model;
+    //ofxOBJModel model;
     
+    ofxFBXScene scene;
     ofEasyCam cam;
+    ofxFBXManager model;
+    
+    ofLight light;
+    
+    //ofEasyCam cam;
     float camZoom;
+    float camXaxis;
     
     float scale[5];
     float screenWidth;

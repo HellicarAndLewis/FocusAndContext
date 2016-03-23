@@ -25,21 +25,21 @@ void ofApp::setup()
     // center mesh on launch
     meshPosition.set(-16156.9, 11756.6);
 
-    // FBO to render scene into shader
-    ofFbo::Settings settings;
-    settings.width = ofGetWidth();
-    settings.height = ofGetHeight();
-    settings.internalformat = GL_RGB;
-    settings.numSamples = 0;
-    settings.useDepth = true;
-    settings.useStencil = true;
-    settings.depthStencilAsTexture = true;
-#ifdef TARGET_OPENGLES
-    settings.textureTarget = GL_TEXTURE_2D;
-#else
-    settings.textureTarget = ofGetUsingArbTex() ? GL_TEXTURE_RECTANGLE_ARB : GL_TEXTURE_2D;
-#endif
-    fbo.allocate(settings);
+//    // FBO to render scene into shader
+//    ofFbo::Settings settings;
+//    settings.width = ofGetWidth();
+//    settings.height = ofGetHeight();
+//    settings.internalformat = GL_RGB;
+//    settings.numSamples = 0;
+//    settings.useDepth = true;
+//    settings.useStencil = true;
+//    settings.depthStencilAsTexture = true;
+//#ifdef TARGET_OPENGLES
+//    settings.textureTarget = GL_TEXTURE_2D;
+//#else
+//    settings.textureTarget = ofGetUsingArbTex() ? GL_TEXTURE_RECTANGLE_ARB : GL_TEXTURE_2D;
+//#endif
+//    fbo.allocate(settings);
     shader.load("", "shader.frag");
     // waterShader.load("shadersGL2/water.vert", "shadersGL2/water.frag");
     buildingsShader.load("shadersGL2/buildings.vert", "shadersGL2/buildings.frag");
@@ -528,13 +528,7 @@ void ofApp::update()
     
     if(colorProject) projectColors();
     
-    route.update(scroller.getValue());
-    
-    /*
-    // get the active tile and colour it
-    ofPoint activeTilePos = route.getLocation()->tilePos;
-    tileLoader.setActive(activeTilePos.x, activeTilePos.y);
-     */
+    route.update(scroller.getValue());    
     
     // update mesh target and if we're scrolling
     if (scroller.isScrolling) meshTarget = route.getPosition(true);
