@@ -34,7 +34,7 @@ Global variables can be defined here and accessed anywhere.
 #### Route XML Data
 Route points are hardcoded in an XML called route.xml for each project located in '/data/content/{project name}/route.xml'.
 
-#### Route Group
+#### Route Xcode Files Group
 These files control the routes for each project, interest points, and tiles for locations.
 - Location.h/.cpp
 - Route.h/.cpp
@@ -46,12 +46,12 @@ These files control the routes for each project, interest points, and tiles for 
 ###### Location.cpp
 - void Location::draw(ofCamera& cam, float _alpha, float _height) - Draws the point of interest labels for each project.
 
-#### Tiles Group
+#### Tiles Xcode Files Group
 These files parse the JSON data to create tile layers.
 - LocalTile.h
 - TileLoader.h/.cpp
 
-#### Menu Group
+#### Menu Xcode Files Group
 These files handle the interactive menu system.
 - InteractiveObject.h - This file defines the buttons or objects...
 - InteractiveMenu.h/.cpp - The entire menu system.
@@ -60,7 +60,7 @@ These files handle the interactive menu system.
 * For sizing, it's dynamic here so make sure to adjust in ofApp.cpp function "menuSetup()".
 - void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, float _padding, float _easeIn, float _easeOut) - This function sets up the main menu, button sounds, button title names, etc.
 
-#### Content Group
+#### Content Xcode Files Group
 Handles all content media loading, drawing, setup, etc.
 - Content.h/.cpp
 
