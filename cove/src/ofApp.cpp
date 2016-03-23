@@ -22,9 +22,6 @@ void ofApp::setup()
     cam.setFarClip(300000);
     cam.setDistance(250000);
     
-    // post processing setup
-    effectsSetup();
-    
     // center mesh on launch
     meshPosition.set(-16156.9, 11756.6);
 
@@ -137,10 +134,10 @@ void ofApp::setupGui()
     gui->onSliderEvent(this, &ofApp::onSliderEvent);
 }
 
-void ofApp::effectsSetup()
+void ofApp::effectsSetup(float _w, float _h)
 {
     // Setup post-processing chain
-    post.init(ofGetWidth(), ofGetHeight());
+    post.init(_w, _h);
     post.createPass<FxaaPass>()->setEnabled(true);
     post.createPass<BloomPass>()->setEnabled(false);
     post.createPass<DofPass>()->setEnabled(false);
@@ -149,7 +146,8 @@ void ofApp::effectsSetup()
     post.createPass<EdgePass>()->setEnabled(false);
     post.createPass<HorizontalTiltShifPass>()->setEnabled(true);
     post.createPass<VerticalTiltShifPass>()->setEnabled(true);
-    post.createPass<ToonPass>()->setEnabled(false);}
+    post.createPass<ToonPass>()->setEnabled(false);
+}
 
 void ofApp::projectColors()
 {
@@ -791,6 +789,7 @@ void ofApp::drawScene()
         ofTranslate(meshPosition);
         
         auto tiles = &tileLoader.tiles;
+        
         // toggle tile layers based on zoom?
         //if (cam.getDistance() < 5000) tiles = &tileLoader.microTiles;
         
@@ -861,11 +860,21 @@ void ofApp::drawScene()
         // draw the route and location content without lighting
         // this ensures consistent colour and legibility
         ofDisableLighting();
-        route.draw(cam);
+//        route.draw(cam);
         ofEnableLighting();
     }
     ofPopMatrix();
     endScene();
+    
+    cam.begin();
+    ofPushMatrix();
+    ofRotateX(sceneRotation.x);
+    ofRotateY(sceneRotation.y);
+    ofRotateZ(sceneRotation.z);
+    ofTranslate(meshPosition);
+    route.draw(cam);
+    ofPopMatrix();
+    cam.end();
     
     // draw the zoomed-in content for locations in 2D
     // this is outside of the camera so it can ignore perspective
@@ -1076,6 +1085,9 @@ void ofApp::windowResized(int w, int h)
     
     // resize window shape
     ofSetWindowShape(w, h);
+    
+    // post processing setup
+    effectsSetup(w, h);
     
     // reconfigure menu for new window shape
     if (bCove) menuSetup(w, h);

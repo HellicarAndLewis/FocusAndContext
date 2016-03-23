@@ -168,5 +168,5 @@ public:
     
     // effects
     ofxPostProcessing post;
-    void effectsSetup();
+    void effectsSetup(float _w, float _h);
 };
