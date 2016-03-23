@@ -61,7 +61,7 @@ These files handle the interactive menu system.
 - void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, float _padding, float _easeIn, float _easeOut) - This function sets up the main menu, button sounds, button title names, etc.
 
 #### Content Xcode Files Group
-Handles all content media loading, drawing, setup, etc.
+Handles all content media loading, drawing, setup, etc.  ALL videos are preloaded on launch because they are too demanding in loading.  Alternative is to use 'threading' but as we only 10 videos, it's best to avoid as once the system is running it's running.
 - Content.h/.cpp
 
 ###### Content.cpp
