@@ -2138,7 +2138,7 @@ void InteractiveMenu::pressedContent()
         
         // close content, stop video, and disable vignette
         c.item = 5;
-        c.stop();
+        c.stopVideos();
         if (Globals::vignetteOn)
             Globals::vignetteOn = false;
     }
@@ -2232,7 +2232,7 @@ void InteractiveMenu::pressedContent()
         
         // close content, stop video, and disable vignette
         c.item = 5;
-        c.stop();
+        c.stopVideos();
         if (Globals::vignetteOn) Globals::vignetteOn = false;
     }
     
@@ -2325,7 +2325,7 @@ void InteractiveMenu::pressedContent()
         
         // close content, stop video, and disable vignette
         c.item = 5;
-        c.stop();
+        c.stopVideos();
         if (Globals::vignetteOn) Globals::vignetteOn = false;
     }
     
@@ -2418,7 +2418,7 @@ void InteractiveMenu::pressedContent()
         
         // close content, stop video, and disable vignette
         c.item = 5;
-        c.stop();
+        c.stopVideos();
         if (Globals::vignetteOn) Globals::vignetteOn = false;
     }
     
@@ -2510,7 +2510,7 @@ void InteractiveMenu::pressedContent()
         
         // close content, stop video, and disable vignette
         c.item = 5;
-        c.stop();
+        c.stopVideos();
         if (Globals::vignetteOn) Globals::vignetteOn = false;
     }
     
@@ -2603,7 +2603,7 @@ void InteractiveMenu::pressedContent()
         
         // close content, stop video, and disable vignette
         c.item = 5;
-        c.stop();
+        c.stopVideos();
         if (Globals::vignetteOn) Globals::vignetteOn = false;
     }
     
@@ -2696,7 +2696,7 @@ void InteractiveMenu::pressedContent()
         
         // close content, stop video, and disable vignette
         c.item = 5;
-        c.stop();
+        c.stopVideos();
         if (Globals::vignetteOn) Globals::vignetteOn = false;
     }
     
@@ -2789,7 +2789,7 @@ void InteractiveMenu::pressedContent()
         
         // close content, stop video, and disable vignette
         c.item = 5;
-        c.stop();
+        c.stopVideos();
         if (Globals::vignetteOn) Globals::vignetteOn = false;
     }
     
@@ -2882,7 +2882,7 @@ void InteractiveMenu::pressedContent()
         
         // close content, stop video, and disable vignette
         c.item = 5;
-        c.stop();
+        c.stopVideos();
         if (Globals::vignetteOn) Globals::vignetteOn = false;
     }
     
@@ -2975,7 +2975,7 @@ void InteractiveMenu::pressedContent()
         
         // close content, stop video, and disable vignette
         c.item = 5;
-        c.stop();
+        c.stopVideos();
         if (Globals::vignetteOn) Globals::vignetteOn = false;
     }
 }

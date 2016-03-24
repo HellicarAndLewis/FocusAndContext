@@ -22,7 +22,8 @@ public:
     void scaling();
     void draw();
     void load(int _project, int _point, int _item);
-    void stop();
+    void stopVideos();
+    void stopAudio();
     
     // content locations
     string path[2][5][5];
@@ -33,6 +34,7 @@ public:
     ofImage titleTextImage[2][5][5];
     ofImage captionTextImage[2][5][5];
     ofVideoPlayer vid[2][5];
+    ofSoundPlayer sound[2][5];
     //ofxOBJModel model;
     
     ofxFBXScene scene;

@@ -93,6 +93,7 @@
 		F285EB3169F1566CA3D93C20 /* ofxPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E112B3AEBEA2C091BF2B40AE /* ofxPanel.cpp */; };
 		F2C488627AEB484729EF7A98 /* glmPolarPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3E8CFE409C09EF5EB85DE51 /* glmPolarPoint.cpp */; };
 		F30DF3DCCBFB7848F36E20BA /* glmFeatureLabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17B258AE67598473F4A2F06C /* glmFeatureLabel.cpp */; };
+		F5F366BC1CA47A63009E1A78 /* ofxNestedFileLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F366BA1CA47A63009E1A78 /* ofxNestedFileLoader.cpp */; };
 		FB84AAF8D1B7A95266DB5C09 /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 21BDE665988474F1B1F4D302 /* jsoncpp.cpp */; };
 /* End PBXBuildFile section */
 
@@ -682,6 +683,8 @@
 		F5D27C767B936AE5D00D561C /* glmGeometryBuilder.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = glmGeometryBuilder.cpp; path = ../../../addons/ofxVectorTile/libs/glmTile/glmGeometryBuilder.cpp; sourceTree = SOURCE_ROOT; };
 		F5DB1AC24B8010FC3C556AAC /* RenderPass.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = RenderPass.h; path = ../../../addons/ofxPostProcessing/src/RenderPass.h; sourceTree = SOURCE_ROOT; };
 		F5EC8D4017BB14C07F6B4F25 /* fast_trigonometry.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fast_trigonometry.hpp; path = ../../../addons/ofxGlmTools/libs/glm/gtx/fast_trigonometry.hpp; sourceTree = SOURCE_ROOT; };
+		F5F366BA1CA47A63009E1A78 /* ofxNestedFileLoader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxNestedFileLoader.cpp; sourceTree = "<group>"; };
+		F5F366BB1CA47A63009E1A78 /* ofxNestedFileLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxNestedFileLoader.h; sourceTree = "<group>"; };
 		F661A9C459CE921AF8E27277 /* func_trigonometric.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = func_trigonometric.hpp; path = ../../../addons/ofxGlmTools/libs/glm/detail/func_trigonometric.hpp; sourceTree = SOURCE_ROOT; };
 		F678656AECB44B7A6920C8F4 /* fbxthumbnail.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxthumbnail.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/scene/fbxthumbnail.h; sourceTree = SOURCE_ROOT; };
 		F6AAF9935E0CA4DADBA8BE65 /* extented_min_max.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = extented_min_max.hpp; path = ../../../addons/ofxGlmTools/libs/glm/gtx/extented_min_max.hpp; sourceTree = SOURCE_ROOT; };
@@ -1516,6 +1519,7 @@
 				BD52EC6DCE402D90869A80A1 /* ofxPostProcessing */,
 				D6BF0C06962E11B5872FE5FB /* ofxVectorTile */,
 				1F4FB5C423662B96ADFDCC0B /* ofxXmlSettings */,
+				F5F366B81CA47A63009E1A78 /* ofxNestedFileLoader */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -1845,6 +1849,24 @@
 			name = utils;
 			sourceTree = "<group>";
 		};
+		F5F366B81CA47A63009E1A78 /* ofxNestedFileLoader */ = {
+			isa = PBXGroup;
+			children = (
+				F5F366B91CA47A63009E1A78 /* src */,
+			);
+			name = ofxNestedFileLoader;
+			sourceTree = "<group>";
+		};
+		F5F366B91CA47A63009E1A78 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				F5F366BA1CA47A63009E1A78 /* ofxNestedFileLoader.cpp */,
+				F5F366BB1CA47A63009E1A78 /* ofxNestedFileLoader.h */,
+			);
+			name = src;
+			path = ../../../addons/ofxNestedFileLoader/src;
+			sourceTree = "<group>";
+		};
 		FE15CD9A4E0523DB8F4A131E /* collada */ = {
 			isa = PBXGroup;
 			children = (
@@ -1901,7 +1923,7 @@
 			attributes = {
 				LastUpgradeCheck = 0600;
 			};
-			buildConfigurationList = E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "cove" */;
+			buildConfigurationList = E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "Cove" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -2028,6 +2050,7 @@
 				04C13EEA813A786CC1D8137A /* FxaaPass.cpp in Sources */,
 				6A505EAE8088949A9180FFE7 /* GodRaysPass.cpp in Sources */,
 				28AFD6FA9B9C885AFD9FF1C7 /* HorizontalTiltShifPass.cpp in Sources */,
+				F5F366BC1CA47A63009E1A78 /* ofxNestedFileLoader.cpp in Sources */,
 				B59194C82B8D802DA33EC465 /* HsbShiftPass.cpp in Sources */,
 				884CB4D049E35C51E949A565 /* KaleidoscopePass.cpp in Sources */,
 				7AB51F1099DC01486D18FAF6 /* LimbDarkeningPass.cpp in Sources */,
@@ -2335,6 +2358,7 @@
 					../../../addons/ofxFBX/libs/fbxsdk_2016.1/lib/osx/libfbxsdk.a,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)Debug";
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2420,6 +2444,7 @@
 					../../../addons/ofxFBX/libs/fbxsdk_2016.1/lib/osx/libfbxsdk.a,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 				baseConfigurationReference = E4EB6923138AFD0F00A09F29;
 			};
@@ -2428,7 +2453,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "cove" */ = {
+		E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "Cove" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E4B69B4E0A3A1720003C02F2 /* Debug */,
