@@ -279,23 +279,22 @@ void Content::draw()
     float camPam = 0.5;
     int sOffset = 6;
     
+    //get the difference between screen width and draw the background pane
+    float backgroundDiff = screenWidth / backgroundImage.getWidth();
+    float backgroundWidth = (backgroundImage.getWidth() * backgroundDiff) * backgroundPercentage;
+    float backgroundHeight = (backgroundImage.getHeight() * backgroundDiff) * backgroundPercentage;
+    
+    ofPushStyle();
+    ofSetRectMode(OF_RECTMODE_CENTER);
+    for(int i = 0; i < 5; i++) {
+        if(scale[i] > 0.001) {
+            ofSetColor(255, 255, 255, 225);
+            backgroundImage.draw(ofGetWidth()/2, ofGetHeight()/2, backgroundWidth * scale[i], backgroundHeight * scale[i]);
+        }
+    }
+    ofPopStyle();
+    
     if (project == 0) {
-        
-//        //get the difference between screen width and draw the background pane
-//        float backgroundDiff = screenWidth / backgroundImage.getWidth();
-//        float backgroundWidth = (backgroundImage.getWidth() * backgroundDiff) * backgroundPercentage;
-//        float backgroundHeight = (backgroundImage.getHeight() * backgroundDiff) * backgroundPercentage;
-//        
-//        for(int i = 0; i < 5; i++) {
-//            if(scale[i] > 0.001) {
-//                //Draw the backgroundTile
-//                ofPushStyle();
-//                ofSetRectMode(OF_RECTMODE_CENTER);
-//                ofSetColor(255, 255, 255, alpha);
-//                backgroundImage.draw(ofGetWidth()/2, ofGetHeight()/2, backgroundWidth * scale[i], backgroundHeight * scale[i]);
-//                ofPopStyle();
-//            }
-//        }
         
         // draws text content (text is currently an image)
         ofSetRectMode(OF_RECTMODE_CENTER);
@@ -401,10 +400,6 @@ void Content::draw()
         ofSetRectMode(OF_RECTMODE_CENTER);
         if (img[4].isAllocated())
         {
-            //Draw the backgroundTile
-            ofSetColor(255);
-        //    backgroundImage.draw(ofGetWidth()/2, ofGetHeight()/2, backgroundWidth * scale[4], backgroundHeight * scale[4]);
-            
             // gets the difference between screen width and adjusts
             float diff = screenWidth / img[4].getWidth();
             float w = (img[4].getWidth() * diff) * percentage;
@@ -422,10 +417,6 @@ void Content::draw()
         // draws image content
         if (img[3].isAllocated())
         {
-            //Draw the backgroundTile
-            ofSetColor(255);
-        //    backgroundImage.draw(ofGetWidth()/2, ofGetHeight()/2, backgroundWidth * scale[3], backgroundHeight * scale[3]);
-            
             // gets the difference between screen width and adjusts
             float diff = screenWidth / img[3].getWidth();
             float w = (img[3].getWidth() * diff) * percentage;
@@ -463,9 +454,6 @@ void Content::draw()
         
             //Draw the backgroundTile
             ofSetColor(255);
-            //   backgroundImage.draw(ofGetWidth()/2, ofGetHeight()/2, backgroundWidth * scale[1], backgroundHeight * scale[1]);
-            // model drawing
-            // rotate on y axis
             cam.pan(camPam);
             cam.setDistance(camZoom);
             ofEnableDepthTest();
@@ -483,9 +471,6 @@ void Content::draw()
         if (img[0].isAllocated())
         {
             //Draw the backgroundTile
-            ofSetColor(255);
-        //    backgroundImage.draw(ofGetWidth()/2, ofGetHeight()/2, backgroundWidth * scale[0], backgroundHeight * scale[0]);
-            
             // gets the difference between screen width and adjusts
             float diff = screenWidth / img[0].getWidth();
             float w = (img[0].getWidth() * diff) * percentage;

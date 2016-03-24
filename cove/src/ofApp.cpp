@@ -18,6 +18,8 @@ void ofApp::setup()
     
     //ofToggleFullscreen();
     
+    ofSetWindowPosition(-1920-1080, 0);
+    
     // camera draw distance
     cam.setFarClip(300000);
     cam.setDistance(250000);
@@ -97,7 +99,7 @@ void ofApp::setupGui()
     gui->addFRM();
     
     gui->addToggle("toggle cove", true);
-    gui->addToggle("toggle fullscreen", false);
+    gui->addToggle("toggle fullscreen", true);
     gui->addToggle("automated system", false);
     gui->addToggle("show debug", false);
     
@@ -139,7 +141,7 @@ void ofApp::setupGui()
      slider->setPrecision(4);
      folder->addSlider("water mult x", 0, 1000, 65);
      folder->addSlider("water mult y", 0, 1000, 65);
-     */
+    */
     
     // GUI event listeners
     gui->onButtonEvent(this, &ofApp::onButtonEvent);
@@ -871,7 +873,9 @@ void ofApp::drawScene()
     ofRotateY(sceneRotation.y);
     ofRotateZ(sceneRotation.z);
     ofTranslate(meshPosition);
+    ofEnableDepthTest();
     route.draw(cam);
+    ofDisableDepthTest();
     ofPopMatrix();
     cam.end();
     
