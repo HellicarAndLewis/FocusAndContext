@@ -51,7 +51,7 @@ public:
         
         if (isDraw) {
             switch (drawType) {
-                case 0:
+                case 0: //Tiles
                     // when selected, lerp to white
                     if (isSelected) color = ofLerp(color, 255, 0.2);
                     else color = ofLerp(color, 240, 0.2);

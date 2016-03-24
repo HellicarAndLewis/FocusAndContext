@@ -49,7 +49,7 @@ void Content::fileLocation()
     path[0][1][0] = "content/media/HS1/Location/StratfordInternational/Text/StratfordInternational.png";
     path[0][1][1] = "content/media/HS1/Location/StratfordInternational/Image/HighSpeedHS1HawkEditions.jpg";
     path[0][1][2] = "content/media/Placeholder/no_video.mp4";
-    path[0][1][3] = "content/media/Placeholder/no_model.fbx";
+    path[0][1][3] = "content/media/HS1/Location/StratfordInternational/3dModel/stratford international station.FBX";
     path[0][1][4] = "content/media/Placeholder/no_data.jpg";
     
     // HS1 - Ebbsfleet - EbbsfleetInternational
@@ -84,7 +84,7 @@ void Content::fileLocation()
     path[1][1][4] = "content/media/Crossrail/Location/CanaryWharf/Text/PlanningForAShipImpact.png";
     path[1][1][3] = "content/media/Crossrail/Location/CanaryWharf/Image/CanaryWharfStation.jpg";
     path[1][1][2] = "content/media/Crossrail/Location/CanaryWharf/Video/CrossrailTimeLapseVideoDrainingOfNorthDock.mov";
-    path[1][1][1] = "content/media/Placeholder/no_model.fbx";
+    path[1][1][1] = "content/media/Crossrail/Location/CanaryWharf/3dModel/jrw_CW0201-C1M16-R01-D-99999 - Roof Inc.fbx";
     path[1][1][0] = "content/media/Placeholder/no_data.jpg";
     
     // Crossrail - Liverpool
@@ -157,8 +157,8 @@ void Content::update()
     light.setOrientation(cam.getOrientationEuler());
     
     // camera reset x axis
-    camXaxis = ofLerp(camXaxis, 0, 0.2);
-    cam.setOrientation(ofVec3f(camXaxis, cam.getOrientationEuler().y, cam.getOrientationEuler().z));
+    float val = ofLerp(0, cam.getLookAtDir().y, 0.2);
+    // cam.setOrientation(ofVec3f(val, cam.getOrientationEuler().y, cam.getOrientationEuler().z));
     
 }
 
@@ -503,6 +503,7 @@ void Content::load(int _project, int _point, int _item)
         {
             // setup FBX scene
             ofxFBXSceneSettings settings;
+            scene.unloadModels();
             string filename = path[project][point][item];
             if( scene.load(filename, settings) ) {
                 cout << "ofApp :: loaded the scene OK" << endl;
@@ -528,6 +529,7 @@ void Content::load(int _project, int _point, int _item)
         {
             // setup FBX scene
             ofxFBXSceneSettings settings;
+            scene.unloadModels();
             string filename = path[project][point][item];
             if( scene.load(filename, settings) ) {
                 cout << "ofApp :: loaded the scene OK" << endl;

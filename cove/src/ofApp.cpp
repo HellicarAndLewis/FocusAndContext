@@ -75,8 +75,8 @@ void ofApp::setup()
     loadProject(0); // 0: High Speed 1, 1: Crossrail
     
     // configure menu or content setup
-    //if (bCove) menuSetup(ofGetWidth(), ofGetHeight());
-    //else c.setup();
+    if (bCove) menuSetup(ofGetWidth(), ofGetHeight());
+    else c.setup();
     
     // effects
     effectsSetup(ofGetWidth(), ofGetHeight());

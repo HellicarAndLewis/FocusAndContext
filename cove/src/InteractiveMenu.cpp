@@ -1683,7 +1683,7 @@ void InteractiveMenu::transform()
             bLeftActive[i] = false;
         }
         
-        // update objects position and size
+        // update objects position and size // Change sized here maybe JB
         lPoints[i].setPosition(posLeft[i]);
         lPoints[i].setFromCenter(posLeft[i].x+subArea/2, posLeft[i].y+subArea/2, sizeLeft[i], sizeLeft[i]);
         lPoints[i].isSelected = bLeftActive[i];
