@@ -120,8 +120,7 @@ void Content::fileLocation()
     vid[1][3].load(path[1][3][2]);
     vid[1][4].load(path[1][4][2]);
     
-    bool loaded = backgroundImage.load("content/shared/backgroundTile.png");
-    cout<<loaded<<endl;
+    backgroundImage.load("content/shared/backgroundTile.png");
 }
 
 //--------------------------------------------------------------
@@ -276,23 +275,32 @@ void Content::draw()
     
     float percentage = 0.75;
     float backgroundPercentage = 0.9;
-    float alpha = 75;
+    float alpha = 224.4;
     float camPam = 0.5;
     int sOffset = 6;
     
-    //ge the difference between screen width and draw the background pane
-    float backgroundDiff = screenWidth / backgroundImage.getWidth();
-    float backgroundWidth = (backgroundImage.getWidth() * backgroundDiff) * backgroundPercentage;
-    float backgroundHeight = (backgroundImage.getHeight() * backgroundDiff) * backgroundPercentage;
-    
     if (project == 0) {
+        
+//        //get the difference between screen width and draw the background pane
+//        float backgroundDiff = screenWidth / backgroundImage.getWidth();
+//        float backgroundWidth = (backgroundImage.getWidth() * backgroundDiff) * backgroundPercentage;
+//        float backgroundHeight = (backgroundImage.getHeight() * backgroundDiff) * backgroundPercentage;
+//        
+//        for(int i = 0; i < 5; i++) {
+//            if(scale[i] > 0.001) {
+//                //Draw the backgroundTile
+//                ofPushStyle();
+//                ofSetRectMode(OF_RECTMODE_CENTER);
+//                ofSetColor(255, 255, 255, alpha);
+//                backgroundImage.draw(ofGetWidth()/2, ofGetHeight()/2, backgroundWidth * scale[i], backgroundHeight * scale[i]);
+//                ofPopStyle();
+//            }
+//        }
+        
         // draws text content (text is currently an image)
         ofSetRectMode(OF_RECTMODE_CENTER);
         if (img[0].isAllocated())
         {
-            //Draw the backgroundTile
-            ofSetColor(255);
-            backgroundImage.draw(ofGetWidth()/2, ofGetHeight()/2, backgroundWidth * scale[0], backgroundHeight * scale[0]);
             // gets the difference between screen width and adjusts
             float diff = screenWidth / img[0].getWidth();
             float w = (img[0].getWidth() * diff) * percentage;
@@ -300,19 +308,13 @@ void Content::draw()
             
             // content item
             ofSetColor(255);
-            img[0].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[0], backgroundHeight * scale[0]);
-            
-            // content shadow
-            ofSetColor(0, alpha);
-            ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[0], h * scale[0]);
+            img[0].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[0], h * scale[0]);
         }
         
         // draws image content
         if (img[1].isAllocated())
         {
-            //Draw the backgroundTile
-            ofSetColor(255);
-            backgroundImage.draw(ofGetWidth()/2, ofGetHeight()/2, backgroundWidth * scale[1], backgroundHeight * scale[1]);
+
             // gets the difference between screen width and adjusts
             float diff = screenWidth / img[1].getWidth();
             float w = (img[1].getWidth() * diff) * percentage;
@@ -321,82 +323,63 @@ void Content::draw()
             // content item
             ofSetColor(255);
             img[1].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[1], h * scale[1]);
-            
-            // content shadow
-            ofSetColor(0, alpha);
-            ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[1], h * scale[1]);
         }
         
         // draws video content
-        for (int i = 0; i < 5; i++)
-        {
-            // hs1 project video content
-            if (vid[0][i].isPlaying())
+            for (int i = 0; i < 5; i++)
             {
-                //Draw the backgroundTile
-                ofSetColor(255);
-                backgroundImage.draw(ofGetWidth()/2, ofGetHeight()/2, backgroundWidth * scale[2], backgroundHeight * scale[2]);
+                // hs1 project video content
+                if (vid[0][i].isPlaying())
+                {
+                    // gets the difference between screen width and adjusts
+                    float diff = screenWidth / vid[0][i].getWidth();
+                    float w = (vid[0][i].getWidth() * diff) * percentage;
+                    float h = (vid[0][i].getHeight() * diff) * percentage;
+                    
+                    // content item
+                    ofSetColor(255);
+                    vid[0][i].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[2], h * scale[2]);
+                    
+                }
                 
-                // gets the difference between screen width and adjusts
-                float diff = screenWidth / vid[0][i].getWidth();
-                float w = (vid[0][i].getWidth() * diff) * percentage;
-                float h = (vid[0][i].getHeight() * diff) * percentage;
-                
-                // content item
-                ofSetColor(255);
-                vid[0][i].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[2], h * scale[2]);
-                
-                // content shadow
-                ofSetColor(0, alpha);
-                ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[2], h * scale[2]);
+                // crossrail project video content
+                if (vid[1][i].isPlaying())
+                {
+                    
+                    // gets the difference between screen width and adjusts
+                    float diff = screenWidth / vid[1][i].getWidth();
+                    float w = (vid[1][i].getWidth() * diff) * percentage;
+                    float h = (vid[1][i].getHeight() * diff) * percentage;
+                    
+                    // content item
+                    ofSetColor(255);
+                    vid[1][i].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[2], h * scale[2]);
+                    
+                    // content shadow
+                    ofSetColor(0, alpha);
+                    ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[2], h * scale[2]);
+                }
             }
-            
-            // crossrail project video content
-            if (vid[1][i].isPlaying())
-            {
-                //Draw the backgroundTile
-                ofSetColor(255);
-                backgroundImage.draw(ofGetWidth()/2, ofGetHeight()/2, backgroundWidth * scale[2], backgroundHeight * scale[2]);
-
-                // gets the difference between screen width and adjusts
-                float diff = screenWidth / vid[1][i].getWidth();
-                float w = (vid[1][i].getWidth() * diff) * percentage;
-                float h = (vid[1][i].getHeight() * diff) * percentage;
-                
-                // content item
-                ofSetColor(255);
-                vid[1][i].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[2], h * scale[2]);
-                
-                // content shadow
-                ofSetColor(0, alpha);
-                ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[2], h * scale[2]);
-            }
-        }
-        
-        //Draw the backgroundTile
-        ofSetColor(255);
-        backgroundImage.draw(ofGetWidth()/2, ofGetHeight()/2, backgroundWidth * scale[3], backgroundHeight * scale[3]);
-        // model drawing
-        // rotate on y axis
-        cam.pan(camPam);
-        cam.setDistance(camZoom);
-        ofEnableDepthTest();
-        cam.begin();
-        ofEnableLighting();
-        light.enable();
-        ofSetColor(255, 255, 255);
-        model.draw();
-        light.disable();
-        ofDisableLighting();
-        cam.end();
-        ofDisableDepthTest();
+    
+            // model drawing
+            // rotate on y axis
+            cam.pan(camPam);
+            cam.setDistance(camZoom);
+            ofEnableDepthTest();
+            //Draw the backgroundTile
+            cam.begin();
+            ofEnableLighting();
+            light.enable();
+            ofSetColor(255, 255, 255);
+            model.draw();
+            light.disable();
+            ofDisableLighting();
+            cam.end();
+            ofDisableDepthTest();
         
         // image 4 is placeholder for audio content
         if (img[4].isAllocated())
         {
-            //Draw the backgroundTile
-            ofSetColor(255);
-            backgroundImage.draw(ofGetWidth()/2, ofGetHeight()/2, backgroundWidth * scale[4], backgroundHeight * scale[4]);
             
             // gets the difference between screen width and adjusts
             float diff = screenWidth / img[4].getWidth();
@@ -420,7 +403,7 @@ void Content::draw()
         {
             //Draw the backgroundTile
             ofSetColor(255);
-            backgroundImage.draw(ofGetWidth()/2, ofGetHeight()/2, backgroundWidth * scale[4], backgroundHeight * scale[4]);
+        //    backgroundImage.draw(ofGetWidth()/2, ofGetHeight()/2, backgroundWidth * scale[4], backgroundHeight * scale[4]);
             
             // gets the difference between screen width and adjusts
             float diff = screenWidth / img[4].getWidth();
@@ -441,7 +424,7 @@ void Content::draw()
         {
             //Draw the backgroundTile
             ofSetColor(255);
-            backgroundImage.draw(ofGetWidth()/2, ofGetHeight()/2, backgroundWidth * scale[3], backgroundHeight * scale[3]);
+        //    backgroundImage.draw(ofGetWidth()/2, ofGetHeight()/2, backgroundWidth * scale[3], backgroundHeight * scale[3]);
             
             // gets the difference between screen width and adjusts
             float diff = screenWidth / img[3].getWidth();
@@ -457,55 +440,51 @@ void Content::draw()
             ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[3], h * scale[3]);
         }
         
-        // draws video content
-        for (int i = 0; i < 5; i++)
-        {
-            // crossrail project video content
-            if (vid[1][i].isPlaying())
+            // draws video content
+            for (int i = 0; i < 5; i++)
             {
-                //Draw the backgroundTile
-                ofSetColor(255);
-                backgroundImage.draw(ofGetWidth()/2, ofGetHeight()/2, backgroundWidth * scale[2], backgroundHeight * scale[2]);
-                
-                // gets the difference between screen width and adjusts
-                float diff = screenWidth / vid[1][i].getWidth();
-                float w = (vid[1][i].getWidth() * diff) * percentage;
-                float h = (vid[1][i].getHeight() * diff) * percentage;
-                
-                // content item
-                ofSetColor(255);
-                vid[1][i].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[2], h * scale[2]);
-                
-                // content shadow
-                ofSetColor(0, alpha);
-                ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[2], h * scale[2]);
+                // crossrail project video content
+                if (vid[1][i].isPlaying())
+                {
+                    // gets the difference between screen width and adjusts
+                    float diff = screenWidth / vid[1][i].getWidth();
+                    float w = (vid[1][i].getWidth() * diff) * percentage;
+                    float h = (vid[1][i].getHeight() * diff) * percentage;
+                    
+                    // content item
+                    ofSetColor(255);
+                    vid[1][i].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[2], h * scale[2]);
+                    
+                    // content shadow
+                    ofSetColor(0, alpha);
+                    ofDrawRectangle(ofGetWidth()/2 + sOffset, ofGetHeight()/2 + sOffset, w * scale[2], h * scale[2]);
+                }
             }
-        }
         
-        //Draw the backgroundTile
-        ofSetColor(255);
-        backgroundImage.draw(ofGetWidth()/2, ofGetHeight()/2, backgroundWidth * scale[1], backgroundHeight * scale[1]);
-        // model drawing
-        // rotate on y axis
-        cam.pan(camPam);
-        cam.setDistance(camZoom);
-        ofEnableDepthTest();
-        cam.begin();
-        ofEnableLighting();
-        light.enable();
-        ofSetColor(255, 255, 255);
-        model.draw();
-        light.disable();
-        ofDisableLighting();
-        cam.end();
-        ofDisableDepthTest();
+            //Draw the backgroundTile
+            ofSetColor(255);
+            //   backgroundImage.draw(ofGetWidth()/2, ofGetHeight()/2, backgroundWidth * scale[1], backgroundHeight * scale[1]);
+            // model drawing
+            // rotate on y axis
+            cam.pan(camPam);
+            cam.setDistance(camZoom);
+            ofEnableDepthTest();
+            cam.begin();
+            ofEnableLighting();
+            light.enable();
+            ofSetColor(255, 255, 255);
+            model.draw();
+            light.disable();
+            ofDisableLighting();
+            cam.end();
+            ofDisableDepthTest();
         
         // image is placeholder for audio content
         if (img[0].isAllocated())
         {
             //Draw the backgroundTile
             ofSetColor(255);
-            backgroundImage.draw(ofGetWidth()/2, ofGetHeight()/2, backgroundWidth * scale[0], backgroundHeight * scale[0]);
+        //    backgroundImage.draw(ofGetWidth()/2, ofGetHeight()/2, backgroundWidth * scale[0], backgroundHeight * scale[0]);
             
             // gets the difference between screen width and adjusts
             float diff = screenWidth / img[0].getWidth();
