@@ -11,6 +11,7 @@ An series of interactions that place content in geographical space.
 - ofxPostProcessing: https://github.com/neilmendoza/ofxPostProcessing
 - ofxVectorTile: https://github.com/tangrams/ofxVectorTile
 - ofxXMLSettings: included w/ openFrameworks
+- ofxNestedFileLoader: https://github.com/Bentleyj/ofxNestedFileLoader
 
 ## Areas
 #### ofApp.h/.cpp
