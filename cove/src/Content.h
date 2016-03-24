@@ -29,6 +29,9 @@ public:
     
     // content type
     ofImage img[5];
+    ofImage backgroundImage;
+    ofImage titleTextImage[2][5][5];
+    ofImage captionTextImage[2][5][5];
     ofVideoPlayer vid[2][5];
     //ofxOBJModel model;
     
