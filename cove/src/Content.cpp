@@ -10,6 +10,10 @@
 #include "Content.h"
 #include "Globals.h"
 
+//Initialize the dictionary of locations, content types and indices
+const vector<map<string, int>> Content::locationsDictionary = createMaps();
+
+
 //--------------------------------------------------------------
 void Content::setup()
 {
@@ -38,75 +42,132 @@ void Content::setup()
 //--------------------------------------------------------------
 void Content::fileLocation()
 {
-    // HS1 - St Pancras
-    path[0][0][0] = "content/media/HS1/Location/StPancras/Text/StPancras.png";
-    path[0][0][1] = "content/media/HS1/Location/StPancras/Image/ModelSlabPressuresKingsCross.jpg";
-    path[0][0][2] = "content/media/Placeholder/no_video.mp4";
-    path[0][0][3] = "content/media/Placeholder/no_model.fbx";
-    path[0][0][4] = "content/media/Placeholder/no_data.jpg";
+    int projectIndex = 0;
+
+    //Load all the placeholder content, we'll overwrite it later
+    //Load placeholder for HS1
+    for(int i = 0; i < 5; i++) {
+        path[projectIndex][i][0] = "content/media/Placeholder/no_data.jpg";
+        path[projectIndex][i][1] = "content/media/Placeholder/no_data.jpg";
+        path[projectIndex][i][2] = "content/media/Placeholder/no_video.mp4";
+        path[projectIndex][i][3] = "content/media/Placeholder/no_model.fbx";
+        path[projectIndex][i][4] = "content/media/Placeholder/no_data.jpg";
+    }
     
-    // HS1 - Stratford - StratfordInternational
-    path[0][1][0] = "content/media/HS1/Location/StratfordInternational/Text/StratfordInternational.png";
-    path[0][1][1] = "content/media/HS1/Location/StratfordInternational/Image/HighSpeedHS1HawkEditions.jpg";
-    path[0][1][2] = "content/media/Placeholder/no_video.mp4";
-    path[0][1][3] = "content/media/HS1/Location/StratfordInternational/3dModel/stratford international station.FBX";
-    path[0][1][4] = "content/media/Placeholder/no_data.jpg";
+    //Load all real the content for HS1
+    //Note: this will have the side-effect of loading the last file if there are multiple files in a folder
+    ofxNestedFileLoader loader;
+    vector<string> HS1 = loader.load("content/media/HS1/Location");
     
-    // HS1 - Ebbsfleet - EbbsfleetInternational
-    path[0][2][0] = "content/media/HS1/Location/EbbsfleetInternational/Text/EbbsfleetInternational.png";
-    path[0][2][1] = "content/media/HS1/Location/EbbsfleetInternational/Image/EbbsfleetElephant.jpg";
-    path[0][2][2] = "content/media/HS1/Location/EbbsfleetInternational/Video/BridgePush.mpg";
-    path[0][2][3] = "content/media/Placeholder/no_model.fbx";
-    path[0][2][4] = "content/media/Placeholder/no_data.jpg";
+    int locationNameIndex = 4;
+    int contentTypeIndex = 5;
+    for(int i = 0; i < HS1.size(); i++) {
+        cout<<HS1[i]<<endl;
+        vector<string> splitString = ofSplitString(HS1[i], "/");
+        cout<<splitString.size()<<endl;
+        string locationName = splitString[locationNameIndex];
+        string contentType = splitString[contentTypeIndex];
+        int locationIndex = locationsDictionary[projectIndex].at(locationName);
+        int contentIndex = locationsDictionary[projectIndex].at(contentType);
+        path[projectIndex][locationIndex][contentIndex] = HS1[i];
+    }
     
-    // HS1 - Medway Viaduct
-    path[0][3][0] = "content/media/HS1/Location/MedwayViaduct/Text/MedwayViaduct.png";
-    path[0][3][1] = "content/media/HS1/Location/MedwayViaduct/Image/MedwayViaduct01.jpg";
-    path[0][3][2] = "content/media/HS1/Location/MedwayViaduct/Video/CTRL.mp4";
-    path[0][3][3] = "content/media/Placeholder/no_model.fbx";
-    path[0][3][4] = "content/media/Placeholder/no_data.jpg";
+    //clear the loader
+    loader.clearPaths();
     
-    // HS1 - Ashford
-    path[0][4][0] = "content/media/HS1/Location/AshfordInternational/Text/PlanningTheRoute.png";
-    path[0][4][1] = "content/media/HS1/Location/AshfordInternational/Image/HS1RouteIntersectingWithExistingRailLinks.jpg";
-    path[0][4][2] = "content/media/HS1/Location/AshfordInternational/Video/Ctrl.mp4";
-    path[0][4][3] = "content/media/Placeholder/no_model.fbx";
-    path[0][4][4] = "content/media/Placeholder/no_data.jpg";
+    projectIndex = 1;
     
-    // Crossrail - Woolwich
-    path[1][0][4] = "content/media/Placeholder/no_data.jpg";
-    path[1][0][3] = "content/media/Placeholder/no_data.jpg";
-    path[1][0][2] = "content/media/Placeholder/no_video.mp4";
-    path[1][0][1] = "content/media/Placeholder/no_model.fbx";
-    path[1][0][0] = "content/media/Placeholder/no_data.jpg";
+    //Load placeholder for Crossrail
+    for(int i = 0; i < 5; i++) {
+        path[projectIndex][i][4] = "content/media/Placeholder/no_data.jpg";
+        path[projectIndex][i][3] = "content/media/Placeholder/no_data.jpg";
+        path[projectIndex][i][2] = "content/media/Placeholder/no_video.mp4";
+        path[projectIndex][i][1] = "content/media/Placeholder/no_model.fbx";
+        path[projectIndex][i][0] = "content/media/Placeholder/no_data.jpg";
+    }
     
-    // Crossrail - Canary Wharf
-    path[1][1][4] = "content/media/Crossrail/Location/CanaryWharf/Text/PlanningForAShipImpact.png";
-    path[1][1][3] = "content/media/Crossrail/Location/CanaryWharf/Image/CanaryWharfStation.jpg";
-    path[1][1][2] = "content/media/Crossrail/Location/CanaryWharf/Video/CrossrailTimeLapseVideoDrainingOfNorthDock.mov";
-    path[1][1][1] = "content/media/Crossrail/Location/CanaryWharf/3dModel/jrw_CW0201-C1M16-R01-D-99999 - Roof Inc.fbx";
-    path[1][1][0] = "content/media/Placeholder/no_data.jpg";
+    //Load all the content for Crossrail
+        //Note: this will have the side-effect of loading the last file if there are multiple files in a folder
+    vector<string> Crossrail = loader.load("content/media/Crossrail/Location");
     
-    // Crossrail - Liverpool
-    path[1][2][4] = "content/media/Crossrail/Location/LiverpoolStreet/Text/ArcheologicalDiscoveries.png";
-    path[1][2][3] = "content/media/Crossrail/Location/LiverpoolStreet/Image/RomanCopperAlloyAndSilverCoins.jpg";
-    path[1][2][2] = "content/media/Crossrail/Location/LiverpoolStreet/Video/CrossrailArchaeologyLiverpoolStreet.mp4";
-    path[1][2][1] = "content/media/Placeholder/no_model.fbx";
-    path[1][2][0] = "content/media/Placeholder/no_data.jpg";
+    for(int i = 0; i < Crossrail.size(); i++) {
+        vector<string> splitString = ofSplitString(Crossrail[i], "/");
+        string locationName = splitString[locationNameIndex];
+        string contentType = splitString[contentTypeIndex];
+        int locationIndex = locationsDictionary[projectIndex].at(locationName);
+        int contentIndex = locationsDictionary[projectIndex].at(contentType);
+        path[projectIndex][locationIndex][contentIndex] = Crossrail[i];
+    }
     
-    // Crossrail - Barbican
-    path[1][3][4] = "content/media/Crossrail/Location/Barbican/Text/FloatingTracks.png";
-    path[1][3][3] = "content/media/Crossrail/Location/Barbican/Image/Gantry3dModel.jpg";
-    path[1][3][2] = "content/media/Crossrail/Location/Barbican/Video/CrossrailRailwaySystems.mp4";
-    path[1][3][1] = "content/media/Placeholder/no_model.fbx";
-    path[1][3][0] = "content/media/Placeholder/no_data.jpg";
-    
-    // Crossrail - Tottenham Court Road
-    path[1][4][4] = "content/media/Crossrail/Location/TottenhamCourtRoad/Text/TheEyeOfTheNeedle.png";
-    path[1][4][3] = "content/media/Crossrail/Location/TottenhamCourtRoad/Image/TottenhamCourtRoadStationArchitectsImpression01.jpg";
-    path[1][4][2] = "content/media/Crossrail/Location/TottenhamCourtRoad/Video/BreakthroughCrossrailsTunnellingStory.mp4";
-    path[1][4][1] = "content/media/Placeholder/no_model.fbx";
-    path[1][4][0] = "content/media/Placeholder/no_data.jpg";
+//    // HS1 - St Pancras
+//    path[0][0][0] = "content/media/HS1/Location/StPancras/Text/StPancras.png";
+//    path[0][0][1] = "content/media/HS1/Location/StPancras/Image/ModelSlabPressuresKingsCross.jpg";
+//    path[0][0][2] = "content/media/Placeholder/no_video.mp4";
+//    path[0][0][3] = "content/media/Placeholder/no_model.fbx";
+//    path[0][0][4] = "content/media/Placeholder/no_data.jpg";
+//    
+//    // HS1 - Stratford - StratfordInternational
+//    path[0][1][0] = "content/media/HS1/Location/StratfordInternational/Text/StratfordInternational.png";
+//    path[0][1][1] = "content/media/HS1/Location/StratfordInternational/Image/HighSpeedHS1HawkEditions.jpg";
+//    path[0][1][2] = "content/media/Placeholder/no_video.mp4";
+//    path[0][1][3] = "content/media/HS1/Location/StratfordInternational/3dModel/stratford international station.FBX";
+//    path[0][1][4] = "content/media/Placeholder/no_data.jpg";
+//    
+//    // HS1 - Ebbsfleet - EbbsfleetInternational
+//    path[0][2][0] = "content/media/HS1/Location/EbbsfleetInternational/Text/EbbsfleetInternational.png";
+//    path[0][2][1] = "content/media/HS1/Location/EbbsfleetInternational/Image/EbbsfleetElephant.jpg";
+//    path[0][2][2] = "content/media/HS1/Location/EbbsfleetInternational/Video/BridgePush.mpg";
+//    path[0][2][3] = "content/media/Placeholder/no_model.fbx";
+//    path[0][2][4] = "content/media/Placeholder/no_data.jpg";
+//    
+//    // HS1 - Medway Viaduct
+//    path[0][3][0] = "content/media/HS1/Location/MedwayViaduct/Text/MedwayViaduct.png";
+//    path[0][3][1] = "content/media/HS1/Location/MedwayViaduct/Image/MedwayViaduct01.jpg";
+//    path[0][3][2] = "content/media/HS1/Location/MedwayViaduct/Video/CTRL.mp4";
+//    path[0][3][3] = "content/media/Placeholder/no_model.fbx";
+//    path[0][3][4] = "content/media/Placeholder/no_data.jpg";
+//    
+//    // HS1 - Ashford
+//    path[0][4][0] = "content/media/HS1/Location/AshfordInternational/Text/PlanningTheRoute.png";
+//    path[0][4][1] = "content/media/HS1/Location/AshfordInternational/Image/HS1RouteIntersectingWithExistingRailLinks.jpg";
+//    path[0][4][2] = "content/media/HS1/Location/AshfordInternational/Video/Ctrl.mp4";
+//    path[0][4][3] = "content/media/Placeholder/no_model.fbx";
+//    path[0][4][4] = "content/media/Placeholder/no_data.jpg";
+//    
+//    // Crossrail - Soho
+//    path[1][0][4] = "content/media/Placeholder/no_data.jpg";
+//    path[1][0][3] = "content/media/Placeholder/no_data.jpg";
+//    path[1][0][2] = "content/media/Placeholder/no_video.mp4";
+//    path[1][0][1] = "content/media/Placeholder/no_model.fbx";
+//    path[1][0][0] = "content/media/Placeholder/no_data.jpg";
+//    
+//    // Crossrail - Canary Wharf
+//    path[1][1][4] = "content/media/Crossrail/Location/CanaryWharf/Text/PlanningForAShipImpact.png";
+//    path[1][1][3] = "content/media/Crossrail/Location/CanaryWharf/Image/CanaryWharfStation.jpg";
+//    path[1][1][2] = "content/media/Crossrail/Location/CanaryWharf/Video/CrossrailTimeLapseVideoDrainingOfNorthDock.mov";
+//    path[1][1][1] = "content/media/Crossrail/Location/CanaryWharf/3dModel/jrw_CW0201-C1M16-R01-D-99999 - Roof Inc.fbx";
+//    path[1][1][0] = "content/media/Placeholder/no_data.jpg";
+//    
+//    // Crossrail - Liverpool
+//    path[1][2][4] = "content/media/Crossrail/Location/LiverpoolStreet/Text/ArcheologicalDiscoveries.png";
+//    path[1][2][3] = "content/media/Crossrail/Location/LiverpoolStreet/Image/RomanCopperAlloyAndSilverCoins.jpg";
+//    path[1][2][2] = "content/media/Crossrail/Location/LiverpoolStreet/Video/CrossrailArchaeologyLiverpoolStreet.mp4";
+//    path[1][2][1] = "content/media/Placeholder/no_model.fbx";
+//    path[1][2][0] = "content/media/Placeholder/no_data.jpg";
+//    
+//    // Crossrail - Barbican
+//    path[1][3][4] = "content/media/Crossrail/Location/Barbican/Text/FloatingTracks.png";
+//    path[1][3][3] = "content/media/Crossrail/Location/Barbican/Image/Gantry3dModel.jpg";
+//    path[1][3][2] = "content/media/Crossrail/Location/Barbican/Video/CrossrailRailwaySystems.mp4";
+//    path[1][3][1] = "content/media/Placeholder/no_model.fbx";
+//    path[1][3][0] = "content/media/Placeholder/no_data.jpg";
+//    
+//    // Crossrail - Tottenham Court Road
+//    path[1][4][4] = "content/media/Crossrail/Location/TottenhamCourtRoad/Text/TheEyeOfTheNeedle.png";
+//    path[1][4][3] = "content/media/Crossrail/Location/TottenhamCourtRoad/Image/TottenhamCourtRoadStationArchitectsImpression01.jpg";
+//    path[1][4][2] = "content/media/Crossrail/Location/TottenhamCourtRoad/Video/BreakthroughCrossrailsTunnellingStory.mp4";
+//    path[1][4][1] = "content/media/Placeholder/no_model.fbx";
+//    path[1][4][0] = "content/media/Placeholder/no_data.jpg";
     
     // pre-load all videos
     vid[0][0].load(path[0][0][2]);
