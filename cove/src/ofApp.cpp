@@ -153,6 +153,8 @@ void ofApp::effectsSetup(float _w, float _h)
 {
     // Setup post-processing chain
     post.init(_w, _h);
+   // auto passes = post.getPasses();
+   // passes[0].setH(1.);
 }
 
 void ofApp::projectColors()

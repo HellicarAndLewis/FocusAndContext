@@ -30,7 +30,7 @@ void Content::setup()
     
     // setup FBX scene
     ofxFBXSceneSettings settings;
-    string filename = path[0][0][3];
+    string filename =  "content/media/Placeholder/no_model.fbx";//path[0][0][3][0];
     if( scene.load(filename, settings) ) {
         cout << "ofApp :: loaded the scene OK" << endl;
     } else {
@@ -47,11 +47,15 @@ void Content::fileLocation()
     //Load all the placeholder content, we'll overwrite it later
     //Load placeholder for HS1
     for(int i = 0; i < 5; i++) {
-        path[projectIndex][i][0] = "content/media/Placeholder/no_data.jpg";
-        path[projectIndex][i][1] = "content/media/Placeholder/no_data.jpg";
-        path[projectIndex][i][2] = "content/media/Placeholder/no_video.mp4";
-        path[projectIndex][i][3] = "content/media/Placeholder/no_model.fbx";
-        path[projectIndex][i][4] = "content/media/Placeholder/no_data.wav";
+        path[projectIndex][i][0][0] = "content/media/Placeholder/no_data.jpg";
+        path[projectIndex][i][1][0] = "content/media/Placeholder/no_data.jpg";
+        path[projectIndex][i][2][0] = "content/media/Placeholder/no_video.mp4";
+        path[projectIndex][i][3][0] = "content/media/Placeholder/no_model.fbx";
+        path[projectIndex][i][4][0] = "content/media/Placeholder/no_data.wav";
+        for(int j = 0; j < 5; j++) {
+            path[projectIndex][i][j][1] = "content/media/Placeholder/no_title.png";
+            path[projectIndex][i][j][2] = "content/media/Placeholder/no_caption.png";
+        }
     }
     
     //Load all real the content for HS1
@@ -61,15 +65,19 @@ void Content::fileLocation()
     
     int locationNameIndex = 4;
     int contentTypeIndex = 5;
+    int contentPieceIndex = 6;
     for(int i = 0; i < HS1.size(); i++) {
-        cout<<HS1[i]<<endl;
         vector<string> splitString = ofSplitString(HS1[i], "/");
-        cout<<splitString.size()<<endl;
+        cout<<HS1[i]<<endl;
         string locationName = splitString[locationNameIndex];
         string contentType = splitString[contentTypeIndex];
-        int locationIndex = locationsDictionary[projectIndex].at(locationName);
-        int contentIndex = locationsDictionary[projectIndex].at(contentType);
-        path[projectIndex][locationIndex][contentIndex] = HS1[i];
+        string contentPieceName = splitString[contentPieceIndex];
+        if(contentPieceName != "Notes") {
+            int locationIndex = locationsDictionary[projectIndex].at(locationName);
+            int contentIndex = locationsDictionary[projectIndex].at(contentType);
+            int contentPieceIndex = locationsDictionary[projectIndex].at(contentPieceName);
+            path[projectIndex][locationIndex][contentIndex][contentPieceIndex] = HS1[i];
+        }
     }
     
     //clear the loader
@@ -77,13 +85,17 @@ void Content::fileLocation()
     
     projectIndex = 1;
     
-    //Load placeholder for Crossrail
+    //Load placeholders for Crossrail
     for(int i = 0; i < 5; i++) {
-        path[projectIndex][i][4] = "content/media/Placeholder/no_data.jpg";
-        path[projectIndex][i][3] = "content/media/Placeholder/no_data.jpg";
-        path[projectIndex][i][2] = "content/media/Placeholder/no_video.mp4";
-        path[projectIndex][i][1] = "content/media/Placeholder/no_model.fbx";
-        path[projectIndex][i][0] = "content/media/Placeholder/no_data.wav";
+        path[projectIndex][i][4][0] = "content/media/Placeholder/no_data.jpg";
+        path[projectIndex][i][3][0] = "content/media/Placeholder/no_data.jpg";
+        path[projectIndex][i][2][0] = "content/media/Placeholder/no_video.mp4";
+        path[projectIndex][i][1][0] = "content/media/Placeholder/no_model.fbx";
+        path[projectIndex][i][0][0] = "content/media/Placeholder/no_data.wav";
+        for(int j = 0; j < 5; j++) {
+            path[projectIndex][i][j][1] = "content/media/Placeholder/no_title.png";
+            path[projectIndex][i][j][2] = "content/media/Placeholder/no_caption.png";
+        }
     }
     
     //Load all the content for Crossrail
@@ -94,34 +106,38 @@ void Content::fileLocation()
         vector<string> splitString = ofSplitString(Crossrail[i], "/");
         string locationName = splitString[locationNameIndex];
         string contentType = splitString[contentTypeIndex];
-        int locationIndex = locationsDictionary[projectIndex].at(locationName);
-        int contentIndex = locationsDictionary[projectIndex].at(contentType);
-        path[projectIndex][locationIndex][contentIndex] = Crossrail[i];
+        string contentPieceName = splitString[contentPieceIndex];
+        if(contentPieceName != "Notes") {
+            int locationIndex = locationsDictionary[projectIndex].at(locationName);
+            int contentIndex = locationsDictionary[projectIndex].at(contentType);
+            int contentPieceIndex = locationsDictionary[projectIndex].at(contentPieceName);
+            path[projectIndex][locationIndex][contentIndex][contentPieceIndex] = Crossrail[i];
+        }
     }
     
     // pre-load all videos
-    vid[0][0].load(path[0][0][2]);
-    vid[0][1].load(path[0][1][2]);
-    vid[0][2].load(path[0][2][2]);
-    vid[0][3].load(path[0][3][2]);
-    vid[0][4].load(path[0][4][2]);
-    vid[1][0].load(path[1][0][2]);
-    vid[1][1].load(path[1][1][2]);
-    vid[1][2].load(path[1][2][2]);
-    vid[1][3].load(path[1][3][2]);
-    vid[1][4].load(path[1][4][2]);
+    vid[0][0].load(path[0][0][2][0]);
+    vid[0][1].load(path[0][1][2][0]);
+    vid[0][2].load(path[0][2][2][0]);
+    vid[0][3].load(path[0][3][2][0]);
+    vid[0][4].load(path[0][4][2][0]);
+    vid[1][0].load(path[1][0][2][0]);
+    vid[1][1].load(path[1][1][2][0]);
+    vid[1][2].load(path[1][2][2][0]);
+    vid[1][3].load(path[1][3][2][0]);
+    vid[1][4].load(path[1][4][2][0]);
     
     // pre-load all sound files
-    sound[0][0].load(path[0][0][4]);
-    sound[0][1].load(path[0][1][4]);
-    sound[0][2].load(path[0][2][4]);
-    sound[0][3].load(path[0][3][4]);
-    sound[0][4].load(path[0][4][4]);
-    sound[1][0].load(path[1][0][0]);
-    sound[1][1].load(path[1][1][0]);
-    sound[1][2].load(path[1][2][0]);
-    sound[1][3].load(path[1][3][0]);
-    sound[1][4].load(path[1][4][0]);
+    sound[0][0].load(path[0][0][4][0]);
+    sound[0][1].load(path[0][1][4][0]);
+    sound[0][2].load(path[0][2][4][0]);
+    sound[0][3].load(path[0][3][4][0]);
+    sound[0][4].load(path[0][4][4][0]);
+    sound[1][0].load(path[1][0][0][0]);
+    sound[1][1].load(path[1][1][0][0]);
+    sound[1][2].load(path[1][2][0][0]);
+    sound[1][3].load(path[1][3][0][0]);
+    sound[1][4].load(path[1][4][0][0]);
     for(int i = 0; i < 2; i++) {
         for(int j = 0; j < 4; j++) {
             sound[i][j].setVolume(1.0);
@@ -187,6 +203,7 @@ void Content::scaling()
                 
                 // stop any videos running
                 stopVideos();
+                stopAudio();
             }
             scale[1] = ofLerp(scale[1], 0.0, lerpIn);
             scale[2] = ofLerp(scale[2], 0.0, lerpIn);
@@ -204,6 +221,7 @@ void Content::scaling()
                 
                 // stop any videos running
                 stopVideos();
+                stopAudio();
             }
             
             scale[0] = ofLerp(scale[0], 0.0, lerpIn);
@@ -235,6 +253,7 @@ void Content::scaling()
                 
                 // stop any videos running
                 stopVideos();
+                stopAudio();
             }
             
             scale[0] = ofLerp(scale[0], 0.0, lerpIn);
@@ -269,8 +288,10 @@ void Content::scaling()
             scale[4] = ofLerp(scale[4], 0.0, lerpIn);
             camZoom = ofLerp(camZoom, camMaxZoom, lerpIn);
             
-            if (scale[2] <= dest)
+            if (scale[2] <= dest) {
                 stopVideos();
+                stopAudio();
+            }
             break;
     }
 }
@@ -285,6 +306,8 @@ void Content::draw()
     float backgroundPercentage = 0.9;
     float alpha = 224.4;
     float camPam = 0.5;
+    float titleBufferTop = 10;
+    float captionBufferTop = 10;
     int sOffset = 6;
     
     //get the difference between screen width and draw the background pane
@@ -302,8 +325,7 @@ void Content::draw()
     }
     ofPopStyle();
     
-    if (project == 0) {
-        
+   // if (project == 0) {
         // draws text content (text is currently an image)
         ofSetRectMode(OF_RECTMODE_CENTER);
         if (img[0].isAllocated())
@@ -313,12 +335,25 @@ void Content::draw()
             float w = (img[0].getWidth() * diff) * percentage;
             float h = (img[0].getHeight() * diff) * percentage;
             
-            // content item
+            float titleDiff = screenWidth / titleTextImage[0].getWidth();
+            float titleW = (titleTextImage[0].getWidth() * titleDiff) * percentage;
+            float titleH = (titleTextImage[0].getHeight() * titleDiff) * percentage;
+            
+            float captionDiff = screenWidth / captionTextImage[0].getWidth();
+            float captionW = (captionTextImage[0].getWidth() * captionDiff) * percentage;
+            float captionH = (captionTextImage[0].getHeight() * captionDiff) * percentage;
+            
             ofSetColor(255);
+            titleTextImage[0].draw(ofGetWidth()/2, ofGetHeight()/2 - h/2 - titleH/2 + titleBufferTop, titleW * scale[0], titleH * scale[0]);
+            captionTextImage[0].draw(ofGetWidth()/2, ofGetHeight()/2 + h/2 + captionH/2 + captionBufferTop, captionW * scale[0], captionH * scale[0]);
+            
+            // content item
             img[0].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[0], h * scale[0]);
+
+
         }
         
-        // draws image content
+        // draws image contentw
         if (img[1].isAllocated())
         {
 
@@ -330,8 +365,20 @@ void Content::draw()
             // content item
             ofSetColor(255);
             img[1].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[1], h * scale[1]);
+            
+            float titleDiff = screenWidth / titleTextImage[1].getWidth();
+            float titleW = (titleTextImage[1].getWidth() * titleDiff) * percentage;
+            float titleH = (titleTextImage[1].getHeight() * titleDiff) * percentage;
+            
+            float captionDiff = screenWidth / captionTextImage[1].getWidth();
+            float captionW = (captionTextImage[1].getWidth() * captionDiff) * percentage;
+            float captionH = (captionTextImage[1].getHeight() * captionDiff) * percentage;
+            
+            ofSetColor(255);
+            titleTextImage[1].draw(ofGetWidth()/2, ofGetHeight()/2 - h/2 - titleH/2 + titleBufferTop, titleW * scale[1], titleH * scale[1]);
+            captionTextImage[1].draw(ofGetWidth()/2, ofGetHeight()/2 + h/2 + captionH/2 + captionBufferTop, captionW * scale[1], captionH * scale[1]);
         }
-        
+    
         // draws video content
             for (int i = 0; i < 5; i++)
             {
@@ -347,6 +394,18 @@ void Content::draw()
                     ofSetColor(255);
                     vid[0][i].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[2], h * scale[2]);
                     
+                    float titleDiff = screenWidth / titleTextImage[2].getWidth();
+                    float titleW = (titleTextImage[2].getWidth() * titleDiff) * percentage;
+                    float titleH = (titleTextImage[2].getHeight() * titleDiff) * percentage;
+                    
+                    float captionDiff = screenWidth / captionTextImage[2].getWidth();
+                    float captionW = (captionTextImage[2].getWidth() * captionDiff) * percentage;
+                    float captionH = (captionTextImage[2].getHeight() * captionDiff) * percentage;
+                    
+                    ofSetColor(255);
+                    titleTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2 - h/2 - titleH/2 + titleBufferTop, titleW * scale[2], titleH * scale[2]);
+                    captionTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2 + h/2 + captionH/2 + captionBufferTop, captionW * scale[2], captionH * scale[2]);
+                    
                 }
                 
                 // crossrail project video content
@@ -361,6 +420,18 @@ void Content::draw()
                     // content item
                     ofSetColor(255);
                     vid[1][i].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[2], h * scale[2]);
+                    float titleDiff = screenWidth / titleTextImage[2].getWidth();
+                    float titleW = (titleTextImage[2].getWidth() * titleDiff) * percentage;
+                    float titleH = (titleTextImage[2].getHeight() * titleDiff) * percentage;
+                    
+                    float captionDiff = screenWidth / captionTextImage[2].getWidth();
+                    float captionW = (captionTextImage[2].getWidth() * captionDiff) * percentage;
+                    float captionH = (captionTextImage[2].getHeight() * captionDiff) * percentage;
+                    
+                    ofSetColor(255);
+                    titleTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2 - h/2 - titleH/2 + titleBufferTop, titleW * scale[2], titleH * scale[2]);
+                    captionTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2 + h/2 + captionH/2 + captionBufferTop, captionW * scale[2], captionH * scale[2]);
+                    
                 }
             }
     
@@ -379,8 +450,19 @@ void Content::draw()
             ofDisableLighting();
             cam.end();
             ofDisableDepthTest();
+        float titleDiff = screenWidth / titleTextImage[3].getWidth();
+        float titleW = (titleTextImage[3].getWidth() * titleDiff) * percentage;
+        float titleH = (titleTextImage[3].getHeight() * titleDiff) * percentage;
         
-        // image 4 is placeholder for audio content
+        float captionDiff = screenWidth / captionTextImage[3].getWidth();
+        float captionW = (captionTextImage[3].getWidth() * captionDiff) * percentage;
+        float captionH = (captionTextImage[3].getHeight() * captionDiff) * percentage;
+        
+        ofSetColor(255);
+        titleTextImage[3].draw(ofGetWidth()/2, ofGetHeight()/2 - backgroundHeight/2 + titleH/2 + titleBufferTop, titleW * scale[3], titleH * scale[3]);
+        captionTextImage[3].draw(ofGetWidth()/2, ofGetHeight()/2 + backgroundHeight/2 - captionH/2 + captionBufferTop, captionW * scale[3], captionH * scale[3]);
+    
+        //Plays audio content with play-head
         for(int i = 0; i < 5; i++) {
             if(sound[0][i].isPlaying()) {
                 //Draw the backgroundTile
@@ -392,86 +474,98 @@ void Content::draw()
                 float width = ofMap(percentageDone, 0., 1., 0., backgroundWidth - 20, true);
                 ofDrawRectangle(ofGetWidth()/2, ofGetHeight()/2, width, 50);
                 
-            }
-        }
-        ofSetRectMode(OF_RECTMODE_CORNER);
-    }
-    else {
-        // draws text content (text is currently an image)
-        ofSetRectMode(OF_RECTMODE_CENTER);
-        if (img[4].isAllocated())
-        {
-            // gets the difference between screen width and adjusts
-            float diff = screenWidth / img[4].getWidth();
-            float w = (img[4].getWidth() * diff) * percentage;
-            float h = (img[4].getHeight() * diff) * percentage;
-            
-            // content item
-            ofSetColor(255);
-            img[4].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[4], h * scale[4]);
-        }
-        
-        // draws image content
-        if (img[3].isAllocated())
-        {
-            // gets the difference between screen width and adjusts
-            float diff = screenWidth / img[3].getWidth();
-            float w = (img[3].getWidth() * diff) * percentage;
-            float h = (img[3].getHeight() * diff) * percentage;
-            
-            // content item
-            ofSetColor(255);
-            img[3].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[3], h * scale[3]);
-        }
-        
-            // draws video content
-            for (int i = 0; i < 5; i++)
-            {
-                // crossrail project video content
-                if (vid[1][i].isPlaying())
-                {
-                    // gets the difference between screen width and adjusts
-                    float diff = screenWidth / vid[1][i].getWidth();
-                    float w = (vid[1][i].getWidth() * diff) * percentage;
-                    float h = (vid[1][i].getHeight() * diff) * percentage;
-                    
-                    // content item
-                    ofSetColor(255);
-                    vid[1][i].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[2], h * scale[2]);
-                }
-            }
-        
-            //Draw the backgroundTile
-            ofSetColor(255);
-            cam.pan(camPam);
-            cam.setDistance(camZoom);
-            ofEnableDepthTest();
-            cam.begin();
-            ofEnableLighting();
-            light.enable();
-            ofSetColor(255, 255, 255);
-            model.draw();
-            light.disable();
-            ofDisableLighting();
-            cam.end();
-            ofDisableDepthTest();
-        
-        // image is placeholder for audio content
-        for(int i = 0; i < 5; i++) {
-            if(sound[1][i].isPlaying()) {
-                //Draw the backgroundTile
-                // gets the difference between screen width and adjusts
+                float titleDiff = screenWidth / titleTextImage[4].getWidth();
+                float titleW = (titleTextImage[4].getWidth() * titleDiff) * percentage;
+                float titleH = (titleTextImage[4].getHeight() * titleDiff) * percentage;
                 
-                //draw the playhead
-                ofSetColor(0);
-                float percentageDone = sound[1][i].getPosition();
-                float width = ofMap(percentageDone, 0., 1., 0., backgroundWidth - 20, true);
-                ofDrawRectangle(ofGetWidth()/2, ofGetHeight()/2, width, 50);
-
+                float captionDiff = screenWidth / captionTextImage[4].getWidth();
+                float captionW = (captionTextImage[4].getWidth() * captionDiff) * percentage;
+                float captionH = (captionTextImage[4].getHeight() * captionDiff) * percentage;
+                
+                ofSetColor(255);
+                titleTextImage[4].draw(ofGetWidth()/2, ofGetHeight()/2 - backgroundHeight/2 + titleH/2 + titleBufferTop, titleW * scale[4], titleH * scale[4]);
+                captionTextImage[4].draw(ofGetWidth()/2, ofGetHeight()/2 + backgroundHeight/2 - captionH/2 + captionBufferTop, captionW * scale[4], captionH * scale[4]);
+                
             }
         }
         ofSetRectMode(OF_RECTMODE_CORNER);
-    }
+//    }
+//    else {
+//        // draws text content (text is currently an image)
+//        ofSetRectMode(OF_RECTMODE_CENTER);
+//        if (img[4].isAllocated())
+//        {
+//            // gets the difference between screen width and adjusts
+//            float diff = screenWidth / img[4].getWidth();
+//            float w = (img[4].getWidth() * diff) * percentage;
+//            float h = (img[4].getHeight() * diff) * percentage;
+//            
+//            // content item
+//            ofSetColor(255);
+//            img[4].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[4], h * scale[4]);
+//        }
+//        
+//        // draws image content
+//        if (img[3].isAllocated())
+//        {
+//            // gets the difference between screen width and adjusts
+//            float diff = screenWidth / img[3].getWidth();
+//            float w = (img[3].getWidth() * diff) * percentage;
+//            float h = (img[3].getHeight() * diff) * percentage;
+//            
+//            // content item
+//            ofSetColor(255);
+//            img[3].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[3], h * scale[3]);
+//        }
+//        
+//            // draws video content
+//            for (int i = 0; i < 5; i++)
+//            {
+//                // crossrail project video content
+//                if (vid[1][i].isPlaying())
+//                {
+//                    // gets the difference between screen width and adjusts
+//                    float diff = screenWidth / vid[1][i].getWidth();
+//                    float w = (vid[1][i].getWidth() * diff) * percentage;
+//                    float h = (vid[1][i].getHeight() * diff) * percentage;
+//                    
+//                    // content item
+//                    ofSetColor(255);
+//                    vid[1][i].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[2], h * scale[2]);
+//                }
+//            }
+//        
+//            //Draw the backgroundTile
+//            ofSetColor(255);
+//            cam.pan(camPam);
+//            cam.setDistance(camZoom);
+//            ofEnableDepthTest();
+//            cam.begin();
+//            ofEnableLighting();
+//            light.enable();
+//            ofSetColor(255, 255, 255);
+//            model.draw();
+//            light.disable();
+//            ofDisableLighting();
+//            cam.end();
+//            ofDisableDepthTest();
+//        
+//        //Plays audio content with play-head
+//        for(int i = 0; i < 5; i++) {
+//            if(sound[1][i].isPlaying()) {
+//                //Draw the backgroundTile
+//                // gets the difference between screen width and adjusts
+//                
+//                //draw the playhead
+//                ofSetColor(0);
+//                float percentageDone = sound[1][i].getPosition();
+//                float width = ofMap(percentageDone, 0., 1., 0., backgroundWidth - 20, true);
+//                ofDrawRectangle(ofGetWidth()/2, ofGetHeight()/2, width, 50);
+//
+//            }
+//        }
+//        ofSetRectMode(OF_RECTMODE_CORNER);
+//    }
 }
 
 //--------------------------------------------------------------
@@ -488,12 +582,12 @@ void Content::load(int _project, int _point, int _item)
         if (item == 0)
         {
             // loads specific image
-            img[item].load(path[project][point][item]);
+            img[item].load(path[project][point][item][0]);
         }
         else if (item == 1)
         {
             // loads specific image
-            img[item].load(path[project][point][item]);
+            img[item].load(path[project][point][item][0]);
         }
         else if (item == 2)
         {
@@ -505,7 +599,7 @@ void Content::load(int _project, int _point, int _item)
             // setup FBX scene
             ofxFBXSceneSettings settings;
             scene.unloadModels();
-            string filename = path[project][point][item];
+            string filename = path[project][point][item][0];
             if( scene.load(filename, settings) ) {
                 cout << "ofApp :: loaded the scene OK" << endl;
             } else {
@@ -537,7 +631,7 @@ void Content::load(int _project, int _point, int _item)
             // setup FBX scene
             ofxFBXSceneSettings settings;
             scene.unloadModels();
-            string filename = path[project][point][item];
+            string filename = path[project][point][item][0];
             if( scene.load(filename, settings) ) {
                 cout << "ofApp :: loaded the scene OK" << endl;
             } else {
@@ -553,14 +647,18 @@ void Content::load(int _project, int _point, int _item)
         else if (item == 3)
         {
             // loads specific image
-            img[item].load(path[project][point][item]);
+            img[item].load(path[project][point][item][0]);
         }
         else if (item == 4)
         {
             // loads specific image
-            img[item].load(path[project][point][item]);
+            img[item].load(path[project][point][item][0]);
         }
     }
+    
+    //load title and caption text
+    titleTextImage[item].load(path[project][point][item][1]);
+    captionTextImage[item].load(path[project][point][item][2]);
 }
 
 //--------------------------------------------------------------

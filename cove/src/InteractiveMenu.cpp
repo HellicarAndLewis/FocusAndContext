@@ -75,7 +75,7 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     rPoints[3].title = "Barbican";
     rPoints[2].title = "Liverpool";
     rPoints[1].title = "Canary Wharf";
-    rPoints[0].title = "Woolwich";
+    rPoints[0].title = "Soho";
     
     // setup left menu main
     leftMain.isMainTile = true;
@@ -2139,6 +2139,7 @@ void InteractiveMenu::pressedContent()
         // close content, stop video, and disable vignette
         c.item = 5;
         c.stopVideos();
+        c.stopAudio();
         if (Globals::vignetteOn)
             Globals::vignetteOn = false;
     }
@@ -2233,6 +2234,7 @@ void InteractiveMenu::pressedContent()
         // close content, stop video, and disable vignette
         c.item = 5;
         c.stopVideos();
+        c.stopAudio();
         if (Globals::vignetteOn) Globals::vignetteOn = false;
     }
     
@@ -2326,6 +2328,7 @@ void InteractiveMenu::pressedContent()
         // close content, stop video, and disable vignette
         c.item = 5;
         c.stopVideos();
+        c.stopAudio();
         if (Globals::vignetteOn) Globals::vignetteOn = false;
     }
     
@@ -2419,6 +2422,7 @@ void InteractiveMenu::pressedContent()
         // close content, stop video, and disable vignette
         c.item = 5;
         c.stopVideos();
+        c.stopAudio();
         if (Globals::vignetteOn) Globals::vignetteOn = false;
     }
     
@@ -2511,6 +2515,7 @@ void InteractiveMenu::pressedContent()
         // close content, stop video, and disable vignette
         c.item = 5;
         c.stopVideos();
+        c.stopAudio();
         if (Globals::vignetteOn) Globals::vignetteOn = false;
     }
     
@@ -2604,6 +2609,7 @@ void InteractiveMenu::pressedContent()
         // close content, stop video, and disable vignette
         c.item = 5;
         c.stopVideos();
+        c.stopAudio();
         if (Globals::vignetteOn) Globals::vignetteOn = false;
     }
     
@@ -2697,6 +2703,7 @@ void InteractiveMenu::pressedContent()
         // close content, stop video, and disable vignette
         c.item = 5;
         c.stopVideos();
+        c.stopAudio();
         if (Globals::vignetteOn) Globals::vignetteOn = false;
     }
     
@@ -2790,6 +2797,7 @@ void InteractiveMenu::pressedContent()
         // close content, stop video, and disable vignette
         c.item = 5;
         c.stopVideos();
+        c.stopAudio();
         if (Globals::vignetteOn) Globals::vignetteOn = false;
     }
     
@@ -2883,6 +2891,7 @@ void InteractiveMenu::pressedContent()
         // close content, stop video, and disable vignette
         c.item = 5;
         c.stopVideos();
+        c.stopAudio();
         if (Globals::vignetteOn) Globals::vignetteOn = false;
     }
     
@@ -2976,6 +2985,7 @@ void InteractiveMenu::pressedContent()
         // close content, stop video, and disable vignette
         c.item = 5;
         c.stopVideos();
+        c.stopAudio();
         if (Globals::vignetteOn) Globals::vignetteOn = false;
     }
 }

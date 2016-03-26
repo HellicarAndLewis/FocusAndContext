@@ -26,13 +26,13 @@ public:
     void stopAudio();
     
     // content locations
-    string path[2][5][5];
+    string path[2][5][5][3];
     
     // content type
     ofImage img[5];
     ofImage backgroundImage;
-    ofImage titleTextImage[2][5][5];
-    ofImage captionTextImage[2][5][5];
+    ofImage titleTextImage[5];
+    ofImage captionTextImage[5];
     ofVideoPlayer vid[2][5];
     ofSoundPlayer sound[2][5];
     //ofxOBJModel model;
@@ -71,6 +71,9 @@ public:
         hs1["Video"] = 2;
         hs1["3dModel"] = 3;
         hs1["Audio"] = 4;
+        hs1["Content"] = 0;
+        hs1["Title"] = 1;
+        hs1["Caption"] = 2;
         finalVector.push_back(hs1);
         
         //Create crossrail map
@@ -85,6 +88,9 @@ public:
         crossrail["Video"] = 2;
         crossrail["3dModel"] = 1;
         crossrail["Audio"] = 0;
+        crossrail["Content"] = 0;
+        crossrail["Title"] = 1;
+        crossrail["Caption"] = 2;
         finalVector.push_back(crossrail);
         
         return finalVector;
