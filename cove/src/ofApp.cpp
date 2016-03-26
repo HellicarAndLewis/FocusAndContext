@@ -89,8 +89,10 @@ void ofApp::setup()
     post.createPass<DofAltPass>()->setEnabled(false);
     post.createPass<ContrastPass>()->setEnabled(false);
     post.createPass<EdgePass>()->setEnabled(false);
-    post.createPass<HorizontalTiltShifPass>()->setEnabled(true);
-    post.createPass<VerticalTiltShifPass>()->setEnabled(true);
+    tiltShiftHoriPass = post.createPass<HorizontalTiltShifPass>();
+    tiltShiftHoriPass->setEnabled(true);
+    tiltShiftVertPass = post.createPass<VerticalTiltShifPass>();
+    tiltShiftVertPass->setEnabled(true);
     post.createPass<ToonPass>()->setEnabled(false);
 }
 
@@ -698,6 +700,10 @@ void ofApp::draw()
         menu.drawContent();
     }
     else c.draw();
+    
+    //Make the tilt shift only work near the POIs // TODO remove magic numbers
+    float tiltShift = ofMap(cam.getZ(), 250000, 4000, 0.0, 0.003);
+    tiltShiftVertPass->setH(tiltShift);
     
     // if (!gui->getVisible()) tileLoader.labels.draw2D();
     if (bDebugMsg) drawDebugMsg();

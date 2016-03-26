@@ -155,11 +155,17 @@ public:
     ofxDatGui2dPad* guiPositionPad;
     ofxDatGuiSlider* guiMapX;
     ofxDatGuiSlider* guiMapY;
+    ofxDatGuiSlider* tiltPassR;
+    ofxDatGuiSlider* tiltPassH;
     
     void onButtonEvent(ofxDatGuiButtonEvent e);
     void onSliderEvent(ofxDatGuiSliderEvent e);
     void on2dPadEvent(ofxDatGui2dPadEvent e);
     void onDropdownEvent(ofxDatGuiDropdownEvent e);
+    
+    //Save a pointer to the horizontal tilt shift pass so we can manipulate it later.
+    HorizontalTiltShifPass::Ptr tiltShiftHoriPass;
+    VerticalTiltShifPass::Ptr tiltShiftVertPass;
     
     // system sounds
     ofSoundPlayer snds;
