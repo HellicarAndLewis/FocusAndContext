@@ -694,7 +694,9 @@ void ofApp::draw()
     drawVignette();
     
     // draw cove content
-    if (bCove) menu.drawContent();
+    if (bCove) {
+        menu.drawContent();
+    }
     else c.draw();
     
     // if (!gui->getVisible()) tileLoader.labels.draw2D();

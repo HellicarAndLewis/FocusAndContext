@@ -203,7 +203,7 @@ void Content::scaling()
                 
                 // stop any videos running
                 stopVideos();
-                stopAudio();
+//                stopAudio();
             }
             scale[1] = ofLerp(scale[1], 0.0, lerpIn);
             scale[2] = ofLerp(scale[2], 0.0, lerpIn);
@@ -325,7 +325,7 @@ void Content::draw()
     }
     ofPopStyle();
     
-   // if (project == 0) {
+    if (project == 0) {
         // draws text content (text is currently an image)
         ofSetRectMode(OF_RECTMODE_CENTER);
         if (img[0].isAllocated())
@@ -489,83 +489,141 @@ void Content::draw()
             }
         }
         ofSetRectMode(OF_RECTMODE_CORNER);
-//    }
-//    else {
-//        // draws text content (text is currently an image)
-//        ofSetRectMode(OF_RECTMODE_CENTER);
-//        if (img[4].isAllocated())
-//        {
-//            // gets the difference between screen width and adjusts
-//            float diff = screenWidth / img[4].getWidth();
-//            float w = (img[4].getWidth() * diff) * percentage;
-//            float h = (img[4].getHeight() * diff) * percentage;
-//            
-//            // content item
-//            ofSetColor(255);
-//            img[4].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[4], h * scale[4]);
-//        }
-//        
-//        // draws image content
-//        if (img[3].isAllocated())
-//        {
-//            // gets the difference between screen width and adjusts
-//            float diff = screenWidth / img[3].getWidth();
-//            float w = (img[3].getWidth() * diff) * percentage;
-//            float h = (img[3].getHeight() * diff) * percentage;
-//            
-//            // content item
-//            ofSetColor(255);
-//            img[3].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[3], h * scale[3]);
-//        }
-//        
-//            // draws video content
-//            for (int i = 0; i < 5; i++)
-//            {
-//                // crossrail project video content
-//                if (vid[1][i].isPlaying())
-//                {
-//                    // gets the difference between screen width and adjusts
-//                    float diff = screenWidth / vid[1][i].getWidth();
-//                    float w = (vid[1][i].getWidth() * diff) * percentage;
-//                    float h = (vid[1][i].getHeight() * diff) * percentage;
-//                    
-//                    // content item
-//                    ofSetColor(255);
-//                    vid[1][i].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[2], h * scale[2]);
-//                }
-//            }
-//        
-//            //Draw the backgroundTile
-//            ofSetColor(255);
-//            cam.pan(camPam);
-//            cam.setDistance(camZoom);
-//            ofEnableDepthTest();
-//            cam.begin();
-//            ofEnableLighting();
-//            light.enable();
-//            ofSetColor(255, 255, 255);
-//            model.draw();
-//            light.disable();
-//            ofDisableLighting();
-//            cam.end();
-//            ofDisableDepthTest();
-//        
-//        //Plays audio content with play-head
-//        for(int i = 0; i < 5; i++) {
-//            if(sound[1][i].isPlaying()) {
-//                //Draw the backgroundTile
-//                // gets the difference between screen width and adjusts
-//                
-//                //draw the playhead
-//                ofSetColor(0);
-//                float percentageDone = sound[1][i].getPosition();
-//                float width = ofMap(percentageDone, 0., 1., 0., backgroundWidth - 20, true);
-//                ofDrawRectangle(ofGetWidth()/2, ofGetHeight()/2, width, 50);
-//
-//            }
-//        }
-//        ofSetRectMode(OF_RECTMODE_CORNER);
-//    }
+    } else {
+        // draws text content (text is currently an image)
+        ofSetRectMode(OF_RECTMODE_CENTER);
+        if (img[4].isAllocated())
+        {
+            // gets the difference between screen width and adjusts
+            float diff = screenWidth / img[4].getWidth();
+            float w = (img[4].getWidth() * diff) * percentage;
+            float h = (img[4].getHeight() * diff) * percentage;
+            
+            float titleDiff = screenWidth / titleTextImage[4].getWidth();
+            float titleW = (titleTextImage[4].getWidth() * titleDiff) * percentage;
+            float titleH = (titleTextImage[4].getHeight() * titleDiff) * percentage;
+            
+            float captionDiff = screenWidth / captionTextImage[4].getWidth();
+            float captionW = (captionTextImage[4].getWidth() * captionDiff) * percentage;
+            float captionH = (captionTextImage[4].getHeight() * captionDiff) * percentage;
+            
+            ofSetColor(255);
+            titleTextImage[4].draw(ofGetWidth()/2, ofGetHeight()/2 - h/2 - titleH/2 + titleBufferTop, titleW * scale[4], titleH * scale[4]);
+            captionTextImage[4].draw(ofGetWidth()/2, ofGetHeight()/2 + h/2 + captionH/2 + captionBufferTop, captionW * scale[4], captionH * scale[4]);
+            
+            // content item
+            ofSetColor(255);
+            img[4].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[4], h * scale[4]);
+        }
+        
+        // draws image content
+        if (img[3].isAllocated())
+        {
+            // gets the difference between screen width and adjusts
+            float diff = screenWidth / img[3].getWidth();
+            float w = (img[3].getWidth() * diff) * percentage;
+            float h = (img[3].getHeight() * diff) * percentage;
+            
+            float titleDiff = screenWidth / titleTextImage[3].getWidth();
+            float titleW = (titleTextImage[3].getWidth() * titleDiff) * percentage;
+            float titleH = (titleTextImage[3].getHeight() * titleDiff) * percentage;
+            
+            float captionDiff = screenWidth / captionTextImage[3].getWidth();
+            float captionW = (captionTextImage[3].getWidth() * captionDiff) * percentage;
+            float captionH = (captionTextImage[3].getHeight() * captionDiff) * percentage;
+            
+            ofSetColor(255);
+            titleTextImage[3].draw(ofGetWidth()/2, ofGetHeight()/2 - h/2 - titleH/2 + titleBufferTop, titleW * scale[3], titleH * scale[3]);
+            captionTextImage[3].draw(ofGetWidth()/2, ofGetHeight()/2 + h/2 + captionH/2 + captionBufferTop, captionW * scale[3], captionH * scale[3]);
+            
+            // content item
+            ofSetColor(255);
+            img[3].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[3], h * scale[3]);
+        }
+        
+            // draws video content
+            for (int i = 0; i < 5; i++)
+            {
+                // crossrail project video content
+                if (vid[1][i].isPlaying())
+                {
+                    // gets the difference between screen width and adjusts
+                    float diff = screenWidth / vid[1][i].getWidth();
+                    float w = (vid[1][i].getWidth() * diff) * percentage;
+                    float h = (vid[1][i].getHeight() * diff) * percentage;
+                    
+                    float titleDiff = screenWidth / titleTextImage[2].getWidth();
+                    float titleW = (titleTextImage[2].getWidth() * titleDiff) * percentage;
+                    float titleH = (titleTextImage[2].getHeight() * titleDiff) * percentage;
+                    
+                    float captionDiff = screenWidth / captionTextImage[2].getWidth();
+                    float captionW = (captionTextImage[2].getWidth() * captionDiff) * percentage;
+                    float captionH = (captionTextImage[2].getHeight() * captionDiff) * percentage;
+                    
+                    ofSetColor(255);
+                    titleTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2 - h/2 - titleH/2 + titleBufferTop, titleW * scale[2], titleH * scale[2]);
+                    captionTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2 + h/2 + captionH/2 + captionBufferTop, captionW * scale[2], captionH * scale[2]);
+                    
+                    // content item
+                    ofSetColor(255);
+                    vid[1][i].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[2], h * scale[2]);
+                }
+            }
+        
+            //Draw the backgroundTile
+            ofSetColor(255);
+            cam.pan(camPam);
+            cam.setDistance(camZoom);
+            ofEnableDepthTest();
+            cam.begin();
+            ofEnableLighting();
+            light.enable();
+            ofSetColor(255, 255, 255);
+            model.draw();
+            light.disable();
+            ofDisableLighting();
+            cam.end();
+            ofDisableDepthTest();
+        float titleDiff = screenWidth / titleTextImage[1].getWidth();
+        float titleW = (titleTextImage[1].getWidth() * titleDiff) * percentage;
+        float titleH = (titleTextImage[1].getHeight() * titleDiff) * percentage;
+        
+        float captionDiff = screenWidth / captionTextImage[1].getWidth();
+        float captionW = (captionTextImage[1].getWidth() * captionDiff) * percentage;
+        float captionH = (captionTextImage[1].getHeight() * captionDiff) * percentage;
+        
+        ofSetColor(255);
+        titleTextImage[1].draw(ofGetWidth()/2, ofGetHeight()/2 - backgroundHeight/2 + titleH/2 + titleBufferTop, titleW * scale[1], titleH * scale[1]);
+        captionTextImage[1].draw(ofGetWidth()/2, ofGetHeight()/2 + backgroundHeight/2 - captionH/2 + captionBufferTop, captionW * scale[1], captionH * scale[1]);
+        
+        //Plays audio content with play-head
+        for(int i = 0; i < 5; i++) {
+            if(sound[1][i].isPlaying()) {
+                //Draw the backgroundTile
+                // gets the difference between screen width and adjusts
+                
+                //draw the playhead
+                ofSetColor(0);
+                float percentageDone = sound[1][i].getPosition();
+                float width = ofMap(percentageDone, 0., 1., 0., backgroundWidth - 20, true);
+                ofDrawRectangle(ofGetWidth()/2, ofGetHeight()/2, width, 50);
+                
+                float titleDiff = screenWidth / titleTextImage[0].getWidth();
+                float titleW = (titleTextImage[0].getWidth() * titleDiff) * percentage;
+                float titleH = (titleTextImage[0].getHeight() * titleDiff) * percentage;
+                
+                float captionDiff = screenWidth / captionTextImage[0].getWidth();
+                float captionW = (captionTextImage[0].getWidth() * captionDiff) * percentage;
+                float captionH = (captionTextImage[0].getHeight() * captionDiff) * percentage;
+                
+                ofSetColor(255);
+                titleTextImage[0].draw(ofGetWidth()/2, ofGetHeight()/2 - backgroundHeight/2 + titleH/2 + titleBufferTop, titleW * scale[0], titleH * scale[0]);
+                captionTextImage[0].draw(ofGetWidth()/2, ofGetHeight()/2 + backgroundHeight/2 - captionH/2 + captionBufferTop, captionW * scale[0], captionH * scale[0]);
+
+            }
+        }
+        ofSetRectMode(OF_RECTMODE_CORNER);
+    }
 }
 
 //--------------------------------------------------------------
