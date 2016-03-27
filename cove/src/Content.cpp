@@ -51,7 +51,7 @@ void Content::fileLocation()
         path[projectIndex][i][1][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_data.jpg";
         path[projectIndex][i][2][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_video.mp4";
         path[projectIndex][i][3][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_model.fbx";
-        path[projectIndex][i][4][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_data.wav";
+        path[projectIndex][i][4][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_audio.wav";
         for(int j = 0; j < 5; j++) {
             path[projectIndex][i][j][1] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_title.png";
             path[projectIndex][i][j][2] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_caption.png";
@@ -294,6 +294,46 @@ void Content::scaling()
             }
             break;
     }
+    if(scale[0] >= 0.99) {
+        titleAndCaptionAlpha[0] = ofLerp(titleAndCaptionAlpha[0], 255, lerpIn);
+        for(int i = 0; i < 5; i++) {
+            if(i != 0) {
+                titleAndCaptionAlpha[i] = ofLerp(titleAndCaptionAlpha[i], 0.0, 1.0);
+            }
+        }
+    } else if(scale[1] >= 0.99) {
+        titleAndCaptionAlpha[1] = ofLerp(titleAndCaptionAlpha[1], 255, lerpIn);
+        for(int i = 0; i < 5; i++) {
+            if(i != 1) {
+                titleAndCaptionAlpha[i] = ofLerp(titleAndCaptionAlpha[i], 0.0, 1.0);
+            }
+        }
+    }else if(scale[2] >= 0.99) {
+        titleAndCaptionAlpha[2] = ofLerp(titleAndCaptionAlpha[2], 255, lerpIn);
+        for(int i = 0; i < 5; i++) {
+            if(i != 2) {
+                titleAndCaptionAlpha[i] = ofLerp(titleAndCaptionAlpha[i], 0.0, 1.0);
+            }
+        }
+    }else if(scale[3] >= 0.99) {
+        titleAndCaptionAlpha[3] = ofLerp(titleAndCaptionAlpha[3], 255, lerpIn);
+        for(int i = 0; i < 5; i++) {
+            if(i != 3) {
+                titleAndCaptionAlpha[i] = ofLerp(titleAndCaptionAlpha[i], 0.0, 1.0);
+            }
+        }
+    }else if(scale[4] >= 0.99) {
+        titleAndCaptionAlpha[4] = ofLerp(titleAndCaptionAlpha[4], 255, lerpIn);
+        for(int i = 0; i < 5; i++) {
+            if(i != 4) {
+                titleAndCaptionAlpha[i] = ofLerp(titleAndCaptionAlpha[i], 0.0, 1.0);
+            }
+        }
+    } else {
+        for(int i = 0; i < 5; i++) {
+            titleAndCaptionAlpha[i] = ofLerp(titleAndCaptionAlpha[i], 0.0, 1.0);
+        }
+    }
 }
 
 //--------------------------------------------------------------
@@ -343,10 +383,13 @@ void Content::draw()
             float captionW = (captionTextImage[0].getWidth() * captionDiff) * percentage;
             float captionH = (captionTextImage[0].getHeight() * captionDiff) * percentage;
             
-            ofSetColor(255);
-            titleTextImage[0].draw(ofGetWidth()/2, ofGetHeight()/2 - h/2 - titleH/2 + titleBufferTop, titleW * scale[0], titleH * scale[0]);
-            captionTextImage[0].draw(ofGetWidth()/2, ofGetHeight()/2 + h/2 + captionH/2 + captionBufferTop, captionW * scale[0], captionH * scale[0]);
+            //Draw the title and caption text
+            ofSetColor(255, 255, 255, titleAndCaptionAlpha[0]);
             
+            titleTextImage[0].draw(ofGetWidth()/2, ofGetHeight()/2 - h/2 - titleH/2 + titleBufferTop, titleW, titleH);
+            captionTextImage[0].draw(ofGetWidth()/2, ofGetHeight()/2 + h/2 + captionH/2 + captionBufferTop, captionW, captionH);
+            
+            ofSetColor(255);
             // content item
             img[0].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[0], h * scale[0]);
 
@@ -374,9 +417,12 @@ void Content::draw()
             float captionW = (captionTextImage[1].getWidth() * captionDiff) * percentage;
             float captionH = (captionTextImage[1].getHeight() * captionDiff) * percentage;
             
-            ofSetColor(255);
-            titleTextImage[1].draw(ofGetWidth()/2, ofGetHeight()/2 - h/2 - titleH/2 + titleBufferTop, titleW * scale[1], titleH * scale[1]);
-            captionTextImage[1].draw(ofGetWidth()/2, ofGetHeight()/2 + h/2 + captionH/2 + captionBufferTop, captionW * scale[1], captionH * scale[1]);
+            //Draw the title and caption text
+            ofSetColor(255, 255, 255, titleAndCaptionAlpha[1]);
+            
+            titleTextImage[1].draw(ofGetWidth()/2, ofGetHeight()/2 - h/2 - titleH/2 + titleBufferTop, titleW, titleH);
+            captionTextImage[1].draw(ofGetWidth()/2, ofGetHeight()/2 + h/2 + captionH/2 + captionBufferTop, captionW, captionH);
+
         }
     
         // draws video content
@@ -402,9 +448,11 @@ void Content::draw()
                     float captionW = (captionTextImage[2].getWidth() * captionDiff) * percentage;
                     float captionH = (captionTextImage[2].getHeight() * captionDiff) * percentage;
                     
-                    ofSetColor(255);
-                    titleTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2 - h/2 - titleH/2 + titleBufferTop, titleW * scale[2], titleH * scale[2]);
-                    captionTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2 + h/2 + captionH/2 + captionBufferTop, captionW * scale[2], captionH * scale[2]);
+                    //Draw the title and caption text
+                    ofSetColor(255, 255, 255, titleAndCaptionAlpha[2]);
+                    
+                    titleTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2 - h/2 - titleH/2 + titleBufferTop, titleW, titleH);
+                    captionTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2 + h/2 + captionH/2 + captionBufferTop, captionW, captionH);
                     
                 }
                 
@@ -428,9 +476,11 @@ void Content::draw()
                     float captionW = (captionTextImage[2].getWidth() * captionDiff) * percentage;
                     float captionH = (captionTextImage[2].getHeight() * captionDiff) * percentage;
                     
-                    ofSetColor(255);
-                    titleTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2 - h/2 - titleH/2 + titleBufferTop, titleW * scale[2], titleH * scale[2]);
-                    captionTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2 + h/2 + captionH/2 + captionBufferTop, captionW * scale[2], captionH * scale[2]);
+                    //Draw the title and caption text
+                    ofSetColor(255, 255, 255, titleAndCaptionAlpha[2]);
+                    
+                    titleTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2 - h/2 - titleH/2 + titleBufferTop, titleW, titleH);
+                    captionTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2 + h/2 + captionH/2 + captionBufferTop, captionW, captionH);
                     
                 }
             }
@@ -458,9 +508,9 @@ void Content::draw()
         float captionW = (captionTextImage[3].getWidth() * captionDiff) * percentage;
         float captionH = (captionTextImage[3].getHeight() * captionDiff) * percentage;
         
-        ofSetColor(255);
-        titleTextImage[3].draw(ofGetWidth()/2, ofGetHeight()/2 - backgroundHeight/2 + titleH/2 + titleBufferTop, titleW * scale[3], titleH * scale[3]);
-        captionTextImage[3].draw(ofGetWidth()/2, ofGetHeight()/2 + backgroundHeight/2 - captionH/2 + captionBufferTop, captionW * scale[3], captionH * scale[3]);
+        ofSetColor(255, 255, 255, titleAndCaptionAlpha[3]);
+        titleTextImage[3].draw(ofGetWidth()/2, ofGetHeight()/2 - backgroundHeight/2 + titleH/2 + titleBufferTop, titleW, titleH);
+        captionTextImage[3].draw(ofGetWidth()/2, ofGetHeight()/2 + backgroundHeight/2 - captionH/2 + captionBufferTop, captionW, captionH);
     
         //Plays audio content with play-head
         for(int i = 0; i < 5; i++) {
@@ -482,9 +532,9 @@ void Content::draw()
                 float captionW = (captionTextImage[4].getWidth() * captionDiff) * percentage;
                 float captionH = (captionTextImage[4].getHeight() * captionDiff) * percentage;
                 
-                ofSetColor(255);
-                titleTextImage[4].draw(ofGetWidth()/2, ofGetHeight()/2 - backgroundHeight/2 + titleH/2 + titleBufferTop, titleW * scale[4], titleH * scale[4]);
-                captionTextImage[4].draw(ofGetWidth()/2, ofGetHeight()/2 + backgroundHeight/2 - captionH/2 + captionBufferTop, captionW * scale[4], captionH * scale[4]);
+                ofSetColor(255, 255, 255, titleAndCaptionAlpha[4]);
+                titleTextImage[4].draw(ofGetWidth()/2, ofGetHeight()/2 - backgroundHeight/2 + titleH/2 + titleBufferTop, titleW, titleH);
+                captionTextImage[4].draw(ofGetWidth()/2, ofGetHeight()/2 + backgroundHeight/2 - captionH/2 + captionBufferTop, captionW, captionH);
                 
             }
         }
@@ -507,9 +557,9 @@ void Content::draw()
             float captionW = (captionTextImage[4].getWidth() * captionDiff) * percentage;
             float captionH = (captionTextImage[4].getHeight() * captionDiff) * percentage;
             
-            ofSetColor(255);
-            titleTextImage[4].draw(ofGetWidth()/2, ofGetHeight()/2 - h/2 - titleH/2 + titleBufferTop, titleW * scale[4], titleH * scale[4]);
-            captionTextImage[4].draw(ofGetWidth()/2, ofGetHeight()/2 + h/2 + captionH/2 + captionBufferTop, captionW * scale[4], captionH * scale[4]);
+            ofSetColor(255, 255, 255, titleAndCaptionAlpha[4]);
+            titleTextImage[4].draw(ofGetWidth()/2, ofGetHeight()/2 - h/2 - titleH/2 + titleBufferTop, titleW, titleH);
+            captionTextImage[4].draw(ofGetWidth()/2, ofGetHeight()/2 + h/2 + captionH/2 + captionBufferTop, captionW, captionH);
             
             // content item
             ofSetColor(255);
@@ -532,9 +582,9 @@ void Content::draw()
             float captionW = (captionTextImage[3].getWidth() * captionDiff) * percentage;
             float captionH = (captionTextImage[3].getHeight() * captionDiff) * percentage;
             
-            ofSetColor(255);
-            titleTextImage[3].draw(ofGetWidth()/2, ofGetHeight()/2 - h/2 - titleH/2 + titleBufferTop, titleW * scale[3], titleH * scale[3]);
-            captionTextImage[3].draw(ofGetWidth()/2, ofGetHeight()/2 + h/2 + captionH/2 + captionBufferTop, captionW * scale[3], captionH * scale[3]);
+            ofSetColor(255, 255, 255, titleAndCaptionAlpha[3]);
+            titleTextImage[3].draw(ofGetWidth()/2, ofGetHeight()/2 - h/2 - titleH/2 + titleBufferTop, titleW, titleH);
+            captionTextImage[3].draw(ofGetWidth()/2, ofGetHeight()/2 + h/2 + captionH/2 + captionBufferTop, captionW, captionH);
             
             // content item
             ofSetColor(255);
@@ -560,9 +610,9 @@ void Content::draw()
                     float captionW = (captionTextImage[2].getWidth() * captionDiff) * percentage;
                     float captionH = (captionTextImage[2].getHeight() * captionDiff) * percentage;
                     
-                    ofSetColor(255);
-                    titleTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2 - h/2 - titleH/2 + titleBufferTop, titleW * scale[2], titleH * scale[2]);
-                    captionTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2 + h/2 + captionH/2 + captionBufferTop, captionW * scale[2], captionH * scale[2]);
+                    ofSetColor(255, 255, 255, titleAndCaptionAlpha[2]);
+                    titleTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2 - h/2 - titleH/2 + titleBufferTop, titleW, titleH);
+                    captionTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2 + h/2 + captionH/2 + captionBufferTop, captionW, captionH);
                     
                     // content item
                     ofSetColor(255);
@@ -592,9 +642,9 @@ void Content::draw()
         float captionW = (captionTextImage[1].getWidth() * captionDiff) * percentage;
         float captionH = (captionTextImage[1].getHeight() * captionDiff) * percentage;
         
-        ofSetColor(255);
-        titleTextImage[1].draw(ofGetWidth()/2, ofGetHeight()/2 - backgroundHeight/2 + titleH/2 + titleBufferTop, titleW * scale[1], titleH * scale[1]);
-        captionTextImage[1].draw(ofGetWidth()/2, ofGetHeight()/2 + backgroundHeight/2 - captionH/2 + captionBufferTop, captionW * scale[1], captionH * scale[1]);
+        ofSetColor(255, 255, 255, titleAndCaptionAlpha[1]);
+        titleTextImage[1].draw(ofGetWidth()/2, ofGetHeight()/2 - backgroundHeight/2 + titleH/2 + titleBufferTop, titleW, titleH);
+        captionTextImage[1].draw(ofGetWidth()/2, ofGetHeight()/2 + backgroundHeight/2 - captionH/2 + captionBufferTop, captionW, captionH);
         
         //Plays audio content with play-head
         for(int i = 0; i < 5; i++) {
@@ -616,9 +666,9 @@ void Content::draw()
                 float captionW = (captionTextImage[0].getWidth() * captionDiff) * percentage;
                 float captionH = (captionTextImage[0].getHeight() * captionDiff) * percentage;
                 
-                ofSetColor(255);
-                titleTextImage[0].draw(ofGetWidth()/2, ofGetHeight()/2 - backgroundHeight/2 + titleH/2 + titleBufferTop, titleW * scale[0], titleH * scale[0]);
-                captionTextImage[0].draw(ofGetWidth()/2, ofGetHeight()/2 + backgroundHeight/2 - captionH/2 + captionBufferTop, captionW * scale[0], captionH * scale[0]);
+                ofSetColor(255, 255, 255, titleAndCaptionAlpha[0]);
+                titleTextImage[0].draw(ofGetWidth()/2, ofGetHeight()/2 - backgroundHeight/2 + titleH/2 + titleBufferTop, titleW, titleH);
+                captionTextImage[0].draw(ofGetWidth()/2, ofGetHeight()/2 + backgroundHeight/2 - captionH/2 + captionBufferTop, captionW, captionH);
 
             }
         }

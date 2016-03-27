@@ -50,6 +50,7 @@ public:
     float camXaxis;
     
     float scale[5];
+    float titleAndCaptionAlpha[5];
     float screenWidth;
     
     //Dictionary of locations, 1 is hs1 2 is crossrail, pair the index of the location with the name of the file that it's content is stored in and the name of the content type and the index it is stored in in the paths array
