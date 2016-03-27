@@ -84,7 +84,6 @@ void Content::fileLocation()
     int contentPieceIndex = 7;
     for(int i = 0; i < HS1.size(); i++) {
         vector<string> splitString = ofSplitString(HS1[i], "/");
-        cout<<HS1[i]<<endl;
         string locationName = splitString[locationNameIndex];
         string contentType = splitString[contentTypeIndex];
         string contentPieceName = splitString[contentPieceIndex];
