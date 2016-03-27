@@ -30,7 +30,7 @@ void Content::setup()
     
     // setup FBX scene
     ofxFBXSceneSettings settings;
-    string filename =  "content/media/Placeholder/no_model.fbx";//path[0][0][3][0];
+    string filename =  "content/Dropbox/ArupContentForInstallation/Placeholder/no_model.fbx";//path[0][0][3][0];
     if( scene.load(filename, settings) ) {
         cout << "ofApp :: loaded the scene OK" << endl;
     } else {
@@ -47,21 +47,21 @@ void Content::fileLocation()
     //Load all the placeholder content, we'll overwrite it later
     //Load placeholder for HS1
     for(int i = 0; i < 5; i++) {
-        path[projectIndex][i][0][0] = "content/media/Placeholder/no_data.jpg";
-        path[projectIndex][i][1][0] = "content/media/Placeholder/no_data.jpg";
-        path[projectIndex][i][2][0] = "content/media/Placeholder/no_video.mp4";
-        path[projectIndex][i][3][0] = "content/media/Placeholder/no_model.fbx";
-        path[projectIndex][i][4][0] = "content/media/Placeholder/no_data.wav";
+        path[projectIndex][i][0][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_data.jpg";
+        path[projectIndex][i][1][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_data.jpg";
+        path[projectIndex][i][2][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_video.mp4";
+        path[projectIndex][i][3][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_model.fbx";
+        path[projectIndex][i][4][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_data.wav";
         for(int j = 0; j < 5; j++) {
-            path[projectIndex][i][j][1] = "content/media/Placeholder/no_title.png";
-            path[projectIndex][i][j][2] = "content/media/Placeholder/no_caption.png";
+            path[projectIndex][i][j][1] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_title.png";
+            path[projectIndex][i][j][2] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_caption.png";
         }
     }
     
     //Load all real the content for HS1
     //Note: this will have the side-effect of loading the last file if there are multiple files in a folder
     ofxNestedFileLoader loader;
-    vector<string> HS1 = loader.load("content/media/HS1/Location");
+    vector<string> HS1 = loader.load("content/Dropbox/ArupContentForInstallation/HS1/Location");
     
     int locationNameIndex = 4;
     int contentTypeIndex = 5;
@@ -87,20 +87,20 @@ void Content::fileLocation()
     
     //Load placeholders for Crossrail
     for(int i = 0; i < 5; i++) {
-        path[projectIndex][i][4][0] = "content/media/Placeholder/no_data.jpg";
-        path[projectIndex][i][3][0] = "content/media/Placeholder/no_data.jpg";
-        path[projectIndex][i][2][0] = "content/media/Placeholder/no_video.mp4";
-        path[projectIndex][i][1][0] = "content/media/Placeholder/no_model.fbx";
-        path[projectIndex][i][0][0] = "content/media/Placeholder/no_data.wav";
+        path[projectIndex][i][4][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_data.jpg";
+        path[projectIndex][i][3][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_data.jpg";
+        path[projectIndex][i][2][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_video.mp4";
+        path[projectIndex][i][1][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_model.fbx";
+        path[projectIndex][i][0][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_data.wav";
         for(int j = 0; j < 5; j++) {
-            path[projectIndex][i][j][1] = "content/media/Placeholder/no_title.png";
-            path[projectIndex][i][j][2] = "content/media/Placeholder/no_caption.png";
+            path[projectIndex][i][j][1] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_title.png";
+            path[projectIndex][i][j][2] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_caption.png";
         }
     }
     
     //Load all the content for Crossrail
         //Note: this will have the side-effect of loading the last file if there are multiple files in a folder
-    vector<string> Crossrail = loader.load("content/media/Crossrail/Location");
+    vector<string> Crossrail = loader.load("content/Dropbox/ArupContentForInstallation/Crossrail/Location");
     
     for(int i = 0; i < Crossrail.size(); i++) {
         vector<string> splitString = ofSplitString(Crossrail[i], "/");
