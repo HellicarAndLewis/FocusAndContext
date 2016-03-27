@@ -700,7 +700,10 @@ void ofApp::draw()
     else c.draw();
     
     //Make the tilt shift only work near the POIs // TODO remove magic numbers
-    float tiltShift = ofMap(cam.getZ(), 250000, 4000, 0.0, 0.003);
+    float tiltShift = 0.0;
+    if(camTilt == -60 || camTilt == -120) {
+        tiltShift = 0.003;
+    }
     tiltShiftVertPass->setH(tiltShift);
     tiltShiftHoriPass->setH(tiltShift);
     

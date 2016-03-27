@@ -37,6 +37,20 @@ void Content::setup()
         cout << "ofApp :: Error loading the scene" << endl;
     }
     model.setup( &scene );
+    
+    //past color
+    ofColor col;
+    col.setHex(0xD2E0EC);
+    playhead.setPastColor(col);
+    
+    //future color
+    col.setHex(0x68C3EB);
+    playhead.setFutureColor(col);
+    
+    //bar color
+    col.setHex(0xFF7500);
+    playhead.setBarColor(col);
+
 }
 
 //--------------------------------------------------------------
@@ -91,7 +105,7 @@ void Content::fileLocation()
         path[projectIndex][i][3][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_data.jpg";
         path[projectIndex][i][2][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_video.mp4";
         path[projectIndex][i][1][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_model.fbx";
-        path[projectIndex][i][0][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_data.wav";
+        path[projectIndex][i][0][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_audio.wav";
         for(int j = 0; j < 5; j++) {
             path[projectIndex][i][j][1] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_title.png";
             path[projectIndex][i][j][2] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_caption.png";
@@ -141,6 +155,7 @@ void Content::fileLocation()
     for(int i = 0; i < 2; i++) {
         for(int j = 0; j < 4; j++) {
             sound[i][j].setVolume(1.0);
+            sound[i][j].setLoop(true);
         }
     }
     
@@ -294,6 +309,7 @@ void Content::scaling()
             }
             break;
     }
+    //Scale the Title and caption alpha
     if(scale[0] >= 0.99) {
         titleAndCaptionAlpha[0] = ofLerp(titleAndCaptionAlpha[0], 255, lerpIn);
         for(int i = 0; i < 5; i++) {
@@ -519,10 +535,10 @@ void Content::draw()
                 // gets the difference between screen width and adjusts
                 
                 //draw the playhead
-                ofSetColor(0);
                 float percentageDone = sound[0][i].getPosition();
-                float width = ofMap(percentageDone, 0., 1., 0., backgroundWidth - 20, true);
-                ofDrawRectangle(ofGetWidth()/2, ofGetHeight()/2, width, 50);
+                playhead.draw(ofGetWidth()/2, ofGetHeight()/2, (backgroundWidth - 200) * scale[4], 100 * scale[4], percentageDone);
+                //float width = ofMap(percentageDone, 0., 1., 0., backgroundWidth - 20, true);
+                //ofDrawRectangle(ofGetWidth()/2, ofGetHeight()/2, width, 50);
                 
                 float titleDiff = screenWidth / titleTextImage[4].getWidth();
                 float titleW = (titleTextImage[4].getWidth() * titleDiff) * percentage;
@@ -535,6 +551,20 @@ void Content::draw()
                 ofSetColor(255, 255, 255, titleAndCaptionAlpha[4]);
                 titleTextImage[4].draw(ofGetWidth()/2, ofGetHeight()/2 - backgroundHeight/2 + titleH/2 + titleBufferTop, titleW, titleH);
                 captionTextImage[4].draw(ofGetWidth()/2, ofGetHeight()/2 + backgroundHeight/2 - captionH/2 + captionBufferTop, captionW, captionH);
+//                if(percentageDone > 0.99) {
+////                    lCon0[0].isSelected = false;
+////                    lCon0[1].isSelected = false;
+////                    lCon0[2].isSelected = false;
+////                    lCon0[3].isSelected = false;
+////                    lCon0[4].isSelected = false;
+//                    
+//                    // close content, stop video, and disable vignette
+//                    item = 5;
+//                    stopVideos();
+//                    stopAudio();
+//                    if (Globals::vignetteOn)
+//                        Globals::vignetteOn = false;
+//                }
                 
             }
         }
@@ -653,10 +683,8 @@ void Content::draw()
                 // gets the difference between screen width and adjusts
                 
                 //draw the playhead
-                ofSetColor(0);
                 float percentageDone = sound[1][i].getPosition();
-                float width = ofMap(percentageDone, 0., 1., 0., backgroundWidth - 20, true);
-                ofDrawRectangle(ofGetWidth()/2, ofGetHeight()/2, width, 50);
+                playhead.draw(ofGetWidth()/2, ofGetHeight()/2, (backgroundWidth - 200) * scale[0], 100 * scale[0], percentageDone);
                 
                 float titleDiff = screenWidth / titleTextImage[0].getWidth();
                 float titleW = (titleTextImage[0].getWidth() * titleDiff) * percentage;
@@ -669,7 +697,21 @@ void Content::draw()
                 ofSetColor(255, 255, 255, titleAndCaptionAlpha[0]);
                 titleTextImage[0].draw(ofGetWidth()/2, ofGetHeight()/2 - backgroundHeight/2 + titleH/2 + titleBufferTop, titleW, titleH);
                 captionTextImage[0].draw(ofGetWidth()/2, ofGetHeight()/2 + backgroundHeight/2 - captionH/2 + captionBufferTop, captionW, captionH);
-
+                
+                if(percentageDone > 0.99) {
+//                    lCon0[0].isSelected = false;
+//                    lCon0[1].isSelected = false;
+//                    lCon0[2].isSelected = false;
+//                    lCon0[3].isSelected = false;
+//                    lCon0[4].isSelected = false;
+                    
+                    // close content, stop video, and disable vignette
+                    item = 5;
+                    stopVideos();
+                    stopAudio();
+                    if (Globals::vignetteOn)
+                        Globals::vignetteOn = false;
+                }
             }
         }
         ofSetRectMode(OF_RECTMODE_CORNER);
@@ -682,6 +724,16 @@ void Content::load(int _project, int _point, int _item)
     project = _project;
     point = _point;
     item = _item;
+    if(project == 1) {
+        ofColor col;
+        col.setHex(0x000000);
+        playhead.setPastColor(col);
+    } else {
+        ofColor col;
+        col.setHex(0xD2E0EC);
+        playhead.setPastColor(col);
+    }
+
     
     stopAudio();
     
