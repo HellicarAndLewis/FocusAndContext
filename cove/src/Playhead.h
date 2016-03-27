@@ -19,9 +19,11 @@ public:
     void setPastColor(ofColor _col) {pastColor = _col;};
     void setFutureColor(ofColor _col) {futureColor = _col;};
     void setBarColor(ofColor _col) {barColor = _col;};
+    void setAlpha(float _alpha) {alpha = _alpha;};
     
 private:
     ofColor pastColor, futureColor, barColor;
+    float alpha;
 };
 
 #endif /* Playhead_hpp */

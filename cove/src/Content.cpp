@@ -50,6 +50,8 @@ void Content::setup()
     //bar color
     col.setHex(0xFF7500);
     playhead.setBarColor(col);
+    
+    playhead.setAlpha(0.0);
 
 }
 
@@ -464,6 +466,11 @@ void Content::draw()
                     float captionW = (captionTextImage[2].getWidth() * captionDiff) * percentage;
                     float captionH = (captionTextImage[2].getHeight() * captionDiff) * percentage;
                     
+                    //draw the playhead
+                    playhead.setAlpha(titleAndCaptionAlpha[2]);
+                    float percentageDone = vid[0][i].getPosition();
+                    playhead.draw(ofGetWidth()/2, ofGetHeight()/2 + h/2, w * scale[2], 10 * scale[2], percentageDone);
+                    
                     //Draw the title and caption text
                     ofSetColor(255, 255, 255, titleAndCaptionAlpha[2]);
                     
@@ -494,6 +501,11 @@ void Content::draw()
                     
                     //Draw the title and caption text
                     ofSetColor(255, 255, 255, titleAndCaptionAlpha[2]);
+                    
+                    //draw the playhead
+                    float percentageDone = vid[1][i].getPosition();
+                    playhead.setAlpha(titleAndCaptionAlpha[2]);
+                    playhead.draw(ofGetWidth()/2, ofGetHeight()/2 + h/2, w * scale[2], 10 * scale[2], percentageDone);
                     
                     titleTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2 - h/2 - titleH/2 + titleBufferTop, titleW, titleH);
                     captionTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2 + h/2 + captionH/2 + captionBufferTop, captionW, captionH);
@@ -535,10 +547,9 @@ void Content::draw()
                 // gets the difference between screen width and adjusts
                 
                 //draw the playhead
+                playhead.setAlpha(titleAndCaptionAlpha[4]);
                 float percentageDone = sound[0][i].getPosition();
                 playhead.draw(ofGetWidth()/2, ofGetHeight()/2, (backgroundWidth - 200) * scale[4], 100 * scale[4], percentageDone);
-                //float width = ofMap(percentageDone, 0., 1., 0., backgroundWidth - 20, true);
-                //ofDrawRectangle(ofGetWidth()/2, ofGetHeight()/2, width, 50);
                 
                 float titleDiff = screenWidth / titleTextImage[4].getWidth();
                 float titleW = (titleTextImage[4].getWidth() * titleDiff) * percentage;
@@ -647,6 +658,11 @@ void Content::draw()
                     // content item
                     ofSetColor(255);
                     vid[1][i].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[2], h * scale[2]);
+                    
+                    //draw the playhead
+                    playhead.setAlpha(titleAndCaptionAlpha[2]);
+                    float percentageDone = vid[1][i].getPosition();
+                    playhead.draw(ofGetWidth()/2, ofGetHeight()/2 + h/2, w * scale[2], 10 * scale[2], percentageDone);
                 }
             }
         
@@ -683,6 +699,7 @@ void Content::draw()
                 // gets the difference between screen width and adjusts
                 
                 //draw the playhead
+                playhead.setAlpha(titleAndCaptionAlpha[0]);
                 float percentageDone = sound[1][i].getPosition();
                 playhead.draw(ofGetWidth()/2, ofGetHeight()/2, (backgroundWidth - 200) * scale[0], 100 * scale[0], percentageDone);
                 
