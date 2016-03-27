@@ -63,9 +63,9 @@ void Content::fileLocation()
     ofxNestedFileLoader loader;
     vector<string> HS1 = loader.load("content/Dropbox/ArupContentForInstallation/HS1/Location");
     
-    int locationNameIndex = 4;
-    int contentTypeIndex = 5;
-    int contentPieceIndex = 6;
+    int locationNameIndex = 5;
+    int contentTypeIndex = 6;
+    int contentPieceIndex = 7;
     for(int i = 0; i < HS1.size(); i++) {
         vector<string> splitString = ofSplitString(HS1[i], "/");
         cout<<HS1[i]<<endl;

@@ -155,8 +155,6 @@ void ofApp::effectsSetup(float _w, float _h)
 {
     // Setup post-processing chain
     post.init(_w, _h);
-   // auto passes = post.getPasses();
-   // passes[0].setH(1.);
 }
 
 void ofApp::projectColors()
@@ -704,6 +702,7 @@ void ofApp::draw()
     //Make the tilt shift only work near the POIs // TODO remove magic numbers
     float tiltShift = ofMap(cam.getZ(), 250000, 4000, 0.0, 0.003);
     tiltShiftVertPass->setH(tiltShift);
+    tiltShiftHoriPass->setH(tiltShift);
     
     // if (!gui->getVisible()) tileLoader.labels.draw2D();
     if (bDebugMsg) drawDebugMsg();
