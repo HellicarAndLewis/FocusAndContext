@@ -39,6 +39,8 @@ public:
     float length;
     float height;
     int project;
+    float verticalOffset;
+    float verticalOffsetSaved;
     ofTrueTypeFont* titleFont;
     
     ofShader billboardShader;

@@ -25,6 +25,11 @@ void ofApp::setup()
     cam.setFarClip(300000);
     cam.setDistance(250000);
     
+    //Set the initial tilt shift to 0
+    tiltShift = 0.0;
+    
+    ofSetLogLevel(OF_LOG_ERROR);
+    
     // center mesh on launch
     meshPosition.set(-16156.9, 11756.6);
 
@@ -80,6 +85,8 @@ void ofApp::setup()
     // configure menu or content setup
     if (bCove) menuSetup(ofGetWidth(), ofGetHeight());
     else c.setup();
+    
+    tileIndex = 0;
     
     // effects
     effectsSetup(ofGetWidth(), ofGetHeight());
@@ -330,6 +337,79 @@ void ofApp::loadPoint(int point)
 {
     setLon(intPoints[point].lon);
     setLat(intPoints[point].lat);
+    
+    //if project is HS1
+    if(route.activeProject == 0) {
+        int numLabelledLocations = 0;
+        for(int i = 0; i < route.locationsLeft.size(); i++) {
+            route.locationsLeft[i].isActive = false;
+            if(route.locationsLeft[i].hasLabel) {
+                if(numLabelledLocations == point) {
+                    route.locationsLeft[i].isActive = true;
+                }
+                numLabelledLocations++;
+            }
+        }
+
+        switch (point) {
+            case 0:
+                //St Pancras
+                scroller.scrollTo(0.0);
+                break;
+            case 1:
+                //Stratford
+                scroller.scrollTo(0.0733333);
+                break;
+            case 2:
+                //Ebbsfleet
+                scroller.scrollTo(0.33);
+                break;
+            case 3:
+                //Medway Viaduct
+                scroller.scrollTo(0.45);
+                break;
+            case 4:
+                //Ashford
+                scroller.scrollTo(0.81619);
+            default:
+                break;
+        }
+    } else {
+        int numLabelledLocations = 0;
+        for(int i = 0; i < route.locationsRight.size(); i++) {
+            route.locationsRight[i].isActive = false;
+            if(route.locationsRight[i].hasLabel) {
+                if(numLabelledLocations == point) {
+                    route.locationsRight[i].isActive = true;
+                }
+                numLabelledLocations++;
+            }
+        }
+        switch (point) {
+            case 0:
+                //Tottenham
+                scroller.scrollTo(0.0752381);
+                break;
+            case 1:
+                //Barbican
+                scroller.scrollTo(0.245714);
+                break;
+            case 2:
+                //Liverpool Street
+                scroller.scrollTo(0.42381);
+                break;
+            case 3:
+                //Canary Warf
+                scroller.scrollTo(0.567151);
+                break;
+            case 4:
+                //Soho
+                scroller.scrollTo(0.889906);
+
+            default:
+                break;
+        }
+    }
     
     // not a camera point
     isCam = false;
@@ -630,6 +710,8 @@ void ofApp::update()
     // pass along which mode we're in to global variable
     Globals::programType = bCove;
     Globals::project = route.activeProject;
+    
+    //cout<<scroller.getValue()<<endl;
 }
 
 void ofApp::menuSetup(int _w, int _h)
@@ -688,6 +770,43 @@ void ofApp::draw()
     }
      */
     
+    if(camTilt < 0) {
+        for(int i = 0; i < route.locationsLeft.size(); i++) {
+            float* offset = &route.locationsLeft[i].verticalOffset;
+            float offsetSaved = route.locationsLeft[i].verticalOffsetSaved;
+            if(route.locationsLeft[i].isActive) {
+                *offset = ofLerp(*offset, 5000, 0.1);
+                route.locationsLeft[i].alpha = ofLerp(route.locationsLeft[i].alpha, 1.0, 0.1);
+            } else {
+                route.locationsLeft[i].alpha = ofLerp(route.locationsLeft[i].alpha, 0.0, 0.1);
+            }
+        }
+        for(int i = 0; i < route.locationsRight.size(); i++) {
+            float* offset = &route.locationsRight[i].verticalOffset;
+            float offsetSaved = route.locationsRight[i].verticalOffsetSaved;
+            if(route.locationsRight[i].isActive) {
+                *offset = ofLerp(*offset, 5000, 0.1);
+                route.locationsRight[i].alpha = ofLerp(route.locationsRight[i].alpha, 1.0, 0.1);
+            } else {
+                route.locationsRight[i].alpha = ofLerp(route.locationsRight[i].alpha, 0.0, 0.1);
+            }
+        }
+    } else {
+        for(int i = 0; i < route.locationsLeft.size(); i++) {
+            float* offset = &route.locationsLeft[i].verticalOffset;
+            float offsetSaved = route.locationsLeft[i].verticalOffsetSaved;
+            *offset = ofLerp(*offset, offsetSaved, 0.1);
+            route.locationsLeft[i].alpha = ofLerp(route.locationsLeft[i].alpha, 1.0, 0.1);
+        }
+        for(int i = 0; i < route.locationsRight.size(); i++) {
+            float* offset = &route.locationsRight[i].verticalOffset;
+            float offsetSaved = route.locationsRight[i].verticalOffsetSaved;
+            *offset = ofLerp(*offset, offsetSaved, 0.1);
+            route.locationsRight[i].alpha = ofLerp(route.locationsRight[i].alpha, 1.0, 0.1);
+        }
+
+    }
+    
     drawScene();
     
     // draw ontop of all graphics
@@ -700,9 +819,11 @@ void ofApp::draw()
     else c.draw();
     
     //Make the tilt shift only work near the POIs // TODO remove magic numbers
-    float tiltShift = 0.0;
-    if(camTilt == -60 || camTilt == -120) {
-        tiltShift = 0.003;
+    //float tiltShift = 0.0;
+    if(camTilt < 0) {
+        tiltShift = ofLerp(tiltShift, 0.003, 0.1);
+    } else {
+        tiltShift = ofLerp(tiltShift, 0.0, 0.1);
     }
     tiltShiftVertPass->setH(tiltShift);
     tiltShiftHoriPass->setH(tiltShift);
@@ -800,10 +921,10 @@ void ofApp::drawScene()
         ofRotateZ(sceneRotation.z);
         ofTranslate(meshPosition);
         
-        auto tiles = &tileLoader.tiles;
+        auto tiles = &tileLoader.macroTiles;
         
         // toggle tile layers based on zoom?
-        //if (cam.getDistance() < 5000) tiles = &tileLoader.microTiles;
+        //if (camTilt == -60 || camTilt == -120) tiles = &tileLoader.microTiles;
         
         /*
         // Earth
@@ -1029,10 +1150,35 @@ void ofApp::keyPressed(int key)
         case ' ':
             showGui(!gui->getVisible());
             break;
+        default :
+            break;
+                
     }
     
     unsigned idx = key - '0';
     if (idx < post.size()) post[idx]->setEnabled(!post[idx]->getEnabled());
+    
+    if(key == OF_KEY_RIGHT) {
+        tileIndex++;
+        if(tileIndex >= tileLoader.tiles.size()) tileIndex = tileLoader.tiles.size() - 1;
+        tileLoader.tiles[tileIndex].isActive = true;
+        for(int i = 0; i < tileLoader.tiles.size(); i++) {
+            if(i != tileIndex) {
+                tileLoader.tiles[i].isActive = false;
+            }
+        }
+        cout<<tileLoader.tiles[tileIndex].fileName<<endl;
+    }else if(key == OF_KEY_LEFT) {
+        tileIndex--;
+        if(tileIndex < 0) tileIndex = 0;
+        tileLoader.tiles[tileIndex].isActive = true;
+        for(int i = 0; i < tileLoader.tiles.size(); i++) {
+            if(i != tileIndex) {
+                tileLoader.tiles[i].isActive = false;
+            }
+        }
+        cout<<tileLoader.tiles[tileIndex].fileName<<endl;
+    }
 }
 
 void ofApp::keyReleased(int key){

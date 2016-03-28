@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		04C13EEA813A786CC1D8137A /* FxaaPass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9425843AEC3118B8FDEF1B0B /* FxaaPass.cpp */; };
 		114C00B13F753E59BB0984BB /* DofPass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E837DEBFAEA1CAD833A377DF /* DofPass.cpp */; };
+		1AED355C1CA9467500D7519C /* Playhead.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AED355A1CA9467500D7519C /* Playhead.cpp */; };
 		1BEE448D5236FF7A3D1136A0 /* ofxFBXScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 95EB7C733541F64E2C4F7115 /* ofxFBXScene.cpp */; };
 		1C7AAD60C08516D9916859C1 /* glmMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EE11D8D334F3477226E0DB13 /* glmMesh.cpp */; };
 		1CD33E884D9E3358252E82A1 /* ofxToggle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 907C5B5E104864A2D3A25745 /* ofxToggle.cpp */; };
@@ -193,6 +194,8 @@
 		192B2F70E41189CCB5A164F6 /* fbxbitset.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxbitset.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/core/base/fbxbitset.h; sourceTree = SOURCE_ROOT; };
 		1A3E3B8F332A1A3C7EDF4998 /* ofxDatGuiComponent.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxDatGuiComponent.cpp; path = ../../../addons/ofxDatGui/src/core/ofxDatGuiComponent.cpp; sourceTree = SOURCE_ROOT; };
 		1A8A50AFBD15FECA167F5F15 /* _vectorize.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = _vectorize.hpp; path = ../../../addons/ofxGlmTools/libs/glm/detail/_vectorize.hpp; sourceTree = SOURCE_ROOT; };
+		1AED355A1CA9467500D7519C /* Playhead.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Playhead.cpp; sourceTree = "<group>"; };
+		1AED355B1CA9467500D7519C /* Playhead.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Playhead.h; sourceTree = "<group>"; };
 		1C0DA2561397A7DE0246858B /* ofxGuiGroup.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxGuiGroup.h; path = ../../../addons/ofxGui/src/ofxGuiGroup.h; sourceTree = SOURCE_ROOT; };
 		1D467FFF3894D6268E7590DA /* ofxFBXUtils.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxFBXUtils.h; path = ../../../addons/ofxFBX/src/ofxFBXUtils.h; sourceTree = SOURCE_ROOT; };
 		1DDF583AF2CF297A362DF6DC /* func_noise.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = func_noise.hpp; path = ../../../addons/ofxGlmTools/libs/glm/detail/func_noise.hpp; sourceTree = SOURCE_ROOT; };
@@ -1221,6 +1224,8 @@
 			children = (
 				C49A8442C6E8F2B62DABEA3C /* Content.cpp */,
 				4596D701FF56D27352ED094A /* Content.h */,
+				1AED355A1CA9467500D7519C /* Playhead.cpp */,
+				1AED355B1CA9467500D7519C /* Playhead.h */,
 			);
 			name = Content;
 			sourceTree = "<group>";
@@ -2070,6 +2075,7 @@
 				560699F20E0E736EFD3A0B47 /* ofxVectorTile.cpp in Sources */,
 				6360E06CB6CDF1070808AC1C /* glmFont.cpp in Sources */,
 				BF4290E011DFCCBE7648C31E /* glmGeometryBuilder.cpp in Sources */,
+				1AED355C1CA9467500D7519C /* Playhead.cpp in Sources */,
 				91AE5D3FF8D2F539EE2812F6 /* glmTile.cpp in Sources */,
 				38D2956935FD5E7769906F24 /* glmAnchorLine.cpp in Sources */,
 				F30DF3DCCBFB7848F36E20BA /* glmFeatureLabel.cpp in Sources */,

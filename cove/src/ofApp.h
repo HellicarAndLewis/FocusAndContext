@@ -120,11 +120,13 @@ public:
     float camRotSinX;
     float camRotSinY;
     float camRotSinZ;
+    float tiltShift;
     int currentInterval;
     int maxInterval;
     int currentPoint;
     int currentInterestPoint;
     int randomItem;
+    int tileIndex;
     
     // routes
     Route route;

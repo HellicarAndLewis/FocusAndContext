@@ -71,11 +71,11 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     lPoints[3].title = "Medway Viaduct";
     lPoints[4].title = "Ashford";
     // right sub menu titles
-    rPoints[4].title = "Tottenham Ct Rd";
-    rPoints[3].title = "Barbican";
-    rPoints[2].title = "Liverpool";
-    rPoints[1].title = "Canary Wharf";
-    rPoints[0].title = "Soho";
+    rPoints[4].title = "Soho";
+    rPoints[3].title = "Tottenham Ct Rd";
+    rPoints[2].title = "Barbican";
+    rPoints[1].title = "Liverpool";
+    rPoints[0].title = "Canary Wharf";
     
     // setup left menu main
     leftMain.isMainTile = true;

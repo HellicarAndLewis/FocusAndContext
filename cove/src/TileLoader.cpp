@@ -63,23 +63,32 @@ void TileLoader::loadDir(string path) {
             localTile.meshRoads = localTile.tile.getMeshFor("roads");
             localTile.meshWater = localTile.tile.getMeshFor("water");
             //localTile.meshOcean = localTile.tile.getMeshFor("ocean");
-            
-            if (localTile.zoom < 14) macroTiles.push_back(localTile);
-            else microTiles.push_back(localTile);
+//            if(i%2 == 0) {
+//                localTile.isActive = true;
+//            } else {
+//            }
+            localTile.isActive = false;
+            if (localTile.zoom < 16) {
+                macroTiles.push_back(localTile);
+            }
+            else {
+                localTile.isActive = true;
+                microTiles.push_back(localTile);
+            }
             tiles.push_back(localTile);
         }
     }
     
-    ofLogNotice() << "macro tiles:" << macroTiles.size() << ", micro tiles: " << tiles.size();
+    cout << "macro tiles:" << macroTiles.size() << ", micro tiles: " << tiles.size();
 }
 
 
 void TileLoader::setActive(int x, int y) {
     for (auto & tile: tiles) {
-        if (tile.x == x && tile.y == y) {
-            tile.isActive = true;
-        }
-        else tile.isActive = false;
+//        if (tile.x == x && tile.y == y) {
+//            tile.isActive = true;
+//        }
+//        else tile.isActive = false;
     }
 }
 

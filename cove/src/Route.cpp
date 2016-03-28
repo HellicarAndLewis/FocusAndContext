@@ -13,6 +13,7 @@
 Route::Route() {
     activeLocation = NULL;
     locationThreshold = 0.05;
+    zoomLevel = 16;
 }
 
 void Route::setup() {
@@ -45,7 +46,7 @@ void Route::update(float percent) {
     if (activeProject == 0) {
         for (auto &location: locationsLeft) {
             location.update();
-            location.isActive = false;
+            //location.isActive = false;
         }
         
         // get the nearest point on the route to current progress
@@ -62,7 +63,7 @@ void Route::update(float percent) {
     } else {
         for (auto &location: locationsRight) {
             location.update();
-            location.isActive = false;
+            //location.isActive = false;
         }
         
         // get the nearest point on the route to current progress
@@ -192,7 +193,7 @@ void Route::loadLeft(string path, ofVec3f posOffset) {
         location.index = i;
         
         // store the tile x/y so that we can reference it later in order to higlight it
-        location.tilePos.set(long2tilex(location.getLon(), 16), lat2tiley(location.getLat(), 16));
+        location.tilePos.set(long2tilex(location.getLon(), zoomLevel), lat2tiley(location.getLat(), zoomLevel));
         
         lonRange.setMin(MIN(location.latlon.x, lonRange.getMin()));
         lonRange.setMax(MAX(location.latlon.x, lonRange.getMax()));
@@ -261,7 +262,7 @@ void Route::loadRight(string path, ofVec3f posOffset) {
         location.index = i;
         
         // store the tile x/y so that we can reference it later in order to higlight it
-        location.tilePos.set(long2tilex(location.getLon(), 16), lat2tiley(location.getLat(), 16));
+        location.tilePos.set(long2tilex(location.getLon(), zoomLevel), lat2tiley(location.getLat(), zoomLevel));
         
         lonRange.setMin(MIN(location.latlon.x, lonRange.getMin()));
         lonRange.setMax(MAX(location.latlon.x, lonRange.getMax()));
@@ -327,6 +328,7 @@ ofPoint Route::getPosition(bool doInvert) {
 void Route::populateLocationsLeft() {
     xml.pushTag("route");
     int numLocationTags = xml.getNumTags("location");
+    int numNamedLocations = 0;
     for (int i=0; i < numLocationTags; i++) {
         xml.pushTag("location", i);
         Location location;
@@ -341,7 +343,12 @@ void Route::populateLocationsLeft() {
         
         // images / media
         string filename = xml.getValue("titleImg", "");
-        if (filename != "") location.labelImage.load(folderPath + "/labels/" + filename);
+        if (filename != "") {
+            location.labelImage.load(folderPath + "/labels/" + filename);
+            location.verticalOffset = (numNamedLocations%2 == 0) ? 30000 : -30000;
+            location.verticalOffsetSaved = (numNamedLocations%2 == 0) ? 30000 : -30000;
+            numNamedLocations++;
+        }
         
         /*
          filename = xml.getValue("detailImg", "");
@@ -363,6 +370,7 @@ void Route::populateLocationsLeft() {
 void Route::populateLocationsRight() {
     xml.pushTag("route");
     int numLocationTags = xml.getNumTags("location");
+    int numNamedLocations = 0;
     for (int i=0; i < numLocationTags; i++) {
         xml.pushTag("location", i);
         Location location;
@@ -377,8 +385,34 @@ void Route::populateLocationsRight() {
         
         // images / media
         string filename = xml.getValue("titleImg", "");
-        if (filename != "") location.labelImage.load(folderPath + "/labels/" + filename);
-        
+        if (filename != "") {
+            location.labelImage.load(folderPath + "/labels/" + filename);
+            switch(numNamedLocations) {
+                case 0:
+                    location.verticalOffset = 20000;
+                    location.verticalOffsetSaved = 20000;
+                    break;
+                case 1:
+                    location.verticalOffset = -20000;
+                    location.verticalOffsetSaved = -20000;
+                    break;
+                case 2:
+                    location.verticalOffset = 10000;
+                    location.verticalOffsetSaved = 10000;
+                    break;
+                case 3:
+                    location.verticalOffset = -10000;
+                    location.verticalOffsetSaved = -10000;
+                    break;
+                case 4:
+                    location.verticalOffset = 10000;
+                    location.verticalOffsetSaved = 10000;
+                    break;
+                default :
+                    break;
+            }
+            numNamedLocations++;
+        }
         /*
         filename = xml.getValue("detailImg", "");
         if (filename != "") {

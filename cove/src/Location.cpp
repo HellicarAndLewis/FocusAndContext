@@ -23,6 +23,10 @@ Location::Location() {
     camDistance = 5000;
     
     percentOpen = 1.0;
+    
+    verticalOffset = 0;
+    verticalOffsetSaved = 0;
+    alpha = 1.0;
 }
 
 void Location::setup(string title) {
@@ -49,12 +53,12 @@ void Location::draw(ofCamera& cam, float _alpha, float _height)
         if (Globals::project == 0)
         {
             height = ofMap(cam.getPosition().z, 10000, 4000, 0, -1150, true);
-            size = ofMap(cam.getPosition().z, 10000, 4000, 30, 400, true);
+            size = ofMap(cam.getPosition().z, 10000, 4000, 200, 400, true);
         }
         else
         {
             height = ofMap(cam.getPosition().z, 10000, 4000, 0, -1600, true);
-            size = ofMap(cam.getPosition().z, 10000, 4000, 30, 400, true);
+            size = ofMap(cam.getPosition().z, 10000, 4000, 200, 400, true);
         }
     }
     else
@@ -113,21 +117,32 @@ void Location::draw(ofCamera& cam, float _alpha, float _height)
         ofDrawLine(position.x, position.y - lineHeight, 0, position.x, position.y - lineHeight - length * 1.8, 0);
     }
     ofSetLineWidth(1);
-     */
+    */
     
-    /*
+    float inputAlpha = ofMap(_alpha, 0.0, 255.0, 0.0, 1.0);
+    
+    float finalAlpha = (alpha < inputAlpha) ? alpha : inputAlpha;
+    
+    ofPushStyle();
     ofSetLineWidth(3);
+    ofSetColor(255, 255, 255, ofMap(finalAlpha, 0., 1., 0., 255.));
     lineHeight = 1600;
-    ofDrawLine(position.x, position.y, 0, position.x, position.y, lineHeight);
+    ofDrawLine(position.x, position.y, 0, position.x, position.y +height + verticalOffset, 0);
+    ofNoFill();
+    ofSetCircleResolution(50);
+    ofDrawCircle(position.x, position.y, 500);
+    ofPopStyle();
+
     ofSetLineWidth(1);
-     */
+    
     
     // billboard to face cam
     billboardShader.begin();
+    billboardShader.setUniform1f("alpha", finalAlpha);
     ofEnablePointSprites();
     labelImage.getTexture().bind();
     glBegin(GL_POINTS);
-    glVertex3f(position.x, position.y + height, 0);
+    glVertex3f(position.x, position.y + height + verticalOffset, 0);
     glNormal3f(size, 0, 0);
     glEnd();
     labelImage.getTexture().unbind();

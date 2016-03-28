@@ -33,7 +33,7 @@ public:
     int zoom = 0;
     string fileName;
     bool isValid = false;
-    bool isActive = false;
+    bool isActive; //= false;
     
     LocalTile(string fileName, string delimiter = "-") {
         this->fileName = fileName;

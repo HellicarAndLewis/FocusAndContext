@@ -83,11 +83,11 @@ public:
         
         //Create crossrail map
         map<string, int> crossrail;
-        crossrail["Soho"] = 0;
-        crossrail["CanaryWharf"] = 1;
-        crossrail["LiverpoolStreet"] = 2;
-        crossrail["Barbican"] = 3;
-        crossrail["TottenhamCourtRoad"] = 4;
+        crossrail["CanaryWharf"] = 0;
+        crossrail["LiverpoolStreet"] = 1;
+        crossrail["Barbican"] = 2;
+        crossrail["TottenhamCourtRoad"] = 3;
+        crossrail["Soho"] = 4;
         crossrail["Text"] = 4;
         crossrail["Image"] = 3;
         crossrail["Video"] = 2;

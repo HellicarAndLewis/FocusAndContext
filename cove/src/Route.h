@@ -26,6 +26,8 @@ public:
     void loadRight(string path, ofVec3f posOffset);
     Location* getLocation();
     ofPoint getPosition(bool doInvert = false);
+    
+    int zoomLevel;
 	
     
     ofTrueTypeFont titleFont;

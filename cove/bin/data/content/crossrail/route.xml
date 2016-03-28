@@ -131,11 +131,11 @@
         <detailImg></detailImg>
     </location>
     <location>
-        <title></title>
+        <title>Soho</title>
         <lat>-0.13415</lat>
         <lon>51.51499</lon>
-        <titleImg></titleImg>
-        <detailImg></detailImg>
+        <titleImg>Woolwich.png</titleImg>
+        <detailImg>Woolwich.png</detailImg>
     </location>
     <location>
         <title>Tottenham Court Road</title>
@@ -509,11 +509,8 @@
         <detailImg></detailImg>
     </location>
     <location>
-        <title>Woolwich</title>
         <lat>0.0688073</lat>
         <lon>51.4898968</lon>
-        <titleImg>Woolwich.png</titleImg>
-        <detailImg>Woolwich.png</detailImg>
     </location>
     <location>
         <title></title>
