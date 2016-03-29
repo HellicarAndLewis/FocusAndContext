@@ -51,6 +51,7 @@ public:
     float camXaxis;
     
     float scale[5];
+    float maxScale;
     float titleAndCaptionAlpha[5];
     float screenWidth;
     

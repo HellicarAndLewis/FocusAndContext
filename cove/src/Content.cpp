@@ -55,7 +55,8 @@ void Content::setup()
     playhead.setAlpha(0.0);
     
     item = 5;
-
+    
+    maxScale = 1.0;
 }
 
 //--------------------------------------------------------------
@@ -213,12 +214,12 @@ void Content::scaling()
     float dest = 0.001;
     float lerpOut = 0.1;
     float lerpIn = 0.4;
-    
+        
     switch (item) {
         case 0:
             if (scale[1] <= dest && scale[2] <= dest && scale[3] <= dest && scale[4] <= dest)
             {
-                scale[0] = ofLerp(scale[0], 1.0, lerpOut);
+                scale[0] = ofLerp(scale[0], maxScale, lerpOut);
                 
                 // stop any videos running
                 stopVideos();
@@ -234,7 +235,7 @@ void Content::scaling()
         case 1:
             if (scale[0] <= dest && scale[2] <= dest && scale[3] <= dest && scale[4] <= dest)
             {
-                scale[1] = ofLerp(scale[1], 1.0, lerpOut);
+                scale[1] = ofLerp(scale[1], maxScale, lerpOut);
                 
                 if (project == 1) camZoom = ofLerp(camZoom, camMinZoom, lerpOut);
                 
@@ -253,7 +254,7 @@ void Content::scaling()
         case 2:
             if (scale[0] <= dest && scale[1] <= dest && scale[3] <= dest && scale[4] <= dest)
             {
-                scale[2] = ofLerp(scale[2], 1.0, lerpOut);
+                scale[2] = ofLerp(scale[2], maxScale, lerpOut);
             }
             
             scale[0] = ofLerp(scale[0], 0.0, lerpIn);
@@ -266,7 +267,7 @@ void Content::scaling()
         case 3:
             if (scale[0] <= dest && scale[1] <= dest && scale[2] <= dest && scale[4] <= dest)
             {
-                scale[3] = ofLerp(scale[3], 1.0, lerpOut);
+                scale[3] = ofLerp(scale[3], maxScale, lerpOut);
                 
                 if (project == 0) camZoom = ofLerp(camZoom, camMinZoom, lerpOut);
                 
@@ -286,7 +287,7 @@ void Content::scaling()
         case 4:
             if (scale[0] <= dest && scale[1] <= dest && scale[2] <= dest && scale[3] <= dest)
             {
-                scale[4] = ofLerp(scale[4], 1.0, lerpOut);
+                scale[4] = ofLerp(scale[4], maxScale, lerpOut);
                 
                 // stop any videos running
                 stopVideos();
@@ -314,35 +315,35 @@ void Content::scaling()
             break;
     }
     //Scale the Title and caption alpha
-    if(scale[0] >= 0.99) {
+    if(scale[0] >= maxScale - 0.01) {
         titleAndCaptionAlpha[0] = ofLerp(titleAndCaptionAlpha[0], 255, lerpIn);
         for(int i = 0; i < 5; i++) {
             if(i != 0) {
                 titleAndCaptionAlpha[i] = ofLerp(titleAndCaptionAlpha[i], 0.0, 1.0);
             }
         }
-    } else if(scale[1] >= 0.99) {
+    } else if(scale[1] >= maxScale - 0.01) {
         titleAndCaptionAlpha[1] = ofLerp(titleAndCaptionAlpha[1], 255, lerpIn);
         for(int i = 0; i < 5; i++) {
             if(i != 1) {
                 titleAndCaptionAlpha[i] = ofLerp(titleAndCaptionAlpha[i], 0.0, 1.0);
             }
         }
-    }else if(scale[2] >= 0.99) {
+    }else if(scale[2] >= maxScale - 0.01) {
         titleAndCaptionAlpha[2] = ofLerp(titleAndCaptionAlpha[2], 255, lerpIn);
         for(int i = 0; i < 5; i++) {
             if(i != 2) {
                 titleAndCaptionAlpha[i] = ofLerp(titleAndCaptionAlpha[i], 0.0, 1.0);
             }
         }
-    }else if(scale[3] >= 0.99) {
+    }else if(scale[3] >= maxScale - 0.01) {
         titleAndCaptionAlpha[3] = ofLerp(titleAndCaptionAlpha[3], 255, lerpIn);
         for(int i = 0; i < 5; i++) {
             if(i != 3) {
                 titleAndCaptionAlpha[i] = ofLerp(titleAndCaptionAlpha[i], 0.0, 1.0);
             }
         }
-    }else if(scale[4] >= 0.99) {
+    }else if(scale[4] >= maxScale - 0.01) {
         titleAndCaptionAlpha[4] = ofLerp(titleAndCaptionAlpha[4], 255, lerpIn);
         for(int i = 0; i < 5; i++) {
             if(i != 4) {
@@ -377,9 +378,9 @@ void Content::draw()
     
     ofPushStyle();
     ofSetRectMode(OF_RECTMODE_CENTER);
-    for(int i = 0; i < 5; i++) {
-
-    }
+//    for(int i = 0; i < 5; i++) {
+//
+//    }
     ofPopStyle();
     
     if (project == 0) {
@@ -568,7 +569,7 @@ void Content::draw()
                 
                 if(scale[4] > 0.001) {
                     ofSetColor(255, 255, 255, 225);
-                    ofDrawRectRounded(ofGetWidth()/2, ofGetHeight()/4, backgroundWidth * scale[4], backgroundHeight/2 * scale[4], 20);
+                    ofDrawRectRounded(ofGetWidth()/2, ofGetHeight()*3/8, backgroundWidth * scale[4], backgroundHeight/2 * scale[4], 20);
                 }
                 
                 //draw the playhead
@@ -740,13 +741,13 @@ void Content::draw()
                 
                 if(scale[0] > 0.001) {
                     ofSetColor(255, 255, 255, 225);
-                    ofDrawRectRounded(ofGetWidth()/2, ofGetHeight()/4, backgroundWidth * scale[0], backgroundHeight/2 * scale[0], 20);
+                    ofDrawRectRounded(ofGetWidth()/2, ofGetHeight()*3/8, backgroundWidth * scale[0], backgroundHeight/2 * scale[0], 20);
                 }
                 
                 //draw the playhead
                 playhead.setAlpha(titleAndCaptionAlpha[0]);
                 float percentageDone = sound[1][i].getPosition();
-                playhead.draw(ofGetWidth()/2, ofGetHeight()/2, (backgroundWidth - 200) * scale[0], 100 * scale[0], percentageDone);
+                playhead.draw(ofGetWidth()/2, ofGetHeight()*3/8, (backgroundWidth - 200) * scale[0], 100 * scale[0], percentageDone);
                 
                 float titleDiff = screenWidth / titleTextImage[0].getWidth();
                 float titleW = (titleTextImage[0].getWidth() * titleDiff) * percentage;
@@ -757,8 +758,8 @@ void Content::draw()
                 float captionH = (captionTextImage[0].getHeight() * captionDiff) * percentage;
                 
                 ofSetColor(255, 255, 255, titleAndCaptionAlpha[0]);
-                titleTextImage[0].draw(ofGetWidth()/2, ofGetHeight()/2 - backgroundHeight/2 + titleH/2 + titleBufferTop, titleW, titleH);
-                captionTextImage[0].draw(ofGetWidth()/2, ofGetHeight()/2 + backgroundHeight/2 - captionH/2 + captionBufferTop, captionW, captionH);
+                titleTextImage[0].draw(ofGetWidth()/2, ofGetHeight()*3/8 - backgroundHeight/4 + titleH/2 + titleBufferTop, titleW, titleH);
+                captionTextImage[0].draw(ofGetWidth()/2, ofGetHeight()*3/8 + backgroundHeight/4 - captionH/2 + captionBufferTop, captionW, captionH);
                 
                 if(percentageDone > 0.99) {
 //                    lCon0[0].isSelected = false;
