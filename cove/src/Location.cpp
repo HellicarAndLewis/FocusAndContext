@@ -79,7 +79,7 @@ void Location::draw(ofCamera& cam, float _alpha, float _height)
                 
                 //if (cam.getPosition().z > 10000) size = ofLerp(size, 30, 0.02);
                 //else size = ofMap(cam.getPosition().z, 10000, 4000, 30, 400, true);
-                size = ofMap(cam.getPosition().z, 10000, 4000, 0, 400, true);
+                size = ofMap(cam.getPosition().z, 10000, 4000, 200, 400, true);
             }
         }
         else
@@ -124,17 +124,18 @@ void Location::draw(ofCamera& cam, float _alpha, float _height)
     float finalAlpha = (alpha < inputAlpha) ? alpha : inputAlpha;
     
     ofPushStyle();
-    ofSetLineWidth(3);
+    ofPushMatrix();
+    ofSetLineWidth(2);
     ofSetColor(255, 255, 255, ofMap(finalAlpha, 0., 1., 0., 255.));
     lineHeight = 1600;
-    ofDrawLine(position.x, position.y, 0, position.x, position.y +height + verticalOffset, 0);
+    ofDrawLine(position.x, position.y, 0, position.x, position.y +height + verticalOffset, 100);
     ofNoFill();
     ofSetCircleResolution(50);
     ofDrawCircle(position.x, position.y, 500);
+    ofPopMatrix();
     ofPopStyle();
 
     ofSetLineWidth(1);
-    
     
     // billboard to face cam
     billboardShader.begin();
@@ -142,7 +143,7 @@ void Location::draw(ofCamera& cam, float _alpha, float _height)
     ofEnablePointSprites();
     labelImage.getTexture().bind();
     glBegin(GL_POINTS);
-    glVertex3f(position.x, position.y + height + verticalOffset, 0);
+    glVertex3f(position.x, position.y + height + verticalOffset,  100);
     glNormal3f(size, 0, 0);
     glEnd();
     labelImage.getTexture().unbind();

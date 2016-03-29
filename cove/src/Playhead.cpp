@@ -22,6 +22,6 @@ void Playhead::draw(float x, float y, float width, float height, float percentag
     ofDrawRectangle(x + width*percentage/2 - width/2, y, width*percentage, height);
     
     ofSetColor(barColor.r, barColor.g, barColor.b, alpha);
-    ofDrawRectangle(x + width*percentage - width/2, y, 10, height + 10);
+    ofDrawRectangle(x + width*percentage - width/2, y, 5, height);
     ofPopStyle();
 }

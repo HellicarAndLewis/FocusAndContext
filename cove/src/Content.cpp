@@ -40,18 +40,21 @@ void Content::setup()
     
     //past color
     ofColor col;
-    col.setHex(0xD2E0EC);
+    col.setHex(0x4EB9E5/*0x0D0D0B*/);
     playhead.setPastColor(col);
     
     //future color
-    col.setHex(0x68C3EB);
+    col.setHex(0x95CEE2/*0x8FC3E8*/);
     playhead.setFutureColor(col);
     
     //bar color
-    col.setHex(0xFF7500);
+    col.setHex(0xFFFFFF);
     playhead.setBarColor(col);
     
+    
     playhead.setAlpha(0.0);
+    
+    item = 5;
 
 }
 
@@ -409,8 +412,6 @@ void Content::draw()
             ofSetColor(255);
             // content item
             img[0].draw(ofGetWidth()/2, ofGetHeight()/2, w * scale[0], h * scale[0]);
-
-
         }
         
         // draws image contentw
@@ -468,7 +469,7 @@ void Content::draw()
                     //draw the playhead
                     playhead.setAlpha(titleAndCaptionAlpha[2]);
                     float percentageDone = vid[0][i].getPosition();
-                    playhead.draw(ofGetWidth()/2, ofGetHeight()/2 + h/2, w * scale[2], 10 * scale[2], percentageDone);
+                    playhead.draw(ofGetWidth()/2, ofGetHeight()/2 + h/2 + 10, w * scale[2], 10 * scale[2], percentageDone);
                     
                     //Draw the title and caption text
                     ofSetColor(255, 255, 255, titleAndCaptionAlpha[2]);
@@ -652,7 +653,7 @@ void Content::draw()
                     
                     ofSetColor(255, 255, 255, titleAndCaptionAlpha[2]);
                     titleTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2 - h/2 - titleH/2 + titleBufferTop, titleW, titleH);
-                    captionTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2 + h/2 + captionH/2 + captionBufferTop, captionW, captionH);
+                    captionTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2 + h/2 + captionH/2 + captionBufferTop + 10 * scale[2], captionW, captionH);
                     
                     // content item
                     ofSetColor(255);
@@ -661,7 +662,7 @@ void Content::draw()
                     //draw the playhead
                     playhead.setAlpha(titleAndCaptionAlpha[2]);
                     float percentageDone = vid[1][i].getPosition();
-                    playhead.draw(ofGetWidth()/2, ofGetHeight()/2 + h/2, w * scale[2], 10 * scale[2], percentageDone);
+                    playhead.draw(ofGetWidth()/2, ofGetHeight()/2 + h/2 + 10, w * scale[2], 10 * scale[2], percentageDone);
                 }
             }
         
@@ -742,12 +743,18 @@ void Content::load(int _project, int _point, int _item)
     item = _item;
     if(project == 1) {
         ofColor col;
-        col.setHex(0x000000);
+        col.setHex(0x0D0D0B);
         playhead.setPastColor(col);
+        
+        col.setHex(0x8FC3E8);
+        playhead.setFutureColor(col);
     } else {
         ofColor col;
-        col.setHex(0xD2E0EC);
+        col.setHex(0x4EB9E5);
         playhead.setPastColor(col);
+        
+        col.setHex(0x95CEE2/*0x8FC3E8*/);
+        playhead.setFutureColor(col);
     }
 
     
