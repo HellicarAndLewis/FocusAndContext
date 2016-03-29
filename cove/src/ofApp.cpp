@@ -435,7 +435,7 @@ void ofApp::autoSysSetup()
     systemTimerPaused = false;
     
     // 30 second intervals
-    maxTime = 30.0;
+    //maxTime = 30.0;
     elapsedTime = 0.0;
     
     // 3 - 30seconds intervals for a total of 90 seconds
@@ -444,12 +444,32 @@ void ofApp::autoSysSetup()
     currentInterestPoint = 0;
     currentPoint = 0;
     
+    // default route selection
+    routeSelection = route.activeProject;
+    
     // disable
     isSysSetup = false;
 }
 
 void ofApp::autoSysUpdate()
 {
+    // adjust max time based on current interval/section
+    switch (currentInterval) {
+        case 0:
+            if (routeSelection == 0) maxTime = 47;
+            else maxTime = 50;
+            break;
+            
+        case 1:
+            if (routeSelection == 0) maxTime = 13;
+            else maxTime = 10;
+            break;
+            
+        case 2:
+            maxTime = 30;
+            break;
+    }
+    
     // we use delta time, the time between frames
     //if (!systemTimerPaused)
     elapsedTime += ofGetLastFrameTime();
@@ -499,9 +519,9 @@ void ofApp::autoSysUpdate()
             // travel through the route
             setLon(location.getLon());
             setLat(location.getLat());
-            scroller.scrollTo(ofMap(elapsedTime, 4.1, 30.0, 0.0, 1.0));
+            scroller.scrollTo(ofMap(elapsedTime, 0, maxTime, 0.0, 1.0));
             
-            if (elapsedTime > 4)
+            if (elapsedTime > 2)
             {
                 camRotSinX = -70 - 10 * sin(elapsedTime * 0.6);
                 camRotSinY = 0 - 2 * sin(elapsedTime * 0.6);
@@ -509,8 +529,13 @@ void ofApp::autoSysUpdate()
                 waveDistance = 7500;
                 worldTransform(waveDistance, 0.03, ofVec3f(camRotSinX, camRotSinY, camRotSinZ), 0.03);
                 
+                if (route.activeProject == 0)
+                    posLerp = 0.01;
+                else
+                    posLerp = 0.003;
+                
             }
-            else if (elapsedTime)
+            else //if (elapsedTime)
             {
                 if (route.activeProject == 0)
                 {
@@ -520,6 +545,8 @@ void ofApp::autoSysUpdate()
                 {
                     worldTransform(18000, 0.03, ofVec3f(0, 0, 0), 0.03);
                 }
+                
+                posLerp = 0.03;
             }
             
             // reset route selected to false
@@ -529,8 +556,10 @@ void ofApp::autoSysUpdate()
             
         case 1:
             // wait x seconds before jumping to a random POI
-            if (elapsedTime > 4.0 && !routeSelected)
+            if (elapsedTime > 2.0 && !routeSelected)
             {
+                posLerp = 0.03;
+                
                 pointJump = ofRandom(0, intPoints.size()-1);
                 
                 // don't repeat the same POI in a row
@@ -684,7 +713,10 @@ void ofApp::update()
     
     // mesh moves around world
     if (bCove) posLerp = 0.03;
-    else posLerp = 0.01;
+    else {
+        if (!systemActive)
+            posLerp = 0.03;
+    }
     meshPosition.x = ofLerp(meshPosition.x, meshTarget.x, posLerp);
     meshPosition.y = ofLerp(meshPosition.y, meshTarget.y, posLerp);
     

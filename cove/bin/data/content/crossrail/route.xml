@@ -509,13 +509,9 @@
         <detailImg></detailImg>
     </location>
     <location>
+        <title></title>
         <lat>0.0688073</lat>
         <lon>51.4898968</lon>
-    </location>
-    <location>
-        <title></title>
-        <lat>0.0932</lat>
-        <lon>51.4800</lon>
         <titleImg></titleImg>
         <detailImg></detailImg>
     </location>
