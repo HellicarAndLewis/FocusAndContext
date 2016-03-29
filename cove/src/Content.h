@@ -79,7 +79,7 @@ public:
         hs1["Audio"] = 4;
         hs1["Content"] = 0;
         hs1["Title"] = 1;
-        hs1["Caption"] = 2;
+        hs1["Background"] = 2;
         finalVector.push_back(hs1);
         
         //Create crossrail map
@@ -96,7 +96,7 @@ public:
         crossrail["Audio"] = 0;
         crossrail["Content"] = 0;
         crossrail["Title"] = 1;
-        crossrail["Caption"] = 2;
+        crossrail["Background"] = 2;
         finalVector.push_back(crossrail);
         
         return finalVector;

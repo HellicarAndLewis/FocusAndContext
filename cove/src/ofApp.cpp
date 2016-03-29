@@ -802,6 +802,8 @@ void ofApp::draw()
     }
      */
     
+    ofEnableAntiAliasing();
+    
     if(camTilt < 0) {
         for(int i = 0; i < route.locationsLeft.size(); i++) {
             float* offset = &route.locationsLeft[i].verticalOffset;
@@ -862,6 +864,9 @@ void ofApp::draw()
     
     // if (!gui->getVisible()) tileLoader.labels.draw2D();
     if (bDebugMsg) drawDebugMsg();
+    
+    ofDisableAntiAliasing();
+
 }
 
 void ofApp::drawVignette()
