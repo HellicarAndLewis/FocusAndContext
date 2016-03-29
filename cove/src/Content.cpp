@@ -378,10 +378,7 @@ void Content::draw()
     ofPushStyle();
     ofSetRectMode(OF_RECTMODE_CENTER);
     for(int i = 0; i < 5; i++) {
-        if(scale[i] > 0.001) {
-            ofSetColor(255, 255, 255, 225);
-            backgroundImage.draw(ofGetWidth()/2, ofGetHeight()/2, backgroundWidth * scale[i], backgroundHeight * scale[i]);
-        }
+
     }
     ofPopStyle();
     
@@ -390,6 +387,12 @@ void Content::draw()
         ofSetRectMode(OF_RECTMODE_CENTER);
         if (img[0].isAllocated())
         {
+            
+            if(scale[0] > 0.001) {
+                ofSetColor(255, 255, 255, 225);
+                ofDrawRectRounded(ofGetWidth()/2, ofGetHeight()/2, backgroundWidth * scale[0], backgroundHeight * scale[0], 20);
+            }
+            
             // gets the difference between screen width and adjusts
             float diff = screenWidth / img[0].getWidth();
             float w = (img[0].getWidth() * diff) * percentage;
@@ -417,6 +420,11 @@ void Content::draw()
         // draws image contentw
         if (img[1].isAllocated())
         {
+            
+            if(scale[1] > 0.001) {
+                ofSetColor(255, 255, 255, 225);
+                ofDrawRectRounded(ofGetWidth()/2, ofGetHeight()/2, backgroundWidth * scale[1], backgroundHeight * scale[1], 20);
+            }
 
             // gets the difference between screen width and adjusts
             float diff = screenWidth / img[1].getWidth();
@@ -449,6 +457,11 @@ void Content::draw()
                 // hs1 project video content
                 if (vid[0][i].isPlaying())
                 {
+                    if(scale[2] > 0.001) {
+                        ofSetColor(255, 255, 255, 225);
+                        ofDrawRectRounded(ofGetWidth()/2, ofGetHeight()/2, backgroundWidth * scale[2], backgroundHeight * scale[2], 20);
+                    }
+                    
                     // gets the difference between screen width and adjusts
                     float diff = screenWidth / vid[0][i].getWidth();
                     float w = (vid[0][i].getWidth() * diff) * percentage;
@@ -482,7 +495,10 @@ void Content::draw()
                 // crossrail project video content
                 if (vid[1][i].isPlaying())
                 {
-                    
+                    if(scale[2] > 0.001) {
+                        ofSetColor(255, 255, 255, 225);
+                        ofDrawRectRounded(ofGetWidth()/2, ofGetHeight()/2, backgroundWidth * scale[2], backgroundHeight * scale[2], 20);
+                    }
                     // gets the difference between screen width and adjusts
                     float diff = screenWidth / vid[1][i].getWidth();
                     float w = (vid[1][i].getWidth() * diff) * percentage;
@@ -512,7 +528,11 @@ void Content::draw()
                     
                 }
             }
-    
+        
+            if(scale[3] > 0.001) {
+                ofSetColor(255, 255, 255, 225);
+                ofDrawRectRounded(ofGetWidth()/2, ofGetHeight()/2, backgroundWidth * scale[3], backgroundHeight * scale[3], 20);
+            }
             // model drawing
             // rotate on y axis
             cam.pan(camPam);
@@ -546,6 +566,11 @@ void Content::draw()
                 //Draw the backgroundTile
                 // gets the difference between screen width and adjusts
                 
+                if(scale[4] > 0.001) {
+                    ofSetColor(255, 255, 255, 225);
+                    ofDrawRectRounded(ofGetWidth()/2, ofGetHeight()/4, backgroundWidth * scale[4], backgroundHeight/2 * scale[4], 20);
+                }
+                
                 //draw the playhead
                 playhead.setAlpha(titleAndCaptionAlpha[4]);
                 float percentageDone = sound[0][i].getPosition();
@@ -561,7 +586,7 @@ void Content::draw()
                 
                 ofSetColor(255, 255, 255, titleAndCaptionAlpha[4]);
                 titleTextImage[4].draw(ofGetWidth()/2, ofGetHeight()/2 - backgroundHeight/2 + titleH/2 + titleBufferTop, titleW, titleH);
-                captionTextImage[4].draw(ofGetWidth()/2, ofGetHeight()/2 + backgroundHeight/2 - captionH/2 + captionBufferTop, captionW, captionH);
+                captionTextImage[4].draw(ofGetWidth()/2, ofGetHeight()/2 + backgroundHeight/4 - captionH/2 + captionBufferTop, captionW, captionH);
 //                if(percentageDone > 0.99) {
 ////                    lCon0[0].isSelected = false;
 ////                    lCon0[1].isSelected = false;
@@ -585,6 +610,10 @@ void Content::draw()
         ofSetRectMode(OF_RECTMODE_CENTER);
         if (img[4].isAllocated())
         {
+            if(scale[4] > 0.001) {
+                ofSetColor(255, 255, 255, 225);
+                ofDrawRectRounded(ofGetWidth()/2, ofGetHeight()/2, backgroundWidth * scale[4], backgroundHeight * scale[4], 20);
+            }
             // gets the difference between screen width and adjusts
             float diff = screenWidth / img[4].getWidth();
             float w = (img[4].getWidth() * diff) * percentage;
@@ -610,6 +639,10 @@ void Content::draw()
         // draws image content
         if (img[3].isAllocated())
         {
+            if(scale[3] > 0.001) {
+                ofSetColor(255, 255, 255, 225);
+                ofDrawRectRounded(ofGetWidth()/2, ofGetHeight()/2, backgroundWidth * scale[3], backgroundHeight * scale[3], 20);
+            }
             // gets the difference between screen width and adjusts
             float diff = screenWidth / img[3].getWidth();
             float w = (img[3].getWidth() * diff) * percentage;
@@ -638,6 +671,10 @@ void Content::draw()
                 // crossrail project video content
                 if (vid[1][i].isPlaying())
                 {
+                    if(scale[2] > 0.001) {
+                        ofSetColor(255, 255, 255, 225);
+                        ofDrawRectRounded(ofGetWidth()/2, ofGetHeight()/2, backgroundWidth * scale[2], backgroundHeight * scale[2], 20);
+                    }
                     // gets the difference between screen width and adjusts
                     float diff = screenWidth / vid[1][i].getWidth();
                     float w = (vid[1][i].getWidth() * diff) * percentage;
@@ -665,7 +702,10 @@ void Content::draw()
                     playhead.draw(ofGetWidth()/2, ofGetHeight()/2 + h/2 + 10, w * scale[2], 10 * scale[2], percentageDone);
                 }
             }
-        
+        if(scale[1] > 0.001) {
+            ofSetColor(255, 255, 255, 225);
+            ofDrawRectRounded(ofGetWidth()/2, ofGetHeight()/2, backgroundWidth * scale[1], backgroundHeight * scale[1], 20);
+        }
             //Draw the backgroundTile
             ofSetColor(255);
             cam.pan(camPam);
@@ -697,6 +737,11 @@ void Content::draw()
             if(sound[1][i].isPlaying()) {
                 //Draw the backgroundTile
                 // gets the difference between screen width and adjusts
+                
+                if(scale[0] > 0.001) {
+                    ofSetColor(255, 255, 255, 225);
+                    ofDrawRectRounded(ofGetWidth()/2, ofGetHeight()/4, backgroundWidth * scale[0], backgroundHeight/2 * scale[0], 20);
+                }
                 
                 //draw the playhead
                 playhead.setAlpha(titleAndCaptionAlpha[0]);
