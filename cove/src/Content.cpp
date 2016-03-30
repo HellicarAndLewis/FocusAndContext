@@ -386,27 +386,22 @@ void Content::draw()
     if (project == 0) {
         // draws text content (text is currently an image)
         ofSetRectMode(OF_RECTMODE_CENTER);
-        if (img[0].isAllocated())
-        {
+        if (item == 0) {
             ofSetColor(255);
             captionTextImage[0].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[0].getWidth() * scale[0], captionTextImage[0].getHeight() * scale[0]);
             img[0].draw(ofGetWidth()/2, ofGetHeight()/2, img[0].getWidth() * scale[0], img[0].getHeight() * scale[0]);
             ofSetColor(255, 255, 255, titleAndCaptionAlpha[0]);
             titleTextImage[0].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[0].getWidth() * scale[0], titleTextImage[0].getHeight() * scale[0]);
-        }
-        
-        // draws image contentw
-        if (img[1].isAllocated())
-        {
+        } else if (item == 1) {
+            // draws image contentw
             ofSetColor(255);
             captionTextImage[1].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[1].getWidth() * scale[1], captionTextImage[1].getHeight() * scale[1]);
             img[1].draw(ofGetWidth()/2, ofGetHeight()/2, img[1].getWidth() * scale[1], img[1].getHeight() * scale[1]);
             ofSetColor(255, 255, 255, titleAndCaptionAlpha[1]);
             titleTextImage[1].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[1].getWidth() * scale[1], titleTextImage[1].getHeight() * scale[1]);
 
-        }
-    
-        // draws video content
+        } else if(item == 2) {
+            // draws video content
             for (int i = 0; i < 5; i++)
             {
                 // hs1 project video content
@@ -421,27 +416,15 @@ void Content::draw()
                     playhead.draw(ofGetWidth()/2, ofGetHeight()/2 + vid[0][i].getHeight()/2 + 5, vid[0][i].getWidth() * scale[2], 10 * scale[2], percentDone);
                     
                 }
-                
-                // crossrail project video content
-                if (vid[1][i].isPlaying())
-                {
-                    ofSetColor(255);
-                    captionTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[2].getWidth() * scale[2], captionTextImage[2].getHeight() * scale[2]);
-                    vid[1][i].draw(ofGetWidth()/2, ofGetHeight()/2, vid[1][i].getWidth() * scale[2], vid[1][i].getHeight() * scale[2]);
-                    ofSetColor(255, 255, 255, titleAndCaptionAlpha[2]);
-                    titleTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[2].getWidth() * scale[2], titleTextImage[2].getHeight() * scale[2]);
-                    float percentDone = vid[1][i].getPosition();
-                    playhead.draw(ofGetWidth()/2, ofGetHeight()/2 + vid[1][i].getHeight()/2 + 5, vid[1][i].getWidth() * scale[2], 10 * scale[2], percentDone);
-                }
             }
-        
+        } else if(item == 3) {
             ofPushStyle();
             ofSetColor(255);
             captionTextImage[3].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[3].getWidth() * scale[3], captionTextImage[3].getHeight() * scale[3]);
             ofSetColor(255, 255, 255, titleAndCaptionAlpha[3]);
             titleTextImage[3].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[3].getWidth() * scale[3], titleTextImage[3].getHeight() * scale[3]);
             ofPopStyle();
-        
+            
             // model drawing
             // rotate on y axis
             cam.pan(camPam);
@@ -457,42 +440,38 @@ void Content::draw()
             ofDisableLighting();
             cam.end();
             ofDisableDepthTest();
-    
-        //Plays audio content with play-head
-        for(int i = 0; i < 5; i++) {
-            if(sound[0][i].isPlaying()) {
-                ofSetColor(255);
-                captionTextImage[4].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[4].getWidth() * scale[4], captionTextImage[4].getHeight() * scale[4]);
-                ofSetColor(255, 255, 255, titleAndCaptionAlpha[4]);
-                titleTextImage[4].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[4].getWidth() * scale[4], titleTextImage[4].getHeight() * scale[4]);
-                //draw the playhead
-                float percentageDone = sound[0][i].getPosition();
-                playhead.draw(ofGetWidth()/2, ofGetHeight()/2 - 19, 909 * scale[4], 30 * scale[4], percentageDone);
+        } else if(item == 4) {
+            //Plays audio content with play-head
+            for(int i = 0; i < 5; i++) {
+                if(sound[0][i].isPlaying()) {
+                    ofSetColor(255);
+                    captionTextImage[4].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[4].getWidth() * scale[4], captionTextImage[4].getHeight() * scale[4]);
+                    ofSetColor(255, 255, 255, titleAndCaptionAlpha[4]);
+                    titleTextImage[4].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[4].getWidth() * scale[4], titleTextImage[4].getHeight() * scale[4]);
+                    //draw the playhead
+                    float percentageDone = sound[0][i].getPosition();
+                    playhead.draw(ofGetWidth()/2, ofGetHeight()/2 - 19, 909 * scale[4], 30 * scale[4], percentageDone);
+                }
             }
         }
         ofSetRectMode(OF_RECTMODE_CORNER);
     } else {
         // draws text content (text is currently an image)
         ofSetRectMode(OF_RECTMODE_CENTER);
-        if (img[4].isAllocated())
-        {
+        if (item == 4) {
             ofSetColor(255);
             captionTextImage[4].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[4].getWidth() * scale[4], captionTextImage[4].getHeight() * scale[4]);
             img[4].draw(ofGetWidth()/2, ofGetHeight()/2, img[4].getWidth() * scale[4], img[4].getHeight() * scale[4]);
             ofSetColor(255, 255, 255, titleAndCaptionAlpha[4]);
             titleTextImage[4].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[4].getWidth() * scale[4], titleTextImage[4].getHeight() * scale[4]);
-        }
-        
-        // draws image content
-        if (img[3].isAllocated())
-        {
+        } else if (item == 3) {
+            // draws image content
             ofSetColor(255);
             captionTextImage[3].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[3].getWidth() * scale[3], captionTextImage[3].getHeight() * scale[3]);
             img[3].draw(ofGetWidth()/2, ofGetHeight()/2, img[3].getWidth() * scale[3], img[3].getHeight() * scale[3]);
             ofSetColor(255, 255, 255, titleAndCaptionAlpha[3]);
             titleTextImage[3].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[3].getWidth() * scale[3], titleTextImage[3].getHeight() * scale[3]);
-        }
-        
+        } else if(item == 2) {
             // draws video content
             for (int i = 0; i < 5; i++)
             {
@@ -509,14 +488,14 @@ void Content::draw()
                     playhead.draw(ofGetWidth()/2, ofGetHeight()/2 + vid[1][i].getHeight()/2 + 5, vid[1][i].getWidth() + scale[2], 10 * scale[2], percentDone);
                 }
             }
-        
+        } else if(item == 1) {
             ofPushStyle();
             ofSetColor(255);
             captionTextImage[1].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[1].getWidth() * scale[1], captionTextImage[1].getHeight() * scale[1]);
             ofSetColor(255, 255, 255, titleAndCaptionAlpha[1]);
             titleTextImage[1].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[1].getWidth() * scale[1], titleTextImage[1].getHeight() * scale[1]);
             ofPopStyle();
-        
+            
             //Draw the backgroundTile
             ofSetColor(255);
             cam.pan(camPam);
@@ -531,17 +510,18 @@ void Content::draw()
             ofDisableLighting();
             cam.end();
             ofDisableDepthTest();
-        
-        //Plays audio content with play-head
-        for(int i = 0; i < 5; i++) {
-            if(sound[1][i].isPlaying()) {
-                ofSetColor(255);
-                captionTextImage[0].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[0].getWidth() * scale[0], captionTextImage[0].getHeight() * scale[0]);
-                ofSetColor(255, 255, 255, titleAndCaptionAlpha[0]);
-                titleTextImage[0].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[0].getWidth() * scale[0], titleTextImage[0].getHeight() * scale[0]);
-                //draw the playhead
-                float percentageDone = sound[1][i].getPosition();
-                playhead.draw(ofGetWidth()/2, ofGetHeight()/2 - 19, 909 * scale[0], 30 * scale[0], percentageDone);
+        } else if(item == 0) {
+            //Plays audio content with play-head
+            for(int i = 0; i < 5; i++) {
+                if(sound[1][i].isPlaying()) {
+                    ofSetColor(255);
+                    captionTextImage[0].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[0].getWidth() * scale[0], captionTextImage[0].getHeight() * scale[0]);
+                    ofSetColor(255, 255, 255, titleAndCaptionAlpha[0]);
+                    titleTextImage[0].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[0].getWidth() * scale[0], titleTextImage[0].getHeight() * scale[0]);
+                    //draw the playhead
+                    float percentageDone = sound[1][i].getPosition();
+                    playhead.draw(ofGetWidth()/2, ofGetHeight()/2 - 19, 909 * scale[0], 30 * scale[0], percentageDone);
+                }
             }
         }
         ofSetRectMode(OF_RECTMODE_CORNER);

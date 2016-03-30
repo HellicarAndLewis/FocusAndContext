@@ -98,7 +98,8 @@ void Route::draw(ofCamera& cam) {
     ofPushMatrix();
     {
         ofTranslate(0, 0, 0);
-        ofSetLineWidth(3);
+        float rad = 3.;
+        ofSetLineWidth(rad);
         routeRenderLeft.draw();
         ofSetLineWidth(1);
     }
@@ -115,7 +116,8 @@ void Route::draw(ofCamera& cam) {
     ofPushMatrix();
     {
         ofTranslate(0, 0, 0);
-        ofSetLineWidth(3);
+        float rad = 3.;
+        ofSetLineWidth(rad);
         routeRenderRight.draw();
         ofSetLineWidth(1);
     }
@@ -185,7 +187,18 @@ void Route::loadLeft(string path, ofVec3f posOffset) {
         location.position.set((lon2x(location.getLon()) - posOffset.x), (lat2y(location.getLat()) - posOffset.y));
         // add the oF position of the location to the route polylines
         // route render is just for drawing, don't add the black ones as they're just zoomed out overviews
-        if (location.title == "") routeRenderLeft.addVertex(location.position);
+        if (location.title == "") {
+            routeRenderLeft.addVertex(location.position);
+//            if(i+1 < locationsLeft.size()) {
+//                ofVec2f first = location.position;
+//                ofVec2f second = locationsLeft[i+1].position;
+//                ofVec2f diff = first - second;
+//                diff.rotate(90);
+//                diff.normalize();
+//                diff *= 50000;
+//                routeRenderLeft.addVertex(first + diff);
+//            }
+        }
         // route is the actual route
         routeLeft.addVertex(location.position);
         // route inverse is used to shift the whole mesh along an inverted path so that the camera can stay fixed.
@@ -206,6 +219,8 @@ void Route::loadLeft(string path, ofVec3f posOffset) {
         
         i++;
     }
+    
+    routeRenderLeft = routeRenderLeft.getSmoothed(2);
     
     i = 0;
     float totalLength = routeLeft.getLengthAtIndex(locationsLeft.size()-1);
@@ -275,6 +290,9 @@ void Route::loadRight(string path, ofVec3f posOffset) {
         
         i++;
     }
+    
+    routeRenderRight = routeRenderRight.getSmoothed(2);
+
     
     i = 0;
     float totalLength = routeRight.getLengthAtIndex(locationsRight.size()-1);
@@ -389,12 +407,12 @@ void Route::populateLocationsRight() {
             location.labelImage.load(folderPath + "/labels/" + filename);
             switch(numNamedLocations) {
                 case 0:
-                    location.verticalOffset = 20000;
-                    location.verticalOffsetSaved = 20000;
+                    location.verticalOffset = 15000;
+                    location.verticalOffsetSaved = 15000;
                     break;
                 case 1:
-                    location.verticalOffset = -20000;
-                    location.verticalOffsetSaved = -20000;
+                    location.verticalOffset = -5000;
+                    location.verticalOffsetSaved = -5000;
                     break;
                 case 2:
                     location.verticalOffset = 10000;
