@@ -54,11 +54,7 @@ public:
     float maxScale;
     float titleAndCaptionAlpha[5];
     float screenWidth;
-    
-    enum CONTENT_TYPE { TEXT, IMAGE, VIDEO, MODEL, AUDIO };
-    
-    int contentType;
-    
+        
     //Object for drawing the audio and video duration
     Playhead playhead;
     
