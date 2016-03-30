@@ -101,6 +101,9 @@ void ofApp::setup()
     tiltShiftVertPass = post.createPass<VerticalTiltShifPass>();
     tiltShiftVertPass->setEnabled(true);
     post.createPass<ToonPass>()->setEnabled(false);
+    
+    lastPressTime = ofGetElapsedTimef();
+    maxIdleTime = 300.f;
 }
 
 void ofApp::setupGui()
@@ -739,9 +742,55 @@ void ofApp::update()
     // if auto system is active, run
     if (systemActive) autoSysUpdate();
     
+    //Check if we've been idle for too long
+    if(bCove) {
+        if(ofGetElapsedTimef() - lastPressTime > maxIdleTime) {
+            if(!menu.c.isAnythingPlaying) {
+                if(Globals::project == 1) {
+                    menu.leftSwitch = true;
+                    
+                    menu.leftMain.isSelected = true;
+                    menu.rightMain.isSelected = false;
+                    
+                    menu.leftClose = true;
+                    menu.rightClose = true;
+                    
+                    menu.buttonClicked = false;
+                    
+                    isCam = true;
+                    
+                    Globals::buttonPressed = true;
+                    
+                    // hs1
+                    loadProject(0);
+                } else {
+                    menu.rightSwitch = true;
+                    
+                    menu.leftMain.isSelected = false;
+                    menu.rightMain.isSelected = true;
+                    
+                    menu.leftClose = true;
+                    menu.rightClose = true;
+                    
+                    menu.buttonClicked = false;
+                    
+                    isCam = true;
+                    
+                    Globals::buttonPressed = true;
+                    
+                    // crossrail
+                    loadProject(1);
+                }
+                lastPressTime = ofGetElapsedTimef();
+            }
+        }
+    }
+
+    
     // pass along which mode we're in to global variable
     Globals::programType = bCove;
     Globals::project = route.activeProject;
+
     
     //cout<<scroller.getValue()<<endl;
 }
@@ -1228,6 +1277,7 @@ void ofApp::mouseDragged(int x, int y, int button){
 }
 
 void ofApp::mousePressed(int x, int y, int button){
+    lastPressTime = ofGetElapsedTimef();
 }
 
 void ofApp::mouseReleased(int x, int y, int button)

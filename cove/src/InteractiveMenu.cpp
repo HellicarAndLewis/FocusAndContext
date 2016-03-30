@@ -460,6 +460,7 @@ void InteractiveMenu::update()
     // update content
     c.update();
     
+    
     if(leftOn && !leftWasOn) {
         crossrailIntro.stop();
         hs1Intro.play();

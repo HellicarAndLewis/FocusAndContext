@@ -142,6 +142,8 @@ public:
     
     bool leftWasOn;
     
+    float lastPressTime;
+    
     // menu button sounds
     ofSoundPlayer snd1;
     ofSoundPlayer snd2;

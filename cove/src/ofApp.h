@@ -147,6 +147,10 @@ public:
     bool pointReached;
     bool isDraw;
     
+    // timings
+    float lastPressTime;
+    float maxIdleTime;
+    
     // content
     Content c;
     

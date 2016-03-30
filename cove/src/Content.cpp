@@ -158,9 +158,10 @@ void Content::fileLocation()
     sound[1][3].load(path[1][3][0][0]);
     sound[1][4].load(path[1][4][0][0]);
     for(int i = 0; i < 2; i++) {
-        for(int j = 0; j < 4; j++) {
+        for(int j = 0; j < 5; j++) {
             sound[i][j].setVolume(1.0);
-            sound[i][j].setLoop(true);
+            sound[i][j].setLoop(false);
+            vid[i][j].setLoopState(OF_LOOP_NONE);
         }
     }
     
@@ -170,11 +171,24 @@ void Content::fileLocation()
 //--------------------------------------------------------------
 void Content::update()
 {
+    isAnythingPlaying = false;
     // update any running videos
     for (int i = 0; i < 5; i++)
     {
-        if (vid[0][i].isPlaying()) vid[0][i].update();
-        if (vid[1][i].isPlaying()) vid[1][i].update();
+        if (vid[0][i].isPlaying()) {
+            isAnythingPlaying = true;
+           vid[0][i].update();
+        }
+        if (vid[1][i].isPlaying()) {
+            isAnythingPlaying = true;
+            vid[1][i].update();
+        }
+        if (sound[0][i].isPlaying()) {
+            isAnythingPlaying = true;
+        }
+        if (sound[1][i].isPlaying()) {
+            isAnythingPlaying = true;
+        }
     }
     
     // content scaling

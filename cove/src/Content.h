@@ -57,6 +57,8 @@ public:
     float maxScale;
     float titleAndCaptionAlpha[5];
     float screenWidth;
+    
+    bool isAnythingPlaying;
         
     //Object for drawing the audio and video duration
     Playhead playhead;
