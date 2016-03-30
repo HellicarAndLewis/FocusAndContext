@@ -85,8 +85,8 @@ public:
     bool bRLineH[BUTTON_AMT];
     bool bLPlace[BUTTON_AMT];
     bool bRPlace[BUTTON_AMT];
-    string contentLLabels[BUTTON_AMT];
-    string contentRLabels[BUTTON_AMT];
+    string contentLLabels[BUTTON_AMT][BUTTON_AMT];
+    string contentRLabels[BUTTON_AMT][BUTTON_AMT];
     
     // left content positions and sizes
     ofVec2f posLCon0[BUTTON_AMT];
@@ -140,7 +140,13 @@ public:
     // content media system
     Content c;
     
+    bool leftWasOn;
+    
     // menu button sounds
     ofSoundPlayer snd1;
     ofSoundPlayer snd2;
+    
+    //HS! and cross-rail intro sounds
+    ofSoundPlayer hs1Intro;
+    ofSoundPlayer crossrailIntro;
 };

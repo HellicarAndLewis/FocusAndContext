@@ -38,6 +38,15 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     snd2.setMultiPlay(false);
     snd2.setVolume(0.7);
     
+    // project intro sounds
+    hs1Intro.load("content/Dropbox/ArupContentForInstallation/Placeholder/no_audio.wav");
+    hs1Intro.setMultiPlay(false);
+    hs1Intro.setLoop(false);
+    
+    crossrailIntro.load("content/Dropbox/ArupContentForInstallation/Placeholder/no_audio.wav");
+    crossrailIntro.setMultiPlay(false);
+    crossrailIntro.setLoop(false);
+    
     // setup left sub menu
     for (int i = 0; i < length; i++)
     {
@@ -111,19 +120,22 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     //----------------------
     // content stuff
     //----------------------
-    // labels left
-    contentLLabels[0] = "Text";
-    contentLLabels[1] = "Image";
-    contentLLabels[2] = "Video";
-    contentLLabels[3] = "3D Model";
-    contentLLabels[4] = "Audio";
-    
-    // labels right
-    contentRLabels[4] = "Text";
-    contentRLabels[3] = "Image";
-    contentRLabels[2] = "Video";
-    contentRLabels[1] = "3D Model";
-    contentRLabels[0] = "Audio";
+    for(int i = 0; i < 5; i++) {
+        // labels left
+        contentLLabels[i][0] = "Text" + ofToString(i);
+        contentLLabels[i][1] = "Image" + ofToString(i);
+        contentLLabels[i][2] = "Video" + ofToString(i);
+        contentLLabels[i][3] = "3D Model" + ofToString(i);
+        contentLLabels[i][4] = "Audio" + ofToString(i);
+
+        // labels right
+        contentRLabels[i][4] = "Text" + ofToString(i);
+        contentRLabels[i][3] = "Image" + ofToString(i);
+        contentRLabels[i][2] = "Video" + ofToString(i);
+        contentRLabels[i][1] = "3D Model" + ofToString(i);
+        contentRLabels[i][0] = "Audio" + ofToString(i);
+    }
+
     
     // setup content menu items
     setupLeftContent();
@@ -131,6 +143,8 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     
     // content media setup
     c.setup();
+    
+    leftWasOn = false;
 }
 
 //--------------------------------------------------------------
@@ -150,7 +164,7 @@ void InteractiveMenu::setupLeftContent()
         lCon0[i].set(posLCon0[i], subArea, subArea);
         lCon0[i].drawType = 0;
         lCon0[i].lineLength = 0;
-        lCon0[i].title = contentLLabels[i];
+        lCon0[i].title = contentLLabels[0][i];
     }
     
     // setup vertical line
@@ -175,7 +189,7 @@ void InteractiveMenu::setupLeftContent()
         lCon1[i].set(posLCon1[i], subArea, subArea);
         lCon1[i].drawType = 0;
         lCon1[i].lineLength = 0;
-        lCon1[i].title = contentLLabels[i];
+        lCon1[i].title = contentLLabels[1][i];
     }
     
     // setup vertical line
@@ -200,7 +214,7 @@ void InteractiveMenu::setupLeftContent()
         lCon2[i].set(posLCon2[i], subArea, subArea);
         lCon2[i].drawType = 0;
         lCon2[i].lineLength = 0;
-        lCon2[i].title = contentLLabels[i];
+        lCon2[i].title = contentLLabels[2][i];
     }
     
     // setup vertical line
@@ -225,7 +239,7 @@ void InteractiveMenu::setupLeftContent()
         lCon3[i].set(posLCon3[i], subArea, subArea);
         lCon3[i].drawType = 0;
         lCon3[i].lineLength = 0;
-        lCon3[i].title = contentLLabels[i];
+        lCon3[i].title = contentLLabels[3][i];
     }
     
     // setup vertical line
@@ -250,7 +264,7 @@ void InteractiveMenu::setupLeftContent()
         lCon4[i].set(posLCon4[i], subArea, subArea);
         lCon4[i].drawType = 0;
         lCon4[i].lineLength = 0;
-        lCon4[i].title = contentLLabels[i];
+        lCon4[i].title = contentLLabels[4][i];
     }
     
     // setup vertical line
@@ -281,7 +295,7 @@ void InteractiveMenu::setupRightContent()
         rCon0[i].set(posRCon0[i], subArea, subArea);
         rCon0[i].drawType = 0;
         rCon0[i].lineLength = 0;
-        rCon0[i].title = contentRLabels[i];
+        rCon0[i].title = contentRLabels[0][i];
     }
     
     // setup vertical line
@@ -306,7 +320,7 @@ void InteractiveMenu::setupRightContent()
         rCon1[i].set(posRCon1[i], subArea, subArea);
         rCon1[i].drawType = 0;
         rCon1[i].lineLength = 0;
-        rCon1[i].title = contentRLabels[i];
+        rCon1[i].title = contentRLabels[1][i];
     }
     
     // setup vertical line
@@ -331,7 +345,7 @@ void InteractiveMenu::setupRightContent()
         rCon2[i].set(posRCon2[i], subArea, subArea);
         rCon2[i].drawType = 0;
         rCon2[i].lineLength = 0;
-        rCon2[i].title = contentRLabels[i];
+        rCon2[i].title = contentRLabels[2][i];
     }
     
     // setup vertical line
@@ -356,7 +370,7 @@ void InteractiveMenu::setupRightContent()
         rCon3[i].set(posRCon3[i], subArea, subArea);
         rCon3[i].drawType = 0;
         rCon3[i].lineLength = 0;
-        rCon3[i].title = contentRLabels[i];
+        rCon3[i].title = contentRLabels[3][i];
     }
     
     // setup vertical line
@@ -381,7 +395,7 @@ void InteractiveMenu::setupRightContent()
         rCon4[i].set(posRCon4[i], subArea, subArea);
         rCon4[i].drawType = 0;
         rCon4[i].lineLength = 0;
-        rCon4[i].title = contentRLabels[i];
+        rCon4[i].title = contentRLabels[4][i];
     }
     
     // setup vertical line
@@ -445,6 +459,16 @@ void InteractiveMenu::update()
     
     // update content
     c.update();
+    
+    if(leftOn && !leftWasOn) {
+        crossrailIntro.stop();
+        hs1Intro.play();
+        leftWasOn = true;
+    } else if(rightOn && leftWasOn) {
+        hs1Intro.stop();
+        crossrailIntro.play();
+        leftWasOn = false;
+    }
 }
 
 //--------------------------------------------------------------
@@ -1954,6 +1978,13 @@ void InteractiveMenu::pressed()
                     bLeftActive[2] = false;
                     bLeftActive[3] = false;
                     bLeftActive[4] = false;
+//                    for(int j = 0; j < 5; j++) {
+//                        if(j != i) {
+//                            if(c.locationIntroSounds[0][j].isPlaying()) c.locationIntroSounds[0][j].stop();
+//                        } else {
+//                            c.locationIntroSounds[0][j].play();
+//                        }
+//                    }
                     break;
                 case 1:
                     bLeftActive[0] = false;
@@ -2090,6 +2121,7 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        hs1Intro.stop();
         
         // load current content, enable vignette
         c.load(0, 0, 2);
@@ -2123,6 +2155,8 @@ void InteractiveMenu::pressedContent()
         // play button sound
         snd2.play();
         
+        hs1Intro.stop();
+        
         // load current content, enable vignette
         c.load(0, 0, 4);
         if (!Globals::vignetteOn)
@@ -2143,7 +2177,6 @@ void InteractiveMenu::pressedContent()
         if (Globals::vignetteOn)
             Globals::vignetteOn = false;
     }
-    
     
     // ------------------------------------
     // left content menu item 1 selection
@@ -2188,6 +2221,7 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        hs1Intro.stop();
         
         // load current content, enable vignette
         c.load(0, 1, 2);
@@ -2218,6 +2252,7 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        hs1Intro.stop();
         
         // load current content, enable vignette
         c.load(0, 1, 4);
@@ -2237,7 +2272,6 @@ void InteractiveMenu::pressedContent()
         c.stopAudio();
         if (Globals::vignetteOn) Globals::vignetteOn = false;
     }
-    
     
     // ------------------------------------
     // left content menu item 2 selection
@@ -2282,6 +2316,7 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        hs1Intro.stop();
         
         // load current content, enable vignette
         c.load(0, 2, 2);
@@ -2312,6 +2347,7 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        hs1Intro.stop();
         
         // load current content, enable vignette
         c.load(0, 2, 4);
@@ -2331,7 +2367,6 @@ void InteractiveMenu::pressedContent()
         c.stopAudio();
         if (Globals::vignetteOn) Globals::vignetteOn = false;
     }
-    
     
     // ------------------------------------
     // left content menu item 3 selection
@@ -2376,6 +2411,7 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        hs1Intro.stop();
         
         // load current content, enable vignette
         c.load(0, 3, 2);
@@ -2406,6 +2442,7 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        hs1Intro.stop();
         
         // load current content, enable vignette
         c.load(0, 3, 4);
@@ -2469,6 +2506,7 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        hs1Intro.stop();
         
         // load current content, enable vignette
         c.load(0, 4, 2);
@@ -2499,6 +2537,7 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        hs1Intro.stop();
         
         // load current content, enable vignette
         c.load(0, 4, 4);
@@ -2533,6 +2572,7 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        crossrailIntro.stop();
         
         // load current content, enable vignette
         c.load(1, 0, 0);
@@ -2563,6 +2603,7 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        crossrailIntro.stop();
         
         // load current content, enable vignette
         c.load(1, 0, 2);
@@ -2627,6 +2668,7 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        crossrailIntro.stop();
         
         // load current content, enable vignette
         c.load(1, 1, 0);
@@ -2657,6 +2699,7 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        crossrailIntro.stop();
         
         // load current content, enable vignette
         c.load(1, 1, 2);
@@ -2721,6 +2764,7 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        crossrailIntro.stop();
         
         // load current content, enable vignette
         c.load(1, 2, 0);
@@ -2751,6 +2795,7 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        crossrailIntro.stop();
         
         // load current content, enable vignette
         c.load(1, 2, 2);
@@ -2815,6 +2860,7 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        crossrailIntro.stop();
         
         // load current content, enable vignette
         c.load(1, 3, 0);
@@ -2845,6 +2891,7 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        crossrailIntro.stop();
         
         // load current content, enable vignette
         c.load(1, 3, 2);
@@ -2909,6 +2956,7 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        crossrailIntro.stop();
         
         // load current content, enable vignette
         c.load(1, 4, 0);
@@ -2939,6 +2987,7 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        crossrailIntro.stop();
         
         // load current content, enable vignette
         c.load(1, 4, 2);

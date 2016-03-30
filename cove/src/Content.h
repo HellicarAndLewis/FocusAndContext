@@ -25,9 +25,11 @@ public:
     void load(int _project, int _point, int _item);
     void stopVideos();
     void stopAudio();
+    void stopLocationAudio();
     
     // content locations
     string path[2][5][5][3];
+    string introSoundPaths[2][5];
     
     // content type
     ofImage img[5];
@@ -36,6 +38,7 @@ public:
     ofImage captionTextImage[5];
     ofVideoPlayer vid[2][5];
     ofSoundPlayer sound[2][5];
+    ofSoundPlayer locationIntroSounds[2][5];
     //ofxOBJModel model;
     
     ofxFBXScene scene;
