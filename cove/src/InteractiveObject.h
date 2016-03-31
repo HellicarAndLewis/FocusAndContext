@@ -58,7 +58,7 @@ public:
                     
                     // draws menu tiles
                     ofSetColor(color);
-                    ofDrawRectangle(x, y, width, height);
+                    ofDrawRectRounded(x, y, width, height, 10);
                     
                     // fades content titles
                     if (fadeLabel) alpha = ofLerp(alpha, 0, 0.1);

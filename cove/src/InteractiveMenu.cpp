@@ -463,10 +463,12 @@ void InteractiveMenu::update()
     
     if(leftOn && !leftWasOn) {
         crossrailIntro.stop();
+        c.stopLocationAudio();
         hs1Intro.play();
         leftWasOn = true;
     } else if(rightOn && leftWasOn) {
         hs1Intro.stop();
+        c.stopLocationAudio();
         crossrailIntro.play();
         leftWasOn = false;
     }
@@ -1979,13 +1981,16 @@ void InteractiveMenu::pressed()
                     bLeftActive[2] = false;
                     bLeftActive[3] = false;
                     bLeftActive[4] = false;
-//                    for(int j = 0; j < 5; j++) {
-//                        if(j != i) {
-//                            if(c.locationIntroSounds[0][j].isPlaying()) c.locationIntroSounds[0][j].stop();
-//                        } else {
-//                            c.locationIntroSounds[0][j].play();
-//                        }
-//                    }
+                    c.stopAudio();
+                    hs1Intro.stop();
+                    crossrailIntro.stop();
+                    for(int j = 0; j < 5; j++) {
+                        if(j != i) {
+                           if(c.introSounds[0][j].isPlaying()) c.introSounds[0][j].stop();
+                        } else {
+                            c.introSounds[0][j].play();
+                        }
+                    }
                     break;
                 case 1:
                     bLeftActive[0] = false;
@@ -1993,6 +1998,16 @@ void InteractiveMenu::pressed()
                     bLeftActive[2] = false;
                     bLeftActive[3] = false;
                     bLeftActive[4] = false;
+                    c.stopAudio();
+                    hs1Intro.stop();
+                    crossrailIntro.stop();
+                    for(int j = 0; j < 5; j++) {
+                        if(j != i) {
+                            if(c.introSounds[0][j].isPlaying()) c.introSounds[0][j].stop();
+                        } else {
+                            c.introSounds[0][j].play();
+                        }
+                    }
                     break;
                 case 2:
                     bLeftActive[0] = false;
@@ -2000,6 +2015,16 @@ void InteractiveMenu::pressed()
                     bLeftActive[2] = true;
                     bLeftActive[3] = false;
                     bLeftActive[4] = false;
+                    c.stopAudio();
+                    hs1Intro.stop();
+                    crossrailIntro.stop();
+                    for(int j = 0; j < 5; j++) {
+                        if(j != i) {
+                            if(c.introSounds[0][j].isPlaying()) c.introSounds[0][j].stop();
+                        } else {
+                            c.introSounds[0][j].play();
+                        }
+                    }
                     break;
                 case 3:
                     bLeftActive[0] = false;
@@ -2007,6 +2032,16 @@ void InteractiveMenu::pressed()
                     bLeftActive[2] = false;
                     bLeftActive[3] = true;
                     bLeftActive[4] = false;
+                    c.stopAudio();
+                    hs1Intro.stop();
+                    crossrailIntro.stop();
+                    for(int j = 0; j < 5; j++) {
+                        if(j != i) {
+                            if(c.introSounds[0][j].isPlaying()) c.introSounds[0][j].stop();
+                        } else {
+                            c.introSounds[0][j].play();
+                        }
+                    }
                     break;
                 case 4:
                     bLeftActive[0] = false;
@@ -2014,7 +2049,21 @@ void InteractiveMenu::pressed()
                     bLeftActive[2] = false;
                     bLeftActive[3] = false;
                     bLeftActive[4] = true;
+                    c.stopAudio();
+                    hs1Intro.stop();
+                    crossrailIntro.stop();
+                    for(int j = 0; j < 5; j++) {
+                        if(j != i) {
+                            if(c.introSounds[0][j].isPlaying()) c.introSounds[0][j].stop();
+                        } else {
+                            c.introSounds[0][j].play();
+                        }
+                    }
                     break;
+            }
+            
+            if(i < 5) {
+
             }
             
             // play menu button sound
@@ -2034,6 +2083,16 @@ void InteractiveMenu::pressed()
                     bRightActive[2] = false;
                     bRightActive[3] = false;
                     bRightActive[4] = false;
+                    c.stopAudio();
+                    hs1Intro.stop();
+                    crossrailIntro.stop();
+                    for(int j = 0; j < 5; j++) {
+                        if(j != i) {
+                            if(c.introSounds[1][j].isPlaying()) c.introSounds[1][j].stop();
+                        } else {
+                            c.introSounds[1][j].play();
+                        }
+                    }
                     break;
                 case 1:
                     bRightActive[0] = false;
@@ -2041,6 +2100,13 @@ void InteractiveMenu::pressed()
                     bRightActive[2] = false;
                     bRightActive[3] = false;
                     bRightActive[4] = false;
+                    for(int j = 0; j < 5; j++) {
+                        if(j != i) {
+                            if(c.introSounds[1][j].isPlaying()) c.introSounds[1][j].stop();
+                        } else {
+                            c.introSounds[1][j].play();
+                        }
+                    }
                     break;
                 case 2:
                     bRightActive[0] = false;
@@ -2048,6 +2114,13 @@ void InteractiveMenu::pressed()
                     bRightActive[2] = true;
                     bRightActive[3] = false;
                     bRightActive[4] = false;
+                    for(int j = 0; j < 5; j++) {
+                        if(j != i) {
+                            if(c.introSounds[1][j].isPlaying()) c.introSounds[1][j].stop();
+                        } else {
+                            c.introSounds[1][j].play();
+                        }
+                    }
                     break;
                 case 3:
                     bRightActive[0] = false;
@@ -2055,6 +2128,13 @@ void InteractiveMenu::pressed()
                     bRightActive[2] = false;
                     bRightActive[3] = true;
                     bRightActive[4] = false;
+                    for(int j = 0; j < 5; j++) {
+                        if(j != i) {
+                            if(c.introSounds[1][j].isPlaying()) c.introSounds[1][j].stop();
+                        } else {
+                            c.introSounds[1][j].play();
+                        }
+                    }
                     break;
                 case 4:
                     bRightActive[0] = false;
@@ -2062,6 +2142,13 @@ void InteractiveMenu::pressed()
                     bRightActive[2] = false;
                     bRightActive[3] = false;
                     bRightActive[4] = true;
+                    for(int j = 0; j < 5; j++) {
+                        if(j != i) {
+                            if(c.introSounds[1][j].isPlaying()) c.introSounds[1][j].stop();
+                        } else {
+                            c.introSounds[1][j].play();
+                        }
+                    }
                     break;
             }
             
@@ -2123,6 +2210,8 @@ void InteractiveMenu::pressedContent()
         // play button sound
         snd2.play();
         hs1Intro.stop();
+        crossrailIntro.stop();
+        c.stopLocationAudio();
         
         // load current content, enable vignette
         c.load(0, 0, 2);
@@ -2155,8 +2244,9 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
-        
         hs1Intro.stop();
+        crossrailIntro.stop();
+        c.stopLocationAudio();
         
         // load current content, enable vignette
         c.load(0, 0, 4);
@@ -2175,6 +2265,7 @@ void InteractiveMenu::pressedContent()
         c.item = 5;
         c.stopVideos();
         c.stopAudio();
+        // c.stopLocationAudio();
         if (Globals::vignetteOn)
             Globals::vignetteOn = false;
     }
@@ -2223,6 +2314,9 @@ void InteractiveMenu::pressedContent()
         // play button sound
         snd2.play();
         hs1Intro.stop();
+        crossrailIntro.stop();
+        c.stopLocationAudio();
+        
         
         // load current content, enable vignette
         c.load(0, 1, 2);
@@ -2254,6 +2348,8 @@ void InteractiveMenu::pressedContent()
         // play button sound
         snd2.play();
         hs1Intro.stop();
+        crossrailIntro.stop();
+        c.stopLocationAudio();
         
         // load current content, enable vignette
         c.load(0, 1, 4);
@@ -2318,6 +2414,8 @@ void InteractiveMenu::pressedContent()
         // play button sound
         snd2.play();
         hs1Intro.stop();
+        crossrailIntro.stop();
+        c.stopLocationAudio();
         
         // load current content, enable vignette
         c.load(0, 2, 2);
@@ -2349,6 +2447,8 @@ void InteractiveMenu::pressedContent()
         // play button sound
         snd2.play();
         hs1Intro.stop();
+        crossrailIntro.stop();
+        c.stopLocationAudio();
         
         // load current content, enable vignette
         c.load(0, 2, 4);
@@ -2413,6 +2513,8 @@ void InteractiveMenu::pressedContent()
         // play button sound
         snd2.play();
         hs1Intro.stop();
+        crossrailIntro.stop();
+        c.stopLocationAudio();
         
         // load current content, enable vignette
         c.load(0, 3, 2);
@@ -2444,6 +2546,8 @@ void InteractiveMenu::pressedContent()
         // play button sound
         snd2.play();
         hs1Intro.stop();
+        crossrailIntro.stop();
+        c.stopLocationAudio();
         
         // load current content, enable vignette
         c.load(0, 3, 4);
@@ -2508,6 +2612,8 @@ void InteractiveMenu::pressedContent()
         // play button sound
         snd2.play();
         hs1Intro.stop();
+        crossrailIntro.stop();
+        c.stopLocationAudio();
         
         // load current content, enable vignette
         c.load(0, 4, 2);
@@ -2539,6 +2645,8 @@ void InteractiveMenu::pressedContent()
         // play button sound
         snd2.play();
         hs1Intro.stop();
+        crossrailIntro.stop();
+        c.stopLocationAudio();
         
         // load current content, enable vignette
         c.load(0, 4, 4);
@@ -2573,7 +2681,9 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        hs1Intro.stop();
         crossrailIntro.stop();
+        // c.stopLocationAudio();
         
         // load current content, enable vignette
         c.load(1, 0, 0);
@@ -2604,7 +2714,9 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        hs1Intro.stop();
         crossrailIntro.stop();
+        // c.stopLocationAudio();
         
         // load current content, enable vignette
         c.load(1, 0, 2);
@@ -2669,7 +2781,9 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        hs1Intro.stop();
         crossrailIntro.stop();
+        // c.stopLocationAudio();
         
         // load current content, enable vignette
         c.load(1, 1, 0);
@@ -2700,7 +2814,9 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        hs1Intro.stop();
         crossrailIntro.stop();
+        // c.stopLocationAudio();
         
         // load current content, enable vignette
         c.load(1, 1, 2);
@@ -2765,7 +2881,9 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        hs1Intro.stop();
         crossrailIntro.stop();
+        // c.stopLocationAudio();
         
         // load current content, enable vignette
         c.load(1, 2, 0);
@@ -2796,7 +2914,9 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        hs1Intro.stop();
         crossrailIntro.stop();
+        // c.stopLocationAudio();
         
         // load current content, enable vignette
         c.load(1, 2, 2);
@@ -2861,7 +2981,9 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        hs1Intro.stop();
         crossrailIntro.stop();
+        // c.stopLocationAudio();
         
         // load current content, enable vignette
         c.load(1, 3, 0);
@@ -2892,7 +3014,9 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        hs1Intro.stop();
         crossrailIntro.stop();
+        // c.stopLocationAudio();
         
         // load current content, enable vignette
         c.load(1, 3, 2);
@@ -2957,7 +3081,9 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        hs1Intro.stop();
         crossrailIntro.stop();
+        // c.stopLocationAudio();
         
         // load current content, enable vignette
         c.load(1, 4, 0);
@@ -2988,7 +3114,9 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        hs1Intro.stop();
         crossrailIntro.stop();
+        // c.stopLocationAudio();
         
         // load current content, enable vignette
         c.load(1, 4, 2);

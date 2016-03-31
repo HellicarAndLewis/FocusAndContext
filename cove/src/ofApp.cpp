@@ -507,6 +507,7 @@ void ofApp::autoSysUpdate()
     }
     
     Location & location = *route.getLocation();
+    int randomSwitch = (int)ofRandom(3);
     switch (currentInterval)
     {
         case 0:
@@ -515,7 +516,23 @@ void ofApp::autoSysUpdate()
             if (!Globals::buttonPressed) Globals::buttonPressed = true;
             if (!Globals::autoRoute) Globals::autoRoute = true;
             
-            randomItem = ofRandom(0, 4);
+            if(route.activeProject == 0) {
+                if(randomSwitch == 0) {
+                    randomItem = 0;
+                } else if(randomSwitch == 1) {
+                    randomItem = 1;
+                } else {
+                    randomItem = 3;
+                }
+            } else {
+                if(randomSwitch == 0) {
+                    randomItem = 4;
+                } else if(randomSwitch == 1) {
+                    randomItem = 3;
+                } else {
+                    randomItem = 1;
+                }
+            }
             if (!contentActive) contentActive = true;
             if (c.item != 5) c.item = 5;
             

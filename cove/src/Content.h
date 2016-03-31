@@ -38,7 +38,7 @@ public:
     ofImage captionTextImage[5];
     ofVideoPlayer vid[2][5];
     ofSoundPlayer sound[2][5];
-    ofSoundPlayer locationIntroSounds[2][5];
+    ofSoundPlayer introSounds[2][5];
     //ofxOBJModel model;
     
     ofxFBXScene scene;
