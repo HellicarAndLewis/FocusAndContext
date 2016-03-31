@@ -67,7 +67,7 @@ public:
                     
                     // title location changes based on main tile or menu tiles
                     if (isMainTile) fontMain.drawString(title, x + 10, y + 20);
-                    else fontSub.drawString(title, x + 5, y + 10);
+                    else fontSub.drawString(title, x + 10, y + 15);
                     
                     break;
                     

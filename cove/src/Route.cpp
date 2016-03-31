@@ -98,7 +98,7 @@ void Route::draw(ofCamera& cam) {
     ofPushMatrix();
     {
         ofTranslate(0, 0, 0);
-        float rad = 3.;
+        float rad = 4.;
         ofSetLineWidth(rad);
         routeRenderLeft.draw();
         ofSetLineWidth(1);
@@ -116,7 +116,7 @@ void Route::draw(ofCamera& cam) {
     ofPushMatrix();
     {
         ofTranslate(0, 0, 0);
-        float rad = 3.;
+        float rad = 4.;
         ofSetLineWidth(rad);
         routeRenderRight.draw();
         ofSetLineWidth(1);

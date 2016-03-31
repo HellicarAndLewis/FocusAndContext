@@ -382,21 +382,23 @@ void Content::draw()
     if (project == 0 && item < 5) {
         // draws text content (text is currently an image)
         ofSetRectMode(OF_RECTMODE_CENTER);
-        if (scale[0] > 0.1 || item == 0) {
+        if (scale[0] > 0.01) {
             ofSetColor(255);
-            captionTextImage[item].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[item].getWidth() * scale[item], captionTextImage[item].getHeight() * scale[item]);
-            img[item].draw(ofGetWidth()/2, ofGetHeight()/2, img[item].getWidth() * scale[item], img[item].getHeight() * scale[item]);
-            ofSetColor(255, 255, 255, titleAndCaptionAlpha[item]);
-            titleTextImage[item].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[item].getWidth() * scale[item], titleTextImage[item].getHeight() * scale[item]);
-        } else if (scale[1] > 0.1 || item == 1) {
+            captionTextImage[0].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[0].getWidth() * scale[0], captionTextImage[0].getHeight() * scale[0]);
+            img[0].draw(ofGetWidth()/2, ofGetHeight()/2, img[0].getWidth() * scale[0], img[0].getHeight() * scale[0]);
+            ofSetColor(255, 255, 255, titleAndCaptionAlpha[0]);
+            titleTextImage[0].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[0].getWidth() * scale[0], titleTextImage[0].getHeight() * scale[0]);
+        }
+        if (scale[1] > 0.01) {
             // draws image contentw
             ofSetColor(255);
-            captionTextImage[item].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[item].getWidth() * scale[item], captionTextImage[item].getHeight() * scale[item]);
-            img[item].draw(ofGetWidth()/2, ofGetHeight()/2, img[item].getWidth() * scale[item], img[item].getHeight() * scale[item]);
-            ofSetColor(255, 255, 255, titleAndCaptionAlpha[item]);
-            titleTextImage[item].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[item].getWidth() * scale[item], titleTextImage[item].getHeight() * scale[item]);
+            captionTextImage[1].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[1].getWidth() * scale[1], captionTextImage[1].getHeight() * scale[1]);
+            img[1].draw(ofGetWidth()/2, ofGetHeight()/2, img[1].getWidth() * scale[1], img[1].getHeight() * scale[1]);
+            ofSetColor(255, 255, 255, titleAndCaptionAlpha[1]);
+            titleTextImage[1].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[1].getWidth() * scale[1], titleTextImage[1].getHeight() * scale[1]);
 
-        } else if(scale[2] > 0.1 || item == 2) {
+        }
+        if(scale[2] > 0.01) {
             // draws video content
             for (int i = 0; i < 5; i++)
             {
@@ -404,21 +406,22 @@ void Content::draw()
                 if (vid[0][i].isPlaying())
                 {
                     ofSetColor(255);
-                    captionTextImage[item].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[item].getWidth() * scale[item], captionTextImage[item].getHeight() * scale[item]);
-                    vid[0][i].draw(ofGetWidth()/2, ofGetHeight()/2, vid[0][i].getWidth() * scale[item], vid[0][i].getHeight() * scale[item]);
-                    ofSetColor(255, 255, 255, titleAndCaptionAlpha[item]);
-                    titleTextImage[item].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[item].getWidth() * scale[item], titleTextImage[item].getHeight() * scale[item]);
+                    captionTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[2].getWidth() * scale[2], captionTextImage[2].getHeight() * scale[2]);
+                    vid[0][i].draw(ofGetWidth()/2, ofGetHeight()/2, vid[0][i].getWidth() * scale[2], vid[0][i].getHeight() * scale[2]);
+                    ofSetColor(255, 255, 255, titleAndCaptionAlpha[2]);
+                    titleTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[2].getWidth() * scale[2], titleTextImage[2].getHeight() * scale[2]);
                     float percentDone = vid[0][i].getPosition();
-                    playhead.draw(ofGetWidth()/2, ofGetHeight()/2 + vid[0][i].getHeight()/2 + 5, vid[0][i].getWidth() * scale[item], 10 * scale[item], percentDone);
+                    playhead.draw(ofGetWidth()/2, ofGetHeight()/2 + vid[0][i].getHeight()/2 + 5, vid[0][i].getWidth() * scale[2], 10 * scale[2], percentDone);
                     
                 }
             }
-        } else if(scale[3] > 0.1 || item == 3) {
+        }
+        if(scale[3] > 0.01) {
             ofPushStyle();
             ofSetColor(255);
-            captionTextImage[item].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[item].getWidth() * scale[item], captionTextImage[item].getHeight() * scale[item]);
-            ofSetColor(255, 255, 255, titleAndCaptionAlpha[item]);
-            titleTextImage[item].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[item].getWidth() * scale[item], titleTextImage[item].getHeight() * scale[item]);
+            captionTextImage[3].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[3].getWidth() * scale[3], captionTextImage[3].getHeight() * scale[3]);
+            ofSetColor(255, 255, 255, titleAndCaptionAlpha[3]);
+            titleTextImage[3].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[3].getWidth() * scale[3], titleTextImage[3].getHeight() * scale[3]);
             ofPopStyle();
             
             // model drawing
@@ -436,38 +439,41 @@ void Content::draw()
             ofDisableLighting();
             cam.end();
             ofDisableDepthTest();
-        } else if(scale[4] > 0.1 || item == 4) {
+        }
+        if(scale[4] > 0.01) {
             //Plays audio content with play-head
             for(int i = 0; i < 5; i++) {
                 if(sound[0][i].isPlaying()) {
                     ofSetColor(255);
-                    captionTextImage[item].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[item].getWidth() * scale[item], captionTextImage[item].getHeight() * scale[item]);
-                    ofSetColor(255, 255, 255, titleAndCaptionAlpha[item]);
-                    titleTextImage[item].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[item].getWidth() * scale[item], titleTextImage[item].getHeight() * scale[item]);
+                    captionTextImage[4].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[4].getWidth() * scale[4], captionTextImage[4].getHeight() * scale[4]);
+                    ofSetColor(255, 255, 255, titleAndCaptionAlpha[4]);
+                    titleTextImage[4].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[4].getWidth() * scale[4], titleTextImage[4].getHeight() * scale[4]);
                     //draw the playhead
                     float percentageDone = sound[0][i].getPosition();
-                    playhead.draw(ofGetWidth()/2, ofGetHeight()/2 - 19, 909 * scale[item], 30 * scale[item], percentageDone);
+                    playhead.draw(ofGetWidth()/2, ofGetHeight()/2 - 19, 909 * scale[4], 30 * scale[4], percentageDone);
                 }
             }
         }
         ofSetRectMode(OF_RECTMODE_CORNER);
-    } else if(project == 1 && item < 5) {
+    } else if(project == 1) {
         // draws text content (text is currently an image)
         ofSetRectMode(OF_RECTMODE_CENTER);
-        if (scale[4] > 0.1 || item == 4) {
+        if (scale[4] > 0.01) {
             ofSetColor(255);
-            captionTextImage[item].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[item].getWidth() * scale[item], captionTextImage[item].getHeight() * scale[item]);
-            img[item].draw(ofGetWidth()/2, ofGetHeight()/2, img[item].getWidth() * scale[item], img[item].getHeight() * scale[item]);
-            ofSetColor(255, 255, 255, titleAndCaptionAlpha[item]);
-            titleTextImage[item].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[item].getWidth() * scale[item], titleTextImage[item].getHeight() * scale[item]);
-        } else if (scale[3] > 0.1 || item == 3) {
+            captionTextImage[4].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[4].getWidth() * scale[4], captionTextImage[4].getHeight() * scale[4]);
+            img[4].draw(ofGetWidth()/2, ofGetHeight()/2, img[4].getWidth() * scale[4], img[4].getHeight() * scale[4]);
+            ofSetColor(255, 255, 255, titleAndCaptionAlpha[4]);
+            titleTextImage[4].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[4].getWidth() * scale[4], titleTextImage[4].getHeight() * scale[4]);
+        }
+        if (scale[3] > 0.01) {
             // draws image content
             ofSetColor(255);
-            captionTextImage[item].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[item].getWidth() * scale[item], captionTextImage[item].getHeight() * scale[item]);
-            img[item].draw(ofGetWidth()/2, ofGetHeight()/2, img[item].getWidth() * scale[item], img[item].getHeight() * scale[item]);
-            ofSetColor(255, 255, 255, titleAndCaptionAlpha[item]);
-            titleTextImage[item].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[item].getWidth() * scale[item], titleTextImage[item].getHeight() * scale[item]);
-        } else if(scale[2] > 0.1 || item == 2) {
+            captionTextImage[3].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[3].getWidth() * scale[3], captionTextImage[3].getHeight() * scale[3]);
+            img[3].draw(ofGetWidth()/2, ofGetHeight()/2, img[3].getWidth() * scale[3], img[3].getHeight() * scale[3]);
+            ofSetColor(255, 255, 255, titleAndCaptionAlpha[3]);
+            titleTextImage[3].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[3].getWidth() * scale[3], titleTextImage[3].getHeight() * scale[3]);
+        }
+        if(scale[2] > 0.01) {
             // draws video content
             for (int i = 0; i < 5; i++)
             {
@@ -475,21 +481,22 @@ void Content::draw()
                 if (vid[1][i].isPlaying())
                 {
                     ofSetColor(255);
-                    captionTextImage[item].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[item].getWidth() * scale[item], captionTextImage[item].getHeight() * scale[item]);
-                    vid[1][i].draw(ofGetWidth()/2, ofGetHeight()/2, vid[1][i].getWidth() * scale[item], vid[1][i].getHeight() * scale[item]);
-                    ofSetColor(255, 255, 255, titleAndCaptionAlpha[item]);
-                    titleTextImage[item].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[item].getWidth() * scale[item], titleTextImage[item].getHeight() * scale[item]);
+                    captionTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[2].getWidth() * scale[2], captionTextImage[2].getHeight() * scale[2]);
+                    vid[1][i].draw(ofGetWidth()/2, ofGetHeight()/2, vid[1][i].getWidth() * scale[2], vid[1][i].getHeight() * scale[2]);
+                    ofSetColor(255, 255, 255, titleAndCaptionAlpha[2]);
+                    titleTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[2].getWidth() * scale[2], titleTextImage[2].getHeight() * scale[2]);
                     float percentDone = vid[1][i].getPosition();
-                    playhead.draw(ofGetWidth()/2, ofGetHeight()/2 + vid[1][i].getHeight()/2 + 5, vid[1][i].getWidth() * scale[item], 10 * scale[item], percentDone);
+                    playhead.draw(ofGetWidth()/2, ofGetHeight()/2 + vid[1][i].getHeight()/2 + 5, vid[1][i].getWidth() * scale[2], 10 * scale[2], percentDone);
                     
                 }
             }
-        } else if(scale[1] > 0.1 || item == 1) {
+        }
+        if(scale[1] > 0.01) {
             ofPushStyle();
             ofSetColor(255);
-            captionTextImage[item].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[item].getWidth() * scale[item], captionTextImage[item].getHeight() * scale[item]);
-            ofSetColor(255, 255, 255, titleAndCaptionAlpha[item]);
-            titleTextImage[item].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[item].getWidth() * scale[item], titleTextImage[item].getHeight() * scale[item]);
+            captionTextImage[1].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[1].getWidth() * scale[1], captionTextImage[1].getHeight() * scale[1]);
+            ofSetColor(255, 255, 255, titleAndCaptionAlpha[1]);
+            titleTextImage[1].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[1].getWidth() * scale[1], titleTextImage[1].getHeight() * scale[1]);
             ofPopStyle();
             
             //Draw the backgroundTile
@@ -506,17 +513,18 @@ void Content::draw()
             ofDisableLighting();
             cam.end();
             ofDisableDepthTest();
-        } else if(scale[0] > 0.1 || item == 0) {
+        }
+        if(scale[0] > 0.01) {
             //Plays audio content with play-head
             for(int i = 0; i < 5; i++) {
                 if(sound[1][i].isPlaying()) {
                     ofSetColor(255);
-                    captionTextImage[item].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[item].getWidth() * scale[item], captionTextImage[item].getHeight() * scale[item]);
-                    ofSetColor(255, 255, 255, titleAndCaptionAlpha[item]);
-                    titleTextImage[item].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[item].getWidth() * scale[item], titleTextImage[item].getHeight() * scale[item]);
+                    captionTextImage[0].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[0].getWidth() * scale[0], captionTextImage[0].getHeight() * scale[0]);
+                    ofSetColor(255, 255, 255, titleAndCaptionAlpha[0]);
+                    titleTextImage[0].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[0].getWidth() * scale[0], titleTextImage[0].getHeight() * scale[0]);
                     //draw the playhead
                     float percentageDone = sound[1][i].getPosition();
-                    playhead.draw(ofGetWidth()/2, ofGetHeight()/2 - 19, 909 * scale[item], 30 * scale[item], percentageDone);
+                    playhead.draw(ofGetWidth()/2, ofGetHeight()/2 - 19, 909 * scale[0], 30 * scale[0], percentageDone);
                 }
             }
         }

@@ -868,7 +868,7 @@ void ofApp::draw()
     }
      */
     
-    ofEnableAntiAliasing();
+    ofEnableSmoothing();
     
     if(camTilt < 0) {
         for(int i = 0; i < route.locationsLeft.size(); i++) {
@@ -931,7 +931,7 @@ void ofApp::draw()
     // if (!gui->getVisible()) tileLoader.labels.draw2D();
     if (bDebugMsg) drawDebugMsg();
     
-    ofDisableAntiAliasing();
+    ofDisableSmoothing();
 
 }
 

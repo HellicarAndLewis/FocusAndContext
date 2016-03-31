@@ -125,7 +125,7 @@ void Location::draw(ofCamera& cam, float _alpha, float _height)
     
     ofPushStyle();
     ofPushMatrix();
-    ofSetLineWidth(2);
+    ofSetLineWidth(3);
     ofSetColor(255, 255, 255, ofMap(finalAlpha, 0., 1., 0., 255.));
     lineHeight = 1600;
     ofDrawLine(position.x, position.y, 0, position.x, position.y + height + verticalOffset, 0);
