@@ -92,12 +92,12 @@ void Content::fileLocation()
         string locationName = splitString[locationNameIndex];
         string contentType = splitString[contentTypeIndex];
         string contentPieceName = splitString[contentPieceIndex];
-        if(contentPieceName != "Notes" && contentType != "IntroSound") {
+        if(contentPieceName != "Notes" && contentType != "IntroAudio") {
             int locationIndex = locationsDictionary[projectIndex].at(locationName);
             int contentIndex = locationsDictionary[projectIndex].at(contentType);
             int contentPieceIndex = locationsDictionary[projectIndex].at(contentPieceName);
             path[projectIndex][locationIndex][contentIndex][contentPieceIndex] = HS1[i];
-        } else if(contentType == "IntroSound") {
+        } else if(contentType == "IntroAudio") {
             int locationIndex = locationsDictionary[projectIndex].at(locationName);
             introSoundPaths[projectIndex][locationIndex] = HS1[i];
         }
