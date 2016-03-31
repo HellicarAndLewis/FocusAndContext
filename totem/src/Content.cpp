@@ -76,7 +76,6 @@ void Content::fileLocation()
             path[projectIndex][i][j][1] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_title.png";
             path[projectIndex][i][j][2] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_caption.png";
         }
-        introSoundPaths[projectIndex][i] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_audio.wav";
     }
     
     //Load all real the content for HS1
@@ -92,14 +91,11 @@ void Content::fileLocation()
         string locationName = splitString[locationNameIndex];
         string contentType = splitString[contentTypeIndex];
         string contentPieceName = splitString[contentPieceIndex];
-        if(contentPieceName != "Notes" && contentType != "IntroSound") {
+        if(contentPieceName != "Notes") {
             int locationIndex = locationsDictionary[projectIndex].at(locationName);
             int contentIndex = locationsDictionary[projectIndex].at(contentType);
             int contentPieceIndex = locationsDictionary[projectIndex].at(contentPieceName);
             path[projectIndex][locationIndex][contentIndex][contentPieceIndex] = HS1[i];
-        } else if(contentType == "IntroSound") {
-            int locationIndex = locationsDictionary[projectIndex].at(locationName);
-            introSoundPaths[projectIndex][locationIndex] = HS1[i];
         }
     }
     
@@ -119,7 +115,6 @@ void Content::fileLocation()
             path[projectIndex][i][j][1] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_title.png";
             path[projectIndex][i][j][2] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_caption.png";
         }
-        introSoundPaths[projectIndex][i] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_audio.wav";
     }
     
     //Load all the content for Crossrail
@@ -162,25 +157,10 @@ void Content::fileLocation()
     sound[1][2].load(path[1][2][0][0]);
     sound[1][3].load(path[1][3][0][0]);
     sound[1][4].load(path[1][4][0][0]);
-    
-    //pre-load all POI intro sounds
-    introSounds[0][0].load(introSoundPaths[0][0]);
-    introSounds[0][1].load(introSoundPaths[0][1]);
-    introSounds[0][2].load(introSoundPaths[0][2]);
-    introSounds[0][3].load(introSoundPaths[0][3]);
-    introSounds[0][4].load(introSoundPaths[0][4]);
-    introSounds[1][0].load(introSoundPaths[1][0]);
-    introSounds[1][1].load(introSoundPaths[1][1]);
-    introSounds[1][2].load(introSoundPaths[1][2]);
-    introSounds[1][3].load(introSoundPaths[1][3]);
-    introSounds[1][4].load(introSoundPaths[1][4]);
-    
     for(int i = 0; i < 2; i++) {
         for(int j = 0; j < 5; j++) {
             sound[i][j].setVolume(1.0);
             sound[i][j].setLoop(false);
-            introSounds[i][j].setVolume(1.0);
-            introSounds[i][j].setLoop(false);
             vid[i][j].setLoopState(OF_LOOP_NONE);
         }
     }
@@ -644,7 +624,6 @@ void Content::stopVideos()
     }
 }
 
-//--------------------------------------------------------------
 void Content::stopAudio() {
     // stop all project running sounds
     for (int i = 0; i < 5; i++)
@@ -654,11 +633,10 @@ void Content::stopAudio() {
     }
 }
 
-//--------------------------------------------------------------
 void Content::stopLocationAudio() {
     //stop all Location Intro Audio
     for(int i = 0; i < 5; i++) {
-        if (introSounds[0][i].isPlaying()) introSounds[0][i].stop();
-        if (introSounds[1][i].isPlaying()) introSounds[1][i].stop();
+        if (locationIntroSounds[0][i].isPlaying()) locationIntroSounds[0][i].stop();
+        if (locationIntroSounds[1][i].isPlaying()) locationIntroSounds[1][i].stop();
     }
 }
