@@ -94,6 +94,8 @@
 		F285EB3169F1566CA3D93C20 /* ofxPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E112B3AEBEA2C091BF2B40AE /* ofxPanel.cpp */; };
 		F2C488627AEB484729EF7A98 /* glmPolarPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3E8CFE409C09EF5EB85DE51 /* glmPolarPoint.cpp */; };
 		F30DF3DCCBFB7848F36E20BA /* glmFeatureLabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17B258AE67598473F4A2F06C /* glmFeatureLabel.cpp */; };
+		F55A1B141CAD6D0C001FBAED /* ofxParagraph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55A1B121CAD6D0C001FBAED /* ofxParagraph.cpp */; };
+		F55A1B191CAD6DBF001FBAED /* ofxSmartFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55A1B171CAD6DBF001FBAED /* ofxSmartFont.cpp */; };
 		F5F366BC1CA47A63009E1A78 /* ofxNestedFileLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F366BA1CA47A63009E1A78 /* ofxNestedFileLoader.cpp */; };
 		FB84AAF8D1B7A95266DB5C09 /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 21BDE665988474F1B1F4D302 /* jsoncpp.cpp */; };
 /* End PBXBuildFile section */
@@ -682,6 +684,10 @@
 		F428ECF441DE3F2CEB74BC50 /* fbxhashmap.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxhashmap.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/core/base/fbxhashmap.h; sourceTree = SOURCE_ROOT; };
 		F45EB81BF0E816003FD648FD /* fbxfiletokens.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxfiletokens.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/fileio/fbxfiletokens.h; sourceTree = SOURCE_ROOT; };
 		F4D043B132D6CF07CE3DA2C3 /* fbxwriterfbx5.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxwriterfbx5.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/fileio/fbx/fbxwriterfbx5.h; sourceTree = SOURCE_ROOT; };
+		F55A1B121CAD6D0C001FBAED /* ofxParagraph.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxParagraph.cpp; sourceTree = "<group>"; };
+		F55A1B131CAD6D0C001FBAED /* ofxParagraph.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxParagraph.h; sourceTree = "<group>"; };
+		F55A1B171CAD6DBF001FBAED /* ofxSmartFont.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxSmartFont.cpp; sourceTree = "<group>"; };
+		F55A1B181CAD6DBF001FBAED /* ofxSmartFont.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxSmartFont.h; sourceTree = "<group>"; };
 		F59384ED57A7C6A7A8B0351D /* ofxDatGuiEvents.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiEvents.h; path = ../../../addons/ofxDatGui/src/core/ofxDatGuiEvents.h; sourceTree = SOURCE_ROOT; };
 		F5D27C767B936AE5D00D561C /* glmGeometryBuilder.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = glmGeometryBuilder.cpp; path = ../../../addons/ofxVectorTile/libs/glmTile/glmGeometryBuilder.cpp; sourceTree = SOURCE_ROOT; };
 		F5DB1AC24B8010FC3C556AAC /* RenderPass.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = RenderPass.h; path = ../../../addons/ofxPostProcessing/src/RenderPass.h; sourceTree = SOURCE_ROOT; };
@@ -1525,6 +1531,8 @@
 				D6BF0C06962E11B5872FE5FB /* ofxVectorTile */,
 				1F4FB5C423662B96ADFDCC0B /* ofxXmlSettings */,
 				F5F366B81CA47A63009E1A78 /* ofxNestedFileLoader */,
+				F55A1B101CAD6D0C001FBAED /* ofxParagraph */,
+				F55A1B151CAD6DBF001FBAED /* ofxSmartFont */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -1828,6 +1836,42 @@
 			name = libs;
 			sourceTree = "<group>";
 		};
+		F55A1B101CAD6D0C001FBAED /* ofxParagraph */ = {
+			isa = PBXGroup;
+			children = (
+				F55A1B111CAD6D0C001FBAED /* src */,
+			);
+			name = ofxParagraph;
+			sourceTree = "<group>";
+		};
+		F55A1B111CAD6D0C001FBAED /* src */ = {
+			isa = PBXGroup;
+			children = (
+				F55A1B121CAD6D0C001FBAED /* ofxParagraph.cpp */,
+				F55A1B131CAD6D0C001FBAED /* ofxParagraph.h */,
+			);
+			name = src;
+			path = ../../../addons/ofxParagraph/src;
+			sourceTree = "<group>";
+		};
+		F55A1B151CAD6DBF001FBAED /* ofxSmartFont */ = {
+			isa = PBXGroup;
+			children = (
+				F55A1B161CAD6DBF001FBAED /* src */,
+			);
+			name = ofxSmartFont;
+			sourceTree = "<group>";
+		};
+		F55A1B161CAD6DBF001FBAED /* src */ = {
+			isa = PBXGroup;
+			children = (
+				F55A1B171CAD6DBF001FBAED /* ofxSmartFont.cpp */,
+				F55A1B181CAD6DBF001FBAED /* ofxSmartFont.h */,
+			);
+			name = src;
+			path = ../../../addons/ofxSmartFont/src;
+			sourceTree = "<group>";
+		};
 		F5976C5BF0EA6F155AAECEB5 /* utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -2026,8 +2070,10 @@
 				203095EEEA732AC16FA8C9EC /* glmGeom.cpp in Sources */,
 				A8D7DAB32E7E845798D5493B /* glmGL.cpp in Sources */,
 				E23EBFFD459D8071F89D755B /* glmIntersection.cpp in Sources */,
+				F55A1B191CAD6DBF001FBAED /* ofxSmartFont.cpp in Sources */,
 				629CD02C5BEA84BCE5811C92 /* glmIO.cpp in Sources */,
 				63512F02DCE42C89FA0D7634 /* glmTesselation.cpp in Sources */,
+				F55A1B141CAD6D0C001FBAED /* ofxParagraph.cpp in Sources */,
 				64C3C92089EBEA7EC1C41130 /* glmFastPolyline.cpp in Sources */,
 				1C7AAD60C08516D9916859C1 /* glmMesh.cpp in Sources */,
 				F2C488627AEB484729EF7A98 /* glmPolarPoint.cpp in Sources */,

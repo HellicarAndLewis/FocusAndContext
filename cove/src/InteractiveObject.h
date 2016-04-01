@@ -10,7 +10,7 @@
 #pragma once
 
 #include "ofxMSAInteractiveObject.h"
-
+#include "ofxNestedFileLoader.h"
 
 class InteractiveObject : public ofxMSAInteractiveObject {
 public:
@@ -26,18 +26,25 @@ public:
     bool isSelected;
     bool isDraw;
     bool fadeLabel;
+    ofImage image;
     
     void setup()
     {
         enableMouseEvents();
         enableKeyEvents();
         
-        // menu fonts and sizes
-        fontMain.load("fonts/Plain-Medium.ttf", 12);
-        fontSub.load("fonts/Plain-Medium.ttf", 7);
-        
         // default color is darkened white
         color = 240;
+        
+        ofxNestedFileLoader loader;
+        string location = "content/Dropbox/ArupContentForInstallation/" + title + "/MenuButton";
+        vector<string> path = loader.load(location);
+
+        if(path.size() > 0) {
+            image.load(path[0]);
+        } else {
+            image.load("content/Dropbox/ArupContentForInstallation/Placeholder/no_data.jpg");
+        }
     }
     
     void exit() {
@@ -56,19 +63,15 @@ public:
                     if (isSelected) color = ofLerp(color, 255, 0.2);
                     else color = ofLerp(color, 240, 0.2);
                     
-                    // draws menu tiles
                     ofSetColor(color);
                     ofDrawRectRounded(x, y, width, height, 10);
                     
                     // fades content titles
                     if (fadeLabel) alpha = ofLerp(alpha, 0, 0.1);
                     else alpha = ofLerp(alpha, 255, 0.2);
-                    ofSetColor(0, alpha);
-                    
-                    // title location changes based on main tile or menu tiles
-                    if (isMainTile) fontMain.drawString(title, x + 10, y + 20);
-                    else fontSub.drawString(title, x + 10, y + 15);
-                    
+                    ofSetColor(255, alpha);
+                    // draws menu tiles
+                    image.draw(x, y, width, height);
                     break;
                     
                 case 1:

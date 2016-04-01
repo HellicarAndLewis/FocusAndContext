@@ -13,7 +13,6 @@
 //Initialize the dictionary of locations, content types and indices
 const vector<map<string, int>> Content::locationsDictionary = createMaps();
 
-
 //--------------------------------------------------------------
 void Content::setup()
 {
@@ -92,6 +91,9 @@ void Content::fileLocation()
         string locationName = splitString[locationNameIndex];
         string contentType = splitString[contentTypeIndex];
         string contentPieceName = splitString[contentPieceIndex];
+        if(contentType == "MenuButton" || contentPieceName == "MenuButton") {
+            break;
+        }
         if(contentPieceName != "Notes" && contentType != "IntroAudio") {
             int locationIndex = locationsDictionary[projectIndex].at(locationName);
             int contentIndex = locationsDictionary[projectIndex].at(contentType);

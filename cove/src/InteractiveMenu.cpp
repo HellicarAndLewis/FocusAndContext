@@ -9,6 +9,7 @@
 
 #include "InteractiveMenu.h"
 #include "Globals.h"
+#include "ofxNestedFileLoader.h"
 
 //--------------------------------------------------------------
 void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, float _padding, float _easeIn, float _easeOut)
@@ -74,17 +75,17 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     }
     
     // left sub menu titles
-    lPoints[0].title = "St Pancras";
-    lPoints[1].title = "Stratford";
-    lPoints[2].title = "Ebbsfleet";
-    lPoints[3].title = "Medway Viaduct";
-    lPoints[4].title = "Ashford";
+    lPoints[0].title = "HS1/Location/StPancras";
+    lPoints[1].title = "HS1/Location/StratfordInternational";
+    lPoints[2].title = "HS1/Location/EbbsfleetInternational";
+    lPoints[3].title = "HS1/Location/MedwayViaduct";
+    lPoints[4].title = "HS1/Location/AshfordInternational";
     // right sub menu titles
-    rPoints[4].title = "Soho";
-    rPoints[3].title = "Tottenham Ct Rd";
-    rPoints[2].title = "Barbican";
-    rPoints[1].title = "Liverpool";
-    rPoints[0].title = "Canary Wharf";
+    rPoints[4].title = "Crossrail/Location/Soho";
+    rPoints[3].title = "Crossrail/Location/TottenhamCourtRoad";
+    rPoints[2].title = "Crossrail/Location/Barbican";
+    rPoints[1].title = "Crossrail/Location/LiverpoolStreet";
+    rPoints[0].title = "Crossrail/Location/CanaryWharf";
     
     // setup left menu main
     leftMain.isMainTile = true;
@@ -94,6 +95,7 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     leftMain.drawType = 0;
     leftMain.isDraw = true;
     leftMain.set(padding, height - padding - mainArea, mainArea, mainArea);
+    leftMain.setup();
     
     // setup right menu main
     rightMain.isMainTile = true;
@@ -103,6 +105,7 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     rightMain.drawType = 0;
     rightMain.isDraw = true;
     rightMain.set((width - padding) - mainArea, height - padding - mainArea, mainArea, mainArea);
+    rightMain.setup();
     
     // setup left menu line
     lLine.lineLength = 0;
@@ -120,20 +123,62 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     //----------------------
     // content stuff
     //----------------------
+    
     for(int i = 0; i < 5; i++) {
         // labels left
-        contentLLabels[i][0] = "Text" + ofToString(i);
-        contentLLabels[i][1] = "Image" + ofToString(i);
-        contentLLabels[i][2] = "Video" + ofToString(i);
-        contentLLabels[i][3] = "3D Model" + ofToString(i);
-        contentLLabels[i][4] = "Audio" + ofToString(i);
+        contentLLabels[i][0] = lPoints[i].title + "/Text";
+        contentLLabels[i][1] = lPoints[i].title + "/Image";
+        contentLLabels[i][2] = lPoints[i].title + "/Video";
+        contentLLabels[i][3] = lPoints[i].title + "/3dModel";
+        contentLLabels[i][4] = lPoints[i].title + "/Audio";
 
         // labels right
-        contentRLabels[i][4] = "Text" + ofToString(i);
-        contentRLabels[i][3] = "Image" + ofToString(i);
-        contentRLabels[i][2] = "Video" + ofToString(i);
-        contentRLabels[i][1] = "3D Model" + ofToString(i);
-        contentRLabels[i][0] = "Audio" + ofToString(i);
+        contentRLabels[i][4] = rPoints[i].title + "/Text";
+        contentRLabels[i][3] = rPoints[i].title + "/Image";
+        contentRLabels[i][2] = rPoints[i].title + "/Video";
+        contentRLabels[i][1] = rPoints[i].title + "/3D Model";
+        contentRLabels[i][0] = rPoints[i].title + "/Audio";
+    }
+    
+//    //setup specific content labels
+//    //St Pancras
+//    contentLLabels[0][0] = "HOT SPOT KING'S CROSS LONDON - The gravy train will arrive here shortly";
+//    contentLLabels[0][1] = "Diagram and artistÕs impression (1997)";
+//    contentLLabels[0][2] = "Film (2013)";
+//    contentLLabels[0][3] = "3D Model of St Pancras International";
+//    contentLLabels[0][4] = "Acoustic Testing at St Pancras International";
+//    
+//    //Stratford
+//    contentLLabels[1][0] = "Aerial Image (2003)";
+//    contentLLabels[1][1] = "Diagram and artistÕs impression (1997)";
+//    contentLLabels[1][2] = "Film";
+//    contentLLabels[1][3] = "3D Model of Stratford International";
+//    contentLLabels[1][4] = "London's Big Push East";
+//    
+//    //Ebbsfleet
+//    contentLLabels[2][0] = "Drawing of a new Ebbsfleet Town";
+//    contentLLabels[2][1] = "Photo (2009)";
+//    contentLLabels[2][2] = "Bridge Push";
+//    contentLLabels[2][3] = "The Ebbsfleet Elephant";
+//    contentLLabels[2][4] = "Garden of England-or urban sprawl?";
+//    
+//    //Medway Viaduct
+//    contentLLabels[3][0] = "Plan and Elevations of Viaduct (1998)";
+//    contentLLabels[3][1] = "The Medway Viaduct Under Construction (2001)";
+//    contentLLabels[3][2] = "A most iconic bridge";
+//    contentLLabels[3][3] = "The Medway Viaduct";
+//    contentLLabels[3][4] = "Speed record foreshadows opening of UK's first high speed line";
+//    
+//    //Ashford International
+//    contentLLabels[4][0] = "The Arup Alignment";
+//    contentLLabels[4][1] = "Ashford International Station";
+//    contentLLabels[4][2] = "Bridge House Slide";
+//    contentLLabels[4][3] = "The Medway Viaduct";
+//    contentLLabels[4][4] = "AshfordÊboosted by London link";
+    
+    for(int i = 0; i < 5; i++) {
+        lPoints[i].setup();
+        rPoints[i].setup();
     }
 
     
