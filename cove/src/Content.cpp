@@ -92,9 +92,8 @@ void Content::fileLocation()
         string contentType = splitString[contentTypeIndex];
         string contentPieceName = splitString[contentPieceIndex];
         if(contentType == "MenuButton" || contentPieceName == "MenuButton") {
-            break;
-        }
-        if(contentPieceName != "Notes" && contentType != "IntroAudio") {
+            
+        } else if(contentPieceName != "Notes" && contentType != "IntroAudio") {
             int locationIndex = locationsDictionary[projectIndex].at(locationName);
             int contentIndex = locationsDictionary[projectIndex].at(contentType);
             int contentPieceIndex = locationsDictionary[projectIndex].at(contentPieceName);
@@ -133,11 +132,16 @@ void Content::fileLocation()
         string locationName = splitString[locationNameIndex];
         string contentType = splitString[contentTypeIndex];
         string contentPieceName = splitString[contentPieceIndex];
-        if(contentPieceName != "Notes") {
+        if(contentType == "MenuButton" || contentPieceName == "MenuButton") {
+            
+        } if(contentPieceName != "Notes" && contentType != "IntroAudio") {
             int locationIndex = locationsDictionary[projectIndex].at(locationName);
             int contentIndex = locationsDictionary[projectIndex].at(contentType);
             int contentPieceIndex = locationsDictionary[projectIndex].at(contentPieceName);
             path[projectIndex][locationIndex][contentIndex][contentPieceIndex] = Crossrail[i];
+        } else if(contentType == "IntroAudio") {
+            int locationIndex = locationsDictionary[projectIndex].at(locationName);
+            introSoundPaths[projectIndex][locationIndex] = Crossrail[i];
         }
     }
     

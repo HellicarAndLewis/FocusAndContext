@@ -13,7 +13,7 @@
 Route::Route() {
     activeLocation = NULL;
     locationThreshold = 0.05;
-    zoomLevel = 16;
+    zoomLevel = 13;
 }
 
 void Route::setup() {
@@ -46,7 +46,7 @@ void Route::update(float percent) {
     if (activeProject == 0) {
         for (auto &location: locationsLeft) {
             location.update();
-           // location.isActive = false;
+            location.isActive = false;
         }
         
         // get the nearest point on the route to current progress
@@ -63,7 +63,7 @@ void Route::update(float percent) {
     } else {
         for (auto &location: locationsRight) {
             location.update();
-          //  location.isActive = false;
+            location.isActive = false;
         }
         
         // get the nearest point on the route to current progress
@@ -361,10 +361,12 @@ void Route::populateLocationsLeft() {
         
         // images / media
         string filename = xml.getValue("titleImg", "");
+        float base = 2000;
         if (filename != "") {
             location.labelImage.load(folderPath + "/labels/" + filename);
-            location.verticalOffset = (numNamedLocations%2 == 0) ? 30000 : -30000;
-            location.verticalOffsetSaved = (numNamedLocations%2 == 0) ? 30000 : -30000;
+            location.verticalOffset = base;
+            location.verticalOffsetSaved = base;
+            base += 2000;
             numNamedLocations++;
         }
         
@@ -403,32 +405,12 @@ void Route::populateLocationsRight() {
         
         // images / media
         string filename = xml.getValue("titleImg", "");
+        float base = 2000;
         if (filename != "") {
             location.labelImage.load(folderPath + "/labels/" + filename);
-            switch(numNamedLocations) {
-                case 0:
-                    location.verticalOffset = 15000;
-                    location.verticalOffsetSaved = 15000;
-                    break;
-                case 1:
-                    location.verticalOffset = -5000;
-                    location.verticalOffsetSaved = -5000;
-                    break;
-                case 2:
-                    location.verticalOffset = 10000;
-                    location.verticalOffsetSaved = 10000;
-                    break;
-                case 3:
-                    location.verticalOffset = -10000;
-                    location.verticalOffsetSaved = -10000;
-                    break;
-                case 4:
-                    location.verticalOffset = 10000;
-                    location.verticalOffsetSaved = 10000;
-                    break;
-                default :
-                    break;
-            }
+            location.verticalOffset = base;
+            location.verticalOffsetSaved = base;
+            base += 2000;
             numNamedLocations++;
         }
         /*

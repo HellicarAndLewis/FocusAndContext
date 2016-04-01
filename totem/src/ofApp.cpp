@@ -115,7 +115,7 @@ void ofApp::setupGui()
     
     gui->addToggle("toggle cove", true);
     gui->addToggle("toggle fullscreen", true);
-    gui->addToggle("automated system", true);
+    gui->addToggle("automated system", false);
     gui->addToggle("show debug", false);
     
     // Camera control

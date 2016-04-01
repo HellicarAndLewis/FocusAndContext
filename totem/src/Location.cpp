@@ -67,37 +67,37 @@ void Location::draw(ofCamera& cam, float _alpha, float _height)
         // if project is hs1
         if (Globals::project == 0)
         {
-            // if traveling through auto route
-            if (Globals::autoRoute)
-            {
-                height = ofLerp(height, 0, 0.2);
-                size = ofLerp(size, 0, 0.2);
-            }
-            else
-            {
-                height = ofMap(cam.getPosition().z, 10000, 4000, 0, -1150, true);
-                
-                //if (cam.getPosition().z > 10000) size = ofLerp(size, 30, 0.02);
-                //else size = ofMap(cam.getPosition().z, 10000, 4000, 30, 400, true);
+//            // if traveling through auto route
+//            if (Globals::autoRoute)
+//            {
+//                height = ofLerp(height, 0, 0.2);
+//                size = ofLerp(size, 200, 0.2);
+//            }
+//            else
+//            {
+//                height = ofMap(cam.getPosition().z, 10000, 4000, 0, -1150, true);
+//                
+//                //if (cam.getPosition().z > 10000) size = ofLerp(size, 30, 0.02);
+//                //else size = ofMap(cam.getPosition().z, 10000, 4000, 30, 400, true);
                 size = ofMap(cam.getPosition().z, 10000, 4000, 200, 400, true);
-            }
+//            }
         }
         else
         {
-            // if traveling through auto route
-            if (Globals::autoRoute)
-            {
-                height = ofLerp(height, 0, 0.2);
-                size = ofLerp(size, 0, 0.2);
-            }
-            else
-            {
-                height = ofMap(cam.getPosition().z, 10000, 4000, 0, -1600, true);
-                
-                //if (cam.getPosition().z > 10000) size = ofLerp(size, 30, 0.02);
-                //else size = ofMap(cam.getPosition().z, 10000, 4000, 30, 400, true);
-                size = ofMap(cam.getPosition().z, 10000, 4000, 0, 400, true);
-            }
+//            // if traveling through auto route
+//            if (Globals::autoRoute)
+//            {
+//                height = ofLerp(height, 0, 0.2);
+//                size = ofLerp(size, 0, 0.2);
+//            }
+//            else
+//            {
+//                height = ofMap(cam.getPosition().z, 10000, 4000, 0, -1600, true);
+//                
+//                //if (cam.getPosition().z > 10000) size = ofLerp(size, 30, 0.02);
+//                //else size = ofMap(cam.getPosition().z, 10000, 4000, 30, 400, true);
+                size = ofMap(cam.getPosition().z, 10000, 4000, 200, 400, true);
+//            }
         }
     }
     
@@ -121,14 +121,14 @@ void Location::draw(ofCamera& cam, float _alpha, float _height)
     
     float inputAlpha = ofMap(_alpha, 0.0, 255.0, 0.0, 1.0);
     
-    float finalAlpha = (alpha < inputAlpha) ? alpha : inputAlpha;
-    
+    float finalAlpha = inputAlpha;//(alpha < inputAlpha) ? alpha : inputAlpha;
+        
     ofPushStyle();
     ofPushMatrix();
     ofSetLineWidth(2);
     ofSetColor(255, 255, 255, ofMap(finalAlpha, 0., 1., 0., 255.));
     lineHeight = 1600;
-    ofDrawLine(position.x, position.y, 0, position.x, position.y +height + verticalOffset, 0);
+    ofDrawLine(position.x, position.y, 0, position.x, position.y +height, verticalOffset);
     ofNoFill();
     ofSetCircleResolution(50);
     ofDrawCircle(position.x, position.y, 500);
@@ -143,7 +143,7 @@ void Location::draw(ofCamera& cam, float _alpha, float _height)
     ofEnablePointSprites();
     labelImage.getTexture().bind();
     glBegin(GL_POINTS);
-    glVertex3f(position.x, position.y + height + verticalOffset,  0);
+    glVertex3f(position.x, position.y + height, 0);
     glNormal3f(size, 0, 0);
     glEnd();
     labelImage.getTexture().unbind();

@@ -43,7 +43,7 @@ public:
         if(path.size() > 0) {
             image.load(path[0]);
         } else {
-            image.load("content/Dropbox/ArupContentForInstallation/Placeholder/no_data.jpg");
+            image.load("content/Dropbox/ArupContentForInstallation/Placeholder/no_data.png");
         }
     }
     

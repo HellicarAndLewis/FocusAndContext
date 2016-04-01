@@ -40,11 +40,11 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     snd2.setVolume(0.7);
     
     // project intro sounds
-    hs1Intro.load("content/Dropbox/ArupContentForInstallation/Placeholder/no_audio.wav");
+    hs1Intro.load("content/Dropbox/ArupContentForInstallation/HS1/IntroductionVideo/HS1Intro.wav");
     hs1Intro.setMultiPlay(false);
     hs1Intro.setLoop(false);
     
-    crossrailIntro.load("content/Dropbox/ArupContentForInstallation/Placeholder/no_audio.wav");
+    crossrailIntro.load("content/Dropbox/ArupContentForInstallation/Crossrail/IntroductionVideo/CrossrailIntro.wav");
     crossrailIntro.setMultiPlay(false);
     crossrailIntro.setLoop(false);
     
@@ -2145,6 +2145,9 @@ void InteractiveMenu::pressed()
                     bRightActive[2] = false;
                     bRightActive[3] = false;
                     bRightActive[4] = false;
+                    c.stopAudio();
+                    hs1Intro.stop();
+                    crossrailIntro.stop();
                     for(int j = 0; j < 5; j++) {
                         if(j != i) {
                             if(c.introSounds[1][j].isPlaying()) c.introSounds[1][j].stop();
@@ -2159,6 +2162,9 @@ void InteractiveMenu::pressed()
                     bRightActive[2] = true;
                     bRightActive[3] = false;
                     bRightActive[4] = false;
+                    c.stopAudio();
+                    hs1Intro.stop();
+                    crossrailIntro.stop();
                     for(int j = 0; j < 5; j++) {
                         if(j != i) {
                             if(c.introSounds[1][j].isPlaying()) c.introSounds[1][j].stop();
@@ -2173,6 +2179,9 @@ void InteractiveMenu::pressed()
                     bRightActive[2] = false;
                     bRightActive[3] = true;
                     bRightActive[4] = false;
+                    c.stopAudio();
+                    hs1Intro.stop();
+                    crossrailIntro.stop();
                     for(int j = 0; j < 5; j++) {
                         if(j != i) {
                             if(c.introSounds[1][j].isPlaying()) c.introSounds[1][j].stop();
@@ -2187,6 +2196,9 @@ void InteractiveMenu::pressed()
                     bRightActive[2] = false;
                     bRightActive[3] = false;
                     bRightActive[4] = true;
+                    c.stopAudio();
+                    hs1Intro.stop();
+                    crossrailIntro.stop();
                     for(int j = 0; j < 5; j++) {
                         if(j != i) {
                             if(c.introSounds[1][j].isPlaying()) c.introSounds[1][j].stop();
@@ -2728,7 +2740,7 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         hs1Intro.stop();
         crossrailIntro.stop();
-        // c.stopLocationAudio();
+        c.stopLocationAudio();
         
         // load current content, enable vignette
         c.load(1, 0, 0);
@@ -2828,7 +2840,7 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         hs1Intro.stop();
         crossrailIntro.stop();
-        // c.stopLocationAudio();
+        c.stopLocationAudio();
         
         // load current content, enable vignette
         c.load(1, 1, 0);
@@ -2861,7 +2873,7 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         hs1Intro.stop();
         crossrailIntro.stop();
-        // c.stopLocationAudio();
+        c.stopLocationAudio();
         
         // load current content, enable vignette
         c.load(1, 1, 2);
@@ -2928,7 +2940,7 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         hs1Intro.stop();
         crossrailIntro.stop();
-        // c.stopLocationAudio();
+        c.stopLocationAudio();
         
         // load current content, enable vignette
         c.load(1, 2, 0);
@@ -2961,7 +2973,7 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         hs1Intro.stop();
         crossrailIntro.stop();
-        // c.stopLocationAudio();
+        c.stopLocationAudio();
         
         // load current content, enable vignette
         c.load(1, 2, 2);
@@ -3028,8 +3040,8 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         hs1Intro.stop();
         crossrailIntro.stop();
-        // c.stopLocationAudio();
-        
+        c.stopLocationAudio();
+    
         // load current content, enable vignette
         c.load(1, 3, 0);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
@@ -3061,7 +3073,7 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         hs1Intro.stop();
         crossrailIntro.stop();
-        // c.stopLocationAudio();
+        c.stopLocationAudio();
         
         // load current content, enable vignette
         c.load(1, 3, 2);
