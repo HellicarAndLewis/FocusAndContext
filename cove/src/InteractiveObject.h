@@ -37,13 +37,19 @@ public:
         color = 240;
         
         ofxNestedFileLoader loader;
-        string location = "content/Dropbox/ArupContentForInstallation/" + title + "/MenuButton";
+        string location = "content/Google Drive/Arup/Research/Content/" + title + "/MenuButton";
         vector<string> path = loader.load(location);
 
         if(path.size() > 0) {
-            image.load(path[0]);
+            for(int i = 0; i < path.size(); i++) {
+                vector<string> stringSplit = ofSplitString(path[i], "/");
+                if( !(stringSplit[stringSplit.size()-1] == "Icon\r") ) {
+                    image.load(path[i]);
+                    break;
+                }
+            }
         } else {
-            image.load("content/Dropbox/ArupContentForInstallation/Placeholder/no_data.png");
+            image.load("content/Google Drive/Arup/Research/Content/Placeholder/no_data.png");
         }
     }
     
@@ -69,6 +75,7 @@ public:
                     // fades content titles
                     if (fadeLabel) alpha = ofLerp(alpha, 0, 0.1);
                     else alpha = ofLerp(alpha, 255, 0.2);
+                    //ofSetColor(255);
                     ofSetColor(255, alpha);
                     // draws menu tiles
                     image.draw(x, y, width, height);

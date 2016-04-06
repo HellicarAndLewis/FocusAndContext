@@ -124,21 +124,62 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     // content stuff
     //----------------------
     
-    for(int i = 0; i < 5; i++) {
-        // labels left
-        contentLLabels[i][0] = lPoints[i].title + "/Text";
-        contentLLabels[i][1] = lPoints[i].title + "/Image";
-        contentLLabels[i][2] = lPoints[i].title + "/Video";
-        contentLLabels[i][3] = lPoints[i].title + "/3dModel";
-        contentLLabels[i][4] = lPoints[i].title + "/Audio";
-
-        // labels right
-        contentRLabels[i][4] = rPoints[i].title + "/Text";
-        contentRLabels[i][3] = rPoints[i].title + "/Image";
-        contentRLabels[i][2] = rPoints[i].title + "/Video";
-        contentRLabels[i][1] = rPoints[i].title + "/3D Model";
-        contentRLabels[i][0] = rPoints[i].title + "/Audio";
+    ofxNestedFileLoader loader;
+    vector<string> paths = loader.load("content/Google Drive/Arup/Research/Content/HS1");
+    int labelsIndex = 4;
+    for(int i = 0; i < paths.size(); i++) {
+        vector<string> splitString = ofSplitString(paths[i], "/");
+        if(splitString.size() == 11) {
+            if(splitString[9] == "MenuButton" && splitString[10] != "Icon\r") {
+                string full = paths[i];
+                string title = splitString[5] + "/" + splitString[6] + "/" + splitString[7] + "/" + splitString[8];
+                int locationIndex = c.locationsDictionary[0].at(splitString[7]);
+                contentLLabels[locationIndex][labelsIndex] = title;
+                labelsIndex--;
+                if(labelsIndex == -1) {
+                    labelsIndex = 4;
+                }
+            }
+        }
     }
+    
+    loader.clearPaths();
+    
+//    content/Google Drive/Arup/Research/Content/HS1/Location/AshfordInternational/01_Media_ImgMap/Background/White Planel.png
+    
+    paths = loader.load("content/Google Drive/Arup/Research/Content/Crossrail");
+    labelsIndex = 0;
+    for(int i = 0; i < paths.size(); i++) {
+        vector<string> splitString = ofSplitString(paths[i], "/");
+        if(splitString.size() == 11) {
+            if(splitString[9] == "MenuButton" && splitString[10] != "Icon\r") {
+                string full = paths[i];
+                string title = splitString[5] + "/" + splitString[6] + "/" + splitString[7] + "/" + splitString[8];
+                int locationIndex = c.locationsDictionary[1].at(splitString[7]);
+                contentRLabels[locationIndex][labelsIndex] = title;
+                labelsIndex++;
+                if(labelsIndex == 5) {
+                    labelsIndex = 0;
+                }
+            }
+        }
+    }
+    
+//    for(int i = 0; i < 5; i++) {
+//        // labels left
+//        contentLLabels[i][0] = lPoints[i].title + "/Text";
+//        contentLLabels[i][1] = lPoints[i].title + "/Image";
+//        contentLLabels[i][2] = lPoints[i].title + "/Video";
+//        contentLLabels[i][3] = lPoints[i].title + "/3dModel";
+//        contentLLabels[i][4] = lPoints[i].title + "/Audio";
+//
+//        // labels right
+//        contentRLabels[i][4] = rPoints[i].title + "/Text";
+//        contentRLabels[i][3] = rPoints[i].title + "/Image";
+//        contentRLabels[i][2] = rPoints[i].title + "/Video";
+//        contentRLabels[i][1] = rPoints[i].title + "/3D Model";
+//        contentRLabels[i][0] = rPoints[i].title + "/Audio";
+//    }
     
 //    //setup specific content labels
 //    //St Pancras

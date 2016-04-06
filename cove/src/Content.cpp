@@ -39,7 +39,7 @@ void Content::setup()
     camZoom = camMaxZoom;
     
     // setup file paths
-    fileLocation();
+    //fileLocation();
     fileLocationNew();
     
     // setup FBX scene
@@ -100,6 +100,12 @@ void Content::fileLocationNew() {
     int contentFileIndex = 10; // This is the actual content file
     auto currentProjectDisplayers = &hs1Displayers;
     
+    //Pre-load POI audio with placeholders
+    for(int i = 0; i < 5; i++) {
+        introSoundPaths[0][i] = "content/Google Drive/Arup/Research/Content/Placeholder/no_audio.wav";
+        introSoundPaths[1][i] = "content/Google Drive/Arup/Research/Content/Placeholder/no_audio.wav";
+    }
+    
     ofxNestedFileLoader loader;
     vector<string> currentPaths = loader.load("content/Google Drive/Arup/Research/Content/HS1/Location");
     for(int i = 0; i < currentPaths.size(); i++) {
@@ -108,6 +114,11 @@ void Content::fileLocationNew() {
             // Ignore all icon files
         } else if(splitString[storyIndex] == "IntroAudio" || splitString[storyIndex] == "MenuButton" || splitString[contentComponentIndex] == "Notes") {
             //Ignore our notes and folders that should be loaded elsewhere
+            if(splitString[storyIndex] == "IntroAudio") {
+                string locationName = splitString[locationNameIndex];
+                int locationIndex = locationsDictionary[0].at(locationName);
+                introSoundPaths[0][locationIndex] = currentPaths[i];
+            }
         } else {
             string contentPath = splitString[contentFileIndex];
             string locationName = splitString[locationNameIndex];
@@ -173,6 +184,11 @@ void Content::fileLocationNew() {
             // Ignore all icon files
         } else if(splitString[storyIndex] == "IntroAudio" || splitString[storyIndex] == "MenuButton" || splitString[contentComponentIndex] == "Notes") {
             //Ignore our notes and folders that should be loaded elsewhere
+            if(splitString[storyIndex] == "IntroAudio") {
+                string locationName = splitString[locationNameIndex];
+                int locationIndex = locationsDictionary[1].at(locationName);
+                introSoundPaths[1][locationIndex] = currentPaths[i];
+            }
         } else {
             string contentPath = splitString[contentFileIndex];
             string locationName = splitString[locationNameIndex];
@@ -225,6 +241,18 @@ void Content::fileLocationNew() {
             }
         }
     }
+    
+    //pre-load all POI intro sounds
+    bool loaded = introSounds[0][0].load(introSoundPaths[0][0]);
+    introSounds[0][1].load(introSoundPaths[0][1]);
+    introSounds[0][2].load(introSoundPaths[0][2]);
+    introSounds[0][3].load(introSoundPaths[0][3]);
+    introSounds[0][4].load(introSoundPaths[0][4]);
+    introSounds[1][0].load(introSoundPaths[1][0]);
+    introSounds[1][1].load(introSoundPaths[1][1]);
+    introSounds[1][2].load(introSoundPaths[1][2]);
+    introSounds[1][3].load(introSoundPaths[1][3]);
+    introSounds[1][4].load(introSoundPaths[1][4]);
 }
 
 //--------------------------------------------------------------
@@ -388,18 +416,6 @@ void Content::fileLocation()
 //    sound[1][2].load(path[1][2][0][0]);
 //    sound[1][3].load(path[1][3][0][0]);
 //    sound[1][4].load(path[1][4][0][0]);
-    
-    //pre-load all POI intro sounds
-    introSounds[0][0].load(introSoundPaths[0][0]);
-    introSounds[0][1].load(introSoundPaths[0][1]);
-    introSounds[0][2].load(introSoundPaths[0][2]);
-    introSounds[0][3].load(introSoundPaths[0][3]);
-    introSounds[0][4].load(introSoundPaths[0][4]);
-    introSounds[1][0].load(introSoundPaths[1][0]);
-    introSounds[1][1].load(introSoundPaths[1][1]);
-    introSounds[1][2].load(introSoundPaths[1][2]);
-    introSounds[1][3].load(introSoundPaths[1][3]);
-    introSounds[1][4].load(introSoundPaths[1][4]);
     
 //    for(int i = 0; i < 2; i++) {
 //        for(int j = 0; j < 5; j++) {
