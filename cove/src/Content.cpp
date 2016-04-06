@@ -308,56 +308,56 @@ void Content::drawNew() {
 //--------------------------------------------------------------
 void Content::fileLocation()
 {
-    int projectIndex = 0;
-
-    //Load all the placeholder content, we'll overwrite it later
-    //load placeholder for HS1
-    for(int i = 0; i < 5; i++) {
-//        path[projectIndex][i][0][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_data.jpg";
-//        path[projectIndex][i][1][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_data.jpg";
-//        path[projectIndex][i][2][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_video.mp4";
-//        path[projectIndex][i][3][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_model.fbx";
-//        path[projectIndex][i][4][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_audio.wav";
-//        for(int j = 0; j < 5; j++) {
-//            path[projectIndex][i][j][1] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_title.png";
-//            path[projectIndex][i][j][2] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_caption.png";
-//        }
-        introSoundPaths[projectIndex][i] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_audio.wav";
-    }
-    
-    //Load all real the content for HS1
-    //Note: this will have the side-effect of loading the last file if there are multiple files in a folder
-    ofxNestedFileLoader loader;
-    vector<string> HS1 = loader.load("content/Dropbox/ArupContentForInstallation/HS1/Location");
-    projectIndex = 0;
-    int contentTypeIndex = 6;
-    int contentPieceIndex = 7;
-    int locationNameIndex = 5;
-    for(int i = 0; i < HS1.size(); i++) {
-        vector<string> splitString = ofSplitString(HS1[i], "/");
-        string locationName = splitString[locationNameIndex];
-        string contentType = splitString[contentTypeIndex];
-        string contentPieceName = splitString[contentPieceIndex];
-//        if(contentType == "MenuButton" || contentPieceName == "MenuButton") {
-//            // These are for something else
-//        } else if(contentPieceName != "Notes" && contentType != "IntroAudio") {
+//    int projectIndex = 0;
+//
+//    //Load all the placeholder content, we'll overwrite it later
+//    //load placeholder for HS1
+//    for(int i = 0; i < 5; i++) {
+////        path[projectIndex][i][0][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_data.jpg";
+////        path[projectIndex][i][1][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_data.jpg";
+////        path[projectIndex][i][2][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_video.mp4";
+////        path[projectIndex][i][3][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_model.fbx";
+////        path[projectIndex][i][4][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_audio.wav";
+////        for(int j = 0; j < 5; j++) {
+////            path[projectIndex][i][j][1] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_title.png";
+////            path[projectIndex][i][j][2] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_caption.png";
+////        }
+//        introSoundPaths[projectIndex][i] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_audio.wav";
+//    }
+//    
+//    //Load all real the content for HS1
+//    //Note: this will have the side-effect of loading the last file if there are multiple files in a folder
+//    ofxNestedFileLoader loader;
+//    vector<string> HS1 = loader.load("content/Dropbox/ArupContentForInstallation/HS1/Location");
+//    projectIndex = 0;
+//    int contentTypeIndex = 6;
+//    int contentPieceIndex = 7;
+//    int locationNameIndex = 5;
+//    for(int i = 0; i < HS1.size(); i++) {
+//        vector<string> splitString = ofSplitString(HS1[i], "/");
+//        string locationName = splitString[locationNameIndex];
+//        string contentType = splitString[contentTypeIndex];
+//        string contentPieceName = splitString[contentPieceIndex];
+////        if(contentType == "MenuButton" || contentPieceName == "MenuButton") {
+////            // These are for something else
+////        } else if(contentPieceName != "Notes" && contentType != "IntroAudio") {
+////            int locationIndex = locationsDictionary[projectIndex].at(locationName);
+////            int contentIndex = locationsDictionary[projectIndex].at(contentType);
+////            int contentPieceIndex = locationsDictionary[projectIndex].at(contentPieceName);
+////            path[projectIndex][locationIndex][contentIndex][contentPieceIndex] = HS1[i];
+////        }
+//        if(contentType == "IntroAudio") {
 //            int locationIndex = locationsDictionary[projectIndex].at(locationName);
-//            int contentIndex = locationsDictionary[projectIndex].at(contentType);
-//            int contentPieceIndex = locationsDictionary[projectIndex].at(contentPieceName);
-//            path[projectIndex][locationIndex][contentIndex][contentPieceIndex] = HS1[i];
+//            introSoundPaths[projectIndex][locationIndex] = HS1[i];
 //        }
-        if(contentType == "IntroAudio") {
-            int locationIndex = locationsDictionary[projectIndex].at(locationName);
-            introSoundPaths[projectIndex][locationIndex] = HS1[i];
-        }
-    }
+//    }
     
-    //clear the loader
-    loader.clearPaths();
-    
-    projectIndex = 1;
-    //Load placeholders for Crossrail
-    for(int i = 0; i < 5; i++) {
+//    //clear the loader
+//    loader.clearPaths();
+//    
+//    projectIndex = 1;
+//    //Load placeholders for Crossrail
+//    for(int i = 0; i < 5; i++) {
 //        path[projectIndex][i][4][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_data.jpg";
 //        path[projectIndex][i][3][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_data.jpg";
 //        path[projectIndex][i][2][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_video.mp4";
@@ -367,18 +367,18 @@ void Content::fileLocation()
 //            path[projectIndex][i][j][1] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_title.png";
 //            path[projectIndex][i][j][2] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_caption.png";
 //        }
-        introSoundPaths[projectIndex][i] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_audio.wav";
-    }
+//        introSoundPaths[projectIndex][i] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_audio.wav";
+//    }
     
     //Load all the content for Crossrail
         //Note: this will have the side-effect of loading the last file if there are multiple files in a folder
-    vector<string> Crossrail = loader.load("content/Dropbox/ArupContentForInstallation/Crossrail/Location");
+//    vector<string> Crossrail = loader.load("content/Dropbox/ArupContentForInstallation/Crossrail/Location");
     
-    for(int i = 0; i < Crossrail.size(); i++) {
-        vector<string> splitString = ofSplitString(Crossrail[i], "/");
-        string locationName = splitString[locationNameIndex];
-        string contentType = splitString[contentTypeIndex];
-        string contentPieceName = splitString[contentPieceIndex];
+//    for(int i = 0; i < Crossrail.size(); i++) {
+//        vector<string> splitString = ofSplitString(Crossrail[i], "/");
+//        string locationName = splitString[locationNameIndex];
+//        string contentType = splitString[contentTypeIndex];
+//        string contentPieceName = splitString[contentPieceIndex];
 //        if(contentType == "MenuButton" || contentPieceName == "MenuButton") {
 //            
 //        } else if(contentPieceName != "Notes" && contentType != "IntroAudio") {
@@ -387,11 +387,11 @@ void Content::fileLocation()
 //            int contentPieceIndex = locationsDictionary[projectIndex].at(contentPieceName);
 //            path[projectIndex][locationIndex][contentIndex][contentPieceIndex] = Crossrail[i];
 //        }
-        if(contentType == "IntroAudio") {
-            int locationIndex = locationsDictionary[projectIndex].at(locationName);
-            introSoundPaths[projectIndex][locationIndex] = Crossrail[i];
-        }
-    }
+//        if(contentType == "IntroAudio") {
+//            int locationIndex = locationsDictionary[projectIndex].at(locationName);
+//            introSoundPaths[projectIndex][locationIndex] = Crossrail[i];
+//        }
+//    }
     
 //    // pre-load all videos
 //    vid[0][0].load(path[0][0][2][0]);

@@ -40,11 +40,11 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     snd2.setVolume(0.7);
     
     // project intro sounds
-    hs1Intro.load("content/Dropbox/ArupContentForInstallation/HS1/IntroductionVideo/HS1Intro.wav");
+    hs1Intro.load("content/Google Drive/Arup/Research/Content/HS1/IntroductionVideo/HS1Intro.wav");
     hs1Intro.setMultiPlay(false);
     hs1Intro.setLoop(false);
     
-    crossrailIntro.load("content/Dropbox/ArupContentForInstallation/Crossrail/IntroductionVideo/CrossrailIntro.wav");
+    crossrailIntro.load("content/Google Drive/Arup/Research/Content/Crossrail/IntroductionVideo/CrossrailIntro.wav");
     crossrailIntro.setMultiPlay(false);
     crossrailIntro.setLoop(false);
     
