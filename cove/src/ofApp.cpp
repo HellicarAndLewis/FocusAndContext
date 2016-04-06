@@ -17,6 +17,7 @@ void ofApp::setup()
     ofEnableAlphaBlending();
     
     //ofToggleFullscreen();
+    //ofHideCursor();
     
     //Shifted screen over to work on adjacent screen
     ofSetWindowPosition(-1920-1080, 0);
@@ -650,7 +651,7 @@ void ofApp::autoSysUpdate()
             // content stuff
             if (contentActive)
             {
-                c.load(route.activeProject, pointJump, randomItem);
+//                c.load(route.activeProject, pointJump, randomItem);
                 contentActive = false;
             }
             break;
@@ -1041,7 +1042,7 @@ void ofApp::drawScene()
         
         // Roads
         materialRoads.begin();
-        for (auto & tile : *tiles) tile.meshRoads.draw();
+        //for (auto & tile : *tiles) tile.meshRoads.draw();
         materialRoads.end();
         
         // Buildings
@@ -1320,6 +1321,19 @@ void ofApp::mouseReleased(int x, int y, int button)
             
             // hs1
             loadProject(0);
+            
+            for(auto location = menu.c.hs1Displayers.begin(); location != menu.c.hs1Displayers.end(); location++) {
+                for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                    (*content)->setIsActive(false);
+                }
+            }
+            for(auto location = menu.c.crossrailDisplayers.begin(); location != menu.c.crossrailDisplayers.end(); location++) {
+                for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                    (*content)->setIsActive(false);
+                }
+            }
+            
+            menu.c.stopLocationAudio();
         }
         
         // loads crossrail project
@@ -1341,6 +1355,18 @@ void ofApp::mouseReleased(int x, int y, int button)
             
             // crossrail
             loadProject(1);
+            
+            for(auto location = menu.c.hs1Displayers.begin(); location != menu.c.hs1Displayers.end(); location++) {
+                for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                    (*content)->setIsActive(false);
+                }
+            }
+            for(auto location = menu.c.crossrailDisplayers.begin(); location != menu.c.crossrailDisplayers.end(); location++) {
+                for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                    (*content)->setIsActive(false);
+                }
+            }
+            menu.c.stopLocationAudio();
         }
     }
 }

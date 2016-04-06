@@ -46,7 +46,7 @@ void Route::update(float percent) {
     if (activeProject == 0) {
         for (auto &location: locationsLeft) {
             location.update();
-            location.isActive = false;
+            //location.isActive = false;
         }
         
         // get the nearest point on the route to current progress
@@ -63,7 +63,7 @@ void Route::update(float percent) {
     } else {
         for (auto &location: locationsRight) {
             location.update();
-            location.isActive = false;
+           // location.isActive = false;
         }
         
         // get the nearest point on the route to current progress

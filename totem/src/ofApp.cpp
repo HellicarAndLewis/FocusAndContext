@@ -21,7 +21,7 @@ void ofApp::setup()
     //ofToggleFullscreen();
     
     //Shifted screen over to work on adjacent screen
-    ofSetWindowPosition(-1920-1080, 0);
+    //ofSetWindowPosition(-1920-1080, 0);
     
     // camera draw distance
     cam.setFarClip(300000);

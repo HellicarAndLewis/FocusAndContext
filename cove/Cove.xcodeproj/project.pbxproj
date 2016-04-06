@@ -96,6 +96,11 @@
 		F30DF3DCCBFB7848F36E20BA /* glmFeatureLabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17B258AE67598473F4A2F06C /* glmFeatureLabel.cpp */; };
 		F55A1B141CAD6D0C001FBAED /* ofxParagraph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55A1B121CAD6D0C001FBAED /* ofxParagraph.cpp */; };
 		F55A1B191CAD6DBF001FBAED /* ofxSmartFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55A1B171CAD6DBF001FBAED /* ofxSmartFont.cpp */; };
+		F55C09D91CB2A0180071864C /* ContentDisplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55C09D71CB2A0180071864C /* ContentDisplayer.cpp */; };
+		F55C09DC1CB2AE6F0071864C /* ImageDisplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55C09DA1CB2AE6F0071864C /* ImageDisplayer.cpp */; };
+		F55C09DF1CB2B2720071864C /* AudioDisplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55C09DD1CB2B2720071864C /* AudioDisplayer.cpp */; };
+		F55C09E21CB2B61E0071864C /* VideoDisplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55C09E01CB2B61E0071864C /* VideoDisplayer.cpp */; };
+		F55C09E51CB2B8F20071864C /* ModelDisplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55C09E31CB2B8F20071864C /* ModelDisplayer.cpp */; };
 		F5F366BC1CA47A63009E1A78 /* ofxNestedFileLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F366BA1CA47A63009E1A78 /* ofxNestedFileLoader.cpp */; };
 		FB84AAF8D1B7A95266DB5C09 /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 21BDE665988474F1B1F4D302 /* jsoncpp.cpp */; };
 /* End PBXBuildFile section */
@@ -688,6 +693,17 @@
 		F55A1B131CAD6D0C001FBAED /* ofxParagraph.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxParagraph.h; sourceTree = "<group>"; };
 		F55A1B171CAD6DBF001FBAED /* ofxSmartFont.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxSmartFont.cpp; sourceTree = "<group>"; };
 		F55A1B181CAD6DBF001FBAED /* ofxSmartFont.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxSmartFont.h; sourceTree = "<group>"; };
+		F55C09D71CB2A0180071864C /* ContentDisplayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ContentDisplayer.cpp; sourceTree = "<group>"; };
+		F55C09D81CB2A0180071864C /* ContentDisplayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentDisplayer.h; sourceTree = "<group>"; };
+		F55C09DA1CB2AE6F0071864C /* ImageDisplayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageDisplayer.cpp; sourceTree = "<group>"; };
+		F55C09DB1CB2AE6F0071864C /* ImageDisplayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDisplayer.h; sourceTree = "<group>"; };
+		F55C09DD1CB2B2720071864C /* AudioDisplayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioDisplayer.cpp; sourceTree = "<group>"; };
+		F55C09DE1CB2B2720071864C /* AudioDisplayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioDisplayer.h; sourceTree = "<group>"; };
+		F55C09E01CB2B61E0071864C /* VideoDisplayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VideoDisplayer.cpp; sourceTree = "<group>"; };
+		F55C09E11CB2B61E0071864C /* VideoDisplayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoDisplayer.h; sourceTree = "<group>"; };
+		F55C09E31CB2B8F20071864C /* ModelDisplayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModelDisplayer.cpp; sourceTree = "<group>"; };
+		F55C09E41CB2B8F20071864C /* ModelDisplayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelDisplayer.h; sourceTree = "<group>"; };
+		F55C09E61CB2C7A80071864C /* Displayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Displayer.h; sourceTree = "<group>"; };
 		F59384ED57A7C6A7A8B0351D /* ofxDatGuiEvents.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiEvents.h; path = ../../../addons/ofxDatGui/src/core/ofxDatGuiEvents.h; sourceTree = SOURCE_ROOT; };
 		F5D27C767B936AE5D00D561C /* glmGeometryBuilder.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = glmGeometryBuilder.cpp; path = ../../../addons/ofxVectorTile/libs/glmTile/glmGeometryBuilder.cpp; sourceTree = SOURCE_ROOT; };
 		F5DB1AC24B8010FC3C556AAC /* RenderPass.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = RenderPass.h; path = ../../../addons/ofxPostProcessing/src/RenderPass.h; sourceTree = SOURCE_ROOT; };
@@ -1228,6 +1244,7 @@
 		962C0EE71CA284AC00F0CC7F /* Content */ = {
 			isa = PBXGroup;
 			children = (
+				F55C09E71CB2D99A0071864C /* Displayer */,
 				C49A8442C6E8F2B62DABEA3C /* Content.cpp */,
 				4596D701FF56D27352ED094A /* Content.h */,
 				1AED355A1CA9467500D7519C /* Playhead.cpp */,
@@ -1872,6 +1889,24 @@
 			path = ../../../addons/ofxSmartFont/src;
 			sourceTree = "<group>";
 		};
+		F55C09E71CB2D99A0071864C /* Displayer */ = {
+			isa = PBXGroup;
+			children = (
+				F55C09D71CB2A0180071864C /* ContentDisplayer.cpp */,
+				F55C09D81CB2A0180071864C /* ContentDisplayer.h */,
+				F55C09DA1CB2AE6F0071864C /* ImageDisplayer.cpp */,
+				F55C09DB1CB2AE6F0071864C /* ImageDisplayer.h */,
+				F55C09DD1CB2B2720071864C /* AudioDisplayer.cpp */,
+				F55C09DE1CB2B2720071864C /* AudioDisplayer.h */,
+				F55C09E01CB2B61E0071864C /* VideoDisplayer.cpp */,
+				F55C09E11CB2B61E0071864C /* VideoDisplayer.h */,
+				F55C09E31CB2B8F20071864C /* ModelDisplayer.cpp */,
+				F55C09E41CB2B8F20071864C /* ModelDisplayer.h */,
+				F55C09E61CB2C7A80071864C /* Displayer.h */,
+			);
+			name = Displayer;
+			sourceTree = "<group>";
+		};
 		F5976C5BF0EA6F155AAECEB5 /* utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -2033,7 +2068,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Resources/\"\n# Copy default icon file into App/Resources\nrsync -aved \"$ICON_FILE\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Resources/\"\n# Copy bin/data into App/Resources\nrsync -avz --exclude='.DS_Store' \"${SRCROOT}/bin/data/\" \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/data/\"\n# Copy libfmod and change install directory for fmod to run\nrsync -aved ../../../libs/fmodex/lib/osx/libfmodex.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/\";\ninstall_name_tool -change @executable_path/libfmodex.dylib @executable_path/../Frameworks/libfmodex.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\";\n# Copy GLUT framework (must remove for AppStore submissions)\nrsync -aved ../../../libs/glut/lib/osx/GLUT.framework \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/\"\n";
+			shellScript = "mkdir -p \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Resources/\"\n# Copy default icon file into App/Resources\nrsync -aved \"$ICON_FILE\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Resources/\"\n# Copy bin/data into App/Resources\n# rsync -avz --exclude='.DS_Store' \"${SRCROOT}/bin/data/\" \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/data/\"\n# Copy libfmod and change install directory for fmod to run\nrsync -aved ../../../libs/fmodex/lib/osx/libfmodex.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/\";\ninstall_name_tool -change @executable_path/libfmodex.dylib @executable_path/../Frameworks/libfmodex.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/MacOS/$PRODUCT_NAME\";\n# Copy GLUT framework (must remove for AppStore submissions)\nrsync -aved ../../../libs/glut/lib/osx/GLUT.framework \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/Contents/Frameworks/\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2045,6 +2080,7 @@
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
 				DD84AC983A67192FC72A473E /* Content.cpp in Sources */,
+				F55C09DC1CB2AE6F0071864C /* ImageDisplayer.cpp in Sources */,
 				432C3F78A0E9FDE157A1DC91 /* Globals.cpp in Sources */,
 				3D645690B8DD82F5119B9EAC /* InteractiveMenu.cpp in Sources */,
 				8D7FAA54B8C82620C5E2712F /* Location.cpp in Sources */,
@@ -2088,6 +2124,8 @@
 				B56FE57CC35806596D38118C /* ofxSliderGroup.cpp in Sources */,
 				1CD33E884D9E3358252E82A1 /* ofxToggle.cpp in Sources */,
 				BEDFEE7400C58EA4E412B757 /* ofxJSONElement.cpp in Sources */,
+				F55C09E21CB2B61E0071864C /* VideoDisplayer.cpp in Sources */,
+				F55C09E51CB2B8F20071864C /* ModelDisplayer.cpp in Sources */,
 				FB84AAF8D1B7A95266DB5C09 /* jsoncpp.cpp in Sources */,
 				D1395DD979998DCFFA40ACAC /* ofxMSAInteractiveObject.cpp in Sources */,
 				79308B05C4D0A9B9E404FFED /* BleachBypassPass.cpp in Sources */,
@@ -2107,6 +2145,7 @@
 				7AB51F1099DC01486D18FAF6 /* LimbDarkeningPass.cpp in Sources */,
 				B1747F12881D899DCA2647FC /* LUTPass.cpp in Sources */,
 				8072A86E35F7000F7CDEEF42 /* NoiseWarpPass.cpp in Sources */,
+				F55C09D91CB2A0180071864C /* ContentDisplayer.cpp in Sources */,
 				B951AAE35209993B4E399E77 /* PixelatePass.cpp in Sources */,
 				BE5ED1FDB18D5092CF3AACA0 /* PostProcessing.cpp in Sources */,
 				1E615236D6D182DED6C8A8B2 /* RenderPass.cpp in Sources */,
@@ -2122,6 +2161,7 @@
 				6360E06CB6CDF1070808AC1C /* glmFont.cpp in Sources */,
 				BF4290E011DFCCBE7648C31E /* glmGeometryBuilder.cpp in Sources */,
 				1AED355C1CA9467500D7519C /* Playhead.cpp in Sources */,
+				F55C09DF1CB2B2720071864C /* AudioDisplayer.cpp in Sources */,
 				91AE5D3FF8D2F539EE2812F6 /* glmTile.cpp in Sources */,
 				38D2956935FD5E7769906F24 /* glmAnchorLine.cpp in Sources */,
 				F30DF3DCCBFB7848F36E20BA /* glmFeatureLabel.cpp in Sources */,

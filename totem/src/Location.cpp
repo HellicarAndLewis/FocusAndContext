@@ -121,34 +121,42 @@ void Location::draw(ofCamera& cam, float _alpha, float _height)
     
     float inputAlpha = ofMap(_alpha, 0.0, 255.0, 0.0, 1.0);
     
-    float finalAlpha = inputAlpha;//(alpha < inputAlpha) ? alpha : inputAlpha;
-        
+//    float finalAlpha = inputAlpha;//(alpha < inputAlpha) ? alpha : inputAlpha;
+    if(isActive) {
+        alpha = ofLerp(alpha, 1.0, 0.1);
+    } else {
+        alpha = ofLerp(alpha, 0.0, 0.1);
+    }
+    
     ofPushStyle();
     ofPushMatrix();
-    ofSetLineWidth(2);
-    ofSetColor(255, 255, 255, ofMap(finalAlpha, 0., 1., 0., 255.));
+    ofSetLineWidth(3);
+    ofSetColor(255, 255, 255, ofMap(alpha, 0., 1., 0., 255.));
     lineHeight = 1600;
-    ofDrawLine(position.x, position.y, 0, position.x, position.y +height, verticalOffset);
+    ofDrawLine(position.x, position.y, 0, position.x, position.y +height, 2000);
     ofNoFill();
     ofSetCircleResolution(50);
     ofDrawCircle(position.x, position.y, 500);
+    ofFill();
+    ofSetColor(255, 255, 255, 255/2);
+    //ofDrawSphere(position.x, position.y, 0, 500);
     ofPopMatrix();
     ofPopStyle();
 
     ofSetLineWidth(1);
-    
     // billboard to face cam
     billboardShader.begin();
-    billboardShader.setUniform1f("alpha", finalAlpha);
+    billboardShader.setUniform1f("alpha", alpha);
     ofEnablePointSprites();
     labelImage.getTexture().bind();
     glBegin(GL_POINTS);
-    glVertex3f(position.x, position.y + height, 0);
+    glVertex3f(position.x, position.y + height, 2000);
     glNormal3f(size, 0, 0);
     glEnd();
     labelImage.getTexture().unbind();
     ofDisablePointSprites();
     billboardShader.end();
+
     
     ofSetColor(255);
 }

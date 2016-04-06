@@ -133,7 +133,7 @@ void Content::fileLocation()
         string contentPieceName = splitString[contentPieceIndex];
         if(contentType == "MenuButton" || contentPieceName == "MenuButton") {
             
-        } if(contentPieceName != "Notes" && contentType != "IntroAudio") {
+        } else if(contentPieceName != "Notes" && contentType != "IntroAudio") {
             int locationIndex = locationsDictionary[projectIndex].at(locationName);
             int contentIndex = locationsDictionary[projectIndex].at(contentType);
             int contentPieceIndex = locationsDictionary[projectIndex].at(contentPieceName);

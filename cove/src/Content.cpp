@@ -14,6 +14,20 @@
 const vector<map<string, int>> Content::locationsDictionary = createMaps();
 
 //--------------------------------------------------------------
+void Content::setCons(vector<InteractiveObject*> cons) {
+    for(auto location = hs1Displayers.begin(); location != hs1Displayers.end(); location++) {
+        for(auto content = location->second.begin(); content != location->second.end(); content++) {
+            (*content)->setCons(cons);
+        }
+    }
+    for(auto location = crossrailDisplayers.begin(); location != crossrailDisplayers.end(); location++) {
+        for(auto content = location->second.begin(); content != location->second.end(); content++) {
+            (*content)->setCons(cons);
+        }
+    }
+}
+
+//--------------------------------------------------------------
 void Content::setup()
 {
     // model camera view distance
@@ -26,16 +40,17 @@ void Content::setup()
     
     // setup file paths
     fileLocation();
+    fileLocationNew();
     
     // setup FBX scene
-    ofxFBXSceneSettings settings;
-    string filename =  "content/Dropbox/ArupContentForInstallation/Placeholder/no_model.fbx";//path[0][0][3][0];
-    if( scene.load(filename, settings) ) {
-        cout << "ofApp :: loaded the scene OK" << endl;
-    } else {
-        cout << "ofApp :: Error loading the scene" << endl;
-    }
-    model.setup( &scene );
+//    ofxFBXSceneSettings settings;
+//    string filename =  "content/Dropbox/ArupContentForInstallation/Placeholder/no_model.fbx";//path[0][0][3][0];
+//    if( scene.load(filename, settings) ) {
+//        cout << "ofApp :: loaded the scene OK" << endl;
+//    } else {
+//        cout << "ofApp :: Error loading the scene" << endl;
+//    }
+//    model.setup( &scene );
     
     //past color
     ofColor col;
@@ -50,12 +65,216 @@ void Content::setup()
     col.setHex(0xFFFFFF);
     playhead.setBarColor(col);
     
+    //load background Images
+    backgroundImageLarge.load("content/shared/backgroundTile.png");
+    
+    backgroundImageSmall.load("content/shared/backgroundTileSmall.png");
     
     playhead.setAlpha(255.0);
     
     item = 5;
     
     maxScale = 1.0;
+}
+
+//--------------------------------------------------------------
+void Content::fileLocationNew() {
+    //Initialize hs1 content
+    hs1Displayers["StPancras"] = vector<ContentDisplayer*>();
+    hs1Displayers["StratfordInternational"] = vector<ContentDisplayer*>();
+    hs1Displayers["EbbsfleetInternational"] = vector<ContentDisplayer*>();
+    hs1Displayers["MedwayViaduct"] = vector<ContentDisplayer*>();
+    hs1Displayers["AshfordInternational"] = vector<ContentDisplayer*>();
+    
+    //initialize crossrail content
+    crossrailDisplayers["Soho"] = vector<ContentDisplayer*>();
+    crossrailDisplayers["TottenhamCourtRoad"] = vector<ContentDisplayer*>();
+    crossrailDisplayers["Barbican"] = vector<ContentDisplayer*>();
+    crossrailDisplayers["LiverpoolStreet"] = vector<ContentDisplayer*>();
+    crossrailDisplayers["CanaryWharf"] = vector<ContentDisplayer*>();
+    
+    //Load HS1 Content w/ new displayers
+    int locationNameIndex = 7;
+    int storyIndex = 8; // This is the file with all the info about each content piece
+    int contentComponentIndex = 9; // This is where the component is, ie backgorund, notes, title or content
+    int contentFileIndex = 10; // This is the actual content file
+    auto currentProjectDisplayers = &hs1Displayers;
+    
+    ofxNestedFileLoader loader;
+    vector<string> currentPaths = loader.load("content/Google Drive/Arup/Research/Content/HS1/Location");
+    for(int i = 0; i < currentPaths.size(); i++) {
+        vector<string> splitString = ofSplitString(currentPaths[i], "/");
+        if(splitString[splitString.size()-1] == "Icon\r") {
+            // Ignore all icon files
+        } else if(splitString[storyIndex] == "IntroAudio" || splitString[storyIndex] == "MenuButton" || splitString[contentComponentIndex] == "Notes") {
+            //Ignore our notes and folders that should be loaded elsewhere
+        } else {
+            string contentPath = splitString[contentFileIndex];
+            string locationName = splitString[locationNameIndex];
+            vector<string> contentPathSplit = ofSplitString(contentPath, ".");
+            string fileType = contentPathSplit[1];
+            if(splitString[contentComponentIndex] == "Content") {
+                if(fileType == "png" || fileType == "jpg") {
+                    //We've got an image!
+                    ImageDisplayer* displayer = new ImageDisplayer();
+                    displayer->setImage(currentPaths[i]);
+                    displayer->setBackgroundImage(&backgroundImageLarge);
+                    displayer->setContentLocation(currentPaths[i]);
+                    displayer->setPlayhead(&playhead);
+                    (*currentProjectDisplayers)[locationName].push_back(displayer);
+                } else if(fileType == "wav") {
+                    //We've got an audio file!
+                    AudioDisplayer* displayer = new AudioDisplayer();
+                    displayer->setAudio(currentPaths[i]);
+                    displayer->setBackgroundImage(&backgroundImageSmall);
+                    displayer->setContentLocation(currentPaths[i]);
+                    displayer->setPlayhead(&playhead);
+                    (*currentProjectDisplayers)[locationName].push_back(displayer);
+                } else if(fileType == "mp4" || fileType == "mov") {
+                    //We've got a video!
+                    VideoDisplayer* displayer = new VideoDisplayer();
+                    displayer->setVideo(currentPaths[i]);
+                    displayer->setBackgroundImage(&backgroundImageLarge);
+                    displayer->setContentLocation(currentPaths[i]);
+                    displayer->setPlayhead(&playhead);
+                    (*currentProjectDisplayers)[locationName].push_back(displayer);
+                } else if(fileType == "fbx") {
+                    //We've got a model!
+                    ModelDisplayer* displayer = new ModelDisplayer();
+                    displayer->setScene(currentPaths[i]);
+                    displayer->setBackgroundImage(&backgroundImageLarge);
+                    displayer->setContentLocation(currentPaths[i]);
+                    displayer->setPlayhead(&playhead);
+                    displayer->setCamera(&cam);
+                    displayer->setLight(&light);
+                    (*currentProjectDisplayers)[locationName].push_back(displayer);
+                } else {
+                    //SOME USELESS FILE, IGNORE IT!
+                }
+            } else if(splitString[contentComponentIndex] == "Title") {
+                ofImage* image = new ofImage();
+                image->load(currentPaths[i]);
+                if((*currentProjectDisplayers)[locationName].size() > 0) {
+                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setTextImage(currentPaths[i]);
+                }
+            }
+        }
+    }
+    
+    currentProjectDisplayers = &crossrailDisplayers;
+    currentPaths.clear();
+    loader.clearPaths();
+    
+    //load Crossrail content w/ new displayers
+    currentPaths = loader.load("content/Google Drive/Arup/Research/Content/Crossrail/Location");
+    for(int i = 0; i < currentPaths.size(); i++) {
+        vector<string> splitString = ofSplitString(currentPaths[i], "/");
+        if(splitString[splitString.size()-1] == "Icon\r") {
+            // Ignore all icon files
+        } else if(splitString[storyIndex] == "IntroAudio" || splitString[storyIndex] == "MenuButton" || splitString[contentComponentIndex] == "Notes") {
+            //Ignore our notes and folders that should be loaded elsewhere
+        } else {
+            string contentPath = splitString[contentFileIndex];
+            string locationName = splitString[locationNameIndex];
+            vector<string> contentPathSplit = ofSplitString(contentPath, ".");
+            string fileType = contentPathSplit[1];
+            if(splitString[contentComponentIndex] == "Content") {
+                if(fileType == "png" || fileType == "jpg") {
+                    //We've got an image!
+                    ImageDisplayer* displayer = new ImageDisplayer();
+                    displayer->setImage(currentPaths[i]);
+                    displayer->setBackgroundImage(&backgroundImageLarge);
+                    displayer->setContentLocation(currentPaths[i]);
+                    displayer->setPlayhead(&playhead);
+                    (*currentProjectDisplayers)[locationName].push_back(displayer);
+                } else if(fileType == "wav") {
+                    //We've got an audio file!
+                    AudioDisplayer* displayer = new AudioDisplayer();
+                    displayer->setAudio(currentPaths[i]);
+                    displayer->setBackgroundImage(&backgroundImageSmall);
+                    displayer->setContentLocation(currentPaths[i]);
+                    displayer->setPlayhead(&playhead);
+                    (*currentProjectDisplayers)[locationName].push_back(displayer);
+                } else if(fileType == "mp4" || fileType == "mov") {
+                    //We've got a video!
+                    VideoDisplayer* displayer = new VideoDisplayer();
+                    displayer->setVideo(currentPaths[i]);
+                    displayer->setBackgroundImage(&backgroundImageLarge);
+                    displayer->setContentLocation(currentPaths[i]);
+                    displayer->setPlayhead(&playhead);
+                    (*currentProjectDisplayers)[locationName].push_back(displayer);
+                } else if(fileType == "fbx") {
+                    //We've got a model!
+                    ModelDisplayer* displayer = new ModelDisplayer();
+                    displayer->setScene(currentPaths[i]);
+                    displayer->setBackgroundImage(&backgroundImageLarge);
+                    displayer->setContentLocation(currentPaths[i]);
+                    displayer->setPlayhead(&playhead);
+                    displayer->setCamera(&cam);
+                    displayer->setLight(&light);
+                    (*currentProjectDisplayers)[locationName].push_back(displayer);
+                } else {
+                    //SOMETHING'S GONE WRONG!
+                }
+            } else if(splitString[contentComponentIndex] == "Title") {
+                ofImage* image = new ofImage();
+                image->load(currentPaths[i]);
+                if((*currentProjectDisplayers)[locationName].size() > 0) {
+                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setTextImage(currentPaths[i]);
+                }
+            }
+        }
+    }
+}
+
+//--------------------------------------------------------------
+void Content::updateNew() {
+    //update hs1 content
+    for(auto location = hs1Displayers.begin(); location != hs1Displayers.end(); location++) {
+        for(auto content = location->second.begin(); content != location->second.end(); content++) {
+            (*content)->update();
+        }
+    }
+    //update crossrail content
+    for(auto location = crossrailDisplayers.begin(); location != crossrailDisplayers.end(); location++) {
+        for(auto content = location->second.begin(); content != location->second.end(); content++) {
+            (*content)->update();
+        }
+    }
+}
+
+//--------------------------------------------------------------
+void Content::drawNew() {
+    
+    ofSetRectMode(OF_RECTMODE_CENTER);
+    
+    float x = ofGetWidth()/2;
+    float y = ofGetHeight()/2;
+    //draw Inactive hs1 content
+    for(auto location = hs1Displayers.begin(); location != hs1Displayers.end(); location++) {
+        for(auto content = location->second.begin(); content != location->second.end(); content++) {
+            if(!(*content)->getIsActive()) (*content)->draw(x, y);
+        }
+    }
+    //draw Inactive crossrail content
+    for(auto location = crossrailDisplayers.begin(); location != crossrailDisplayers.end(); location++) {
+        for(auto content = location->second.begin(); content != location->second.end(); content++) {
+            if(!(*content)->getIsActive()) (*content)->draw(x, y);
+        }
+    }
+    //draw Active hs1 content
+    for(auto location = hs1Displayers.begin(); location != hs1Displayers.end(); location++) {
+        for(auto content = location->second.begin(); content != location->second.end(); content++) {
+            if((*content)->getIsActive()) (*content)->draw(x, y);
+        }
+    }
+    //draw Active crossrail content
+    for(auto location = crossrailDisplayers.begin(); location != crossrailDisplayers.end(); location++) {
+        for(auto content = location->second.begin(); content != location->second.end(); content++) {
+            if((*content)->getIsActive()) (*content)->draw(x, y);
+        }
+    }
+    ofSetRectMode(OF_RECTMODE_CORNER);
 }
 
 //--------------------------------------------------------------
@@ -66,15 +285,15 @@ void Content::fileLocation()
     //Load all the placeholder content, we'll overwrite it later
     //load placeholder for HS1
     for(int i = 0; i < 5; i++) {
-        path[projectIndex][i][0][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_data.jpg";
-        path[projectIndex][i][1][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_data.jpg";
-        path[projectIndex][i][2][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_video.mp4";
-        path[projectIndex][i][3][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_model.fbx";
-        path[projectIndex][i][4][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_audio.wav";
-        for(int j = 0; j < 5; j++) {
-            path[projectIndex][i][j][1] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_title.png";
-            path[projectIndex][i][j][2] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_caption.png";
-        }
+//        path[projectIndex][i][0][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_data.jpg";
+//        path[projectIndex][i][1][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_data.jpg";
+//        path[projectIndex][i][2][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_video.mp4";
+//        path[projectIndex][i][3][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_model.fbx";
+//        path[projectIndex][i][4][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_audio.wav";
+//        for(int j = 0; j < 5; j++) {
+//            path[projectIndex][i][j][1] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_title.png";
+//            path[projectIndex][i][j][2] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_caption.png";
+//        }
         introSoundPaths[projectIndex][i] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_audio.wav";
     }
     
@@ -82,23 +301,24 @@ void Content::fileLocation()
     //Note: this will have the side-effect of loading the last file if there are multiple files in a folder
     ofxNestedFileLoader loader;
     vector<string> HS1 = loader.load("content/Dropbox/ArupContentForInstallation/HS1/Location");
-    
-    int locationNameIndex = 5;
+    projectIndex = 0;
     int contentTypeIndex = 6;
     int contentPieceIndex = 7;
+    int locationNameIndex = 5;
     for(int i = 0; i < HS1.size(); i++) {
         vector<string> splitString = ofSplitString(HS1[i], "/");
         string locationName = splitString[locationNameIndex];
         string contentType = splitString[contentTypeIndex];
         string contentPieceName = splitString[contentPieceIndex];
-        if(contentType == "MenuButton" || contentPieceName == "MenuButton") {
-            
-        } else if(contentPieceName != "Notes" && contentType != "IntroAudio") {
-            int locationIndex = locationsDictionary[projectIndex].at(locationName);
-            int contentIndex = locationsDictionary[projectIndex].at(contentType);
-            int contentPieceIndex = locationsDictionary[projectIndex].at(contentPieceName);
-            path[projectIndex][locationIndex][contentIndex][contentPieceIndex] = HS1[i];
-        } else if(contentType == "IntroAudio") {
+//        if(contentType == "MenuButton" || contentPieceName == "MenuButton") {
+//            // These are for something else
+//        } else if(contentPieceName != "Notes" && contentType != "IntroAudio") {
+//            int locationIndex = locationsDictionary[projectIndex].at(locationName);
+//            int contentIndex = locationsDictionary[projectIndex].at(contentType);
+//            int contentPieceIndex = locationsDictionary[projectIndex].at(contentPieceName);
+//            path[projectIndex][locationIndex][contentIndex][contentPieceIndex] = HS1[i];
+//        }
+        if(contentType == "IntroAudio") {
             int locationIndex = locationsDictionary[projectIndex].at(locationName);
             introSoundPaths[projectIndex][locationIndex] = HS1[i];
         }
@@ -108,18 +328,17 @@ void Content::fileLocation()
     loader.clearPaths();
     
     projectIndex = 1;
-    
     //Load placeholders for Crossrail
     for(int i = 0; i < 5; i++) {
-        path[projectIndex][i][4][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_data.jpg";
-        path[projectIndex][i][3][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_data.jpg";
-        path[projectIndex][i][2][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_video.mp4";
-        path[projectIndex][i][1][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_model.fbx";
-        path[projectIndex][i][0][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_audio.wav";
-        for(int j = 0; j < 5; j++) {
-            path[projectIndex][i][j][1] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_title.png";
-            path[projectIndex][i][j][2] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_caption.png";
-        }
+//        path[projectIndex][i][4][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_data.jpg";
+//        path[projectIndex][i][3][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_data.jpg";
+//        path[projectIndex][i][2][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_video.mp4";
+//        path[projectIndex][i][1][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_model.fbx";
+//        path[projectIndex][i][0][0] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_audio.wav";
+//        for(int j = 0; j < 5; j++) {
+//            path[projectIndex][i][j][1] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_title.png";
+//            path[projectIndex][i][j][2] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_caption.png";
+//        }
         introSoundPaths[projectIndex][i] = "content/Dropbox/ArupContentForInstallation/Placeholder/no_audio.wav";
     }
     
@@ -132,42 +351,43 @@ void Content::fileLocation()
         string locationName = splitString[locationNameIndex];
         string contentType = splitString[contentTypeIndex];
         string contentPieceName = splitString[contentPieceIndex];
-        if(contentType == "MenuButton" || contentPieceName == "MenuButton") {
-            
-        } if(contentPieceName != "Notes" && contentType != "IntroAudio") {
-            int locationIndex = locationsDictionary[projectIndex].at(locationName);
-            int contentIndex = locationsDictionary[projectIndex].at(contentType);
-            int contentPieceIndex = locationsDictionary[projectIndex].at(contentPieceName);
-            path[projectIndex][locationIndex][contentIndex][contentPieceIndex] = Crossrail[i];
-        } else if(contentType == "IntroAudio") {
+//        if(contentType == "MenuButton" || contentPieceName == "MenuButton") {
+//            
+//        } else if(contentPieceName != "Notes" && contentType != "IntroAudio") {
+//            int locationIndex = locationsDictionary[projectIndex].at(locationName);
+//            int contentIndex = locationsDictionary[projectIndex].at(contentType);
+//            int contentPieceIndex = locationsDictionary[projectIndex].at(contentPieceName);
+//            path[projectIndex][locationIndex][contentIndex][contentPieceIndex] = Crossrail[i];
+//        }
+        if(contentType == "IntroAudio") {
             int locationIndex = locationsDictionary[projectIndex].at(locationName);
             introSoundPaths[projectIndex][locationIndex] = Crossrail[i];
         }
     }
     
-    // pre-load all videos
-    vid[0][0].load(path[0][0][2][0]);
-    vid[0][1].load(path[0][1][2][0]);
-    vid[0][2].load(path[0][2][2][0]);
-    vid[0][3].load(path[0][3][2][0]);
-    vid[0][4].load(path[0][4][2][0]);
-    vid[1][0].load(path[1][0][2][0]);
-    vid[1][1].load(path[1][1][2][0]);
-    vid[1][2].load(path[1][2][2][0]);
-    vid[1][3].load(path[1][3][2][0]);
-    vid[1][4].load(path[1][4][2][0]);
-    
-    // pre-load all sound files
-    sound[0][0].load(path[0][0][4][0]);
-    sound[0][1].load(path[0][1][4][0]);
-    sound[0][2].load(path[0][2][4][0]);
-    sound[0][3].load(path[0][3][4][0]);
-    sound[0][4].load(path[0][4][4][0]);
-    sound[1][0].load(path[1][0][0][0]);
-    sound[1][1].load(path[1][1][0][0]);
-    sound[1][2].load(path[1][2][0][0]);
-    sound[1][3].load(path[1][3][0][0]);
-    sound[1][4].load(path[1][4][0][0]);
+//    // pre-load all videos
+//    vid[0][0].load(path[0][0][2][0]);
+//    vid[0][1].load(path[0][1][2][0]);
+//    vid[0][2].load(path[0][2][2][0]);
+//    vid[0][3].load(path[0][3][2][0]);
+//    vid[0][4].load(path[0][4][2][0]);
+//    vid[1][0].load(path[1][0][2][0]);
+//    vid[1][1].load(path[1][1][2][0]);
+//    vid[1][2].load(path[1][2][2][0]);
+//    vid[1][3].load(path[1][3][2][0]);
+//    vid[1][4].load(path[1][4][2][0]);
+//    
+//    // pre-load all sound files
+//    sound[0][0].load(path[0][0][4][0]);
+//    sound[0][1].load(path[0][1][4][0]);
+//    sound[0][2].load(path[0][2][4][0]);
+//    sound[0][3].load(path[0][3][4][0]);
+//    sound[0][4].load(path[0][4][4][0]);
+//    sound[1][0].load(path[1][0][0][0]);
+//    sound[1][1].load(path[1][1][0][0]);
+//    sound[1][2].load(path[1][2][0][0]);
+//    sound[1][3].load(path[1][3][0][0]);
+//    sound[1][4].load(path[1][4][0][0]);
     
     //pre-load all POI intro sounds
     introSounds[0][0].load(introSoundPaths[0][0]);
@@ -181,71 +401,68 @@ void Content::fileLocation()
     introSounds[1][3].load(introSoundPaths[1][3]);
     introSounds[1][4].load(introSoundPaths[1][4]);
     
-    for(int i = 0; i < 2; i++) {
-        for(int j = 0; j < 5; j++) {
-            sound[i][j].setVolume(1.0);
-            sound[i][j].setLoop(false);
-            introSounds[i][j].setVolume(1.0);
-            introSounds[i][j].setLoop(false);
-            vid[i][j].setLoopState(OF_LOOP_NONE);
-        }
-    }
+//    for(int i = 0; i < 2; i++) {
+//        for(int j = 0; j < 5; j++) {
+//            sound[i][j].setVolume(1.0);
+//            sound[i][j].setLoop(false);
+//            introSounds[i][j].setVolume(1.0);
+//            introSounds[i][j].setLoop(false);
+//            vid[i][j].setLoopState(OF_LOOP_NONE);
+//        }
+//    }
     
-    backgroundImage.load("content/shared/backgroundTile.png");
+//    backgroundImage.load("content/shared/backgroundTile.png");
 }
 
 //--------------------------------------------------------------
 void Content::update()
 {
-    isAnythingPlaying = false;
-    // update any running videos
-    for (int i = 0; i < 5; i++)
-    {
-        if (vid[0][i].isPlaying()) {
-            isAnythingPlaying = true;
-           vid[0][i].update();
-        }
-        if (vid[1][i].isPlaying()) {
-            isAnythingPlaying = true;
-            vid[1][i].update();
-        }
-        if (sound[0][i].isPlaying()) {
-            isAnythingPlaying = true;
-        }
-        if (sound[1][i].isPlaying()) {
-            isAnythingPlaying = true;
-        }
-    }
-    
-    // content scaling
-    scaling();
-    
-    // fbx model updates
-    if (project == 0 && item == 3)
-    {
-        // update model
-        model.update();
-        
-        // perform any bone manipulation here
-        model.lateUpdate();
-    }
-    else if (project == 1 && item == 1)
-    {
-        // update model
-        model.update();
-        
-        // perform any bone manipulation here
-        model.lateUpdate();
-    }
-    
-    // update light position
-    light.setPosition(cam.getPosition());
-    light.setOrientation(cam.getOrientationEuler());
-    
-    // camera reset x axis
-    float val = ofLerp(0, cam.getLookAtDir().y, 0.2);
-    // cam.setOrientation(ofVec3f(val, cam.getOrientationEuler().y, cam.getOrientationEuler().z));
-    
+//    isAnythingPlaying = false;
+//    // update any running videos
+//    for (int i = 0; i < 5; i++)
+//    {
+//        if (vid[0][i].isPlaying()) {
+//            isAnythingPlaying = true;
+//            vid[0][i].update();
+//        }
+//        if (vid[1][i].isPlaying()) {
+//            isAnythingPlaying = true;
+//            vid[1][i].update();
+//        }
+//        if (sound[0][i].isPlaying()) {
+//            isAnythingPlaying = true;
+//        }
+//        if (sound[1][i].isPlaying()) {
+//            isAnythingPlaying = true;
+//        }
+//    }
+//    
+//    // content scaling
+//    scaling();
+//    
+//    // fbx model updates
+//    if (project == 0 && item == 3)
+//    {
+//        // update model
+//        model.update();
+//        
+//        // perform any bone manipulation here
+//        model.lateUpdate();
+//    }
+//    else if (project == 1 && item == 1)
+//    {
+//        // update model
+//        model.update();
+//        
+//        // perform any bone manipulation here
+//        model.lateUpdate();
+//    }
+//    
+//    // update light position
+//    
+//    // camera reset x axis
+//    float val = ofLerp(0, cam.getLookAtDir().y, 0.2);
+//    // cam.setOrientation(ofVec3f(val, cam.getOrientationEuler().y, cam.getOrientationEuler().z));
 }
 
 //--------------------------------------------------------------
@@ -369,173 +586,172 @@ void Content::scaling()
 //--------------------------------------------------------------
 void Content::draw()
 {
-    if (Globals::programType) screenWidth = 1080;
-    else screenWidth = 1600;
-    
-    float percentage = 0.75;
-    float backgroundPercentage = 0.9;
-    float alpha = 224.4;
-    float camPam = 0.5;
-    float titleBufferTop = 10;
-    float captionBufferTop = 10;
-    int sOffset = 6;
-    
-    //get the difference between screen width and draw the background pane
-    float backgroundDiff = screenWidth / backgroundImage.getWidth();
-    float backgroundWidth = (backgroundImage.getWidth() * backgroundDiff) * backgroundPercentage;
-    float backgroundHeight = (backgroundImage.getHeight() * backgroundDiff) * backgroundPercentage;
-    
-    if (project == 0 && item < 5) {
-        // draws text content (text is currently an image)
-        ofSetRectMode(OF_RECTMODE_CENTER);
-        if (scale[0] > 0.01) {
-            ofSetColor(255);
-            captionTextImage[0].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[0].getWidth() * scale[0], captionTextImage[0].getHeight() * scale[0]);
-            img[0].draw(ofGetWidth()/2, ofGetHeight()/2, img[0].getWidth() * scale[0], img[0].getHeight() * scale[0]);
-            ofSetColor(255, 255, 255, titleAndCaptionAlpha[0]);
-            titleTextImage[0].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[0].getWidth() * scale[0], titleTextImage[0].getHeight() * scale[0]);
-        }
-        if (scale[1] > 0.01) {
-            // draws image contentw
-            ofSetColor(255);
-            captionTextImage[1].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[1].getWidth() * scale[1], captionTextImage[1].getHeight() * scale[1]);
-            img[1].draw(ofGetWidth()/2, ofGetHeight()/2, img[1].getWidth() * scale[1], img[1].getHeight() * scale[1]);
-            ofSetColor(255, 255, 255, titleAndCaptionAlpha[1]);
-            titleTextImage[1].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[1].getWidth() * scale[1], titleTextImage[1].getHeight() * scale[1]);
-
-        }
-        if(scale[2] > 0.01) {
-            // draws video content
-            for (int i = 0; i < 5; i++)
-            {
-                // hs1 project video content
-                if (vid[0][i].isPlaying())
-                {
-                    ofSetColor(255);
-                    captionTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[2].getWidth() * scale[2], captionTextImage[2].getHeight() * scale[2]);
-                    vid[0][i].draw(ofGetWidth()/2, ofGetHeight()/2, vid[0][i].getWidth() * scale[2], vid[0][i].getHeight() * scale[2]);
-                    ofSetColor(255, 255, 255, titleAndCaptionAlpha[2]);
-                    titleTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[2].getWidth() * scale[2], titleTextImage[2].getHeight() * scale[2]);
-                    float percentDone = vid[0][i].getPosition();
-                    playhead.draw(ofGetWidth()/2, ofGetHeight()/2 + vid[0][i].getHeight()/2 + 5, vid[0][i].getWidth() * scale[2], 10 * scale[2], percentDone);
-                    
-                }
-            }
-        }
-        if(scale[3] > 0.01) {
-            ofPushStyle();
-            ofSetColor(255);
-            captionTextImage[3].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[3].getWidth() * scale[3], captionTextImage[3].getHeight() * scale[3]);
-            ofSetColor(255, 255, 255, titleAndCaptionAlpha[3]);
-            titleTextImage[3].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[3].getWidth() * scale[3], titleTextImage[3].getHeight() * scale[3]);
-            ofPopStyle();
-            
-            // model drawing
-            // rotate on y axis
-            cam.pan(camPam);
-            cam.setDistance(camZoom);
-            ofEnableDepthTest();
-            //Draw the backgroundTile
-            cam.begin();
-            ofEnableLighting();
-            light.enable();
-            ofSetColor(255, 255, 255);
-            model.draw();
-            light.disable();
-            ofDisableLighting();
-            cam.end();
-            ofDisableDepthTest();
-        }
-        if(scale[4] > 0.01) {
-            //Plays audio content with play-head
-            for(int i = 0; i < 5; i++) {
-                if(sound[0][i].isPlaying()) {
-                    ofSetColor(255);
-                    captionTextImage[4].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[4].getWidth() * scale[4], captionTextImage[4].getHeight() * scale[4]);
-                    ofSetColor(255, 255, 255, titleAndCaptionAlpha[4]);
-                    titleTextImage[4].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[4].getWidth() * scale[4], titleTextImage[4].getHeight() * scale[4]);
-                    //draw the playhead
-                    float percentageDone = sound[0][i].getPosition();
-                    playhead.draw(ofGetWidth()/2, ofGetHeight()/2 - 19, 909 * scale[4], 30 * scale[4], percentageDone);
-                }
-            }
-        }
-        ofSetRectMode(OF_RECTMODE_CORNER);
-    } else if(project == 1) {
-        // draws text content (text is currently an image)
-        ofSetRectMode(OF_RECTMODE_CENTER);
-        if (scale[4] > 0.01) {
-            ofSetColor(255);
-            captionTextImage[4].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[4].getWidth() * scale[4], captionTextImage[4].getHeight() * scale[4]);
-            img[4].draw(ofGetWidth()/2, ofGetHeight()/2, img[4].getWidth() * scale[4], img[4].getHeight() * scale[4]);
-            ofSetColor(255, 255, 255, titleAndCaptionAlpha[4]);
-            titleTextImage[4].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[4].getWidth() * scale[4], titleTextImage[4].getHeight() * scale[4]);
-        }
-        if (scale[3] > 0.01) {
-            // draws image content
-            ofSetColor(255);
-            captionTextImage[3].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[3].getWidth() * scale[3], captionTextImage[3].getHeight() * scale[3]);
-            img[3].draw(ofGetWidth()/2, ofGetHeight()/2, img[3].getWidth() * scale[3], img[3].getHeight() * scale[3]);
-            ofSetColor(255, 255, 255, titleAndCaptionAlpha[3]);
-            titleTextImage[3].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[3].getWidth() * scale[3], titleTextImage[3].getHeight() * scale[3]);
-        }
-        if(scale[2] > 0.01) {
-            // draws video content
-            for (int i = 0; i < 5; i++)
-            {
-                // hs1 project video content
-                if (vid[1][i].isPlaying())
-                {
-                    ofSetColor(255);
-                    captionTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[2].getWidth() * scale[2], captionTextImage[2].getHeight() * scale[2]);
-                    vid[1][i].draw(ofGetWidth()/2, ofGetHeight()/2, vid[1][i].getWidth() * scale[2], vid[1][i].getHeight() * scale[2]);
-                    ofSetColor(255, 255, 255, titleAndCaptionAlpha[2]);
-                    titleTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[2].getWidth() * scale[2], titleTextImage[2].getHeight() * scale[2]);
-                    float percentDone = vid[1][i].getPosition();
-                    playhead.draw(ofGetWidth()/2, ofGetHeight()/2 + vid[1][i].getHeight()/2 + 5, vid[1][i].getWidth() * scale[2], 10 * scale[2], percentDone);
-                    
-                }
-            }
-        }
-        if(scale[1] > 0.01) {
-            ofPushStyle();
-            ofSetColor(255);
-            captionTextImage[1].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[1].getWidth() * scale[1], captionTextImage[1].getHeight() * scale[1]);
-            ofSetColor(255, 255, 255, titleAndCaptionAlpha[1]);
-            titleTextImage[1].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[1].getWidth() * scale[1], titleTextImage[1].getHeight() * scale[1]);
-            ofPopStyle();
-            
-            //Draw the backgroundTile
-            ofSetColor(255);
-            cam.pan(camPam);
-            cam.setDistance(camZoom);
-            ofEnableDepthTest();
-            cam.begin();
-            ofEnableLighting();
-            light.enable();
-            ofSetColor(255, 255, 255);
-            model.draw();
-            light.disable();
-            ofDisableLighting();
-            cam.end();
-            ofDisableDepthTest();
-        }
-        if(scale[0] > 0.01) {
-            //Plays audio content with play-head
-            for(int i = 0; i < 5; i++) {
-                if(sound[1][i].isPlaying()) {
-                    ofSetColor(255);
-                    captionTextImage[0].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[0].getWidth() * scale[0], captionTextImage[0].getHeight() * scale[0]);
-                    ofSetColor(255, 255, 255, titleAndCaptionAlpha[0]);
-                    titleTextImage[0].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[0].getWidth() * scale[0], titleTextImage[0].getHeight() * scale[0]);
-                    //draw the playhead
-                    float percentageDone = sound[1][i].getPosition();
-                    playhead.draw(ofGetWidth()/2, ofGetHeight()/2 - 19, 909 * scale[0], 30 * scale[0], percentageDone);
-                }
-            }
-        }
-        ofSetRectMode(OF_RECTMODE_CORNER);
-    }
+//    if (Globals::programType) screenWidth = 1080;
+//    else screenWidth = 1600;
+//    
+//    float percentage = 0.75;
+//    float backgroundPercentage = 0.9;
+//    float alpha = 224.4;
+//    float camPam = 0.5;
+//    float titleBufferTop = 10;
+//    float captionBufferTop = 10;
+//    int sOffset = 6;
+//    
+//    //get the difference between screen width and draw the background pane
+//    float backgroundDiff = screenWidth / backgroundImage.getWidth();
+//    float backgroundWidth = (backgroundImage.getWidth() * backgroundDiff) * backgroundPercentage;
+//    float backgroundHeight = (backgroundImage.getHeight() * backgroundDiff) * backgroundPercentage;
+//    
+//    if (project == 0 && item < 5) {
+//        // draws text content (text is currently an image)
+//        ofSetRectMode(OF_RECTMODE_CENTER);
+//        if (scale[0] > 0.01) {
+//            ofSetColor(255);
+//            captionTextImage[0].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[0].getWidth() * scale[0], captionTextImage[0].getHeight() * scale[0]);
+//            img[0].draw(ofGetWidth()/2, ofGetHeight()/2, img[0].getWidth() * scale[0], img[0].getHeight() * scale[0]);
+//            ofSetColor(255, 255, 255, titleAndCaptionAlpha[0]);
+//            titleTextImage[0].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[0].getWidth() * scale[0], titleTextImage[0].getHeight() * scale[0]);
+//        }
+//        if (scale[1] > 0.01) {
+//            // draws image contentw
+//            ofSetColor(255);
+//            captionTextImage[1].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[1].getWidth() * scale[1], captionTextImage[1].getHeight() * scale[1]);
+//            img[1].draw(ofGetWidth()/2, ofGetHeight()/2, img[1].getWidth() * scale[1], img[1].getHeight() * scale[1]);
+//            ofSetColor(255, 255, 255, titleAndCaptionAlpha[1]);
+//            titleTextImage[1].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[1].getWidth() * scale[1], titleTextImage[1].getHeight() * scale[1]);
+//
+//        }
+//        if(scale[2] > 0.01) {
+//            // draws video content
+//            for (int i = 0; i < 5; i++)
+//            {
+//                // hs1 project video content
+//                if (vid[0][i].isPlaying())
+//                {
+//                    ofSetColor(255);
+//                    captionTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[2].getWidth() * scale[2], captionTextImage[2].getHeight() * scale[2]);
+//                    vid[0][i].draw(ofGetWidth()/2, ofGetHeight()/2, vid[0][i].getWidth() * scale[2], vid[0][i].getHeight() * scale[2]);
+//                    ofSetColor(255, 255, 255, titleAndCaptionAlpha[2]);
+//                    titleTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[2].getWidth() * scale[2], titleTextImage[2].getHeight() * scale[2]);
+//                    float percentDone = vid[0][i].getPosition();
+//                    playhead.draw(ofGetWidth()/2, ofGetHeight()/2 + vid[0][i].getHeight()/2 + 5, vid[0][i].getWidth() * scale[2], 10 * scale[2], percentDone);
+//                    
+//                }
+//            }
+//        }
+//        if(scale[3] > 0.01) {
+//            ofPushStyle();
+//            ofSetColor(255);
+//            captionTextImage[3].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[3].getWidth() * scale[3], captionTextImage[3].getHeight() * scale[3]);
+//            ofSetColor(255, 255, 255, titleAndCaptionAlpha[3]);
+//            titleTextImage[3].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[3].getWidth() * scale[3], titleTextImage[3].getHeight() * scale[3]);
+//            ofPopStyle();
+//            
+//            // model drawing
+//            // rotate on y axis
+//            cam.pan(camPam);
+//            cam.setDistance(camZoom);
+//            ofEnableDepthTest();
+//            cam.begin();
+//            ofEnableLighting();
+//            light.enable();
+//            ofSetColor(255, 255, 255);
+//            model.draw();
+//            light.disable();
+//            ofDisableLighting();
+//            cam.end();
+//            ofDisableDepthTest();
+//        }
+//        if(scale[4] > 0.01) {
+//            //Plays audio content with play-head
+//            for(int i = 0; i < 5; i++) {
+//                if(sound[0][i].isPlaying()) {
+//                    ofSetColor(255);
+//                    captionTextImage[4].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[4].getWidth() * scale[4], captionTextImage[4].getHeight() * scale[4]);
+//                    ofSetColor(255, 255, 255, titleAndCaptionAlpha[4]);
+//                    titleTextImage[4].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[4].getWidth() * scale[4], titleTextImage[4].getHeight() * scale[4]);
+//                    //draw the playhead
+//                    float percentageDone = sound[0][i].getPosition();
+//                    playhead.draw(ofGetWidth()/2, ofGetHeight()/2 - 19, 909 * scale[4], 30 * scale[4], percentageDone);
+//                }
+//            }
+//        }
+//        ofSetRectMode(OF_RECTMODE_CORNER);
+//    } else if(project == 1) {
+//        // draws text content (text is currently an image)
+//        ofSetRectMode(OF_RECTMODE_CENTER);
+//        if (scale[4] > 0.01) {
+//            ofSetColor(255);
+//            captionTextImage[4].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[4].getWidth() * scale[4], captionTextImage[4].getHeight() * scale[4]);
+//            img[4].draw(ofGetWidth()/2, ofGetHeight()/2, img[4].getWidth() * scale[4], img[4].getHeight() * scale[4]);
+//            ofSetColor(255, 255, 255, titleAndCaptionAlpha[4]);
+//            titleTextImage[4].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[4].getWidth() * scale[4], titleTextImage[4].getHeight() * scale[4]);
+//        }
+//        if (scale[3] > 0.01) {
+//            // draws image content
+//            ofSetColor(255);
+//            captionTextImage[3].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[3].getWidth() * scale[3], captionTextImage[3].getHeight() * scale[3]);
+//            img[3].draw(ofGetWidth()/2, ofGetHeight()/2, img[3].getWidth() * scale[3], img[3].getHeight() * scale[3]);
+//            ofSetColor(255, 255, 255, titleAndCaptionAlpha[3]);
+//            titleTextImage[3].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[3].getWidth() * scale[3], titleTextImage[3].getHeight() * scale[3]);
+//        }
+//        if(scale[2] > 0.01) {
+//            // draws video content
+//            for (int i = 0; i < 5; i++)
+//            {
+//                // hs1 project video content
+//                if (vid[1][i].isPlaying())
+//                {
+//                    ofSetColor(255);
+//                    captionTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[2].getWidth() * scale[2], captionTextImage[2].getHeight() * scale[2]);
+//                    vid[1][i].draw(ofGetWidth()/2, ofGetHeight()/2, vid[1][i].getWidth() * scale[2], vid[1][i].getHeight() * scale[2]);
+//                    ofSetColor(255, 255, 255, titleAndCaptionAlpha[2]);
+//                    titleTextImage[2].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[2].getWidth() * scale[2], titleTextImage[2].getHeight() * scale[2]);
+//                    float percentDone = vid[1][i].getPosition();
+//                    playhead.draw(ofGetWidth()/2, ofGetHeight()/2 + vid[1][i].getHeight()/2 + 5, vid[1][i].getWidth() * scale[2], 10 * scale[2], percentDone);
+//                    
+//                }
+//            }
+//        }
+//        if(scale[1] > 0.01) {
+//            ofPushStyle();
+//            ofSetColor(255);
+//            captionTextImage[1].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[1].getWidth() * scale[1], captionTextImage[1].getHeight() * scale[1]);
+//            ofSetColor(255, 255, 255, titleAndCaptionAlpha[1]);
+//            titleTextImage[1].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[1].getWidth() * scale[1], titleTextImage[1].getHeight() * scale[1]);
+//            ofPopStyle();
+//            
+//            //Draw the backgroundTile
+//            ofSetColor(255);
+//            cam.pan(camPam);
+//            cam.setDistance(camZoom);
+//            ofEnableDepthTest();
+//            cam.begin();
+//            ofEnableLighting();
+//            light.enable();
+//            ofSetColor(255, 255, 255);
+//            model.draw();
+//            light.disable();
+//            ofDisableLighting();
+//            cam.end();
+//            ofDisableDepthTest();
+//        }
+//        if(scale[0] > 0.01) {
+//            //Plays audio content with play-head
+//            for(int i = 0; i < 5; i++) {
+//                if(sound[1][i].isPlaying()) {
+//                    ofSetColor(255);
+//                    captionTextImage[0].draw(ofGetWidth()/2, ofGetHeight()/2, captionTextImage[0].getWidth() * scale[0], captionTextImage[0].getHeight() * scale[0]);
+//                    ofSetColor(255, 255, 255, titleAndCaptionAlpha[0]);
+//                    titleTextImage[0].draw(ofGetWidth()/2, ofGetHeight()/2, titleTextImage[0].getWidth() * scale[0], titleTextImage[0].getHeight() * scale[0]);
+//                    //draw the playhead
+//                    float percentageDone = sound[1][i].getPosition();
+//                    playhead.draw(ofGetWidth()/2, ofGetHeight()/2 - 19, 909 * scale[0], 30 * scale[0], percentageDone);
+//                }
+//            }
+//        }
+//        ofSetRectMode(OF_RECTMODE_CORNER);
+//    }
 }
 
 //--------------------------------------------------------------
@@ -568,12 +784,12 @@ void Content::load(int _project, int _point, int _item)
         if (item == 0)
         {
             // loads specific image
-            img[item].load(path[project][point][item][0]);
+            //img[item].load(path[project][point][item][0]);
         }
         else if (item == 1)
         {
             // loads specific image
-            img[item].load(path[project][point][item][0]);
+            //img[item].load(path[project][point][item][0]);
         }
         else if (item == 2)
         {
@@ -585,7 +801,7 @@ void Content::load(int _project, int _point, int _item)
             // setup FBX scene
             ofxFBXSceneSettings settings;
             scene.unloadModels();
-            string filename = path[project][point][item][0];
+            string filename = "";// path[project][point][item][0];
             if( scene.load(filename, settings) ) {
                 cout << "ofApp :: loaded the scene OK" << endl;
             } else {
@@ -617,7 +833,7 @@ void Content::load(int _project, int _point, int _item)
             // setup FBX scene
             ofxFBXSceneSettings settings;
             scene.unloadModels();
-            string filename = path[project][point][item][0];
+            string filename = "";//path[project][point][item][0];
             if( scene.load(filename, settings) ) {
                 cout << "ofApp :: loaded the scene OK" << endl;
             } else {
@@ -633,18 +849,18 @@ void Content::load(int _project, int _point, int _item)
         else if (item == 3)
         {
             // loads specific image
-            img[item].load(path[project][point][item][0]);
+            //img[item].load(path[project][point][item][0]);
         }
         else if (item == 4)
         {
             // loads specific image
-            img[item].load(path[project][point][item][0]);
+            //img[item].load(path[project][point][item][0]);
         }
     }
     
     //load title and caption text
-    titleTextImage[item].load(path[project][point][item][1]);
-    captionTextImage[item].load(path[project][point][item][2]);
+    //titleTextImage[item].load(path[project][point][item][1]);
+    //captionTextImage[item].load(path[project][point][item][2]);
 }
 
 //--------------------------------------------------------------
