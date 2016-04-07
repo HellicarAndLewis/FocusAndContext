@@ -16,12 +16,13 @@ void ofApp::setup()
 {
     ofEnableAlphaBlending();
     
-    ofSetDataPathRoot("/Users/Arup/Documents/of_v0.9.3_osx_release/apps/FocusAndContext/cove/bin/data");
-    
     //ofToggleFullscreen();
+    //ofHideCursor();
     
     //Shifted screen over to work on adjacent screen
-    //ofSetWindowPosition(-1920-1080, 0);
+    ofSetWindowPosition(0, 0);
+    
+    ofSetDataPathRoot("/Users/Arup/Documents/openFrameworksNightly/apps/FocusAndContext/cove/bin/data");
     
     // camera draw distance
     cam.setFarClip(300000);
@@ -509,6 +510,7 @@ void ofApp::autoSysUpdate()
     }
     
     Location & location = *route.getLocation();
+    int randomSwitch = (int)ofRandom(3);
     switch (currentInterval)
     {
         case 0:
@@ -517,7 +519,23 @@ void ofApp::autoSysUpdate()
             if (!Globals::buttonPressed) Globals::buttonPressed = true;
             if (!Globals::autoRoute) Globals::autoRoute = true;
             
-            randomItem = ofRandom(0, 4);
+            if(route.activeProject == 0) {
+                if(randomSwitch == 0) {
+                    randomItem = 0;
+                } else if(randomSwitch == 1) {
+                    randomItem = 1;
+                } else {
+                    randomItem = 3;
+                }
+            } else {
+                if(randomSwitch == 0) {
+                    randomItem = 4;
+                } else if(randomSwitch == 1) {
+                    randomItem = 3;
+                } else {
+                    randomItem = 1;
+                }
+            }
             if (!contentActive) contentActive = true;
             if (c.item != 5) c.item = 5;
             
@@ -635,7 +653,7 @@ void ofApp::autoSysUpdate()
             // content stuff
             if (contentActive)
             {
-                c.load(route.activeProject, pointJump, randomItem);
+//                c.load(route.activeProject, pointJump, randomItem);
                 contentActive = false;
             }
             break;
@@ -853,7 +871,7 @@ void ofApp::draw()
     }
      */
     
-    ofEnableAntiAliasing();
+    ofEnableSmoothing();
     
     if(camTilt < 0) {
         for(int i = 0; i < route.locationsLeft.size(); i++) {
@@ -916,7 +934,7 @@ void ofApp::draw()
     // if (!gui->getVisible()) tileLoader.labels.draw2D();
     if (bDebugMsg) drawDebugMsg();
     
-    ofDisableAntiAliasing();
+    ofDisableSmoothing();
 
 }
 
@@ -1026,7 +1044,7 @@ void ofApp::drawScene()
         
         // Roads
         materialRoads.begin();
-        for (auto & tile : *tiles) tile.meshRoads.draw();
+        //for (auto & tile : *tiles) tile.meshRoads.draw();
         materialRoads.end();
         
         // Buildings
@@ -1305,6 +1323,19 @@ void ofApp::mouseReleased(int x, int y, int button)
             
             // hs1
             loadProject(0);
+            
+            for(auto location = menu.c.hs1Displayers.begin(); location != menu.c.hs1Displayers.end(); location++) {
+                for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                    (*content)->setIsActive(false);
+                }
+            }
+            for(auto location = menu.c.crossrailDisplayers.begin(); location != menu.c.crossrailDisplayers.end(); location++) {
+                for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                    (*content)->setIsActive(false);
+                }
+            }
+            
+            menu.c.stopLocationAudio();
         }
         
         // loads crossrail project
@@ -1326,6 +1357,18 @@ void ofApp::mouseReleased(int x, int y, int button)
             
             // crossrail
             loadProject(1);
+            
+            for(auto location = menu.c.hs1Displayers.begin(); location != menu.c.hs1Displayers.end(); location++) {
+                for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                    (*content)->setIsActive(false);
+                }
+            }
+            for(auto location = menu.c.crossrailDisplayers.begin(); location != menu.c.crossrailDisplayers.end(); location++) {
+                for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                    (*content)->setIsActive(false);
+                }
+            }
+            menu.c.stopLocationAudio();
         }
     }
 }

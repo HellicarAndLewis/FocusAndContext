@@ -13,6 +13,7 @@
 #include "ofxFBX.h"
 #include "ofxNestedFileLoader.h"
 #include "Playhead.h"
+#include "Displayer.h"
 
 class Content
 {
@@ -26,9 +27,10 @@ public:
     void stopVideos();
     void stopAudio();
     void stopLocationAudio();
+    void setCons(vector<InteractiveObject*> cons);
     
     // content locations
-    string path[2][5][5][3];
+    // string path[2][5][5][3];
     string introSoundPaths[2][5];
     
     // content type
@@ -38,8 +40,14 @@ public:
     ofImage captionTextImage[5];
     ofVideoPlayer vid[2][5];
     ofSoundPlayer sound[2][5];
-    ofSoundPlayer locationIntroSounds[2][5];
+    ofSoundPlayer introSounds[2][5];
     //ofxOBJModel model;
+    
+    ofImage backgroundImageLarge;
+    ofImage backgroundImageSmall;
+    
+    map<string, vector<ContentDisplayer*> > hs1Displayers;
+    map<string, vector<ContentDisplayer*> > crossrailDisplayers;
     
     ofxFBXScene scene;
     ofEasyCam cam;
@@ -60,10 +68,10 @@ public:
     
     bool isAnythingPlaying;
         
-    //Object for drawing the audio and video duration
+    // Object for drawing the audio and video duration
     Playhead playhead;
     
-    //Dictionary of locations, 1 is hs1 2 is crossrail, pair the index of the location with the name of the file that it's content is stored in and the name of the content type and the index it is stored in in the paths array
+    // Dictionary of locations, 1 is hs1 2 is crossrail, pair the index of the location with the name of the file that it's content is stored in and the name of the content type and the index it is stored in in the paths array
     static const vector<map<string, int>> locationsDictionary;
     
     static vector<map<string, int>> createMaps() {

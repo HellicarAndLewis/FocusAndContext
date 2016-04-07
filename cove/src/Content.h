@@ -28,12 +28,6 @@ public:
     void stopAudio();
     void stopLocationAudio();
     void setCons(vector<InteractiveObject*> cons);
-
-    
-    //NEW METHODS
-    void fileLocationNew();
-    void updateNew();
-    void drawNew();
     
     // content locations
     // string path[2][5][5][3];

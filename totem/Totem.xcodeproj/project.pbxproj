@@ -94,6 +94,11 @@
 		F285EB3169F1566CA3D93C20 /* ofxPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E112B3AEBEA2C091BF2B40AE /* ofxPanel.cpp */; };
 		F2C488627AEB484729EF7A98 /* glmPolarPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3E8CFE409C09EF5EB85DE51 /* glmPolarPoint.cpp */; };
 		F30DF3DCCBFB7848F36E20BA /* glmFeatureLabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17B258AE67598473F4A2F06C /* glmFeatureLabel.cpp */; };
+		F542539A1CB6678A00C7D91F /* AudioDisplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F542538F1CB6678A00C7D91F /* AudioDisplayer.cpp */; };
+		F542539B1CB6678A00C7D91F /* ContentDisplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54253911CB6678A00C7D91F /* ContentDisplayer.cpp */; };
+		F542539C1CB6678A00C7D91F /* ImageDisplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54253941CB6678A00C7D91F /* ImageDisplayer.cpp */; };
+		F542539D1CB6678A00C7D91F /* ModelDisplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54253961CB6678A00C7D91F /* ModelDisplayer.cpp */; };
+		F542539E1CB6678A00C7D91F /* VideoDisplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54253981CB6678A00C7D91F /* VideoDisplayer.cpp */; };
 		F5F366BC1CA47A63009E1A78 /* ofxNestedFileLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F366BA1CA47A63009E1A78 /* ofxNestedFileLoader.cpp */; };
 		FB84AAF8D1B7A95266DB5C09 /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 21BDE665988474F1B1F4D302 /* jsoncpp.cpp */; };
 /* End PBXBuildFile section */
@@ -682,6 +687,17 @@
 		F428ECF441DE3F2CEB74BC50 /* fbxhashmap.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxhashmap.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/core/base/fbxhashmap.h; sourceTree = SOURCE_ROOT; };
 		F45EB81BF0E816003FD648FD /* fbxfiletokens.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxfiletokens.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/fileio/fbxfiletokens.h; sourceTree = SOURCE_ROOT; };
 		F4D043B132D6CF07CE3DA2C3 /* fbxwriterfbx5.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxwriterfbx5.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/fileio/fbx/fbxwriterfbx5.h; sourceTree = SOURCE_ROOT; };
+		F542538F1CB6678A00C7D91F /* AudioDisplayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioDisplayer.cpp; sourceTree = "<group>"; };
+		F54253901CB6678A00C7D91F /* AudioDisplayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioDisplayer.h; sourceTree = "<group>"; };
+		F54253911CB6678A00C7D91F /* ContentDisplayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ContentDisplayer.cpp; sourceTree = "<group>"; };
+		F54253921CB6678A00C7D91F /* ContentDisplayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentDisplayer.h; sourceTree = "<group>"; };
+		F54253931CB6678A00C7D91F /* Displayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Displayer.h; sourceTree = "<group>"; };
+		F54253941CB6678A00C7D91F /* ImageDisplayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageDisplayer.cpp; sourceTree = "<group>"; };
+		F54253951CB6678A00C7D91F /* ImageDisplayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDisplayer.h; sourceTree = "<group>"; };
+		F54253961CB6678A00C7D91F /* ModelDisplayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModelDisplayer.cpp; sourceTree = "<group>"; };
+		F54253971CB6678A00C7D91F /* ModelDisplayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelDisplayer.h; sourceTree = "<group>"; };
+		F54253981CB6678A00C7D91F /* VideoDisplayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VideoDisplayer.cpp; sourceTree = "<group>"; };
+		F54253991CB6678A00C7D91F /* VideoDisplayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoDisplayer.h; sourceTree = "<group>"; };
 		F59384ED57A7C6A7A8B0351D /* ofxDatGuiEvents.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiEvents.h; path = ../../../addons/ofxDatGui/src/core/ofxDatGuiEvents.h; sourceTree = SOURCE_ROOT; };
 		F5D27C767B936AE5D00D561C /* glmGeometryBuilder.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = glmGeometryBuilder.cpp; path = ../../../addons/ofxVectorTile/libs/glmTile/glmGeometryBuilder.cpp; sourceTree = SOURCE_ROOT; };
 		F5DB1AC24B8010FC3C556AAC /* RenderPass.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = RenderPass.h; path = ../../../addons/ofxPostProcessing/src/RenderPass.h; sourceTree = SOURCE_ROOT; };
@@ -1222,6 +1238,7 @@
 		962C0EE71CA284AC00F0CC7F /* Content */ = {
 			isa = PBXGroup;
 			children = (
+				F542538E1CB6676500C7D91F /* Displayer */,
 				C49A8442C6E8F2B62DABEA3C /* Content.cpp */,
 				4596D701FF56D27352ED094A /* Content.h */,
 				1AED355A1CA9467500D7519C /* Playhead.cpp */,
@@ -1828,6 +1845,24 @@
 			name = libs;
 			sourceTree = "<group>";
 		};
+		F542538E1CB6676500C7D91F /* Displayer */ = {
+			isa = PBXGroup;
+			children = (
+				F542538F1CB6678A00C7D91F /* AudioDisplayer.cpp */,
+				F54253901CB6678A00C7D91F /* AudioDisplayer.h */,
+				F54253911CB6678A00C7D91F /* ContentDisplayer.cpp */,
+				F54253921CB6678A00C7D91F /* ContentDisplayer.h */,
+				F54253931CB6678A00C7D91F /* Displayer.h */,
+				F54253941CB6678A00C7D91F /* ImageDisplayer.cpp */,
+				F54253951CB6678A00C7D91F /* ImageDisplayer.h */,
+				F54253961CB6678A00C7D91F /* ModelDisplayer.cpp */,
+				F54253971CB6678A00C7D91F /* ModelDisplayer.h */,
+				F54253981CB6678A00C7D91F /* VideoDisplayer.cpp */,
+				F54253991CB6678A00C7D91F /* VideoDisplayer.h */,
+			);
+			name = Displayer;
+			sourceTree = "<group>";
+		};
 		F5976C5BF0EA6F155AAECEB5 /* utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -2019,11 +2054,14 @@
 				AAE7D54A50810641535459E5 /* ofxFBXPose.cpp in Sources */,
 				1BEE448D5236FF7A3D1136A0 /* ofxFBXScene.cpp in Sources */,
 				22FAD71C4C85BA2A59638F67 /* ofxFBXSkeleton.cpp in Sources */,
+				F542539E1CB6678A00C7D91F /* VideoDisplayer.cpp in Sources */,
 				914AF1870F96A0A63B4E36D8 /* AnimationUtility.cxx in Sources */,
 				7D001F1365B7FA85A22C5A60 /* GeometryUtility.cxx in Sources */,
 				F190DEA53957B15584592223 /* ofxGlmTools.cpp in Sources */,
 				92ADCD5C8C07C841374721B4 /* glm.cpp in Sources */,
+				F542539D1CB6678A00C7D91F /* ModelDisplayer.cpp in Sources */,
 				203095EEEA732AC16FA8C9EC /* glmGeom.cpp in Sources */,
+				F542539A1CB6678A00C7D91F /* AudioDisplayer.cpp in Sources */,
 				A8D7DAB32E7E845798D5493B /* glmGL.cpp in Sources */,
 				E23EBFFD459D8071F89D755B /* glmIntersection.cpp in Sources */,
 				629CD02C5BEA84BCE5811C92 /* glmIO.cpp in Sources */,
@@ -2031,6 +2069,7 @@
 				64C3C92089EBEA7EC1C41130 /* glmFastPolyline.cpp in Sources */,
 				1C7AAD60C08516D9916859C1 /* glmMesh.cpp in Sources */,
 				F2C488627AEB484729EF7A98 /* glmPolarPoint.cpp in Sources */,
+				F542539C1CB6678A00C7D91F /* ImageDisplayer.cpp in Sources */,
 				B9F4087C503D64BF927D6394 /* glmPolyline.cpp in Sources */,
 				26F07296EF544ED53757C86A /* glmRectangle.cpp in Sources */,
 				856AA354D08AB4B323081444 /* ofxBaseGui.cpp in Sources */,
@@ -2038,6 +2077,7 @@
 				B266578FC55D23BFEBC042E7 /* ofxGuiGroup.cpp in Sources */,
 				483908258D00B98B4BE69F07 /* ofxLabel.cpp in Sources */,
 				F285EB3169F1566CA3D93C20 /* ofxPanel.cpp in Sources */,
+				F542539B1CB6678A00C7D91F /* ContentDisplayer.cpp in Sources */,
 				837220E80EB56CD44AD27F2A /* ofxSlider.cpp in Sources */,
 				B56FE57CC35806596D38118C /* ofxSliderGroup.cpp in Sources */,
 				1CD33E884D9E3358252E82A1 /* ofxToggle.cpp in Sources */,

@@ -561,8 +561,7 @@ void InteractiveMenu::update()
     }
     
     // update content
-    //c.update();
-    c.updateNew();
+    c.update();
     
     
     if(leftOn && !leftWasOn) {
@@ -3626,5 +3625,5 @@ void InteractiveMenu::pressedContent()
 void InteractiveMenu::drawContent()
 {
     // content class draw function
-    c.drawNew();
+    c.draw();
 }

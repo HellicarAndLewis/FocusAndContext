@@ -9,6 +9,7 @@
 
 #include "InteractiveMenu.h"
 #include "Globals.h"
+#include "ofxNestedFileLoader.h"
 
 //--------------------------------------------------------------
 void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, float _padding, float _easeIn, float _easeOut)
@@ -39,11 +40,11 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     snd2.setVolume(0.7);
     
     // project intro sounds
-    hs1Intro.load("content/Dropbox/ArupContentForInstallation/Placeholder/no_audio.wav");
+    hs1Intro.load("content/Google Drive/Arup/Research/Content/HS1/IntroductionVideo/HS1Intro.wav");
     hs1Intro.setMultiPlay(false);
     hs1Intro.setLoop(false);
     
-    crossrailIntro.load("content/Dropbox/ArupContentForInstallation/Placeholder/no_audio.wav");
+    crossrailIntro.load("content/Google Drive/Arup/Research/Content/Crossrail/IntroductionVideo/CrossrailIntro.wav");
     crossrailIntro.setMultiPlay(false);
     crossrailIntro.setLoop(false);
     
@@ -74,17 +75,17 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     }
     
     // left sub menu titles
-    lPoints[0].title = "St Pancras";
-    lPoints[1].title = "Stratford";
-    lPoints[2].title = "Ebbsfleet";
-    lPoints[3].title = "Medway Viaduct";
-    lPoints[4].title = "Ashford";
+    lPoints[0].title = "HS1/Location/StPancras";
+    lPoints[1].title = "HS1/Location/StratfordInternational";
+    lPoints[2].title = "HS1/Location/EbbsfleetInternational";
+    lPoints[3].title = "HS1/Location/MedwayViaduct";
+    lPoints[4].title = "HS1/Location/AshfordInternational";
     // right sub menu titles
-    rPoints[4].title = "Soho";
-    rPoints[3].title = "Tottenham Ct Rd";
-    rPoints[2].title = "Barbican";
-    rPoints[1].title = "Liverpool";
-    rPoints[0].title = "Canary Wharf";
+    rPoints[4].title = "Crossrail/Location/Soho";
+    rPoints[3].title = "Crossrail/Location/TottenhamCourtRoad";
+    rPoints[2].title = "Crossrail/Location/Barbican";
+    rPoints[1].title = "Crossrail/Location/LiverpoolStreet";
+    rPoints[0].title = "Crossrail/Location/CanaryWharf";
     
     // setup left menu main
     leftMain.isMainTile = true;
@@ -94,6 +95,7 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     leftMain.drawType = 0;
     leftMain.isDraw = true;
     leftMain.set(padding, height - padding - mainArea, mainArea, mainArea);
+    leftMain.setup();
     
     // setup right menu main
     rightMain.isMainTile = true;
@@ -103,6 +105,7 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     rightMain.drawType = 0;
     rightMain.isDraw = true;
     rightMain.set((width - padding) - mainArea, height - padding - mainArea, mainArea, mainArea);
+    rightMain.setup();
     
     // setup left menu line
     lLine.lineLength = 0;
@@ -120,29 +123,129 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     //----------------------
     // content stuff
     //----------------------
+    
+    ofxNestedFileLoader loader;
+    vector<string> paths = loader.load("content/Google Drive/Arup/Research/Content/HS1");
+    int labelsIndex = 4;
+    for(int i = 0; i < paths.size(); i++) {
+        vector<string> splitString = ofSplitString(paths[i], "/");
+        if(splitString.size() == 11) {
+            if(splitString[9] == "MenuButton" && splitString[10] != "Icon\r") {
+                string full = paths[i];
+                string title = splitString[5] + "/" + splitString[6] + "/" + splitString[7] + "/" + splitString[8];
+                int locationIndex = c.locationsDictionary[0].at(splitString[7]);
+                contentLLabels[locationIndex][labelsIndex] = title;
+                labelsIndex--;
+                if(labelsIndex == -1) {
+                    labelsIndex = 4;
+                }
+            }
+        }
+    }
+    
+    loader.clearPaths();
+    
+//    content/Google Drive/Arup/Research/Content/HS1/Location/AshfordInternational/01_Media_ImgMap/Background/White Planel.png
+    
+    paths = loader.load("content/Google Drive/Arup/Research/Content/Crossrail");
+    labelsIndex = 0;
+    for(int i = 0; i < paths.size(); i++) {
+        vector<string> splitString = ofSplitString(paths[i], "/");
+        if(splitString.size() == 11) {
+            if(splitString[9] == "MenuButton" && splitString[10] != "Icon\r") {
+                string full = paths[i];
+                string title = splitString[5] + "/" + splitString[6] + "/" + splitString[7] + "/" + splitString[8];
+                int locationIndex = c.locationsDictionary[1].at(splitString[7]);
+                contentRLabels[locationIndex][labelsIndex] = title;
+                labelsIndex++;
+                if(labelsIndex == 5) {
+                    labelsIndex = 0;
+                }
+            }
+        }
+    }
+    
+//    for(int i = 0; i < 5; i++) {
+//        // labels left
+//        contentLLabels[i][0] = lPoints[i].title + "/Text";
+//        contentLLabels[i][1] = lPoints[i].title + "/Image";
+//        contentLLabels[i][2] = lPoints[i].title + "/Video";
+//        contentLLabels[i][3] = lPoints[i].title + "/3dModel";
+//        contentLLabels[i][4] = lPoints[i].title + "/Audio";
+//
+//        // labels right
+//        contentRLabels[i][4] = rPoints[i].title + "/Text";
+//        contentRLabels[i][3] = rPoints[i].title + "/Image";
+//        contentRLabels[i][2] = rPoints[i].title + "/Video";
+//        contentRLabels[i][1] = rPoints[i].title + "/3D Model";
+//        contentRLabels[i][0] = rPoints[i].title + "/Audio";
+//    }
+    
+//    //setup specific content labels
+//    //St Pancras
+//    contentLLabels[0][0] = "HOT SPOT KING'S CROSS LONDON - The gravy train will arrive here shortly";
+//    contentLLabels[0][1] = "Diagram and artistÕs impression (1997)";
+//    contentLLabels[0][2] = "Film (2013)";
+//    contentLLabels[0][3] = "3D Model of St Pancras International";
+//    contentLLabels[0][4] = "Acoustic Testing at St Pancras International";
+//    
+//    //Stratford
+//    contentLLabels[1][0] = "Aerial Image (2003)";
+//    contentLLabels[1][1] = "Diagram and artistÕs impression (1997)";
+//    contentLLabels[1][2] = "Film";
+//    contentLLabels[1][3] = "3D Model of Stratford International";
+//    contentLLabels[1][4] = "London's Big Push East";
+//    
+//    //Ebbsfleet
+//    contentLLabels[2][0] = "Drawing of a new Ebbsfleet Town";
+//    contentLLabels[2][1] = "Photo (2009)";
+//    contentLLabels[2][2] = "Bridge Push";
+//    contentLLabels[2][3] = "The Ebbsfleet Elephant";
+//    contentLLabels[2][4] = "Garden of England-or urban sprawl?";
+//    
+//    //Medway Viaduct
+//    contentLLabels[3][0] = "Plan and Elevations of Viaduct (1998)";
+//    contentLLabels[3][1] = "The Medway Viaduct Under Construction (2001)";
+//    contentLLabels[3][2] = "A most iconic bridge";
+//    contentLLabels[3][3] = "The Medway Viaduct";
+//    contentLLabels[3][4] = "Speed record foreshadows opening of UK's first high speed line";
+//    
+//    //Ashford International
+//    contentLLabels[4][0] = "The Arup Alignment";
+//    contentLLabels[4][1] = "Ashford International Station";
+//    contentLLabels[4][2] = "Bridge House Slide";
+//    contentLLabels[4][3] = "The Medway Viaduct";
+//    contentLLabels[4][4] = "AshfordÊboosted by London link";
+    
     for(int i = 0; i < 5; i++) {
-        // labels left
-        contentLLabels[i][0] = "Text" + ofToString(i);
-        contentLLabels[i][1] = "Image" + ofToString(i);
-        contentLLabels[i][2] = "Video" + ofToString(i);
-        contentLLabels[i][3] = "3D Model" + ofToString(i);
-        contentLLabels[i][4] = "Audio" + ofToString(i);
-
-        // labels right
-        contentRLabels[i][4] = "Text" + ofToString(i);
-        contentRLabels[i][3] = "Image" + ofToString(i);
-        contentRLabels[i][2] = "Video" + ofToString(i);
-        contentRLabels[i][1] = "3D Model" + ofToString(i);
-        contentRLabels[i][0] = "Audio" + ofToString(i);
+        lPoints[i].setup();
+        rPoints[i].setup();
     }
 
-    
     // setup content menu items
     setupLeftContent();
     setupRightContent();
     
     // content media setup
     c.setup();
+    
+    vector<InteractiveObject*> allCons;
+    
+    for(int i = 0; i < 5; i++) {
+        allCons.push_back(&rCon4[i]);
+        allCons.push_back(&rCon3[i]);
+        allCons.push_back(&rCon2[i]);
+        allCons.push_back(&rCon1[i]);
+        allCons.push_back(&rCon0[i]);
+        
+        allCons.push_back(&lCon4[i]);
+        allCons.push_back(&lCon3[i]);
+        allCons.push_back(&lCon2[i]);
+        allCons.push_back(&lCon1[i]);
+        allCons.push_back(&lCon0[i]);
+    }
+    
+    c.setCons(allCons);
     
     leftWasOn = false;
 }
@@ -463,12 +566,34 @@ void InteractiveMenu::update()
     
     if(leftOn && !leftWasOn) {
         crossrailIntro.stop();
+        c.stopLocationAudio();
         hs1Intro.play();
         leftWasOn = true;
+        for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
     } else if(rightOn && leftWasOn) {
         hs1Intro.stop();
+        c.stopLocationAudio();
         crossrailIntro.play();
         leftWasOn = false;
+        for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
     }
 }
 
@@ -1970,7 +2095,7 @@ void InteractiveMenu::pressed()
     
     for (int i = 0; i < length; i++)
     {
-        if (lPoints[i].isMousePressed(0) == 1 && leftOn && !bLeftActive[i] && !buttonClicked)
+        if (lPoints[i].isMousePressed(0) == 1 && leftOn /*&& !bLeftActive[i]*/ && !buttonClicked)
         {
             switch (i) {
                 case 0:
@@ -1979,13 +2104,16 @@ void InteractiveMenu::pressed()
                     bLeftActive[2] = false;
                     bLeftActive[3] = false;
                     bLeftActive[4] = false;
-//                    for(int j = 0; j < 5; j++) {
-//                        if(j != i) {
-//                            if(c.locationIntroSounds[0][j].isPlaying()) c.locationIntroSounds[0][j].stop();
-//                        } else {
-//                            c.locationIntroSounds[0][j].play();
-//                        }
-//                    }
+                    c.stopAudio();
+                    hs1Intro.stop();
+                    crossrailIntro.stop();
+                    for(int j = 0; j < 5; j++) {
+                        if(j != i) {
+                           if(c.introSounds[0][j].isPlaying()) c.introSounds[0][j].stop();
+                        } else {
+                            if(!c.introSounds[0][j].isPlaying()) c.introSounds[0][j].play();
+                        }
+                    }
                     break;
                 case 1:
                     bLeftActive[0] = false;
@@ -1993,6 +2121,16 @@ void InteractiveMenu::pressed()
                     bLeftActive[2] = false;
                     bLeftActive[3] = false;
                     bLeftActive[4] = false;
+                    c.stopAudio();
+                    hs1Intro.stop();
+                    crossrailIntro.stop();
+                    for(int j = 0; j < 5; j++) {
+                        if(j != i) {
+                            if(c.introSounds[0][j].isPlaying()) c.introSounds[0][j].stop();
+                        } else {
+                            if(!c.introSounds[0][j].isPlaying()) c.introSounds[0][j].play();
+                        }
+                    }
                     break;
                 case 2:
                     bLeftActive[0] = false;
@@ -2000,6 +2138,16 @@ void InteractiveMenu::pressed()
                     bLeftActive[2] = true;
                     bLeftActive[3] = false;
                     bLeftActive[4] = false;
+                    c.stopAudio();
+                    hs1Intro.stop();
+                    crossrailIntro.stop();
+                    for(int j = 0; j < 5; j++) {
+                        if(j != i) {
+                            if(c.introSounds[0][j].isPlaying()) c.introSounds[0][j].stop();
+                        } else {
+                            if(!c.introSounds[0][j].isPlaying()) c.introSounds[0][j].play();
+                        }
+                    }
                     break;
                 case 3:
                     bLeftActive[0] = false;
@@ -2007,6 +2155,16 @@ void InteractiveMenu::pressed()
                     bLeftActive[2] = false;
                     bLeftActive[3] = true;
                     bLeftActive[4] = false;
+                    c.stopAudio();
+                    hs1Intro.stop();
+                    crossrailIntro.stop();
+                    for(int j = 0; j < 5; j++) {
+                        if(j != i) {
+                            if(c.introSounds[0][j].isPlaying()) c.introSounds[0][j].stop();
+                        } else {
+                            if(!c.introSounds[0][j].isPlaying()) c.introSounds[0][j].play();
+                        }
+                    }
                     break;
                 case 4:
                     bLeftActive[0] = false;
@@ -2014,18 +2172,39 @@ void InteractiveMenu::pressed()
                     bLeftActive[2] = false;
                     bLeftActive[3] = false;
                     bLeftActive[4] = true;
+                    c.stopAudio();
+                    hs1Intro.stop();
+                    crossrailIntro.stop();
+                    for(int j = 0; j < 5; j++) {
+                        if(j != i) {
+                            if(c.introSounds[0][j].isPlaying()) c.introSounds[0][j].stop();
+                        } else {
+                            if(!c.introSounds[0][j].isPlaying()) c.introSounds[0][j].play();
+                        }
+                    }
                     break;
             }
             
             // play menu button sound
             snd1.play();
             
+            for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+                for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                    (*content)->setIsActive(false);
+                }
+            }
+            for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+                for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                    (*content)->setIsActive(false);
+                }
+            }
+            
             buttonClicked = true;
             Globals::buttonPressed = true;
         }
         
         // check for right button clicks
-        if (rPoints[i].isMousePressed(0) == 1 && rightOn && !bRightActive[i] && !buttonClicked)
+        if (rPoints[i].isMousePressed(0) == 1 && rightOn /*&& !bRightActive[i]*/ && !buttonClicked)
         {
             switch (i) {
                 case 0:
@@ -2034,6 +2213,16 @@ void InteractiveMenu::pressed()
                     bRightActive[2] = false;
                     bRightActive[3] = false;
                     bRightActive[4] = false;
+                    c.stopAudio();
+                    hs1Intro.stop();
+                    crossrailIntro.stop();
+                    for(int j = 0; j < 5; j++) {
+                        if(j != i) {
+                            if(c.introSounds[1][j].isPlaying()) c.introSounds[1][j].stop();
+                        } else {
+                            if(!c.introSounds[1][j].isPlaying()) c.introSounds[1][j].play();
+                        }
+                    }
                     break;
                 case 1:
                     bRightActive[0] = false;
@@ -2041,6 +2230,16 @@ void InteractiveMenu::pressed()
                     bRightActive[2] = false;
                     bRightActive[3] = false;
                     bRightActive[4] = false;
+                    c.stopAudio();
+                    hs1Intro.stop();
+                    crossrailIntro.stop();
+                    for(int j = 0; j < 5; j++) {
+                        if(j != i) {
+                            if(c.introSounds[1][j].isPlaying()) c.introSounds[1][j].stop();
+                        } else {
+                            if(!c.introSounds[1][j].isPlaying()) c.introSounds[1][j].play();
+                        }
+                    }
                     break;
                 case 2:
                     bRightActive[0] = false;
@@ -2048,6 +2247,16 @@ void InteractiveMenu::pressed()
                     bRightActive[2] = true;
                     bRightActive[3] = false;
                     bRightActive[4] = false;
+                    c.stopAudio();
+                    hs1Intro.stop();
+                    crossrailIntro.stop();
+                    for(int j = 0; j < 5; j++) {
+                        if(j != i) {
+                            if(c.introSounds[1][j].isPlaying()) c.introSounds[1][j].stop();
+                        } else {
+                            if(!c.introSounds[1][j].isPlaying()) c.introSounds[1][j].play();
+                        }
+                    }
                     break;
                 case 3:
                     bRightActive[0] = false;
@@ -2055,6 +2264,16 @@ void InteractiveMenu::pressed()
                     bRightActive[2] = false;
                     bRightActive[3] = true;
                     bRightActive[4] = false;
+                    c.stopAudio();
+                    hs1Intro.stop();
+                    crossrailIntro.stop();
+                    for(int j = 0; j < 5; j++) {
+                        if(j != i) {
+                            if(c.introSounds[1][j].isPlaying()) c.introSounds[1][j].stop();
+                        } else {
+                            if(!c.introSounds[1][j].isPlaying()) c.introSounds[1][j].play();
+                        }
+                    }
                     break;
                 case 4:
                     bRightActive[0] = false;
@@ -2062,11 +2281,32 @@ void InteractiveMenu::pressed()
                     bRightActive[2] = false;
                     bRightActive[3] = false;
                     bRightActive[4] = true;
+                    c.stopAudio();
+                    hs1Intro.stop();
+                    crossrailIntro.stop();
+                    for(int j = 0; j < 5; j++) {
+                        if(j != i) {
+                            if(c.introSounds[1][j].isPlaying()) c.introSounds[1][j].stop();
+                        } else {
+                            if(!c.introSounds[1][j].isPlaying()) c.introSounds[1][j].play();
+                        }
+                    }
                     break;
             }
             
             // play menu button sound
             snd1.play();
+            
+            for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+                for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                    (*content)->setIsActive(false);
+                }
+            }
+            for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+                for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                    (*content)->setIsActive(false);
+                }
+            }
             
             buttonClicked = true;
             Globals::buttonPressed = true;
@@ -2092,7 +2332,13 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         
         // load current content, enable vignette
-        c.load(0, 0, 0);
+        //c.load(0, 0, 0);
+        for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.hs1Displayers["StPancras"][0]->setIsActive(true);
         if (!Globals::vignetteOn)
             Globals::vignetteOn = true;
     }
@@ -2108,7 +2354,13 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         
         // load current content, enable vignette
-        c.load(0, 0, 1);
+        //c.load(0, 0, 1);
+        for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.hs1Displayers["StPancras"][1]->setIsActive(true);
         if (!Globals::vignetteOn)
             Globals::vignetteOn = true;
     }
@@ -2123,9 +2375,17 @@ void InteractiveMenu::pressedContent()
         // play button sound
         snd2.play();
         hs1Intro.stop();
+        crossrailIntro.stop();
+        c.stopLocationAudio();
         
         // load current content, enable vignette
-        c.load(0, 0, 2);
+        //c.load(0, 0, 2);
+        for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.hs1Displayers["StPancras"][2]->setIsActive(true);
         if (!Globals::vignetteOn)
             Globals::vignetteOn = true;
     }
@@ -2141,7 +2401,13 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         
         // load current content, enable vignette
-        c.load(0, 0, 3);
+        //c.load(0, 0, 3);
+        for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.hs1Displayers["StPancras"][3]->setIsActive(true);
         if (!Globals::vignetteOn)
             Globals::vignetteOn = true;
     }
@@ -2155,11 +2421,18 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
-        
         hs1Intro.stop();
+        crossrailIntro.stop();
+        c.stopLocationAudio();
         
         // load current content, enable vignette
-        c.load(0, 0, 4);
+        //c.load(0, 0, 4);
+        for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.hs1Displayers["StPancras"][4]->setIsActive(true);
         if (!Globals::vignetteOn)
             Globals::vignetteOn = true;
     }
@@ -2175,6 +2448,7 @@ void InteractiveMenu::pressedContent()
         c.item = 5;
         c.stopVideos();
         c.stopAudio();
+        // c.stopLocationAudio();
         if (Globals::vignetteOn)
             Globals::vignetteOn = false;
     }
@@ -2194,7 +2468,13 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         
         // load current content, enable vignette
-        c.load(0, 1, 0);
+        //c.load(0, 1, 0);
+        for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.hs1Displayers["StratfordInternational"][0]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (lCon1[1].isMousePressed() && bLPlace[1] && !lCon1[1].isSelected)
@@ -2209,7 +2489,13 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         
         // load current content, enable vignette
-        c.load(0, 1, 1);
+        //c.load(0, 1, 1);
+        for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.hs1Displayers["StratfordInternational"][1]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (lCon1[2].isMousePressed() && bLPlace[1] && !lCon1[2].isSelected)
@@ -2223,9 +2509,18 @@ void InteractiveMenu::pressedContent()
         // play button sound
         snd2.play();
         hs1Intro.stop();
+        crossrailIntro.stop();
+        c.stopLocationAudio();
+        
         
         // load current content, enable vignette
-        c.load(0, 1, 2);
+        //c.load(0, 1, 2);
+        for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.hs1Displayers["StratfordInternational"][2]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (lCon1[3].isMousePressed() && bLPlace[1] && !lCon1[3].isSelected)
@@ -2240,7 +2535,13 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         
         // load current content, enable vignette
-        c.load(0, 1, 3);
+        //c.load(0, 1, 3);
+        for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.hs1Displayers["StratfordInternational"][3]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (lCon1[4].isMousePressed() && bLPlace[1] && !lCon1[4].isSelected)
@@ -2254,9 +2555,17 @@ void InteractiveMenu::pressedContent()
         // play button sound
         snd2.play();
         hs1Intro.stop();
+        crossrailIntro.stop();
+        c.stopLocationAudio();
         
         // load current content, enable vignette
-        c.load(0, 1, 4);
+        //c.load(0, 1, 4);
+        for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.hs1Displayers["StratfordInternational"][4]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (!bLPlace[0] && !bLPlace[1] && !bLPlace[2] && !bLPlace[3] && !bLPlace[4] && !bRPlace[0] && !bRPlace[1] && !bRPlace[2] && !bRPlace[3] && !bRPlace[4])
@@ -2289,7 +2598,13 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         
         // load current content, enable vignette
-        c.load(0, 2, 0);
+        //c.load(0, 2, 0);
+        for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.hs1Displayers["EbbsfleetInternational"][0]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (lCon2[1].isMousePressed() && bLPlace[2] && !lCon2[1].isSelected)
@@ -2304,7 +2619,13 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         
         // load current content, enable vignette
-        c.load(0, 2, 1);
+        //c.load(0, 2, 1);
+        for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.hs1Displayers["EbbsfleetInternational"][1]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (lCon2[2].isMousePressed() && bLPlace[2] && !lCon2[2].isSelected)
@@ -2318,9 +2639,17 @@ void InteractiveMenu::pressedContent()
         // play button sound
         snd2.play();
         hs1Intro.stop();
+        crossrailIntro.stop();
+        c.stopLocationAudio();
         
         // load current content, enable vignette
-        c.load(0, 2, 2);
+        // c.load(0, 2, 2);
+        for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.hs1Displayers["EbbsfleetInternational"][2]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (lCon2[3].isMousePressed() && bLPlace[2] && !lCon2[3].isSelected)
@@ -2335,7 +2664,13 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         
         // load current content, enable vignette
-        c.load(0, 2, 3);
+        // c.load(0, 2, 3);
+        for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.hs1Displayers["EbbsfleetInternational"][3]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (lCon2[4].isMousePressed() && bLPlace[2] && !lCon2[4].isSelected)
@@ -2349,9 +2684,17 @@ void InteractiveMenu::pressedContent()
         // play button sound
         snd2.play();
         hs1Intro.stop();
+        crossrailIntro.stop();
+        c.stopLocationAudio();
         
         // load current content, enable vignette
-        c.load(0, 2, 4);
+        //c.load(0, 2, 4);
+        for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.hs1Displayers["EbbsfleetInternational"][4]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (!bLPlace[0] && !bLPlace[1] && !bLPlace[2] && !bLPlace[3] && !bLPlace[4] && !bRPlace[0] && !bRPlace[1] && !bRPlace[2] && !bRPlace[3] && !bRPlace[4])
@@ -2384,7 +2727,13 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         
         // load current content, enable vignette
-        c.load(0, 3, 0);
+        //c.load(0, 3, 0);
+        for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.hs1Displayers["MedwayViaduct"][0]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (lCon3[1].isMousePressed() && bLPlace[3] && !lCon3[1].isSelected)
@@ -2399,7 +2748,13 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         
         // load current content, enable vignette
-        c.load(0, 3, 1);
+        // c.load(0, 3, 1);
+        for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.hs1Displayers["MedwayViaduct"][1]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (lCon3[2].isMousePressed() && bLPlace[3] && !lCon3[2].isSelected)
@@ -2413,9 +2768,17 @@ void InteractiveMenu::pressedContent()
         // play button sound
         snd2.play();
         hs1Intro.stop();
+        crossrailIntro.stop();
+        c.stopLocationAudio();
         
         // load current content, enable vignette
-        c.load(0, 3, 2);
+        // c.load(0, 3, 2);
+        for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.hs1Displayers["MedwayViaduct"][2]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (lCon3[3].isMousePressed() && bLPlace[3] && !lCon3[3].isSelected)
@@ -2430,7 +2793,13 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         
         // load current content, enable vignette
-        c.load(0, 3, 3);
+        // c.load(0, 3, 3);
+        for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.hs1Displayers["MedwayViaduct"][3]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (lCon3[4].isMousePressed() && bLPlace[3] && !lCon3[4].isSelected)
@@ -2444,9 +2813,17 @@ void InteractiveMenu::pressedContent()
         // play button sound
         snd2.play();
         hs1Intro.stop();
+        crossrailIntro.stop();
+        c.stopLocationAudio();
         
         // load current content, enable vignette
-        c.load(0, 3, 4);
+        // c.load(0, 3, 4);
+        for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.hs1Displayers["MedwayViaduct"][0]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (!bLPlace[0] && !bLPlace[1] && !bLPlace[2] && !bLPlace[3] && !bLPlace[4] && !bRPlace[0] && !bRPlace[1] && !bRPlace[2] && !bRPlace[3] && !bRPlace[4])
@@ -2479,7 +2856,13 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         
         // load current content, enable vignette
-        c.load(0, 4, 0);
+        // c.load(0, 4, 0);
+        for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.hs1Displayers["AshfordInternational"][0]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (lCon4[1].isMousePressed() && bLPlace[4] && !lCon4[1].isSelected)
@@ -2494,7 +2877,13 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         
         // load current content, enable vignette
-        c.load(0, 4, 1);
+        // c.load(0, 4, 1);
+        for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.hs1Displayers["AshfordInternational"][1]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (lCon4[2].isMousePressed() && bLPlace[4] && !lCon4[2].isSelected)
@@ -2508,9 +2897,17 @@ void InteractiveMenu::pressedContent()
         // play button sound
         snd2.play();
         hs1Intro.stop();
+        crossrailIntro.stop();
+        c.stopLocationAudio();
         
         // load current content, enable vignette
-        c.load(0, 4, 2);
+        // c.load(0, 4, 2);
+        for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.hs1Displayers["AshfordInternational"][2]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (lCon4[3].isMousePressed() && bLPlace[4] && !lCon4[3].isSelected)
@@ -2525,7 +2922,13 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         
         // load current content, enable vignette
-        c.load(0, 4, 3);
+        // c.load(0, 4, 3);
+        for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.hs1Displayers["AshfordInternational"][3]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (lCon4[4].isMousePressed() && bLPlace[4] && !lCon4[4].isSelected)
@@ -2539,9 +2942,17 @@ void InteractiveMenu::pressedContent()
         // play button sound
         snd2.play();
         hs1Intro.stop();
+        crossrailIntro.stop();
+        c.stopLocationAudio();
         
         // load current content, enable vignette
-        c.load(0, 4, 4);
+        // c.load(0, 4, 4);
+        for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.hs1Displayers["AshfordInternational"][4]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (!bLPlace[0] && !bLPlace[1] && !bLPlace[2] && !bLPlace[3] && !bLPlace[4] && !bRPlace[0] && !bRPlace[1] && !bRPlace[2] && !bRPlace[3] && !bRPlace[4])
@@ -2573,10 +2984,18 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        hs1Intro.stop();
         crossrailIntro.stop();
+        c.stopLocationAudio();
         
         // load current content, enable vignette
-        c.load(1, 0, 0);
+        // c.load(1, 0, 0);
+        for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.crossrailDisplayers["CanaryWharf"][0]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon0[1].isMousePressed() && bRPlace[0] && !rCon0[1].isSelected)
@@ -2591,7 +3010,13 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         
         // load current content, enable vignette
-        c.load(1, 0, 1);
+        //c.load(1, 0, 1);
+        for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.crossrailDisplayers["CanaryWharf"][1]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon0[2].isMousePressed() && bRPlace[0] && !rCon0[2].isSelected)
@@ -2604,10 +3029,18 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        hs1Intro.stop();
         crossrailIntro.stop();
+        // c.stopLocationAudio();
         
         // load current content, enable vignette
-        c.load(1, 0, 2);
+        // c.load(1, 0, 2);
+        for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.crossrailDisplayers["CanaryWharf"][2]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon0[3].isMousePressed() && bRPlace[0] && !rCon0[3].isSelected)
@@ -2622,7 +3055,13 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         
         // load current content, enable vignette
-        c.load(1, 0, 3);
+        // c.load(1, 0, 3);
+        for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.crossrailDisplayers["CanaryWharf"][3]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon0[4].isMousePressed() && bRPlace[0] && !rCon0[4].isSelected)
@@ -2637,7 +3076,13 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         
         // load current content, enable vignette
-        c.load(1, 0, 4);
+        // c.load(1, 0, 4);
+        for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.crossrailDisplayers["CanaryWharf"][4]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (!bLPlace[0] && !bLPlace[1] && !bLPlace[2] && !bLPlace[3] && !bLPlace[4] && !bRPlace[0] && !bRPlace[1] && !bRPlace[2] && !bRPlace[3] && !bRPlace[4])
@@ -2669,10 +3114,18 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        hs1Intro.stop();
         crossrailIntro.stop();
+        c.stopLocationAudio();
         
         // load current content, enable vignette
-        c.load(1, 1, 0);
+        // c.load(1, 1, 0);
+        for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.crossrailDisplayers["LiverpoolStreet"][0]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon1[1].isMousePressed() && bRPlace[1] && !rCon1[1].isSelected)
@@ -2687,7 +3140,13 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         
         // load current content, enable vignette
-        c.load(1, 1, 1);
+        // c.load(1, 1, 1);
+        for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.crossrailDisplayers["LiverpoolStreet"][1]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon1[2].isMousePressed() && bRPlace[1] && !rCon1[2].isSelected)
@@ -2700,10 +3159,18 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        hs1Intro.stop();
         crossrailIntro.stop();
+        c.stopLocationAudio();
         
         // load current content, enable vignette
-        c.load(1, 1, 2);
+        // c.load(1, 1, 2);
+        for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.crossrailDisplayers["LiverpoolStreet"][2]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon1[3].isMousePressed() && bRPlace[1] && !rCon1[3].isSelected)
@@ -2718,7 +3185,13 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         
         // load current content, enable vignette
-        c.load(1, 1, 3);
+        // c.load(1, 1, 3);
+        for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.crossrailDisplayers["LiverpoolStreet"][3]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon1[4].isMousePressed() && bRPlace[1] && !rCon1[4].isSelected)
@@ -2733,7 +3206,13 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         
         // load current content, enable vignette
-        c.load(1, 1, 4);
+        // c.load(1, 1, 4);
+        for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.crossrailDisplayers["LiverpoolStreet"][4]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (!bLPlace[0] && !bLPlace[1] && !bLPlace[2] && !bLPlace[3] && !bLPlace[4] && !bRPlace[0] && !bRPlace[1] && !bRPlace[2] && !bRPlace[3] && !bRPlace[4])
@@ -2765,10 +3244,18 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        hs1Intro.stop();
         crossrailIntro.stop();
+        c.stopLocationAudio();
         
         // load current content, enable vignette
-        c.load(1, 2, 0);
+        // c.load(1, 2, 0);
+        for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.crossrailDisplayers["Barbican"][0]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon2[1].isMousePressed() && bRPlace[2] && !rCon2[1].isSelected)
@@ -2783,7 +3270,13 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         
         // load current content, enable vignette
-        c.load(1, 2, 1);
+        // c.load(1, 2, 1);
+        for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.crossrailDisplayers["Barbican"][1]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon2[2].isMousePressed() && bRPlace[2] && !rCon2[2].isSelected)
@@ -2796,10 +3289,18 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        hs1Intro.stop();
         crossrailIntro.stop();
+        c.stopLocationAudio();
         
         // load current content, enable vignette
-        c.load(1, 2, 2);
+        // c.load(1, 2, 2);
+        for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.crossrailDisplayers["Barbican"][2]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon2[3].isMousePressed() && bRPlace[2] && !rCon2[3].isSelected)
@@ -2814,7 +3315,13 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         
         // load current content, enable vignette
-        c.load(1, 2, 3);
+        // c.load(1, 2, 3);
+        for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.crossrailDisplayers["Barbican"][3]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon2[4].isMousePressed() && bRPlace[2] && !rCon2[4].isSelected)
@@ -2829,7 +3336,13 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         
         // load current content, enable vignette
-        c.load(1, 2, 4);
+        // c.load(1, 2, 4);
+        for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.crossrailDisplayers["Barbican"][4]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (!bLPlace[0] && !bLPlace[1] && !bLPlace[2] && !bLPlace[3] && !bLPlace[4] && !bRPlace[0] && !bRPlace[1] && !bRPlace[2] && !bRPlace[3] && !bRPlace[4])
@@ -2861,10 +3374,18 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        hs1Intro.stop();
         crossrailIntro.stop();
-        
+        c.stopLocationAudio();
+    
         // load current content, enable vignette
-        c.load(1, 3, 0);
+        // c.load(1, 3, 0);
+        for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.crossrailDisplayers["TottenhamCourtRoad"][0]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon3[1].isMousePressed() && bRPlace[3] && !rCon3[1].isSelected)
@@ -2879,7 +3400,13 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         
         // load current content, enable vignette
-        c.load(1, 3, 1);
+        // c.load(1, 3, 1);
+        for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.crossrailDisplayers["TottenhamCourtRoad"][1]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon3[2].isMousePressed() && bRPlace[3] && !rCon3[2].isSelected)
@@ -2892,10 +3419,18 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        hs1Intro.stop();
         crossrailIntro.stop();
+        c.stopLocationAudio();
         
         // load current content, enable vignette
-        c.load(1, 3, 2);
+        // c.load(1, 3, 2);
+        for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.crossrailDisplayers["TottenhamCourtRoad"][2]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon3[3].isMousePressed() && bRPlace[3] && !rCon3[3].isSelected)
@@ -2910,7 +3445,13 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         
         // load current content, enable vignette
-        c.load(1, 3, 3);
+        // c.load(1, 3, 3);
+        for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.crossrailDisplayers["TottenhamCourtRoad"][3]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon3[4].isMousePressed() && bRPlace[3] && !rCon3[4].isSelected)
@@ -2925,7 +3466,13 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         
         // load current content, enable vignette
-        c.load(1, 3, 4);
+        // c.load(1, 3, 4);
+        for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.crossrailDisplayers["TottenhamCourtRoad"][4]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (!bLPlace[0] && !bLPlace[1] && !bLPlace[2] && !bLPlace[3] && !bLPlace[4] && !bRPlace[0] && !bRPlace[1] && !bRPlace[2] && !bRPlace[3] && !bRPlace[4])
@@ -2957,10 +3504,18 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        hs1Intro.stop();
         crossrailIntro.stop();
+        // c.stopLocationAudio();
         
         // load current content, enable vignette
-        c.load(1, 4, 0);
+        // c.load(1, 4, 0);
+        for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.crossrailDisplayers["Soho"][0]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon4[1].isMousePressed() && bRPlace[4] && !rCon4[1].isSelected)
@@ -2975,7 +3530,13 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         
         // load current content, enable vignette
-        c.load(1, 4, 1);
+        // c.load(1, 4, 1);
+        for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.crossrailDisplayers["Soho"][1]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon4[2].isMousePressed() && bRPlace[4] && !rCon4[2].isSelected)
@@ -2988,10 +3549,18 @@ void InteractiveMenu::pressedContent()
         
         // play button sound
         snd2.play();
+        hs1Intro.stop();
         crossrailIntro.stop();
+        // c.stopLocationAudio();
         
         // load current content, enable vignette
-        c.load(1, 4, 2);
+        // c.load(1, 4, 2);
+        for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.crossrailDisplayers["Soho"][2]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon4[3].isMousePressed() && bRPlace[4] && !rCon4[3].isSelected)
@@ -3006,7 +3575,13 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         
         // load current content, enable vignette
-        c.load(1, 4, 3);
+        // c.load(1, 4, 3);
+        for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.crossrailDisplayers["Soho"][3]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (rCon4[4].isMousePressed() && bRPlace[4] && !rCon4[4].isSelected)
@@ -3021,7 +3596,13 @@ void InteractiveMenu::pressedContent()
         snd2.play();
         
         // load current content, enable vignette
-        c.load(1, 4, 4);
+        // c.load(1, 4, 4);
+        for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        c.crossrailDisplayers["Soho"][4]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (!bLPlace[0] && !bLPlace[1] && !bLPlace[2] && !bLPlace[3] && !bLPlace[4] && !bRPlace[0] && !bRPlace[1] && !bRPlace[2] && !bRPlace[3] && !bRPlace[4])
