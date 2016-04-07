@@ -675,7 +675,9 @@ void ofApp::update()
     route.update(scroller.getValue());    
     
     // update mesh target and if we're scrolling
-    if (scroller.isScrolling) meshTarget = route.getPosition(true);
+    if (scroller.isScrolling) {
+        meshTarget = route.getPosition(true);
+    }
     
     // zoom in/out of points based on distance
     if (!systemActive && bCove)
@@ -1366,6 +1368,7 @@ void ofApp::mouseReleased(int x, int y, int button)
                     (*content)->setIsActive(false);
                 }
             }
+            
             menu.c.stopLocationAudio();
         }
     }

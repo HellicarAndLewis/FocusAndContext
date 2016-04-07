@@ -61,7 +61,7 @@ void ofApp::setup()
     scroller.accMax = 2;
     scroller.velMax = 12;
     scroller.setup();
-    scroller.disable();
+    scroller.enable();
     
     // for billboards
     ofDisableArbTex();
@@ -344,6 +344,10 @@ void ofApp::loadPoint(int point)
     setLon(intPoints[point].lon);
     setLat(intPoints[point].lat);
     
+//    for(auto it = route.locationsLeft.begin(); it != route.locationsLeft.end(); it++) {
+//        it->isActive = false;
+//    }
+    
     //if project is HS1
     if(route.activeProject == 0) {
         int numLabelledLocations = 0;
@@ -356,7 +360,9 @@ void ofApp::loadPoint(int point)
                 numLabelledLocations++;
             }
         }
-
+        for(int i = 0; i < route.locationsRight.size(); i++) {
+            route.locationsRight[i].isActive = false;
+        }
         switch (point) {
             case 0:
                 //St Pancras
@@ -391,6 +397,9 @@ void ofApp::loadPoint(int point)
                 numLabelledLocations++;
             }
         }
+        for(int i = 0; i < route.locationsLeft.size(); i++) {
+            route.locationsLeft[i].isActive = false;
+        }
         switch (point) {
             case 0:
                 //Tottenham
@@ -411,7 +420,6 @@ void ofApp::loadPoint(int point)
             case 4:
                 //Soho
                 scroller.scrollTo(0.889906);
-
             default:
                 break;
         }
@@ -563,10 +571,36 @@ void ofApp::autoSysUpdate()
                 if (route.activeProject == 0)
                 {
                     worldTransform(96000, 0.03, ofVec3f(0, 0, 0), 0.03);
+                    bool firstSet = false;
+//                    for(int i = 0; i < route.locationsLeft.size(); i++) {
+//                        if(!firstSet && route.locationsLeft[i].hasLabel) {
+//                            route.locationsLeft[i].isActive = true;
+//                        }
+//                        route.locationsLeft[i].isActive = false;
+//                    }
+                    for(int i = 0; i < route.locationsRight.size(); i++) {
+                        route.locationsRight[i].isActive = false;
+                    }
                 }
                 else
                 {
                     worldTransform(18000, 0.03, ofVec3f(0, 0, 0), 0.03);
+                    for(int i = 0; i < route.locationsLeft.size(); i++) {
+                        route.locationsLeft[i].isActive = false;
+                    }
+//                    for(int i = 0; i < route.locationsRight.size(); i++) {
+//                        route.locationsRight[i].isActive = false;
+//                    }
+                }
+                for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+                    for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                        (*content)->setIsActive(false);
+                    }
+                }
+                for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+                    for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                        (*content)->setIsActive(false);
+                    }
                 }
                 
                 posLerp = 0.03;
@@ -653,6 +687,49 @@ void ofApp::autoSysUpdate()
             // content stuff
             if (contentActive)
             {
+                // HS1
+                if(route.activeProject == 0) {
+                    switch (pointJump) {
+                        case 0:
+                            c.hs1Displayers["StPancras"][pointJump]->setIsActive(true);
+                            break;
+                        case 1:
+                            c.hs1Displayers["StratfordInternational"][pointJump]->setIsActive(true);
+                            break;
+                        case 2:
+                            c.hs1Displayers["EbbsfleetInternational"][pointJump]->setIsActive(true);
+                            break;
+                        case 3:
+                            c.hs1Displayers["MedwayViaduct"][pointJump]->setIsActive(true);
+                            break;
+                        case 4:
+                            c.hs1Displayers["AshfordInternational"][pointJump]->setIsActive(true);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                if(route.activeProject == 1) {
+                    switch (pointJump) {
+                        case 0:
+                            c.crossrailDisplayers["Soho"][pointJump]->setIsActive(true);
+                            break;
+                        case 1:
+                            c.crossrailDisplayers["TottenhamCourtRoad"][pointJump]->setIsActive(true);
+                            break;
+                        case 2:
+                            c.crossrailDisplayers["Barbican"][pointJump]->setIsActive(true);
+                            break;
+                        case 3:
+                            c.crossrailDisplayers["LiverpoolStreet"][pointJump]->setIsActive(true);
+                            break;
+                        case 4:
+                            c.crossrailDisplayers["CanaryWharf"][pointJump]->setIsActive(true);
+                            break;
+                        default:
+                            break;
+                    }
+                }
 //                c.load(route.activeProject, pointJump, randomItem);
                 contentActive = false;
             }
@@ -674,10 +751,13 @@ void ofApp::update()
     
     if(colorProject) projectColors();
     
-    route.update(scroller.getValue());    
+    float scrollerValue = scroller.getValue();
+    route.update(scrollerValue);
     
     // update mesh target and if we're scrolling
-    if (scroller.isScrolling) meshTarget = route.getPosition(true);
+    if (scroller.isScrolling) {
+        meshTarget = route.getPosition(true);
+    }
     
     // zoom in/out of points based on distance
     if (!systemActive && bCove)
@@ -740,6 +820,7 @@ void ofApp::update()
         if (!systemActive)
             posLerp = 0.03;
     }
+    
     meshPosition.x = ofLerp(meshPosition.x, meshTarget.x, posLerp);
     meshPosition.y = ofLerp(meshPosition.y, meshTarget.y, posLerp);
     
@@ -873,42 +954,42 @@ void ofApp::draw()
     
     ofEnableSmoothing();
     
-    if(camTilt < 0) {
-        for(int i = 0; i < route.locationsLeft.size(); i++) {
-            float* offset = &route.locationsLeft[i].verticalOffset;
-            float offsetSaved = route.locationsLeft[i].verticalOffsetSaved;
-            if(route.locationsLeft[i].isActive) {
-                *offset = ofLerp(*offset, 5000, 0.1);
-                route.locationsLeft[i].alpha = ofLerp(route.locationsLeft[i].alpha, 1.0, 0.1);
-            } else {
-                route.locationsLeft[i].alpha = ofLerp(route.locationsLeft[i].alpha, 0.0, 0.1);
-            }
-        }
-        for(int i = 0; i < route.locationsRight.size(); i++) {
-            float* offset = &route.locationsRight[i].verticalOffset;
-            float offsetSaved = route.locationsRight[i].verticalOffsetSaved;
-            if(route.locationsRight[i].isActive) {
-                *offset = ofLerp(*offset, 5000, 0.1);
-                route.locationsRight[i].alpha = ofLerp(route.locationsRight[i].alpha, 1.0, 0.1);
-            } else {
-                route.locationsRight[i].alpha = ofLerp(route.locationsRight[i].alpha, 0.0, 0.1);
-            }
-        }
-    } else {
-        for(int i = 0; i < route.locationsLeft.size(); i++) {
-            float* offset = &route.locationsLeft[i].verticalOffset;
-            float offsetSaved = route.locationsLeft[i].verticalOffsetSaved;
-            *offset = ofLerp(*offset, offsetSaved, 0.1);
-            route.locationsLeft[i].alpha = ofLerp(route.locationsLeft[i].alpha, 1.0, 0.1);
-        }
-        for(int i = 0; i < route.locationsRight.size(); i++) {
-            float* offset = &route.locationsRight[i].verticalOffset;
-            float offsetSaved = route.locationsRight[i].verticalOffsetSaved;
-            *offset = ofLerp(*offset, offsetSaved, 0.1);
-            route.locationsRight[i].alpha = ofLerp(route.locationsRight[i].alpha, 1.0, 0.1);
-        }
-
-    }
+//    if(camTilt < 0) {
+//        for(int i = 0; i < route.locationsLeft.size(); i++) {
+//            float* offset = &route.locationsLeft[i].verticalOffset;
+//            float offsetSaved = route.locationsLeft[i].verticalOffsetSaved;
+//            if(route.locationsLeft[i].isActive) {
+//                *offset = ofLerp(*offset, 5000, 0.1);
+//                route.locationsLeft[i].alpha = ofLerp(route.locationsLeft[i].alpha, 1.0, 0.1);
+//            } else {
+//                route.locationsLeft[i].alpha = ofLerp(route.locationsLeft[i].alpha, 0.0, 0.1);
+//            }
+//        }
+//        for(int i = 0; i < route.locationsRight.size(); i++) {
+//            float* offset = &route.locationsRight[i].verticalOffset;
+//            float offsetSaved = route.locationsRight[i].verticalOffsetSaved;
+//            if(route.locationsRight[i].isActive) {
+//                *offset = ofLerp(*offset, 5000, 0.1);
+//                route.locationsRight[i].alpha = ofLerp(route.locationsRight[i].alpha, 1.0, 0.1);
+//            } else {
+//                route.locationsRight[i].alpha = ofLerp(route.locationsRight[i].alpha, 0.0, 0.1);
+//            }
+//        }
+//    } else {
+//        for(int i = 0; i < route.locationsLeft.size(); i++) {
+//            float* offset = &route.locationsLeft[i].verticalOffset;
+//            float offsetSaved = route.locationsLeft[i].verticalOffsetSaved;
+//            *offset = ofLerp(*offset, offsetSaved, 0.1);
+//            route.locationsLeft[i].alpha = ofLerp(route.locationsLeft[i].alpha, 1.0, 0.1);
+//        }
+//        for(int i = 0; i < route.locationsRight.size(); i++) {
+//            float* offset = &route.locationsRight[i].verticalOffset;
+//            float offsetSaved = route.locationsRight[i].verticalOffsetSaved;
+//            *offset = ofLerp(*offset, offsetSaved, 0.1);
+//            route.locationsRight[i].alpha = ofLerp(route.locationsRight[i].alpha, 1.0, 0.1);
+//        }
+//
+//    }
     
     drawScene();
     

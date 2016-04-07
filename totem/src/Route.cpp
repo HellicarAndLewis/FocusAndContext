@@ -12,8 +12,8 @@
 
 Route::Route() {
     activeLocation = NULL;
-    locationThreshold = 0.05;
-    zoomLevel = 16;
+    locationThreshold = 100.;
+    zoomLevel = 13;
 }
 
 void Route::setup() {
@@ -46,7 +46,7 @@ void Route::update(float percent) {
     if (activeProject == 0) {
         for (auto &location: locationsLeft) {
             location.update();
-           // location.isActive = false;
+            //location.isActive = false;
         }
         
         // get the nearest point on the route to current progress
@@ -59,24 +59,30 @@ void Route::update(float percent) {
         percentToActive = indexInterp - activeIndex;
         if (activeIndex > indexInterp) percentToActive = activeIndex - indexInterp;
         // set the nearest point to active if it's nearer than a certain threshold
-        if (percentToActive < locationThreshold) activeLocation->isActive = true;
+        if (percentToActive < locationThreshold) {
+            activeLocation->isActive = true;
+        }
     } else {
         for (auto &location: locationsRight) {
             location.update();
-          //  location.isActive = false;
+            //location.isActive = false;
         }
         
         // get the nearest point on the route to current progress
         float totalLength = routeRight.getLengthAtIndex(locationsRight.size()-1);
         float indexInterp = routeRight.getIndexAtLength(percent * totalLength);
+        
         activeIndex = round(indexInterp);
+        auto locationCandidate = &locationsRight[activeIndex];
         activeLocation = &locationsRight[activeIndex];
         
         // get the percent distance (0 - 0.5) to the nearest point
         percentToActive = indexInterp - activeIndex;
         if (activeIndex > indexInterp) percentToActive = activeIndex - indexInterp;
         // set the nearest point to active if it's nearer than a certain threshold
-        if (percentToActive < locationThreshold) activeLocation->isActive = true;
+        if (percentToActive < locationThreshold) {
+            activeLocation->isActive = true;
+        }
     }
 }
 
@@ -363,8 +369,9 @@ void Route::populateLocationsLeft() {
         string filename = xml.getValue("titleImg", "");
         if (filename != "") {
             location.labelImage.load(folderPath + "/labels/" + filename);
-            location.verticalOffset = (numNamedLocations%2 == 0) ? 30000 : -30000;
-            location.verticalOffsetSaved = (numNamedLocations%2 == 0) ? 30000 : -30000;
+            location.verticalOffset = 1000;
+            location.verticalOffsetSaved = location.verticalOffset;
+
             numNamedLocations++;
         }
         
@@ -407,24 +414,24 @@ void Route::populateLocationsRight() {
             location.labelImage.load(folderPath + "/labels/" + filename);
             switch(numNamedLocations) {
                 case 0:
-                    location.verticalOffset = 15000;
-                    location.verticalOffsetSaved = 15000;
+                    location.verticalOffset = 1000;
+                    location.verticalOffsetSaved = location.verticalOffset;
                     break;
                 case 1:
-                    location.verticalOffset = -5000;
-                    location.verticalOffsetSaved = -5000;
+                    location.verticalOffset = 1000;
+                    location.verticalOffsetSaved = location.verticalOffset;
                     break;
                 case 2:
-                    location.verticalOffset = 10000;
-                    location.verticalOffsetSaved = 10000;
+                    location.verticalOffset = 1000;
+                    location.verticalOffsetSaved = location.verticalOffset;
                     break;
                 case 3:
-                    location.verticalOffset = -10000;
-                    location.verticalOffsetSaved = -10000;
+                    location.verticalOffset = 1000;
+                    location.verticalOffsetSaved = location.verticalOffset;
                     break;
                 case 4:
-                    location.verticalOffset = 10000;
-                    location.verticalOffsetSaved = 10000;
+                    location.verticalOffset = 1000;
+                    location.verticalOffsetSaved = location.verticalOffset;
                     break;
                 default :
                     break;

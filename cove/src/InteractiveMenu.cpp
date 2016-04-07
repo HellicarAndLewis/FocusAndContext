@@ -126,7 +126,7 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     
     ofxNestedFileLoader loader;
     vector<string> paths = loader.load("content/Google Drive/Arup/Research/Content/HS1");
-    int labelsIndex = 4;
+    int labelsIndex = 0;
     for(int i = 0; i < paths.size(); i++) {
         vector<string> splitString = ofSplitString(paths[i], "/");
         if(splitString.size() == 11) {
@@ -135,9 +135,9 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
                 string title = splitString[5] + "/" + splitString[6] + "/" + splitString[7] + "/" + splitString[8];
                 int locationIndex = c.locationsDictionary[0].at(splitString[7]);
                 contentLLabels[locationIndex][labelsIndex] = title;
-                labelsIndex--;
-                if(labelsIndex == -1) {
-                    labelsIndex = 4;
+                labelsIndex++;
+                if(labelsIndex == 5) {
+                    labelsIndex = 0;
                 }
             }
         }

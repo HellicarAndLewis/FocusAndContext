@@ -59,6 +59,8 @@ void Content::setup()
     
     backgroundImageSmall.load("content/shared/backgroundTileSmall.png");
     
+    backgroundImage65.load("content/shared/backgroundTile65.png");
+    
     playhead.setAlpha(255.0);
     
     item = 5;
@@ -134,9 +136,15 @@ void Content::fileLocation() {
                     //We've got a video!
                     VideoDisplayer* displayer = new VideoDisplayer();
                     displayer->setVideo(currentPaths[i]);
-                    displayer->setBackgroundImage(&backgroundImageLarge);
+                    if(displayer->getVideo()->getHeight() == 742) {
+                        displayer->setBackgroundImage(&backgroundImage65);
+
+                    } else {
+                        displayer->setBackgroundImage(&backgroundImageLarge);
+                    }
                     displayer->setContentLocation(currentPaths[i]);
                     displayer->setPlayhead(&playhead);
+
                     (*currentProjectDisplayers)[locationName].push_back(displayer);
                 } else if(fileType == "fbx") {
                     //We've got a model!

@@ -45,6 +45,8 @@ public:
     
     ofImage backgroundImageLarge;
     ofImage backgroundImageSmall;
+    ofImage backgroundImage43;
+    ofImage backgroundImage65;
     
     map<string, vector<ContentDisplayer*> > hs1Displayers;
     map<string, vector<ContentDisplayer*> > crossrailDisplayers;

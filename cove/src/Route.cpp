@@ -13,7 +13,7 @@
 Route::Route() {
     activeLocation = NULL;
     locationThreshold = 0.05;
-    zoomLevel = 16;
+    zoomLevel = 13;
 }
 
 void Route::setup() {

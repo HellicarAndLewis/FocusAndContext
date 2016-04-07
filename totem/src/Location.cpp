@@ -26,7 +26,7 @@ Location::Location() {
     
     verticalOffset = 0;
     verticalOffsetSaved = 0;
-    alpha = 1.0;
+    alpha = 0.0;
 }
 
 void Location::setup(string title) {
@@ -71,7 +71,7 @@ void Location::draw(ofCamera& cam, float _alpha, float _height)
             if (Globals::autoRoute)
             {
                 height = ofLerp(height, 0, 0.2);
-                size = ofLerp(size, 0, 0.2);
+               // size = ofLerp(size, 0, 0.2);
             }
             else
             {
@@ -88,7 +88,7 @@ void Location::draw(ofCamera& cam, float _alpha, float _height)
             if (Globals::autoRoute)
             {
                 height = ofLerp(height, 0, 0.2);
-                size = ofLerp(size, 0, 0.2);
+                //size = ofLerp(size, 0, 0.2);
             }
             else
             {
@@ -119,31 +119,38 @@ void Location::draw(ofCamera& cam, float _alpha, float _height)
     ofSetLineWidth(1);
     */
     
-    float inputAlpha = ofMap(_alpha, 0.0, 255.0, 0.0, 1.0);
+    if(isActive) {
+        alpha = ofLerp(alpha, 1.0, 0.05);
+    } else {
+        alpha = ofLerp(alpha, 0.0, 0.05);
+        if(alpha < 0.1) alpha = 0.0;
+    }
     
-    float finalAlpha = (alpha < inputAlpha) ? alpha : inputAlpha;
+//    float inputAlpha = ofMap(_alpha, 0.0, 255.0, 0.0, 1.0);
+    
+//    float finalAlpha = (alpha < inputAlpha) ? alpha : inputAlpha;
     
     ofPushStyle();
     ofPushMatrix();
     ofSetLineWidth(3);
-    ofSetColor(255, 255, 255, ofMap(finalAlpha, 0., 1., 0., 255.));
+    ofSetColor(255, 255, 255, ofMap(alpha, 0., 1., 0., 255.));
     lineHeight = 1600;
-    ofDrawLine(position.x, position.y, 0, position.x, position.y + height + verticalOffset, 0);
+    ofDrawLine(position.x, position.y, 0, position.x, position.y + height, + verticalOffset);
     ofNoFill();
     ofSetCircleResolution(50);
     ofDrawCircle(position.x, position.y, 500);
     ofPopMatrix();
     ofPopStyle();
-
+    
     ofSetLineWidth(1);
     
     // billboard to face cam
     billboardShader.begin();
-    billboardShader.setUniform1f("alpha", finalAlpha);
+    billboardShader.setUniform1f("alpha", alpha);
     ofEnablePointSprites();
     labelImage.getTexture().bind();
     glBegin(GL_POINTS);
-    glVertex3f(position.x, position.y + height + verticalOffset,  0);
+    glVertex3f(position.x, position.y + height,  verticalOffset);
     glNormal3f(size, 0, 0);
     glEnd();
     labelImage.getTexture().unbind();
