@@ -55,11 +55,13 @@ void Content::setup()
     playhead.setBarColor(col);
     
     //load background Images
-    backgroundImageLarge.load("content/shared/backgroundTile.png");
+    backgroundImage169.load("content/shared/backgroundTile169.png");
     
-    backgroundImageSmall.load("content/shared/backgroundTileSmall.png");
+    backgroundImageAudio.load("content/shared/backgroundTileAudio.png");
     
     backgroundImage65.load("content/shared/backgroundTile65.png");
+    
+    backgroundImage43.load("content/shared/backgroundTile43.png");
     
     playhead.setAlpha(255.0);
     
@@ -120,7 +122,7 @@ void Content::fileLocation() {
                     //We've got an image!
                     ImageDisplayer* displayer = new ImageDisplayer();
                     displayer->setImage(currentPaths[i]);
-                    displayer->setBackgroundImage(&backgroundImageLarge);
+                    displayer->setBackgroundImage(&backgroundImage169);
                     displayer->setContentLocation(currentPaths[i]);
                     displayer->setPlayhead(&playhead);
                     (*currentProjectDisplayers)[locationName].push_back(displayer);
@@ -128,7 +130,7 @@ void Content::fileLocation() {
                     //We've got an audio file!
                     AudioDisplayer* displayer = new AudioDisplayer();
                     displayer->setAudio(currentPaths[i]);
-                    displayer->setBackgroundImage(&backgroundImageSmall);
+                    displayer->setBackgroundImage(&backgroundImageAudio);
                     displayer->setContentLocation(currentPaths[i]);
                     displayer->setPlayhead(&playhead);
                     (*currentProjectDisplayers)[locationName].push_back(displayer);
@@ -138,9 +140,10 @@ void Content::fileLocation() {
                     displayer->setVideo(currentPaths[i]);
                     if(displayer->getVideo()->getHeight() == 742) {
                         displayer->setBackgroundImage(&backgroundImage65);
-
+                    } else if(displayer->getVideo()->getHeight() == 682) {
+                        displayer->setBackgroundImage(&backgroundImage43);
                     } else {
-                        displayer->setBackgroundImage(&backgroundImageLarge);
+                        displayer->setBackgroundImage(&backgroundImage169);
                     }
                     displayer->setContentLocation(currentPaths[i]);
                     displayer->setPlayhead(&playhead);
@@ -150,7 +153,7 @@ void Content::fileLocation() {
                     //We've got a model!
                     ModelDisplayer* displayer = new ModelDisplayer();
                     displayer->setScene(currentPaths[i]);
-                    displayer->setBackgroundImage(&backgroundImageLarge);
+                    displayer->setBackgroundImage(&backgroundImage169);
                     displayer->setContentLocation(currentPaths[i]);
                     displayer->setPlayhead(&playhead);
                     displayer->setCamera(&cam);
@@ -196,7 +199,7 @@ void Content::fileLocation() {
                     //We've got an image!
                     ImageDisplayer* displayer = new ImageDisplayer();
                     displayer->setImage(currentPaths[i]);
-                    displayer->setBackgroundImage(&backgroundImageLarge);
+                    displayer->setBackgroundImage(&backgroundImage169);
                     displayer->setContentLocation(currentPaths[i]);
                     displayer->setPlayhead(&playhead);
                     (*currentProjectDisplayers)[locationName].push_back(displayer);
@@ -204,7 +207,7 @@ void Content::fileLocation() {
                     //We've got an audio file!
                     AudioDisplayer* displayer = new AudioDisplayer();
                     displayer->setAudio(currentPaths[i]);
-                    displayer->setBackgroundImage(&backgroundImageSmall);
+                    displayer->setBackgroundImage(&backgroundImageAudio);
                     displayer->setContentLocation(currentPaths[i]);
                     displayer->setPlayhead(&playhead);
                     (*currentProjectDisplayers)[locationName].push_back(displayer);
@@ -212,7 +215,7 @@ void Content::fileLocation() {
                     //We've got a video!
                     VideoDisplayer* displayer = new VideoDisplayer();
                     displayer->setVideo(currentPaths[i]);
-                    displayer->setBackgroundImage(&backgroundImageLarge);
+                    displayer->setBackgroundImage(&backgroundImage169);
                     displayer->setContentLocation(currentPaths[i]);
                     displayer->setPlayhead(&playhead);
                     (*currentProjectDisplayers)[locationName].push_back(displayer);
@@ -220,7 +223,7 @@ void Content::fileLocation() {
                     //We've got a model!
                     ModelDisplayer* displayer = new ModelDisplayer();
                     displayer->setScene(currentPaths[i]);
-                    displayer->setBackgroundImage(&backgroundImageLarge);
+                    displayer->setBackgroundImage(&backgroundImage169);
                     displayer->setContentLocation(currentPaths[i]);
                     displayer->setPlayhead(&playhead);
                     displayer->setCamera(&cam);

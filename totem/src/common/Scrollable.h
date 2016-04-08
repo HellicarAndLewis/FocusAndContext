@@ -60,16 +60,16 @@ namespace IFS {
         }
         
         void draw() {
-            ofSetColor(20);
-            ofDrawRectangle(0, ofGetHeight()-rectSize.y, bounds.width, rectSize.y);
-            ofSetColor(80);
-            float rad = rectSize.y * 0.5;
-            for (auto tick: ticks) {
-                ofDrawCircle(bounds.width * tick, ofGetHeight()-rad, rad);
-            }
-            ofSetColor(240,0,0);
-            ofDrawRectangle(rect);
-            ofSetColor(255);
+//            ofSetColor(20);
+//            ofDrawRectangle(0, ofGetHeight()-rectSize.y, bounds.width, rectSize.y);
+//            ofSetColor(80);
+//            float rad = rectSize.y * 0.5;
+//            for (auto tick: ticks) {
+//                ofDrawCircle(bounds.width * tick, ofGetHeight()-rad, rad);
+//            }
+//            ofSetColor(240,0,0);
+//            ofDrawRectangle(rect);
+//            ofSetColor(255);
         }
         
         void exit() {

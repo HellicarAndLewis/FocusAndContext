@@ -112,8 +112,8 @@ void Route::draw(ofCamera& cam) {
     ofPopMatrix();
     
     ofSetColor(255);
-    for (auto &location: locationsLeft) {
-        location.draw(cam, alphaLeft, -1150);
+    for (int i = locationsLeft.size() - 1; i > 0; i--) {
+        locationsLeft[i].draw(cam, alphaLeft, -1150);
     }
     ofEnableDepthTest();
     
@@ -130,8 +130,8 @@ void Route::draw(ofCamera& cam) {
     ofPopMatrix();
     
     ofSetColor(255);
-    for (auto &location: locationsRight) {
-        location.draw(cam, alphaRight, -1600);
+    for (int i = locationsRight.size() - 1; i > 0; i--) {
+        locationsRight[i].draw(cam, alphaRight, -1600);
     }
     ofEnableDepthTest();
 }
@@ -418,7 +418,7 @@ void Route::populateLocationsRight() {
                     location.verticalOffsetSaved = location.verticalOffset;
                     break;
                 case 1:
-                    location.verticalOffset = 1000;
+                    location.verticalOffset = 2000;
                     location.verticalOffsetSaved = location.verticalOffset;
                     break;
                 case 2:
@@ -426,7 +426,7 @@ void Route::populateLocationsRight() {
                     location.verticalOffsetSaved = location.verticalOffset;
                     break;
                 case 3:
-                    location.verticalOffset = 1000;
+                    location.verticalOffset = 2000;
                     location.verticalOffsetSaved = location.verticalOffset;
                     break;
                 case 4:

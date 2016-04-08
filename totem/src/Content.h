@@ -43,8 +43,10 @@ public:
     ofSoundPlayer introSounds[2][5];
     //ofxOBJModel model;
     
-    ofImage backgroundImageLarge;
-    ofImage backgroundImageSmall;
+    ofImage backgroundImage169;
+    ofImage backgroundImageAudio;
+    ofImage backgroundImage43;
+    ofImage backgroundImage65;
     
     map<string, vector<ContentDisplayer*> > hs1Displayers;
     map<string, vector<ContentDisplayer*> > crossrailDisplayers;
@@ -52,7 +54,7 @@ public:
     ofxFBXScene scene;
     ofEasyCam cam;
     ofxFBXManager model;
-        
+    
     ofLight light;
     
     //ofEasyCam cam;
@@ -67,7 +69,7 @@ public:
     float screenWidth;
     
     bool isAnythingPlaying;
-        
+    
     // Object for drawing the audio and video duration
     Playhead playhead;
     

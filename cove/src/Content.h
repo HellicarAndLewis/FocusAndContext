@@ -43,8 +43,8 @@ public:
     ofSoundPlayer introSounds[2][5];
     //ofxOBJModel model;
     
-    ofImage backgroundImageLarge;
-    ofImage backgroundImageSmall;
+    ofImage backgroundImage169;
+    ofImage backgroundImageAudio;
     ofImage backgroundImage43;
     ofImage backgroundImage65;
     
