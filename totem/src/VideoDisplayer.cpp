@@ -10,6 +10,7 @@
 
 VideoDisplayer::VideoDisplayer() {
     ContentDisplayer();
+    type = ContentTypes::VIDEO;
 }
 
 void VideoDisplayer::update() {

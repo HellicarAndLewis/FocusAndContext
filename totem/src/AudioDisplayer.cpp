@@ -10,6 +10,7 @@
 
 AudioDisplayer::AudioDisplayer() {
     ContentDisplayer();
+    type = ContentTypes::AUDIO;
 }
 
 void AudioDisplayer::update() {

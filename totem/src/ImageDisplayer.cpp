@@ -10,6 +10,8 @@
 
 ImageDisplayer::ImageDisplayer() {
     ContentDisplayer();
+    type = ContentTypes::IMAGE;
+
 }
 
 void ImageDisplayer::draw(float x, float y) {

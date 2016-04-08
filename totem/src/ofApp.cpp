@@ -687,23 +687,30 @@ void ofApp::autoSysUpdate()
             // content stuff
             if (contentActive)
             {
+                string pointName;
                 // HS1
                 if(route.activeProject == 0) {
+
                     switch (pointJump) {
                         case 0:
-                            c.hs1Displayers["StPancras"][pointJump]->setIsActive(true);
+                            pointName = "StPancras";
+                            c.hs1Displayers[pointName][selectAppropriateContentIndex(0, pointName)]->setIsActive(true);
                             break;
                         case 1:
-                            c.hs1Displayers["StratfordInternational"][pointJump]->setIsActive(true);
+                            pointName = "StratfordInternational";
+                            c.hs1Displayers[pointName][selectAppropriateContentIndex(0, pointName)]->setIsActive(true);
                             break;
                         case 2:
-                            c.hs1Displayers["EbbsfleetInternational"][pointJump]->setIsActive(true);
+                            pointName = "EbbsfleetInternational";
+                            c.hs1Displayers[pointName][selectAppropriateContentIndex(0, pointName)]->setIsActive(true);
                             break;
                         case 3:
-                            c.hs1Displayers["MedwayViaduct"][pointJump]->setIsActive(true);
+                            pointName = "MedwayViaduct";
+                            c.hs1Displayers[pointName][selectAppropriateContentIndex(0, pointName)]->setIsActive(true);
                             break;
                         case 4:
-                            c.hs1Displayers["AshfordInternational"][pointJump]->setIsActive(true);
+                            pointName = "AshfordInternational";
+                            c.hs1Displayers[pointName][selectAppropriateContentIndex(0, pointName)]->setIsActive(true);
                             break;
                         default:
                             break;
@@ -712,19 +719,24 @@ void ofApp::autoSysUpdate()
                 if(route.activeProject == 1) {
                     switch (pointJump) {
                         case 0:
-                            c.crossrailDisplayers["Soho"][pointJump]->setIsActive(true);
+                            pointName = "Soho";
+                            c.crossrailDisplayers[pointName][selectAppropriateContentIndex(1, pointName)]->setIsActive(true);
                             break;
                         case 1:
-                            c.crossrailDisplayers["TottenhamCourtRoad"][pointJump]->setIsActive(true);
+                            pointName = "TottenhamCourtRoad";
+                            c.crossrailDisplayers[pointName][selectAppropriateContentIndex(1, pointName)]->setIsActive(true);
                             break;
                         case 2:
-                            c.crossrailDisplayers["Barbican"][pointJump]->setIsActive(true);
+                            pointName = "Barbican";
+                            c.crossrailDisplayers[pointName][selectAppropriateContentIndex(1, pointName)]->setIsActive(true);
                             break;
                         case 3:
-                            c.crossrailDisplayers["LiverpoolStreet"][pointJump]->setIsActive(true);
+                            pointName = "LiverpoolStreet";
+                            c.crossrailDisplayers[pointName][selectAppropriateContentIndex(1, pointName)]->setIsActive(true);
                             break;
                         case 4:
-                            c.crossrailDisplayers["CanaryWharf"][pointJump]->setIsActive(true);
+                            pointName = "CanaryWharf";
+                            c.crossrailDisplayers[pointName][selectAppropriateContentIndex(1, pointName)]->setIsActive(true);
                             break;
                         default:
                             break;
@@ -1473,4 +1485,24 @@ void ofApp::gotMessage(ofMessage msg){
 }
 
 void ofApp::dragEvent(ofDragInfo dragInfo){
+}
+
+int ofApp::selectAppropriateContentIndex(int projectIndex, string pointName) {
+    if(projectIndex == 0) {
+        int attempt = (int)ofRandom(0, 5);
+        int typeOfAttempt = c.hs1Displayers[pointName][attempt]->getType();
+        if(typeOfAttempt == ContentDisplayer::ContentTypes::MODEL || typeOfAttempt == ContentDisplayer::ContentTypes::IMAGE ) {
+            return attempt;
+        } else {
+            return selectAppropriateContentIndex(projectIndex, pointName);
+        }
+    } else {
+        int attempt = (int)ofRandom(0, 5);
+        int typeOfAttempt = c.crossrailDisplayers[pointName][attempt]->getType();
+        if(typeOfAttempt == ContentDisplayer::ContentTypes::MODEL || typeOfAttempt == ContentDisplayer::ContentTypes::IMAGE ) {
+            return attempt;
+        } else {
+            return selectAppropriateContentIndex(projectIndex, pointName);
+        }
+    }
 }

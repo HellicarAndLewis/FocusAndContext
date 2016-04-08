@@ -51,6 +51,13 @@ public:
     virtual void update();
     virtual void draw(float x, float y);
     
+    enum ContentTypes {
+        IMAGE,
+        AUDIO,
+        VIDEO,
+        MODEL
+    };
+    
 protected:
     ofImage* backgroundImage;
     ofImage* textImage;
@@ -62,6 +69,8 @@ protected:
     float lerpSmall;
     float alphaLerp;
     bool isActive;
+    
+    int type;
     
     vector<InteractiveObject*> cons;
     

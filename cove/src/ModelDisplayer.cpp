@@ -14,6 +14,8 @@ ModelDisplayer::ModelDisplayer() {
     camMaxZoom = 6000;
     camMinZoom = 250;
     camZoom = camMinZoom;
+    type = ContentTypes::MODEL;
+
 }
 
 void ModelDisplayer::update() {

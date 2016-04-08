@@ -46,10 +46,18 @@ public:
     string getContentLocation() { return contentLocation; };
     void getAlpha() { return alpha; };
     bool getIsActive() { return isActive; };
+    int getType() { return type; };
     
     // Functionality
     virtual void update();
     virtual void draw(float x, float y);
+    
+    enum ContentTypes {
+        IMAGE,
+        AUDIO,
+        VIDEO,
+        MODEL
+    };
     
 protected:
     ofImage* backgroundImage;
@@ -62,6 +70,8 @@ protected:
     float lerpSmall;
     float alphaLerp;
     bool isActive;
+    
+    int type;
     
     vector<InteractiveObject*> cons;
     
