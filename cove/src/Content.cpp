@@ -429,22 +429,6 @@ void Content::load(int _project, int _point, int _item)
     project = _project;
     point = _point;
     item = _item;
-    if(project == 1) {
-        ofColor col;
-        col.setHex(0x0D0D0B);
-        playhead.setPastColor(col);
-        
-        col.setHex(0x8FC3E8);
-        playhead.setFutureColor(col);
-    } else {
-        ofColor col;
-        col.setHex(0x4EB9E5);
-        playhead.setPastColor(col);
-        
-        col.setHex(0x95CEE2/*0x8FC3E8*/);
-        playhead.setFutureColor(col);
-    }
-
     
     stopAudio();
     

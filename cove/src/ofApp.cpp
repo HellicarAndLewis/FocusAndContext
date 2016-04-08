@@ -1321,6 +1321,13 @@ void ofApp::mouseReleased(int x, int y, int button)
             
             Globals::buttonPressed = true;
             
+            ofColor col;
+            col.setHex(0x4EB9E5);
+            menu.c.playhead.setPastColor(col);
+            
+            col.setHex(0x95CEE2);
+            menu.c.playhead.setFutureColor(col);
+            
             // hs1
             loadProject(0);
             
@@ -1354,6 +1361,13 @@ void ofApp::mouseReleased(int x, int y, int button)
             isCam = true;
             
             Globals::buttonPressed = true;
+            
+            ofColor col;
+            col.setHex(0x0D0D0B);
+            menu.c.playhead.setPastColor(col);
+            
+            col.setHex(0x8FC3E8);
+            menu.c.playhead.setFutureColor(col);
             
             // crossrail
             loadProject(1);
