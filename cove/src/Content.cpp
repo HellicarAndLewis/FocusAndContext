@@ -140,7 +140,7 @@ void Content::fileLocation() {
                     displayer->setVideo(currentPaths[i]);
                     if(displayer->getVideo()->getHeight() == 742) {
                         displayer->setBackgroundImage(&backgroundImage65);
-                    } else if(displayer->getVideo()->getHeight() == 682) {
+                    } else if(displayer->getVideo()->getHeight() == 726) {
                         displayer->setBackgroundImage(&backgroundImage43);
                     } else {
                         displayer->setBackgroundImage(&backgroundImage169);
@@ -215,7 +215,13 @@ void Content::fileLocation() {
                     //We've got a video!
                     VideoDisplayer* displayer = new VideoDisplayer();
                     displayer->setVideo(currentPaths[i]);
-                    displayer->setBackgroundImage(&backgroundImage169);
+                    if(displayer->getVideo()->getHeight() == 742) {
+                        displayer->setBackgroundImage(&backgroundImage65);
+                    } else if(displayer->getVideo()->getHeight() == 726) {
+                        displayer->setBackgroundImage(&backgroundImage43);
+                    } else {
+                        displayer->setBackgroundImage(&backgroundImage169);
+                    }
                     displayer->setContentLocation(currentPaths[i]);
                     displayer->setPlayhead(&playhead);
                     (*currentProjectDisplayers)[locationName].push_back(displayer);

@@ -363,6 +363,7 @@ void Route::populateLocationsLeft() {
         string filename = xml.getValue("titleImg", "");
         if (filename != "") {
             location.labelImage.load(folderPath + "/labels/" + filename);
+            location.contentImage.load(folderPath + "/labelsDetailed/" + filename);
             location.verticalOffset = (numNamedLocations%2 == 0) ? 30000 : -30000;
             location.verticalOffsetSaved = (numNamedLocations%2 == 0) ? 30000 : -30000;
             numNamedLocations++;
@@ -405,6 +406,7 @@ void Route::populateLocationsRight() {
         string filename = xml.getValue("titleImg", "");
         if (filename != "") {
             location.labelImage.load(folderPath + "/labels/" + filename);
+            location.contentImage.load(folderPath + "/labelsDetailed/" + filename);
             switch(numNamedLocations) {
                 case 0:
                     location.verticalOffset = 15000;

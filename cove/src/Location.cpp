@@ -137,16 +137,20 @@ void Location::draw(ofCamera& cam, float _alpha, float _height)
 
     ofSetLineWidth(1);
     
+    ofImage* currentImage = &labelImage;
+    if(cam.getPosition().z < 10000) {
+        currentImage = &contentImage;
+    }
     // billboard to face cam
     billboardShader.begin();
     billboardShader.setUniform1f("alpha", finalAlpha);
     ofEnablePointSprites();
-    labelImage.getTexture().bind();
+    currentImage->getTexture().bind();
     glBegin(GL_POINTS);
     glVertex3f(position.x, position.y + height + verticalOffset,  0);
     glNormal3f(size, 0, 0);
     glEnd();
-    labelImage.getTexture().unbind();
+    currentImage->getTexture().unbind();
     ofDisablePointSprites();
     billboardShader.end();
     

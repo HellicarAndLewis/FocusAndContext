@@ -12,9 +12,12 @@
 #include "glmGeom.h"
 #include "Globals.h"
 
+#define HS1_ZOOMED_OUT_CAM_DISTANCE 270000
+
 void ofApp::setup()
 {
     ofEnableAlphaBlending();
+    
     
     //ofToggleFullscreen();
     //ofHideCursor();
@@ -24,7 +27,7 @@ void ofApp::setup()
     
     // camera draw distance
     cam.setFarClip(300000);
-    cam.setDistance(250000);
+    cam.setDistance(HS1_ZOOMED_OUT_CAM_DISTANCE);
     
     //Set the initial tilt shift to 0
     tiltShift = 0.0;
@@ -105,6 +108,8 @@ void ofApp::setup()
     
     lastPressTime = ofGetElapsedTimef();
     maxIdleTime = 300.f;
+    
+    cam.disableMouseInput();
 }
 
 void ofApp::setupGui()
@@ -564,7 +569,7 @@ void ofApp::autoSysUpdate()
                 }
                 else
                 {
-                    worldTransform(18000, 0.03, ofVec3f(0, 0, 0), 0.03);
+                    worldTransform(1800, 0.03, ofVec3f(0, 0, 0), 0.03);
                 }
                 
                 posLerp = 0.03;
@@ -612,7 +617,7 @@ void ofApp::autoSysUpdate()
                     }
                     else
                     {
-                        camDistance = 18000;
+                        camDistance = 1800;
                         
                         if (cam.getDistance() >= 17900)
                         {
@@ -687,7 +692,7 @@ void ofApp::update()
         {
             camTilt = 0;
             
-            if (route.activeProject == 0) camDistance = 250000;
+            if (route.activeProject == 0) camDistance = HS1_ZOOMED_OUT_CAM_DISTANCE;
             else camDistance = 60000;
         }
         else
@@ -701,7 +706,7 @@ void ofApp::update()
             {
                 camTilt = 0;
                 
-                if (route.activeProject == 0) camDistance = 250000;
+                if (route.activeProject == 0) camDistance = HS1_ZOOMED_OUT_CAM_DISTANCE;
                 else camDistance = 60000;
             }
             else
@@ -728,7 +733,7 @@ void ofApp::update()
     else if (!systemActive && !bCove)
     {
         if (route.activeProject == 0) camDistance = 96000;
-        else camDistance = 18000;
+        else camDistance = 1800;
         camTilt = 0;
         // world translation stuff
         worldTransform(camDistance, 0.03, ofVec3f(camTilt, 0, 0), 0.03);

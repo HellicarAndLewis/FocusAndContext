@@ -12,6 +12,8 @@
 #include "glmGeom.h"
 #include "Globals.h"
 
+#define HS1_ZOOMED_OUT_CAM_DISTANCE 270000
+
 void ofApp::setup()
 {
     ofEnableAlphaBlending();
@@ -26,7 +28,7 @@ void ofApp::setup()
     
     // camera draw distance
     cam.setFarClip(300000);
-    cam.setDistance(250000);
+    cam.setDistance(HS1_ZOOMED_OUT_CAM_DISTANCE);
     
     //Set the initial tilt shift to 0
     tiltShift = 0.0;
@@ -554,11 +556,47 @@ void ofApp::autoSysUpdate()
             
             if (elapsedTime > 2)
             {
+                //camRotSinX = -70 - 10 * sin(elapsedTime * 0.6);
+                //camRotSinY = 0 - 2 * sin(elapsedTime * 0.6);
+                //camRotSinZ = sin(elapsedTime * 0.6);
+                
                 camRotSinX = -70 - 10 * sin(elapsedTime * 0.6);
                 camRotSinY = 0 - 2 * sin(elapsedTime * 0.6);
                 camRotSinZ = 100 + 10 * sin(elapsedTime * 0.6);
+                
+                float percentDone = scroller.getValue();
+                int locationIndex;
+                int nextLocationIndex;
+                vector<Location> currentLocations;
+                if(route.activeProject == 0) {
+                    currentLocations = route.locationsLeft;
+                } else {
+                    currentLocations = route.locationsRight;
+                }
+                
+                locationIndex = (int)ofMap(percentDone, 0.0, 1.0, 0, currentLocations.size());
+                
+                if(locationIndex < currentLocations.size() - 1) {
+                    nextLocationIndex = locationIndex + 1;
+                } else {
+                    nextLocationIndex = locationIndex;
+                }
+                
+                int currentX = currentLocations[locationIndex].position.x;
+                int currentY = currentLocations[locationIndex].position.y;
+                
+                int nextX = currentLocations[nextLocationIndex].position.x;
+                int nextY = currentLocations[nextLocationIndex].position.y;
+                
+                float xDiff = nextX - currentX;
+                float yDiff = nextY - currentY;
+                
+                float angle = atan2(yDiff, xDiff);
+                
+                angle = 90 - 180 / PI * (angle);
+                
                 waveDistance = 7500;
-                worldTransform(waveDistance, 0.03, ofVec3f(camRotSinX, camRotSinY, camRotSinZ), 0.03);
+                worldTransform(waveDistance, 0.03, ofVec3f(-80, 0, angle), 0.01);
                 
                 if (route.activeProject == 0)
                     posLerp = 0.01;
@@ -779,7 +817,7 @@ void ofApp::update()
         {
             camTilt = 0;
             
-            if (route.activeProject == 0) camDistance = 250000;
+            if (route.activeProject == 0) camDistance = HS1_ZOOMED_OUT_CAM_DISTANCE;
             else camDistance = 60000;
         }
         else
@@ -793,7 +831,7 @@ void ofApp::update()
             {
                 camTilt = 0;
                 
-                if (route.activeProject == 0) camDistance = 250000;
+                if (route.activeProject == 0) camDistance = HS1_ZOOMED_OUT_CAM_DISTANCE;
                 else camDistance = 60000;
             }
             else
