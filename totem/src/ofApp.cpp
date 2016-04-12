@@ -581,8 +581,8 @@ void ofApp::autoSysUpdate()
                     yangleMax = 15.0;
                 } else {
                     currentLocations = route.locationsRight;
-                    yangleMin = -10.0;
-                    yangleMax = 10.0;
+                    yangleMin = -15.0;
+                    yangleMax = 15.0;
                 }
                 
                 locationIndex = (int)ofMap(percentDone, 0.0, 1.0, 0, currentLocations.size());
@@ -606,11 +606,11 @@ void ofApp::autoSysUpdate()
                 
                 float lastZangle = zangle;
                 float nextZangle = 90 - 180 / PI * (angle);
-                zangle = ofLerp(zangle, nextZangle, 0.1);
+                zangle = ofLerp(zangle, nextZangle, 0.05);
                 
                 float zangleChange = lastZangle - nextZangle;
                 float nextYangle = ofMap(zangleChange, -2, 2, yangleMin, yangleMax, true);
-                if(abs(nextYangle) < 2) nextYangle = 0.0;
+                if(abs(nextYangle) < 10) nextYangle = 0.0;
                 
                 yangle = ofLerp(yangle, nextYangle, 0.1);
                 
@@ -734,11 +734,10 @@ void ofApp::autoSysUpdate()
                     else camDistance = 4000;
                     
                     if(cam.getPosition().z <= 5000) {
-                        zangle = ofLerp(zangle, 360, 0.001);
+                        zangle += 0.05;
                         worldTransform(camDistance, 0.03, ofVec3f(camTilt, 0, zangle), 0.03);
                     } else {
                         worldTransform(camDistance, 0.03, ofVec3f(camTilt, 0, 0), 0.03);
-
                     }
                 }
 
@@ -749,10 +748,14 @@ void ofApp::autoSysUpdate()
             // do stuff
             if (!Globals::vignetteOn) Globals::vignetteOn = true;
             
+            zangle += 0.05;
+            worldTransform(camDistance, 0.03, ofVec3f(camTilt, 0, zangle), 0.03);
+            
             // content stuff
             if (contentActive)
             {
                 string pointName;
+
                 // HS1
                 if(route.activeProject == 0) {
 
@@ -1082,7 +1085,7 @@ void ofApp::draw()
     //Make the tilt shift only work near the POIs // TODO remove magic numbers
     //float tiltShift = 0.0;
     if( sceneRotation.x < 0) {
-        tiltShift = ofLerp(tiltShift, 0.003, 0.1);
+        tiltShift = ofLerp(tiltShift, 0.001, 0.1);
     } else {
         tiltShift = ofLerp(tiltShift, 0.0, 0.1);
     }
