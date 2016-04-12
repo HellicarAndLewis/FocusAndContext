@@ -14,7 +14,6 @@ AudioDisplayer::AudioDisplayer() {
 }
 
 void AudioDisplayer::update() {
-    // Remember to deal with end of video
     ContentDisplayer::update();
     if(isActive) {
         if(alpha >= 0.99) {

@@ -36,8 +36,8 @@ public:
         if(isActive) Globals::vignetteOn = true;
         else Globals::vignetteOn = false;
     };
-    
     void setCons(vector<InteractiveObject*> _cons) { cons = _cons; };
+    void setIsSpecial(bool _isSpecial) { isSpecial = _isSpecial; };
     
     // Getters
     ofImage* getBackgroundImage() { return backgroundImage; };
@@ -47,6 +47,7 @@ public:
     void getAlpha() { return alpha; };
     bool getIsActive() { return isActive; };
     int getType() { return type; };
+    bool getIsSpecial() { return isSpecial; };
     
     // Functionality
     virtual void update();
@@ -70,6 +71,8 @@ protected:
     float lerpSmall;
     float alphaLerp;
     bool isActive;
+    
+    bool isSpecial;
     
     int type;
     

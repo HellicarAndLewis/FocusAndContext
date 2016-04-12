@@ -1528,16 +1528,16 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 int ofApp::selectAppropriateContentIndex(int projectIndex, string pointName) {
     if(projectIndex == 0) {
         int attempt = (int)ofRandom(0, 5);
-        int typeOfAttempt = c.hs1Displayers[pointName][attempt]->getType();
-        if(typeOfAttempt == ContentDisplayer::ContentTypes::MODEL || typeOfAttempt == ContentDisplayer::ContentTypes::IMAGE ) {
+//        int typeOfAttempt = c.hs1Displayers[pointName][attempt]->getType();
+        if(c.hs1Displayers[pointName][attempt]->getIsSpecial()/*typeOfAttempt == ContentDisplayer::ContentTypes::MODEL || typeOfAttempt == ContentDisplayer::ContentTypes::IMAGE*/ ) {
             return attempt;
         } else {
             return selectAppropriateContentIndex(projectIndex, pointName);
         }
     } else {
         int attempt = (int)ofRandom(0, 5);
-        int typeOfAttempt = c.crossrailDisplayers[pointName][attempt]->getType();
-        if(typeOfAttempt == ContentDisplayer::ContentTypes::MODEL || typeOfAttempt == ContentDisplayer::ContentTypes::IMAGE ) {
+        //int typeOfAttempt = c.crossrailDisplayers[pointName][attempt]->getType();
+        if(c.crossrailDisplayers[pointName][attempt]->getIsSpecial()/*typeOfAttempt == ContentDisplayer::ContentTypes::MODEL || typeOfAttempt == ContentDisplayer::ContentTypes::IMAGE*/ ) {
             return attempt;
         } else {
             return selectAppropriateContentIndex(projectIndex, pointName);

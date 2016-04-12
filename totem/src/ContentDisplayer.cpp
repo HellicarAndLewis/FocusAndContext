@@ -17,6 +17,7 @@ ContentDisplayer::ContentDisplayer() {
     alphaLerp = 0.4;
     isActive = false;
     textImage = NULL;
+    isSpecial = false;
 }
 
 void ContentDisplayer::update() {
