@@ -130,6 +130,9 @@ public:
     int randomItem;
     int tileIndex;
     
+    float zangle;
+    float yangle;
+    
     // routes
     Route route;
     vector<InterestPoints> intPoints;

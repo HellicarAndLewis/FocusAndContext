@@ -30,6 +30,8 @@ void ofApp::setup()
     cam.setFarClip(300000);
     cam.setDistance(HS1_ZOOMED_OUT_CAM_DISTANCE);
     
+    cam.disableMouseInput();
+    
     //Set the initial tilt shift to 0
     tiltShift = 0.0;
     
@@ -472,17 +474,18 @@ void ofApp::autoSysUpdate()
     // adjust max time based on current interval/section
     switch (currentInterval) {
         case 0:
-            if (routeSelection == 0) maxTime = 47;
-            else maxTime = 50;
+            if (routeSelection == 0) maxTime = 40;
+            else maxTime = 20;
             break;
             
         case 1:
-            if (routeSelection == 0) maxTime = 13;
-            else maxTime = 10;
+            if (routeSelection == 0) maxTime = 20;
+            else maxTime = 20;
             break;
             
         case 2:
-            maxTime = 30;
+            if(routeSelection == 0) maxTime = 30;
+            else maxTime = 30;
             break;
     }
     
@@ -568,10 +571,18 @@ void ofApp::autoSysUpdate()
                 int locationIndex;
                 int nextLocationIndex;
                 vector<Location> currentLocations;
+                
+                float yangleMin;
+                float yangleMax;
+                
                 if(route.activeProject == 0) {
                     currentLocations = route.locationsLeft;
+                    yangleMin = -15.0;
+                    yangleMax = 15.0;
                 } else {
                     currentLocations = route.locationsRight;
+                    yangleMin = -10.0;
+                    yangleMax = 10.0;
                 }
                 
                 locationIndex = (int)ofMap(percentDone, 0.0, 1.0, 0, currentLocations.size());
@@ -593,10 +604,18 @@ void ofApp::autoSysUpdate()
                 
                 float angle = atan2(yDiff, xDiff);
                 
-                angle = 90 - 180 / PI * (angle);
+                float lastZangle = zangle;
+                float nextZangle = 90 - 180 / PI * (angle);
+                zangle = ofLerp(zangle, nextZangle, 0.1);
                 
-                waveDistance = 7500;
-                worldTransform(waveDistance, 0.03, ofVec3f(-80, 0, angle), 0.01);
+                float zangleChange = lastZangle - nextZangle;
+                float nextYangle = ofMap(zangleChange, -2, 2, yangleMin, yangleMax, true);
+                if(abs(nextYangle) < 2) nextYangle = 0.0;
+                
+                yangle = ofLerp(yangle, nextYangle, 0.1);
+                
+                waveDistance = 5500;
+                worldTransform(waveDistance, 0.03, ofVec3f(-80, yangle, zangle), 0.01);
                 
                 if (route.activeProject == 0)
                     posLerp = 0.01;
@@ -693,6 +712,7 @@ void ofApp::autoSysUpdate()
                             if (Globals::autoRoute) Globals::autoRoute = false;
                         }
                     }
+                    worldTransform(camDistance, 0.03, ofVec3f(camTilt, 0, 0), 0.03);
                 }
                 else
                 {
@@ -712,9 +732,16 @@ void ofApp::autoSysUpdate()
                     
                     if (route.activeProject == 0) camDistance = 4000;
                     else camDistance = 4000;
+                    
+                    if(cam.getPosition().z <= 5000) {
+                        zangle = ofLerp(zangle, 360, 0.001);
+                        worldTransform(camDistance, 0.03, ofVec3f(camTilt, 0, zangle), 0.03);
+                    } else {
+                        worldTransform(camDistance, 0.03, ofVec3f(camTilt, 0, 0), 0.03);
+
+                    }
                 }
-                
-                worldTransform(camDistance, 0.03, ofVec3f(camTilt, 0, 0), 0.03);
+
             }
             break;
             
@@ -1054,7 +1081,7 @@ void ofApp::draw()
     
     //Make the tilt shift only work near the POIs // TODO remove magic numbers
     //float tiltShift = 0.0;
-    if(camTilt < 0) {
+    if( sceneRotation.x < 0) {
         tiltShift = ofLerp(tiltShift, 0.003, 0.1);
     } else {
         tiltShift = ofLerp(tiltShift, 0.0, 0.1);

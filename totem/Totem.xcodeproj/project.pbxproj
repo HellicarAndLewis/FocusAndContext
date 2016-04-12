@@ -704,6 +704,7 @@
 		F5EC8D4017BB14C07F6B4F25 /* fast_trigonometry.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fast_trigonometry.hpp; path = ../../../addons/ofxGlmTools/libs/glm/gtx/fast_trigonometry.hpp; sourceTree = SOURCE_ROOT; };
 		F5F366BA1CA47A63009E1A78 /* ofxNestedFileLoader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxNestedFileLoader.cpp; sourceTree = "<group>"; };
 		F5F366BB1CA47A63009E1A78 /* ofxNestedFileLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxNestedFileLoader.h; sourceTree = "<group>"; };
+		F5F710601CBD42CA000BCACD /* ofxIntegrator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxIntegrator.h; sourceTree = "<group>"; };
 		F661A9C459CE921AF8E27277 /* func_trigonometric.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = func_trigonometric.hpp; path = ../../../addons/ofxGlmTools/libs/glm/detail/func_trigonometric.hpp; sourceTree = SOURCE_ROOT; };
 		F678656AECB44B7A6920C8F4 /* fbxthumbnail.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxthumbnail.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/scene/fbxthumbnail.h; sourceTree = SOURCE_ROOT; };
 		F6AAF9935E0CA4DADBA8BE65 /* extented_min_max.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = extented_min_max.hpp; path = ../../../addons/ofxGlmTools/libs/glm/gtx/extented_min_max.hpp; sourceTree = SOURCE_ROOT; };
@@ -1542,6 +1543,7 @@
 				D6BF0C06962E11B5872FE5FB /* ofxVectorTile */,
 				1F4FB5C423662B96ADFDCC0B /* ofxXmlSettings */,
 				F5F366B81CA47A63009E1A78 /* ofxNestedFileLoader */,
+				F5F7105E1CBD42CA000BCACD /* ofxIntegrator */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -1905,6 +1907,23 @@
 			);
 			name = src;
 			path = ../../../addons/ofxNestedFileLoader/src;
+			sourceTree = "<group>";
+		};
+		F5F7105E1CBD42CA000BCACD /* ofxIntegrator */ = {
+			isa = PBXGroup;
+			children = (
+				F5F7105F1CBD42CA000BCACD /* src */,
+			);
+			name = ofxIntegrator;
+			sourceTree = "<group>";
+		};
+		F5F7105F1CBD42CA000BCACD /* src */ = {
+			isa = PBXGroup;
+			children = (
+				F5F710601CBD42CA000BCACD /* ofxIntegrator.h */,
+			);
+			name = src;
+			path = ../../../addons/ofxIntegrator/src;
 			sourceTree = "<group>";
 		};
 		FE15CD9A4E0523DB8F4A131E /* collada */ = {

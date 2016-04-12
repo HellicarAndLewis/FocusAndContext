@@ -2296,7 +2296,6 @@ void InteractiveMenu::pressed()
             
             // play menu button sound
             snd1.play();
-            
             for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
                 for(auto content = location->second.begin(); content != location->second.end(); content++) {
                     (*content)->setIsActive(false);
