@@ -229,7 +229,6 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     // content media setup
     c.setup();
     
-    vector<InteractiveObject*> allCons;
     
     for(int i = 0; i < 5; i++) {
         allCons.push_back(&rCon4[i]);
@@ -579,6 +578,9 @@ void InteractiveMenu::update()
                 (*content)->setIsActive(false);
             }
         }
+        for(int i = 0; i < allCons.size(); i++) {
+            allCons[i]->isSelected = false;
+        }
     } else if(rightOn && leftWasOn) {
         hs1Intro.stop();
         c.stopLocationAudio();
@@ -593,6 +595,9 @@ void InteractiveMenu::update()
             for(auto content = location->second.begin(); content != location->second.end(); content++) {
                 (*content)->setIsActive(false);
             }
+        }
+        for(int i = 0; i < allCons.size(); i++) {
+            allCons[i]->isSelected = false;
         }
     }
 }
@@ -2198,6 +2203,9 @@ void InteractiveMenu::pressed()
                     (*content)->setIsActive(false);
                 }
             }
+            for(int i = 0; i < allCons.size(); i++) {
+                allCons[i]->isSelected = false;
+            }
             
             buttonClicked = true;
             Globals::buttonPressed = true;
@@ -2305,6 +2313,9 @@ void InteractiveMenu::pressed()
                 for(auto content = location->second.begin(); content != location->second.end(); content++) {
                     (*content)->setIsActive(false);
                 }
+            }
+            for(int i = 0; i < allCons.size(); i++) {
+                allCons[i]->isSelected = false;
             }
             
             buttonClicked = true;

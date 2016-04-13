@@ -112,6 +112,9 @@ public:
     float sizeRCon3[BUTTON_AMT];
     float sizeRCon4[BUTTON_AMT];
     
+    //amalgam of all the Con objects
+    vector<InteractiveObject*> allCons;
+    
     // main menu positions and sizes
     ofVec2f posLeft[BUTTON_AMT];
     ofVec2f posRight[BUTTON_AMT];
