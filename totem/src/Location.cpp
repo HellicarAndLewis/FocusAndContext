@@ -122,8 +122,8 @@ void Location::draw(ofCamera& cam, float _alpha, float _height)
     if(isActive) {
         alpha = ofLerp(alpha, 1.0, 0.05);
     } else {
-        alpha = ofLerp(alpha, 0.0, 0.05);
-        if(alpha < 0.1) alpha = 0.0;
+        alpha = 0.0;//ofLerp(alpha, 0.0, 0.05);
+        //if(alpha < 0.1) alpha = 0.0;
     }
     
 //    float inputAlpha = ofMap(_alpha, 0.0, 255.0, 0.0, 1.0);

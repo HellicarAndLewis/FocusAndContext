@@ -12,7 +12,9 @@
 #include "glmGeom.h"
 #include "Globals.h"
 
-#define HS1_ZOOMED_OUT_CAM_DISTANCE 270000
+#define HS1_ZOOMED_OUT_CAM_DISTANCE 96000
+#define CROSSRAIL_ZOOMED_OUT_CAM_DISTANCE 18000
+
 
 void ofApp::setup()
 {
@@ -111,6 +113,10 @@ void ofApp::setup()
     
     lastPressTime = ofGetElapsedTimef();
     maxIdleTime = 300.f;
+    
+    hs1Title.load("content/shared/HS1LargeTitle.png");
+    crossrailTitle.load("content/shared/CrossrailLargeTitle.png");
+
 }
 
 void ofApp::setupGui()
@@ -570,19 +576,19 @@ void ofApp::autoSysUpdate()
                 float percentDone = scroller.getValue();
                 int locationIndex;
                 int nextLocationIndex;
-                vector<Location> currentLocations;
+                vector<ofPoint> currentLocations;
                 
                 float yangleMin;
                 float yangleMax;
                 
                 if(route.activeProject == 0) {
-                    currentLocations = route.locationsLeft;
-                    yangleMin = -15.0;
-                    yangleMax = 15.0;
+                    currentLocations = route.routeRenderLeft.getSmoothed(5, 1).getVertices();
+                    yangleMin = -10.0;
+                    yangleMax = 10.0;
                 } else {
-                    currentLocations = route.locationsRight;
-                    yangleMin = -15.0;
-                    yangleMax = 15.0;
+                    currentLocations = route.routeRenderRight.getSmoothed(5, 1).getVertices();
+                    yangleMin = -10.0;
+                    yangleMax = 10.0;
                 }
                 
                 locationIndex = (int)ofMap(percentDone, 0.0, 1.0, 0, currentLocations.size());
@@ -593,11 +599,11 @@ void ofApp::autoSysUpdate()
                     nextLocationIndex = locationIndex;
                 }
                 
-                int currentX = currentLocations[locationIndex].position.x;
-                int currentY = currentLocations[locationIndex].position.y;
+                int currentX = currentLocations[locationIndex].x;
+                int currentY = currentLocations[locationIndex].y;
                 
-                int nextX = currentLocations[nextLocationIndex].position.x;
-                int nextY = currentLocations[nextLocationIndex].position.y;
+                int nextX = currentLocations[nextLocationIndex].x;
+                int nextY = currentLocations[nextLocationIndex].y;
                 
                 float xDiff = nextX - currentX;
                 float yDiff = nextY - currentY;
@@ -610,7 +616,11 @@ void ofApp::autoSysUpdate()
                 
                 float zangleChange = lastZangle - nextZangle;
                 float nextYangle = ofMap(zangleChange, -2, 2, yangleMin, yangleMax, true);
-                if(abs(nextYangle) < 10) nextYangle = 0.0;
+                if(abs(nextYangle) < 8) nextYangle = 0.0;
+                
+                if(nextLocationIndex == locationIndex) {
+                    nextYangle = 0.0;
+                }
                 
                 yangle = ofLerp(yangle, nextYangle, 0.1);
                 
@@ -848,7 +858,7 @@ void ofApp::update()
             camTilt = 0;
             
             if (route.activeProject == 0) camDistance = HS1_ZOOMED_OUT_CAM_DISTANCE;
-            else camDistance = 60000;
+            else camDistance = CROSSRAIL_ZOOMED_OUT_CAM_DISTANCE;
         }
         else
         {
@@ -862,7 +872,7 @@ void ofApp::update()
                 camTilt = 0;
                 
                 if (route.activeProject == 0) camDistance = HS1_ZOOMED_OUT_CAM_DISTANCE;
-                else camDistance = 60000;
+                else camDistance = CROSSRAIL_ZOOMED_OUT_CAM_DISTANCE;
             }
             else
             {
@@ -887,8 +897,8 @@ void ofApp::update()
     }
     else if (!systemActive && !bCove)
     {
-        if (route.activeProject == 0) camDistance = 96000;
-        else camDistance = 18000;
+        if (route.activeProject == 0) camDistance = HS1_ZOOMED_OUT_CAM_DISTANCE;
+        else camDistance = CROSSRAIL_ZOOMED_OUT_CAM_DISTANCE;
         camTilt = 0;
         // world translation stuff
         worldTransform(camDistance, 0.03, ofVec3f(camTilt, 0, 0), 0.03);
@@ -1091,6 +1101,22 @@ void ofApp::draw()
     }
     tiltShiftVertPass->setH(tiltShift);
     tiltShiftHoriPass->setH(tiltShift);
+    
+    if(currentInterval == 0) {
+        ofPushStyle();
+        ofSetRectMode(OF_RECTMODE_CENTER);
+        float alpha;
+        if(route.activeProject == 0) alpha = ofMap(cam.getPosition().z, 12000, HS1_ZOOMED_OUT_CAM_DISTANCE, 0, 255);
+        else alpha = ofMap(cam.getPosition().z, 12000, CROSSRAIL_ZOOMED_OUT_CAM_DISTANCE, 0, 255);
+        ofSetColor(255, 255, 255, alpha);
+        if(route.activeProject == 0) {
+            hs1Title.draw(ofGetWidth()/2, ofGetHeight()/2);
+        } else {
+            crossrailTitle.draw(ofGetWidth()/2, ofGetHeight()/2);
+        }
+        //ofDrawRectRounded(ofGetWidth()/2, ofGetHeight()/2, 500, 500, 20);
+        ofPopStyle();
+    }
     
     // if (!gui->getVisible()) tileLoader.labels.draw2D();
     if (bDebugMsg) drawDebugMsg();

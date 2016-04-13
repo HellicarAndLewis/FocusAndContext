@@ -183,6 +183,10 @@ public:
     string sndPath;
     float volume;
     
+    // large title panels
+    ofImage crossrailTitle;
+    ofImage hs1Title;
+    
     // effects
     ofxPostProcessing post;
     void effectsSetup(float _w, float _h);

@@ -43,7 +43,7 @@ void ContentDisplayer::draw(float x, float y) {
     ofDrawRectRounded(x, y, width * scale, height * scale, 20);
     //backgroundImage->draw(x, y, width * scale, height * scale);
     ofSetColor(255, 255, 255, alpha);
-    if(textImage != NULL) {
-        textImage->draw(x, y, width * scale, height * scale);
-    }
+//    if(textImage != NULL) {
+//        textImage->draw(x, y, width * scale, height * scale);
+//    }
 }
