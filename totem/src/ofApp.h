@@ -187,6 +187,9 @@ public:
     ofImage crossrailTitle;
     ofImage hs1Title;
     
+    int hs1Point;
+    int crossrailPoint;
+    
     // effects
     ofxPostProcessing post;
     void effectsSetup(float _w, float _h);

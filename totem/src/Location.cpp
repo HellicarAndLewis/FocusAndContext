@@ -10,6 +10,8 @@
 #include "Location.h"
 #include "Globals.h"
 
+#define DISPLAY_LABELS
+
 // script for controlling the POI labels
 Location::Location() {
     isActive = false;
@@ -130,6 +132,7 @@ void Location::draw(ofCamera& cam, float _alpha, float _height)
     
 //    float finalAlpha = (alpha < inputAlpha) ? alpha : inputAlpha;
     
+#ifdef DISPLAY_LABELS
     ofPushStyle();
     ofPushMatrix();
     ofSetLineWidth(3);
@@ -156,6 +159,7 @@ void Location::draw(ofCamera& cam, float _alpha, float _height)
     labelImage.getTexture().unbind();
     ofDisablePointSprites();
     billboardShader.end();
+#endif
     
     ofSetColor(255);
 }

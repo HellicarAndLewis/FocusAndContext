@@ -251,6 +251,8 @@ void ofApp::loadProject(int selection)
     
     // starting location point
     pointJump = -1;
+    hs1Point = 2;
+    crossrailPoint = 0;
     
     // clear the bottom scroller before we get the route
     if (scroller.ticks.size() > 0) scroller.ticks.clear();
@@ -684,10 +686,41 @@ void ofApp::autoSysUpdate()
             {
                 posLerp = 0.03;
                 
-                pointJump = ofRandom(0, intPoints.size()-1);
+                //pointJump = ofRandom(0, intPoints.size()-1);
+                if(route.activeProject == 0) {
+                    pointJump = hs1Point;
+                    switch(hs1Point) {
+                        case 2:
+                            hs1Point = 4;
+                            break;
+                        case 4:
+                            hs1Point = 1;
+                            break;
+                        case 1:
+                            hs1Point = 2;
+                            break;
+                        default:
+                            cout<<"Something fucked up in ofApp hs1 point choosing"<<endl;
+                            break;
+                    }
+                } else if(route.activeProject == 1) {
+                    pointJump = crossrailPoint;
+                    switch(crossrailPoint) {
+                        case 0:
+                            crossrailPoint = 1;
+                            break;
+                        case 1:
+                            crossrailPoint = 0;
+                            break;
+                        default:
+                            cout<<"Something fucked up in ofApp crossrail point choosing"<<endl;
+                            break;
+                    }
+                }
+
                 
                 // don't repeat the same POI in a row
-                if (currentPoint == pointJump) return;
+                //if (currentPoint == pointJump) return;
                 
                 // activate location and scroll to POI
                 loadPoint(pointJump);
@@ -1586,6 +1619,7 @@ int ofApp::selectAppropriateContentIndex(int projectIndex, string pointName) {
         int attempt = (int)ofRandom(0, 5);
 //        int typeOfAttempt = c.hs1Displayers[pointName][attempt]->getType();
         if(c.hs1Displayers[pointName][attempt]->getIsSpecial()/*typeOfAttempt == ContentDisplayer::ContentTypes::MODEL || typeOfAttempt == ContentDisplayer::ContentTypes::IMAGE*/ ) {
+            c.hs1Displayers[pointName][attempt]->setIsSpecial(false);
             return attempt;
         } else {
             return selectAppropriateContentIndex(projectIndex, pointName);
@@ -1594,6 +1628,7 @@ int ofApp::selectAppropriateContentIndex(int projectIndex, string pointName) {
         int attempt = (int)ofRandom(0, 5);
         //int typeOfAttempt = c.crossrailDisplayers[pointName][attempt]->getType();
         if(c.crossrailDisplayers[pointName][attempt]->getIsSpecial()/*typeOfAttempt == ContentDisplayer::ContentTypes::MODEL || typeOfAttempt == ContentDisplayer::ContentTypes::IMAGE*/ ) {
+            c.hs1Displayers[pointName][attempt]->setIsSpecial(false);
             return attempt;
         } else {
             return selectAppropriateContentIndex(projectIndex, pointName);
