@@ -4,6 +4,7 @@
 //
 //  Created by Jason Walters on 13/02/2016.
 //  Last edited by Jason Walters on 9/03/2016.
+//  Last edited by James Bentley on 28/04/2016.
 //
 //
 
@@ -2833,7 +2834,7 @@ void InteractiveMenu::pressedContent()
                 (*content)->setIsActive(false);
             }
         }
-        c.hs1Displayers["MedwayViaduct"][0]->setIsActive(true);
+        c.hs1Displayers["MedwayViaduct"][4]->setIsActive(true);
         if (!Globals::vignetteOn) Globals::vignetteOn = true;
     }
     else if (!bLPlace[0] && !bLPlace[1] && !bLPlace[2] && !bLPlace[3] && !bLPlace[4] && !bRPlace[0] && !bRPlace[1] && !bRPlace[2] && !bRPlace[3] && !bRPlace[4])

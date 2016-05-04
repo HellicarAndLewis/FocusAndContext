@@ -4,6 +4,7 @@
 //
 //  Created by Chris Mullany on 14/01/2016.
 //  Last edited by Jason Walters on 10/03/2016.
+//  Last edited by James Bentley on 28/04/2016.
 //
 //
 
@@ -18,12 +19,11 @@ void ofApp::setup()
 {
     ofEnableAlphaBlending();
     
-    
     //ofToggleFullscreen();
-    //ofHideCursor();
+    ofHideCursor();
     
     //Shifted screen over to work on adjacent screen
-    ofSetWindowPosition(-1920-1080, 0);
+    //ofSetWindowPosition(-1920-1080, 0);
     
     // camera draw distance
     cam.setFarClip(300000);
@@ -107,7 +107,12 @@ void ofApp::setup()
     post.createPass<ToonPass>()->setEnabled(false);
     
     lastPressTime = ofGetElapsedTimef();
-    maxIdleTime = 300.f;
+    
+    ofxXmlSettings idleTime;
+    
+    idleTime.load("settings/idleTime.xml");
+    
+    maxIdleTime = idleTime.getValue("idleTime", 300.);
     
     cam.disableMouseInput();
 }

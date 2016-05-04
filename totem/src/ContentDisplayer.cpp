@@ -40,9 +40,9 @@ void ContentDisplayer::draw(float x, float y) {
     ofSetRectMode(OF_RECTMODE_CENTER);
     float width = backgroundImage->getWidth();
     float height = backgroundImage->getHeight();
-    ofDrawRectRounded(x, y, width * scale, height * scale, 20);
-    //backgroundImage->draw(x, y, width * scale, height * scale);
     ofSetColor(255, 255, 255, alpha);
+
+    //backgroundImage->draw(x, y, width * scale, height * scale);
 //    if(textImage != NULL) {
 //        textImage->draw(x, y, width * scale, height * scale);
 //    }

@@ -94,13 +94,14 @@
 		F285EB3169F1566CA3D93C20 /* ofxPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E112B3AEBEA2C091BF2B40AE /* ofxPanel.cpp */; };
 		F2C488627AEB484729EF7A98 /* glmPolarPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3E8CFE409C09EF5EB85DE51 /* glmPolarPoint.cpp */; };
 		F30DF3DCCBFB7848F36E20BA /* glmFeatureLabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17B258AE67598473F4A2F06C /* glmFeatureLabel.cpp */; };
-		F55A1B141CAD6D0C001FBAED /* ofxParagraph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55A1B121CAD6D0C001FBAED /* ofxParagraph.cpp */; };
-		F55A1B191CAD6DBF001FBAED /* ofxSmartFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55A1B171CAD6DBF001FBAED /* ofxSmartFont.cpp */; };
 		F55C09D91CB2A0180071864C /* ContentDisplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55C09D71CB2A0180071864C /* ContentDisplayer.cpp */; };
 		F55C09DC1CB2AE6F0071864C /* ImageDisplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55C09DA1CB2AE6F0071864C /* ImageDisplayer.cpp */; };
 		F55C09DF1CB2B2720071864C /* AudioDisplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55C09DD1CB2B2720071864C /* AudioDisplayer.cpp */; };
 		F55C09E21CB2B61E0071864C /* VideoDisplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55C09E01CB2B61E0071864C /* VideoDisplayer.cpp */; };
 		F55C09E51CB2B8F20071864C /* ModelDisplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55C09E31CB2B8F20071864C /* ModelDisplayer.cpp */; };
+		F57E4FE61CCE1B7700FBECDA /* ofxFontStash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57E4FDD1CCE1B7700FBECDA /* ofxFontStash.cpp */; };
+		F57E4FE71CCE1B7700FBECDA /* fontstash.c in Sources */ = {isa = PBXBuildFile; fileRef = F57E4FE21CCE1B7700FBECDA /* fontstash.c */; };
+		F57E4FE81CCE1B7700FBECDA /* stb_truetype.c in Sources */ = {isa = PBXBuildFile; fileRef = F57E4FE41CCE1B7700FBECDA /* stb_truetype.c */; };
 		F5F366BC1CA47A63009E1A78 /* ofxNestedFileLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F366BA1CA47A63009E1A78 /* ofxNestedFileLoader.cpp */; };
 		FB84AAF8D1B7A95266DB5C09 /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 21BDE665988474F1B1F4D302 /* jsoncpp.cpp */; };
 /* End PBXBuildFile section */
@@ -689,10 +690,6 @@
 		F428ECF441DE3F2CEB74BC50 /* fbxhashmap.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxhashmap.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/core/base/fbxhashmap.h; sourceTree = SOURCE_ROOT; };
 		F45EB81BF0E816003FD648FD /* fbxfiletokens.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxfiletokens.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/fileio/fbxfiletokens.h; sourceTree = SOURCE_ROOT; };
 		F4D043B132D6CF07CE3DA2C3 /* fbxwriterfbx5.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxwriterfbx5.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/fileio/fbx/fbxwriterfbx5.h; sourceTree = SOURCE_ROOT; };
-		F55A1B121CAD6D0C001FBAED /* ofxParagraph.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxParagraph.cpp; sourceTree = "<group>"; };
-		F55A1B131CAD6D0C001FBAED /* ofxParagraph.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxParagraph.h; sourceTree = "<group>"; };
-		F55A1B171CAD6DBF001FBAED /* ofxSmartFont.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxSmartFont.cpp; sourceTree = "<group>"; };
-		F55A1B181CAD6DBF001FBAED /* ofxSmartFont.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxSmartFont.h; sourceTree = "<group>"; };
 		F55C09D71CB2A0180071864C /* ContentDisplayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ContentDisplayer.cpp; sourceTree = "<group>"; };
 		F55C09D81CB2A0180071864C /* ContentDisplayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentDisplayer.h; sourceTree = "<group>"; };
 		F55C09DA1CB2AE6F0071864C /* ImageDisplayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageDisplayer.cpp; sourceTree = "<group>"; };
@@ -704,6 +701,12 @@
 		F55C09E31CB2B8F20071864C /* ModelDisplayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModelDisplayer.cpp; sourceTree = "<group>"; };
 		F55C09E41CB2B8F20071864C /* ModelDisplayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelDisplayer.h; sourceTree = "<group>"; };
 		F55C09E61CB2C7A80071864C /* Displayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Displayer.h; sourceTree = "<group>"; };
+		F57E4FDD1CCE1B7700FBECDA /* ofxFontStash.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxFontStash.cpp; sourceTree = "<group>"; };
+		F57E4FDE1CCE1B7700FBECDA /* ofxFontStash.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxFontStash.h; sourceTree = "<group>"; };
+		F57E4FE21CCE1B7700FBECDA /* fontstash.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = fontstash.c; sourceTree = "<group>"; };
+		F57E4FE31CCE1B7700FBECDA /* fontstash.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fontstash.h; sourceTree = "<group>"; };
+		F57E4FE41CCE1B7700FBECDA /* stb_truetype.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = stb_truetype.c; sourceTree = "<group>"; };
+		F57E4FE51CCE1B7700FBECDA /* stb_truetype.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stb_truetype.h; sourceTree = "<group>"; };
 		F59384ED57A7C6A7A8B0351D /* ofxDatGuiEvents.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiEvents.h; path = ../../../addons/ofxDatGui/src/core/ofxDatGuiEvents.h; sourceTree = SOURCE_ROOT; };
 		F5D27C767B936AE5D00D561C /* glmGeometryBuilder.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = glmGeometryBuilder.cpp; path = ../../../addons/ofxVectorTile/libs/glmTile/glmGeometryBuilder.cpp; sourceTree = SOURCE_ROOT; };
 		F5DB1AC24B8010FC3C556AAC /* RenderPass.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = RenderPass.h; path = ../../../addons/ofxPostProcessing/src/RenderPass.h; sourceTree = SOURCE_ROOT; };
@@ -1548,8 +1551,7 @@
 				D6BF0C06962E11B5872FE5FB /* ofxVectorTile */,
 				1F4FB5C423662B96ADFDCC0B /* ofxXmlSettings */,
 				F5F366B81CA47A63009E1A78 /* ofxNestedFileLoader */,
-				F55A1B101CAD6D0C001FBAED /* ofxParagraph */,
-				F55A1B151CAD6DBF001FBAED /* ofxSmartFont */,
+				F57E4FDB1CCE1B7700FBECDA /* ofxFontStash */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -1853,42 +1855,6 @@
 			name = libs;
 			sourceTree = "<group>";
 		};
-		F55A1B101CAD6D0C001FBAED /* ofxParagraph */ = {
-			isa = PBXGroup;
-			children = (
-				F55A1B111CAD6D0C001FBAED /* src */,
-			);
-			name = ofxParagraph;
-			sourceTree = "<group>";
-		};
-		F55A1B111CAD6D0C001FBAED /* src */ = {
-			isa = PBXGroup;
-			children = (
-				F55A1B121CAD6D0C001FBAED /* ofxParagraph.cpp */,
-				F55A1B131CAD6D0C001FBAED /* ofxParagraph.h */,
-			);
-			name = src;
-			path = ../../../addons/ofxParagraph/src;
-			sourceTree = "<group>";
-		};
-		F55A1B151CAD6DBF001FBAED /* ofxSmartFont */ = {
-			isa = PBXGroup;
-			children = (
-				F55A1B161CAD6DBF001FBAED /* src */,
-			);
-			name = ofxSmartFont;
-			sourceTree = "<group>";
-		};
-		F55A1B161CAD6DBF001FBAED /* src */ = {
-			isa = PBXGroup;
-			children = (
-				F55A1B171CAD6DBF001FBAED /* ofxSmartFont.cpp */,
-				F55A1B181CAD6DBF001FBAED /* ofxSmartFont.h */,
-			);
-			name = src;
-			path = ../../../addons/ofxSmartFont/src;
-			sourceTree = "<group>";
-		};
 		F55C09E71CB2D99A0071864C /* Displayer */ = {
 			isa = PBXGroup;
 			children = (
@@ -1905,6 +1871,53 @@
 				F55C09E61CB2C7A80071864C /* Displayer.h */,
 			);
 			name = Displayer;
+			sourceTree = "<group>";
+		};
+		F57E4FDB1CCE1B7700FBECDA /* ofxFontStash */ = {
+			isa = PBXGroup;
+			children = (
+				F57E4FDC1CCE1B7700FBECDA /* src */,
+				F57E4FDF1CCE1B7700FBECDA /* libs */,
+			);
+			name = ofxFontStash;
+			sourceTree = "<group>";
+		};
+		F57E4FDC1CCE1B7700FBECDA /* src */ = {
+			isa = PBXGroup;
+			children = (
+				F57E4FDD1CCE1B7700FBECDA /* ofxFontStash.cpp */,
+				F57E4FDE1CCE1B7700FBECDA /* ofxFontStash.h */,
+			);
+			name = src;
+			path = ../../../addons/ofxFontStash/src;
+			sourceTree = "<group>";
+		};
+		F57E4FDF1CCE1B7700FBECDA /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				F57E4FE01CCE1B7700FBECDA /* fontstash */,
+			);
+			name = libs;
+			path = ../../../addons/ofxFontStash/libs;
+			sourceTree = "<group>";
+		};
+		F57E4FE01CCE1B7700FBECDA /* fontstash */ = {
+			isa = PBXGroup;
+			children = (
+				F57E4FE11CCE1B7700FBECDA /* src */,
+			);
+			path = fontstash;
+			sourceTree = "<group>";
+		};
+		F57E4FE11CCE1B7700FBECDA /* src */ = {
+			isa = PBXGroup;
+			children = (
+				F57E4FE21CCE1B7700FBECDA /* fontstash.c */,
+				F57E4FE31CCE1B7700FBECDA /* fontstash.h */,
+				F57E4FE41CCE1B7700FBECDA /* stb_truetype.c */,
+				F57E4FE51CCE1B7700FBECDA /* stb_truetype.h */,
+			);
+			path = src;
 			sourceTree = "<group>";
 		};
 		F5976C5BF0EA6F155AAECEB5 /* utils */ = {
@@ -2080,6 +2093,7 @@
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
 				DD84AC983A67192FC72A473E /* Content.cpp in Sources */,
+				F57E4FE61CCE1B7700FBECDA /* ofxFontStash.cpp in Sources */,
 				F55C09DC1CB2AE6F0071864C /* ImageDisplayer.cpp in Sources */,
 				432C3F78A0E9FDE157A1DC91 /* Globals.cpp in Sources */,
 				3D645690B8DD82F5119B9EAC /* InteractiveMenu.cpp in Sources */,
@@ -2098,6 +2112,7 @@
 				9B5EAD6903CBD88ED1D4627A /* ofxFBXNode.cpp in Sources */,
 				AAE7D54A50810641535459E5 /* ofxFBXPose.cpp in Sources */,
 				1BEE448D5236FF7A3D1136A0 /* ofxFBXScene.cpp in Sources */,
+				F57E4FE71CCE1B7700FBECDA /* fontstash.c in Sources */,
 				22FAD71C4C85BA2A59638F67 /* ofxFBXSkeleton.cpp in Sources */,
 				914AF1870F96A0A63B4E36D8 /* AnimationUtility.cxx in Sources */,
 				7D001F1365B7FA85A22C5A60 /* GeometryUtility.cxx in Sources */,
@@ -2106,10 +2121,8 @@
 				203095EEEA732AC16FA8C9EC /* glmGeom.cpp in Sources */,
 				A8D7DAB32E7E845798D5493B /* glmGL.cpp in Sources */,
 				E23EBFFD459D8071F89D755B /* glmIntersection.cpp in Sources */,
-				F55A1B191CAD6DBF001FBAED /* ofxSmartFont.cpp in Sources */,
 				629CD02C5BEA84BCE5811C92 /* glmIO.cpp in Sources */,
 				63512F02DCE42C89FA0D7634 /* glmTesselation.cpp in Sources */,
-				F55A1B141CAD6D0C001FBAED /* ofxParagraph.cpp in Sources */,
 				64C3C92089EBEA7EC1C41130 /* glmFastPolyline.cpp in Sources */,
 				1C7AAD60C08516D9916859C1 /* glmMesh.cpp in Sources */,
 				F2C488627AEB484729EF7A98 /* glmPolarPoint.cpp in Sources */,
@@ -2140,6 +2153,7 @@
 				6A505EAE8088949A9180FFE7 /* GodRaysPass.cpp in Sources */,
 				28AFD6FA9B9C885AFD9FF1C7 /* HorizontalTiltShifPass.cpp in Sources */,
 				F5F366BC1CA47A63009E1A78 /* ofxNestedFileLoader.cpp in Sources */,
+				F57E4FE81CCE1B7700FBECDA /* stb_truetype.c in Sources */,
 				B59194C82B8D802DA33EC465 /* HsbShiftPass.cpp in Sources */,
 				884CB4D049E35C51E949A565 /* KaleidoscopePass.cpp in Sources */,
 				7AB51F1099DC01486D18FAF6 /* LimbDarkeningPass.cpp in Sources */,

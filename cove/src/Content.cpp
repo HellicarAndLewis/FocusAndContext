@@ -38,6 +38,11 @@ void Content::setup()
     camMinZoom = 250;
     camZoom = camMaxZoom;
     
+    //Setup fonts (must be called before fileLocation() method
+    titleFont.setup("fonts/Plain-Bold.ttf", 1.0, 1024, true, 8, 2.0);
+    textFont.setup("fonts/Plain-Regular.ttf", 1.5, 1024, true, 8, 2.0);
+    sourceFont.setup("fonts/Plain-Light.ttf", 1.0, 1024, true, 8, 2.0);
+    
     // setup file paths
     fileLocation();
     
@@ -62,6 +67,8 @@ void Content::setup()
     backgroundImage65.load("content/shared/backgroundTile65.png");
     
     backgroundImage43.load("content/shared/backgroundTile43.png");
+    
+    spinMeImage.load("content/shared/360Icon.png");
     
     playhead.setAlpha(255.0);
     
@@ -125,6 +132,9 @@ void Content::fileLocation() {
                     displayer->setBackgroundImage(&backgroundImage169);
                     displayer->setContentLocation(currentPaths[i]);
                     displayer->setPlayhead(&playhead);
+                    displayer->setTitleFont(&titleFont);
+                    displayer->setTextFont(&textFont);
+                    displayer->setSourceFont(&sourceFont);
                     (*currentProjectDisplayers)[locationName].push_back(displayer);
                 } else if(fileType == "wav") {
                     //We've got an audio file!
@@ -133,6 +143,9 @@ void Content::fileLocation() {
                     displayer->setBackgroundImage(&backgroundImageAudio);
                     displayer->setContentLocation(currentPaths[i]);
                     displayer->setPlayhead(&playhead);
+                    displayer->setTitleFont(&titleFont);
+                    displayer->setTextFont(&textFont);
+                    displayer->setSourceFont(&sourceFont);
                     (*currentProjectDisplayers)[locationName].push_back(displayer);
                 } else if(fileType == "mp4" || fileType == "mov") {
                     //We've got a video!
@@ -147,6 +160,9 @@ void Content::fileLocation() {
                     }
                     displayer->setContentLocation(currentPaths[i]);
                     displayer->setPlayhead(&playhead);
+                    displayer->setTitleFont(&titleFont);
+                    displayer->setTextFont(&textFont);
+                    displayer->setSourceFont(&sourceFont);
 
                     (*currentProjectDisplayers)[locationName].push_back(displayer);
                 } else if(fileType == "fbx") {
@@ -158,15 +174,29 @@ void Content::fileLocation() {
                     displayer->setPlayhead(&playhead);
                     displayer->setCamera(&cam);
                     displayer->setLight(&light);
+                    displayer->setTitleFont(&titleFont);
+                    displayer->setTextFont(&textFont);
+                    displayer->setSourceFont(&sourceFont);
+                    displayer->setTextImage(&spinMeImage);
                     (*currentProjectDisplayers)[locationName].push_back(displayer);
                 } else {
                     //SOME USELESS FILE, IGNORE IT!
                 }
             } else if(splitString[contentComponentIndex] == "Title") {
-                ofImage* image = new ofImage();
-                image->load(currentPaths[i]);
+                ofxXmlSettings displayableText;
+                displayableText.load(currentPaths[i]);
+                string titleText = displayableText.getValue("Title", "Title");
+                string infoText = displayableText.getValue("Text", "Info Text");
+                string sourceText = displayableText.getValue("Source", "Source");
+                float cutoffPercent = displayableText.getValue("Cutoff", 0.5);
+
+//                ofImage* image = new ofImage();
+//                image->load(currentPaths[i]);
                 if((*currentProjectDisplayers)[locationName].size() > 0) {
-                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setTextImage(currentPaths[i]);
+                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setTitle(titleText);
+                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setText(infoText);
+                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setSource("Source: " + sourceText);
+                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setTextCutoffPercent(cutoffPercent);
                 }
             }
         }
@@ -202,6 +232,9 @@ void Content::fileLocation() {
                     displayer->setBackgroundImage(&backgroundImage169);
                     displayer->setContentLocation(currentPaths[i]);
                     displayer->setPlayhead(&playhead);
+                    displayer->setTitleFont(&titleFont);
+                    displayer->setTextFont(&textFont);
+                    displayer->setSourceFont(&sourceFont);
                     (*currentProjectDisplayers)[locationName].push_back(displayer);
                 } else if(fileType == "wav") {
                     //We've got an audio file!
@@ -210,6 +243,9 @@ void Content::fileLocation() {
                     displayer->setBackgroundImage(&backgroundImageAudio);
                     displayer->setContentLocation(currentPaths[i]);
                     displayer->setPlayhead(&playhead);
+                    displayer->setTitleFont(&titleFont);
+                    displayer->setTextFont(&textFont);
+                    displayer->setSourceFont(&sourceFont);
                     (*currentProjectDisplayers)[locationName].push_back(displayer);
                 } else if(fileType == "mp4" || fileType == "mov") {
                     //We've got a video!
@@ -224,6 +260,9 @@ void Content::fileLocation() {
                     }
                     displayer->setContentLocation(currentPaths[i]);
                     displayer->setPlayhead(&playhead);
+                    displayer->setTitleFont(&titleFont);
+                    displayer->setTextFont(&textFont);
+                    displayer->setSourceFont(&sourceFont);
                     (*currentProjectDisplayers)[locationName].push_back(displayer);
                 } else if(fileType == "fbx") {
                     //We've got a model!
@@ -234,20 +273,34 @@ void Content::fileLocation() {
                     displayer->setPlayhead(&playhead);
                     displayer->setCamera(&cam);
                     displayer->setLight(&light);
+                    displayer->setTitleFont(&titleFont);
+                    displayer->setTextFont(&textFont);
+                    displayer->setSourceFont(&sourceFont);
+                    displayer->setTextImage(&spinMeImage);
                     (*currentProjectDisplayers)[locationName].push_back(displayer);
                 } else {
                     //SOMETHING'S GONE WRONG!
                 }
             } else if(splitString[contentComponentIndex] == "Title") {
-                ofImage* image = new ofImage();
-                image->load(currentPaths[i]);
+                ofxXmlSettings displayableText;
+                displayableText.load(currentPaths[i]);
+                string titleText = displayableText.getValue("Title", "Title");
+                string infoText = displayableText.getValue("Text", "Info Text");
+                string sourceText = displayableText.getValue("Source", "Source");
+                float cutoffPercent = displayableText.getValue("Cutoff", 0.5);
+
+                //                ofImage* image = new ofImage();
+                //                image->load(currentPaths[i]);
                 if((*currentProjectDisplayers)[locationName].size() > 0) {
-                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setTextImage(currentPaths[i]);
+                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setTitle(titleText);
+                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setText(infoText);
+                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setSource("Source: " + sourceText);
+                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setTextCutoffPercent(cutoffPercent);
                 }
             }
         }
     }
-    
+
     //pre-load all POI intro sounds
     bool loaded = introSounds[0][0].load(introSoundPaths[0][0]);
     introSounds[0][1].load(introSoundPaths[0][1]);

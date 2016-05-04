@@ -4,6 +4,7 @@
 //
 //  Created by Jason Walters on 10/03/2016.
 //  Last edited by Jason Walters on 10/03/2016.
+//  Last edited by James Bentley on 28/04/2016.
 //
 //
 
@@ -14,6 +15,8 @@
 #include "ofxNestedFileLoader.h"
 #include "Playhead.h"
 #include "Displayer.h"
+#include "ofxFontStash.h"
+#include "ofxXMLSettings.h"
 
 class Content
 {
@@ -47,6 +50,7 @@ public:
     ofImage backgroundImageAudio;
     ofImage backgroundImage43;
     ofImage backgroundImage65;
+    ofImage spinMeImage;
     
     map<string, vector<ContentDisplayer*> > hs1Displayers;
     map<string, vector<ContentDisplayer*> > crossrailDisplayers;
@@ -116,6 +120,11 @@ public:
         
         return finalVector;
     }
+    
+    ofxFontStash titleFont;
+    ofxFontStash textFont;
+    ofxFontStash sourceFont;
+
     
     int project;
     int point;

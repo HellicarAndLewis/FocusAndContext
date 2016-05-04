@@ -48,6 +48,7 @@ public:
     bool getIsActive() { return isActive; };
     int getType() { return type; };
     bool getIsSpecial() { return isSpecial; };
+    virtual float getDuration() { return 30.0; };
     
     // Functionality
     virtual void update();

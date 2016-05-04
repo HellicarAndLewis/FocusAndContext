@@ -242,19 +242,14 @@ void Content::fileLocation() {
         }
     }
     
-    
     // Manually select the special content pieces. We need to do this sloppily here because people keep changing the requirements on this project weeks before final submission.
-    hs1Displayers["StPancras"][0]->setIsSpecial(true);
     hs1Displayers["StratfordInternational"][0]->setIsSpecial(true);
-    hs1Displayers["EbbsfleetInternational"][0]->setIsSpecial(true);
-    hs1Displayers["MedwayViaduct"][0]->setIsSpecial(true);
-    hs1Displayers["AshfordInternational"][0]->setIsSpecial(true);
+    hs1Displayers["EbbsfleetInternational"][1]->setIsSpecial(true);
+    hs1Displayers["AshfordInternational"][2]->setIsSpecial(true);
     
-    crossrailDisplayers["CanaryWharf"][0]->setIsSpecial(true);
-    crossrailDisplayers["LiverpoolStreet"][0]->setIsSpecial(true);
-    crossrailDisplayers["Barbican"][0]->setIsSpecial(true);
-    crossrailDisplayers["TottenhamCourtRoad"][0]->setIsSpecial(true);
-    crossrailDisplayers["Soho"][0]->setIsSpecial(true);
+    crossrailDisplayers["CanaryWharf"][4]->setIsSpecial(true);
+    crossrailDisplayers["Soho"][3]->setIsSpecial(true);
+    crossrailDisplayers["Soho"][1]->setIsSpecial(true);
     
     //pre-load all POI intro sounds
     bool loaded = introSounds[0][0].load(introSoundPaths[0][0]);

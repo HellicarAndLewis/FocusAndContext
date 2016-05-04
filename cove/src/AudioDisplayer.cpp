@@ -41,6 +41,9 @@ void AudioDisplayer::draw(float x, float y) {
         float percentage = audio->getPosition();
         playhead->setAlpha(alpha);
         playhead->draw(x, y + yOffset, width * scale, height * scale, percentage);
+        int numLines;
+        ofSetColor(0, 0, 0, alpha);
+        textFont->drawMultiLineColumn(text, 18, x - width/2 + 5, y + height/2 + 30, width * textCutoffPercent, numLines);
         ofPopStyle();
     }
 }

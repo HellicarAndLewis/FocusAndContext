@@ -21,7 +21,7 @@ void ofApp::setup()
     ofEnableAlphaBlending();
     
     //ofToggleFullscreen();
-    //ofHideCursor();
+    ofHideCursor();
     
     //Shifted screen over to work on adjacent screen
     ofSetWindowPosition(0, 0);
@@ -116,7 +116,10 @@ void ofApp::setup()
     
     hs1Title.load("content/shared/HS1LargeTitle.png");
     crossrailTitle.load("content/shared/CrossrailLargeTitle.png");
-
+    
+    autoSysSetup();
+    
+ //systemActive = true;
 }
 
 void ofApp::setupGui()
@@ -251,8 +254,6 @@ void ofApp::loadProject(int selection)
     
     // starting location point
     pointJump = -1;
-    hs1Point = 2;
-    crossrailPoint = 0;
     
     // clear the bottom scroller before we get the route
     if (scroller.ticks.size() > 0) scroller.ticks.clear();
@@ -475,6 +476,10 @@ void ofApp::autoSysSetup()
     
     // disable
     isSysSetup = false;
+    
+    //setup the initial points
+    hs1Point = 2;
+    crossrailPoint = 0;
 }
 
 void ofApp::autoSysUpdate()
@@ -483,17 +488,17 @@ void ofApp::autoSysUpdate()
     switch (currentInterval) {
         case 0:
             if (routeSelection == 0) maxTime = 40;
-            else maxTime = 20;
+            else maxTime = 30;
             break;
             
         case 1:
-            if (routeSelection == 0) maxTime = 20;
-            else maxTime = 20;
+            if (routeSelection == 0) maxTime = 7;
+            else maxTime = 7;
             break;
             
         case 2:
-            if(routeSelection == 0) maxTime = 30;
-            else maxTime = 30;
+            //if(routeSelection == 0) maxTime = 30;
+            //else maxTime = 30;
             break;
     }
     
@@ -531,7 +536,8 @@ void ofApp::autoSysUpdate()
     }
     
     Location & location = *route.getLocation();
-    int randomSwitch = (int)ofRandom(3);
+    //int randomSwitch = (int)ofRandom(3);
+    int randomSwitch;
     switch (currentInterval)
     {
         case 0:
@@ -707,9 +713,9 @@ void ofApp::autoSysUpdate()
                     pointJump = crossrailPoint;
                     switch(crossrailPoint) {
                         case 0:
-                            crossrailPoint = 1;
+                            crossrailPoint = 4;
                             break;
-                        case 1:
+                        case 4:
                             crossrailPoint = 0;
                             break;
                         default:
@@ -798,30 +804,45 @@ void ofApp::autoSysUpdate()
             if (contentActive)
             {
                 string pointName;
+                int contentIndex;
 
                 // HS1
                 if(route.activeProject == 0) {
-
                     switch (pointJump) {
                         case 0:
                             pointName = "StPancras";
-                            c.hs1Displayers[pointName][selectAppropriateContentIndex(0, pointName)]->setIsActive(true);
+                            contentIndex = selectAppropriateContentIndex(0, pointName);
+                            c.hs1Displayers[pointName][contentIndex]->setIsActive(true);
+                            maxTime = c.hs1Displayers[pointName][contentIndex]->getDuration() + 2;
+                            c.hs1Displayers[pointName][contentIndex]->setIsSpecial(false);
                             break;
                         case 1:
                             pointName = "StratfordInternational";
-                            c.hs1Displayers[pointName][selectAppropriateContentIndex(0, pointName)]->setIsActive(true);
+                            contentIndex = selectAppropriateContentIndex(0, pointName);
+                            c.hs1Displayers[pointName][contentIndex]->setIsActive(true);
+                            maxTime = c.hs1Displayers[pointName][contentIndex]->getDuration() + 2;
+                            c.hs1Displayers[pointName][contentIndex]->setIsSpecial(false);
                             break;
                         case 2:
                             pointName = "EbbsfleetInternational";
-                            c.hs1Displayers[pointName][selectAppropriateContentIndex(0, pointName)]->setIsActive(true);
+                            contentIndex = selectAppropriateContentIndex(0, pointName);
+                            c.hs1Displayers[pointName][contentIndex]->setIsActive(true);
+                            maxTime = c.hs1Displayers[pointName][contentIndex]->getDuration() + 2;
+                            c.hs1Displayers[pointName][contentIndex]->setIsSpecial(false);
                             break;
                         case 3:
                             pointName = "MedwayViaduct";
-                            c.hs1Displayers[pointName][selectAppropriateContentIndex(0, pointName)]->setIsActive(true);
+                            contentIndex = selectAppropriateContentIndex(0, pointName);
+                            c.hs1Displayers[pointName][contentIndex]->setIsActive(true);
+                            maxTime = c.hs1Displayers[pointName][contentIndex]->getDuration() + 2;
+                            c.hs1Displayers[pointName][contentIndex]->setIsSpecial(false);
                             break;
                         case 4:
                             pointName = "AshfordInternational";
-                            c.hs1Displayers[pointName][selectAppropriateContentIndex(0, pointName)]->setIsActive(true);
+                            contentIndex = selectAppropriateContentIndex(0, pointName);
+                            c.hs1Displayers[pointName][contentIndex]->setIsActive(true);
+                            maxTime = c.hs1Displayers[pointName][contentIndex]->getDuration() + 2;
+                            c.hs1Displayers[pointName][contentIndex]->setIsSpecial(false);
                             break;
                         default:
                             break;
@@ -831,23 +852,38 @@ void ofApp::autoSysUpdate()
                     switch (pointJump) {
                         case 0:
                             pointName = "Soho";
-                            c.crossrailDisplayers[pointName][selectAppropriateContentIndex(1, pointName)]->setIsActive(true);
+                            contentIndex = selectAppropriateContentIndex(1, pointName);
+                            c.crossrailDisplayers[pointName][contentIndex]->setIsActive(true);
+                            maxTime = c.crossrailDisplayers[pointName][contentIndex]->getDuration();
+                            c.crossrailDisplayers[pointName][contentIndex]->setIsSpecial(false);
                             break;
                         case 1:
                             pointName = "TottenhamCourtRoad";
-                            c.crossrailDisplayers[pointName][selectAppropriateContentIndex(1, pointName)]->setIsActive(true);
+                            contentIndex = selectAppropriateContentIndex(1, pointName);
+                            c.crossrailDisplayers[pointName][contentIndex]->setIsActive(true);
+                            maxTime = c.crossrailDisplayers[pointName][contentIndex]->getDuration();
+                            c.crossrailDisplayers[pointName][contentIndex]->setIsSpecial(false);
                             break;
                         case 2:
                             pointName = "Barbican";
-                            c.crossrailDisplayers[pointName][selectAppropriateContentIndex(1, pointName)]->setIsActive(true);
+                            contentIndex = selectAppropriateContentIndex(1, pointName);
+                            c.crossrailDisplayers[pointName][contentIndex]->setIsActive(true);
+                            maxTime = c.crossrailDisplayers[pointName][contentIndex]->getDuration();
+                            c.crossrailDisplayers[pointName][contentIndex]->setIsSpecial(false);
                             break;
                         case 3:
                             pointName = "LiverpoolStreet";
-                            c.crossrailDisplayers[pointName][selectAppropriateContentIndex(1, pointName)]->setIsActive(true);
+                            contentIndex = selectAppropriateContentIndex(1, pointName);
+                            c.crossrailDisplayers[pointName][contentIndex]->setIsActive(true);
+                            maxTime = c.crossrailDisplayers[pointName][contentIndex]->getDuration();
+                            c.crossrailDisplayers[pointName][contentIndex]->setIsSpecial(false);
                             break;
                         case 4:
                             pointName = "CanaryWharf";
-                            c.crossrailDisplayers[pointName][selectAppropriateContentIndex(1, pointName)]->setIsActive(true);
+                            contentIndex = selectAppropriateContentIndex(1, pointName);
+                            c.crossrailDisplayers[pointName][contentIndex]->setIsActive(true);
+                            maxTime = c.crossrailDisplayers[pointName][contentIndex]->getDuration();
+                            c.crossrailDisplayers[pointName][contentIndex]->setIsSpecial(false);
                             break;
                         default:
                             break;
@@ -1143,9 +1179,9 @@ void ofApp::draw()
         else alpha = ofMap(cam.getPosition().z, 12000, CROSSRAIL_ZOOMED_OUT_CAM_DISTANCE, 0, 255);
         ofSetColor(255, 255, 255, alpha);
         if(route.activeProject == 0) {
-            hs1Title.draw(ofGetWidth()/2, ofGetHeight()/2);
+            //hs1Title.draw(ofGetWidth()/2, ofGetHeight()/2);
         } else {
-            crossrailTitle.draw(ofGetWidth()/2, ofGetHeight()/2);
+            //crossrailTitle.draw(ofGetWidth()/2, ofGetHeight()/2);
         }
         //ofDrawRectRounded(ofGetWidth()/2, ofGetHeight()/2, 500, 500, 20);
         ofPopStyle();
@@ -1619,7 +1655,7 @@ int ofApp::selectAppropriateContentIndex(int projectIndex, string pointName) {
         int attempt = (int)ofRandom(0, 5);
 //        int typeOfAttempt = c.hs1Displayers[pointName][attempt]->getType();
         if(c.hs1Displayers[pointName][attempt]->getIsSpecial()/*typeOfAttempt == ContentDisplayer::ContentTypes::MODEL || typeOfAttempt == ContentDisplayer::ContentTypes::IMAGE*/ ) {
-            c.hs1Displayers[pointName][attempt]->setIsSpecial(false);
+            //c.hs1Displayers[pointName][attempt]->setIsSpecial(false);
             return attempt;
         } else {
             return selectAppropriateContentIndex(projectIndex, pointName);
@@ -1628,7 +1664,7 @@ int ofApp::selectAppropriateContentIndex(int projectIndex, string pointName) {
         int attempt = (int)ofRandom(0, 5);
         //int typeOfAttempt = c.crossrailDisplayers[pointName][attempt]->getType();
         if(c.crossrailDisplayers[pointName][attempt]->getIsSpecial()/*typeOfAttempt == ContentDisplayer::ContentTypes::MODEL || typeOfAttempt == ContentDisplayer::ContentTypes::IMAGE*/ ) {
-            c.hs1Displayers[pointName][attempt]->setIsSpecial(false);
+            //c.crossrailDisplayers[pointName][attempt]->setIsSpecial(false);
             return attempt;
         } else {
             return selectAppropriateContentIndex(projectIndex, pointName);

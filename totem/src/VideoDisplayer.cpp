@@ -27,7 +27,6 @@ void VideoDisplayer::update() {
             }
         }
     }
-
 }
 
 void VideoDisplayer::draw(float x, float y) {
@@ -40,9 +39,12 @@ void VideoDisplayer::draw(float x, float y) {
         float playheadYOffset = 5;
         float playheadHeight = 10;
         float percent = video->getPosition();
+        ofSetColor(255, 255, 255, 86);
+        ofDrawRectRounded(x, y, (width + 60) * scale, (height + 120) * scale, 20 * scale);
+        ofSetColor(255, 255, 255);
         video->draw(x, y, width * scale, height * scale);
         playhead->setAlpha(alpha);
-        playhead->draw(x, y + height/2 + playheadYOffset, width * scale, playheadHeight * scale, percent);
+        //playhead->draw(x, y + height/2 + playheadYOffset, width * scale, playheadHeight * scale, percent);
         ofPopStyle();
     }
 }

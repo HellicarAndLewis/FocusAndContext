@@ -12,6 +12,7 @@
 #include "Playhead.h"
 #include "Globals.h"
 #include "InteractiveObject.h"
+#include "ofxFontStash.h"
 
 class ContentDisplayer {
 public:
@@ -38,7 +39,14 @@ public:
     };
     void setCons(vector<InteractiveObject*> _cons) { cons = _cons; };
     void setIsSpecial(bool _isSpecial) { isSpecial = _isSpecial; };
-    
+    void setTitleFont(ofxFontStash* font) { titleFont = font; };
+    void setTextFont(ofxFontStash* font) { textFont = font; };
+    void setSourceFont(ofxFontStash* font) { sourceFont = font; };
+    void setTitle(string _title) { title = _title; };
+    void setText(string _text) { text = _text; };
+    void setSource(string _source) { source = _source; };
+    void setTextCutoffPercent(float _percent) { textCutoffPercent = _percent; };
+
     // Getters
     ofImage* getBackgroundImage() { return backgroundImage; };
     ofImage* getTextImage() { return textImage; };
@@ -62,6 +70,12 @@ public:
 protected:
     ofImage* backgroundImage;
     ofImage* textImage;
+    ofxFontStash* titleFont;
+    ofxFontStash* textFont;
+    ofxFontStash* sourceFont;
+    string title;
+    string text;
+    string source;
     float scale;
     float alpha;
     Playhead* playhead;
@@ -70,6 +84,7 @@ protected:
     float lerpSmall;
     float alphaLerp;
     bool isActive;
+    float textCutoffPercent;
     
     int type;
     

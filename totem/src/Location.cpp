@@ -10,7 +10,7 @@
 #include "Location.h"
 #include "Globals.h"
 
-#define DISPLAY_LABELS
+//#define DISPLAY_LABELS
 
 // script for controlling the POI labels
 Location::Location() {

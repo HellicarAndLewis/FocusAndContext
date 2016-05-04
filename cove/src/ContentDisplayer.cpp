@@ -38,13 +38,21 @@ void ContentDisplayer::update() {
 
 void ContentDisplayer::draw(float x, float y) {
     ofSetColor(255);
+    ofPushStyle();
     ofSetRectMode(OF_RECTMODE_CENTER);
     float width = backgroundImage->getWidth();
     float height = backgroundImage->getHeight();
-    ofDrawRectRounded(x, y, width * scale, height * scale, 20);
+    int numLines;
+    ofDrawRectRounded(x, y, width * scale, height * scale, 20 * scale);
     //backgroundImage->draw(x, y, width * scale, height * scale);
-    ofSetColor(255, 255, 255, alpha);
-    if(textImage != NULL) {
-        textImage->draw(x, y, width * scale, height * scale);
-    }
+    ofSetColor(0, 0, 0, alpha);
+    ofSetRectMode(OF_RECTMODE_CORNER);
+    titleFont->drawMultiLineColumn(title, 36, x - width/2 + 35, y - height/2 + 65, width, numLines);
+    ofSetColor(75, 75, 75, alpha);
+    sourceFont->drawMultiLineColumn(source, 9, x - width/2 + 35, y + height/2 - 20, width, numLines); 
+    ofPopStyle();
+    //if(textImage != NULL) {
+        
+        //textImage->draw(x, y, width * scale, height * scale);
+    //}
 }

@@ -41,6 +41,8 @@ public:
     // Getters
     ofVideoPlayer* getVideo() { return video; };
     
+    virtual float getDuration() { return video->getDuration(); };
+    
     // Functionality
     virtual void draw(float x, float y);
     virtual void update();
