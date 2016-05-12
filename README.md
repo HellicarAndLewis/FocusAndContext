@@ -12,6 +12,15 @@ An series of interactions that place content in geographical space.
  7. To run in Cove mode do the same but in the cove folder, you'll also need to rotate your screen by going to System Preferences > Displays and changing Rotation to 90 degrees.
  8. Everything should now be installed for a one-off play! 
  9. To get the system installation ready you'll need to change a few settings in the comuters preferences: follow the instructions found here: http://openframeworks.cc/ofBook/chapters/installation_up_4evr_macosx.html ignoring step 3 and 5.
+ 
+##Intallation From Our System
+ 1. Connect computer to touch screen via HDMI and USB
+ 2. Power both computer and touch-screen, the 'cove' application will automatically launch.
+ 3. Ensure Computer is not covered so it will not over-heat.
+ 4. To Install Totem projection simply connect the media display device to a projector via HDMI or VGA and power both the projector and the playback device. The totem video loop will automatically start and run forever.
+ 5. If you want to change the idle time, ie the time the cove waits until it switches projects autonomously you'll need to quit the application by pressing escape. Navigate to the file found here: ~/Documents/openFrameworksNightly/apps/FocusAndContext/cove/bin/data/settings/idleTime.xml
+ 6. Double click on the xml file to open it in any text editor
+ 7. Change the time displayed from: <idleTime>150.</idleTime> to <idleTime>[NEW NUMBER]</idleTime> to whatever you want!
 
 ## Addons
 - ofxDatGui: https://github.com/braitsch/ofxDatGui
