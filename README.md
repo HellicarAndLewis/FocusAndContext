@@ -1,6 +1,18 @@
 # FocusAndContext
 An series of interactions that place content in geographical space.
 
+##Installation Instructions
+ 1. Download and install openFrameworks via the instructions found here, you'll want version 0.9.3: http://openframeworks.cc/download/
+ 2. Once you've installed openFrameworks you'll need to clone this repository into your apps folder.
+ 3. Once you've clone the rpo you'll need to isntall all the addons listed below in the addons folder.
+ 3. Once the folder has been cloned you'll need to acquire the data, You can get this from Google Drive.
+ 4. Once you have installed google drive ans synced with the appropriate folder you'll need to move your google drive root folder into FocusAndContext/cove/bin.data/content
+ 5. Next you need to edit a few addons, the first is ofxFBXScene and the second is ofxVectorTile. To edit these open the cove/data folder and take the files located in ofxFBXScene-Edit and ofxVectorTile-Edit folders and replace the files in the addons with the once provided in this repo.
+ 6. To run in Totem mode simply open the xcode project inside the totem folder and compile and run it in debug mode
+ 7. To run in Cove mode do the same but in the cove folder, you'll also need to rotate your screen by going to System Preferences > Displays and changing Rotation to 90 degrees.
+ 8. Everything should now be installed for a one-off play! 
+ 9. To get the system installation ready you'll need to change a few settings in the comuters preferences: follow the instructions found here: http://openframeworks.cc/ofBook/chapters/installation_up_4evr_macosx.html ignoring step 3 and 5.
+
 ## Addons
 - ofxDatGui: https://github.com/braitsch/ofxDatGui
 - ofxFBX: https://github.com/NickHardeman/ofxFBX/tree/develop
@@ -12,6 +24,7 @@ An series of interactions that place content in geographical space.
 - ofxVectorTile: https://github.com/tangrams/ofxVectorTile
 - ofxXMLSettings: included w/ openFrameworks
 - ofxNestedFileLoader: https://github.com/Bentleyj/ofxNestedFileLoader
+- ofxFontStash: https://github.com/armadillu/ofxFontStash
 
 ## Areas
 #### ofApp.h/.cpp
