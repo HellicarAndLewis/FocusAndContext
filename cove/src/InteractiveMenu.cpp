@@ -2105,6 +2105,9 @@ void InteractiveMenu::pressed()
         {
             switch (i) {
                 case 0:
+                    if(!bLeftActive[0]) {
+                        snd1.play();
+                    }// play menu button sound
                     bLeftActive[0] = true;
                     bLeftActive[1] = false;
                     bLeftActive[2] = false;
@@ -2122,6 +2125,9 @@ void InteractiveMenu::pressed()
                     }
                     break;
                 case 1:
+                    if(!bLeftActive[1]) {
+                        snd1.play();
+                    }// play menu button sound
                     bLeftActive[0] = false;
                     bLeftActive[1] = true;
                     bLeftActive[2] = false;
@@ -2139,6 +2145,9 @@ void InteractiveMenu::pressed()
                     }
                     break;
                 case 2:
+                    if(!bLeftActive[2]) {
+                        snd1.play();
+                    }// play menu button sound
                     bLeftActive[0] = false;
                     bLeftActive[1] = false;
                     bLeftActive[2] = true;
@@ -2156,6 +2165,9 @@ void InteractiveMenu::pressed()
                     }
                     break;
                 case 3:
+                    if(!bLeftActive[3]) {
+                        snd1.play();
+                    }// play menu button sound
                     bLeftActive[0] = false;
                     bLeftActive[1] = false;
                     bLeftActive[2] = false;
@@ -2173,6 +2185,9 @@ void InteractiveMenu::pressed()
                     }
                     break;
                 case 4:
+                    if(!bLeftActive[4]) {
+                        snd1.play();
+                    }// play menu button sound
                     bLeftActive[0] = false;
                     bLeftActive[1] = false;
                     bLeftActive[2] = false;
@@ -2190,9 +2205,6 @@ void InteractiveMenu::pressed()
                     }
                     break;
             }
-            
-            // play menu button sound
-            if(!snd1.isPlaying()) snd1.play();
             
             for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
                 for(auto content = location->second.begin(); content != location->second.end(); content++) {
@@ -2217,6 +2229,9 @@ void InteractiveMenu::pressed()
         {
             switch (i) {
                 case 0:
+                    if(!bRightActive[0]) {
+                        snd1.play();
+                    }// play menu button sound
                     bRightActive[0] = true;
                     bRightActive[1] = false;
                     bRightActive[2] = false;
@@ -2234,6 +2249,9 @@ void InteractiveMenu::pressed()
                     }
                     break;
                 case 1:
+                    if(!bRightActive[1]) {
+                        snd1.play();
+                    }// play menu button sound
                     bRightActive[0] = false;
                     bRightActive[1] = true;
                     bRightActive[2] = false;
@@ -2251,6 +2269,9 @@ void InteractiveMenu::pressed()
                     }
                     break;
                 case 2:
+                    if(!bRightActive[2]) {
+                        snd1.play();
+                    }// play menu button sound
                     bRightActive[0] = false;
                     bRightActive[1] = false;
                     bRightActive[2] = true;
@@ -2268,6 +2289,9 @@ void InteractiveMenu::pressed()
                     }
                     break;
                 case 3:
+                    if(!bRightActive[3]) {
+                        snd1.play();
+                    }// play menu button sound
                     bRightActive[0] = false;
                     bRightActive[1] = false;
                     bRightActive[2] = false;
@@ -2285,6 +2309,9 @@ void InteractiveMenu::pressed()
                     }
                     break;
                 case 4:
+                    if(!bRightActive[4]) {
+                        snd1.play();
+                    }// play menu button sound
                     bRightActive[0] = false;
                     bRightActive[1] = false;
                     bRightActive[2] = false;
@@ -2302,9 +2329,6 @@ void InteractiveMenu::pressed()
                     }
                     break;
             }
-            
-            // play menu button sound
-            if(!snd1.isPlaying()) snd1.play();
             for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
                 for(auto content = location->second.begin(); content != location->second.end(); content++) {
                     (*content)->setIsActive(false);
