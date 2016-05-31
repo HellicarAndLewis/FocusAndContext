@@ -10,6 +10,7 @@
 		04C13EEA813A786CC1D8137A /* FxaaPass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9425843AEC3118B8FDEF1B0B /* FxaaPass.cpp */; };
 		114C00B13F753E59BB0984BB /* DofPass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E837DEBFAEA1CAD833A377DF /* DofPass.cpp */; };
 		14A7BCBF1CF85DAB00F3CB46 /* ofxSmartFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 14A7BCBD1CF85DAB00F3CB46 /* ofxSmartFont.cpp */; };
+		14C605FB1CFDD09500EEE80F /* ofxWatchdog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 14C605F91CFDD09500EEE80F /* ofxWatchdog.cpp */; };
 		1AED355C1CA9467500D7519C /* Playhead.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AED355A1CA9467500D7519C /* Playhead.cpp */; };
 		1BEE448D5236FF7A3D1136A0 /* ofxFBXScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 95EB7C733541F64E2C4F7115 /* ofxFBXScene.cpp */; };
 		1C7AAD60C08516D9916859C1 /* glmMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EE11D8D334F3477226E0DB13 /* glmMesh.cpp */; };
@@ -190,6 +191,8 @@
 		14A0DEC0FD5BCDCA5789E196 /* fbxredblacktree.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxredblacktree.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/core/base/fbxredblacktree.h; sourceTree = SOURCE_ROOT; };
 		14A7BCBD1CF85DAB00F3CB46 /* ofxSmartFont.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxSmartFont.cpp; sourceTree = "<group>"; };
 		14A7BCBE1CF85DAB00F3CB46 /* ofxSmartFont.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxSmartFont.h; sourceTree = "<group>"; };
+		14C605F91CFDD09500EEE80F /* ofxWatchdog.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxWatchdog.cpp; sourceTree = "<group>"; };
+		14C605FA1CFDD09500EEE80F /* ofxWatchdog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxWatchdog.h; sourceTree = "<group>"; };
 		14F8B4286F653202B881D865 /* ToonPass.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ToonPass.h; path = ../../../addons/ofxPostProcessing/src/ToonPass.h; sourceTree = SOURCE_ROOT; };
 		15C9D59193BE78D6C9381039 /* fbxgeometryconverter.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxgeometryconverter.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/utils/fbxgeometryconverter.h; sourceTree = SOURCE_ROOT; };
 		15D30B2076AADAC089713CD2 /* fbxarch.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxarch.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/core/arch/fbxarch.h; sourceTree = SOURCE_ROOT; };
@@ -799,6 +802,24 @@
 			);
 			name = src;
 			path = ../../../addons/ofxSmartFont/src;
+			sourceTree = "<group>";
+		};
+		14C605F71CFDD09500EEE80F /* ofxWatchdog */ = {
+			isa = PBXGroup;
+			children = (
+				14C605F81CFDD09500EEE80F /* src */,
+			);
+			name = ofxWatchdog;
+			sourceTree = "<group>";
+		};
+		14C605F81CFDD09500EEE80F /* src */ = {
+			isa = PBXGroup;
+			children = (
+				14C605F91CFDD09500EEE80F /* ofxWatchdog.cpp */,
+				14C605FA1CFDD09500EEE80F /* ofxWatchdog.h */,
+			);
+			name = src;
+			path = ../../../addons/ofxWatchdog/src;
 			sourceTree = "<group>";
 		};
 		1A8335E45879DCD139343712 /* detail */ = {
@@ -1574,6 +1595,7 @@
 				F5F366B81CA47A63009E1A78 /* ofxNestedFileLoader */,
 				F57E4FDB1CCE1B7700FBECDA /* ofxFontStash */,
 				14A7BCBB1CF85DAB00F3CB46 /* ofxSmartFont */,
+				14C605F71CFDD09500EEE80F /* ofxWatchdog */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -2148,6 +2170,7 @@
 				64C3C92089EBEA7EC1C41130 /* glmFastPolyline.cpp in Sources */,
 				1C7AAD60C08516D9916859C1 /* glmMesh.cpp in Sources */,
 				F2C488627AEB484729EF7A98 /* glmPolarPoint.cpp in Sources */,
+				14C605FB1CFDD09500EEE80F /* ofxWatchdog.cpp in Sources */,
 				B9F4087C503D64BF927D6394 /* glmPolyline.cpp in Sources */,
 				26F07296EF544ED53757C86A /* glmRectangle.cpp in Sources */,
 				856AA354D08AB4B323081444 /* ofxBaseGui.cpp in Sources */,
