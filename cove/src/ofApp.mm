@@ -20,7 +20,7 @@ void ofApp::setup()
     ofEnableAlphaBlending();
     
     //ofToggleFullscreen();
-    ofHideCursor();
+    //ofHideCursor();
     
     //Shifted screen over to work on adjacent screen
     //ofSetWindowPosition(-1920-1080, 0);
@@ -670,6 +670,11 @@ void ofApp::autoSysUpdate()
 
 void ofApp::update()
 {
+    
+//    CGCaptureAllDisplays();
+//    NSWindow * window = (NSWindow *)ofGetWindowPtr()->getCocoaWindow();
+//    [window setLevel:CGShieldingWindowLevel()];
+    
     // update sounds
     if (snds.isPlaying() && bCove)
     {

@@ -2192,7 +2192,7 @@ void InteractiveMenu::pressed()
             }
             
             // play menu button sound
-            snd1.play();
+            if(!snd1.isPlaying()) snd1.play();
             
             for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
                 for(auto content = location->second.begin(); content != location->second.end(); content++) {
@@ -2304,7 +2304,7 @@ void InteractiveMenu::pressed()
             }
             
             // play menu button sound
-            snd1.play();
+            if(!snd1.isPlaying()) snd1.play();
             for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
                 for(auto content = location->second.begin(); content != location->second.end(); content++) {
                     (*content)->setIsActive(false);
@@ -2340,7 +2340,7 @@ void InteractiveMenu::pressedContent()
         lCon0[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         //c.load(0, 0, 0);
@@ -2362,7 +2362,7 @@ void InteractiveMenu::pressedContent()
         lCon0[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         //c.load(0, 0, 1);
@@ -2384,7 +2384,7 @@ void InteractiveMenu::pressedContent()
         lCon0[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         hs1Intro.stop();
         crossrailIntro.stop();
         c.stopLocationAudio();
@@ -2409,7 +2409,7 @@ void InteractiveMenu::pressedContent()
         lCon0[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         //c.load(0, 0, 3);
@@ -2431,7 +2431,7 @@ void InteractiveMenu::pressedContent()
         lCon0[4].isSelected = true;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         hs1Intro.stop();
         crossrailIntro.stop();
         c.stopLocationAudio();
@@ -2476,7 +2476,7 @@ void InteractiveMenu::pressedContent()
         lCon1[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         //c.load(0, 1, 0);
@@ -2497,7 +2497,7 @@ void InteractiveMenu::pressedContent()
         lCon1[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         //c.load(0, 1, 1);
@@ -2518,7 +2518,7 @@ void InteractiveMenu::pressedContent()
         lCon1[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         hs1Intro.stop();
         crossrailIntro.stop();
         c.stopLocationAudio();
@@ -2543,7 +2543,7 @@ void InteractiveMenu::pressedContent()
         lCon1[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         //c.load(0, 1, 3);
@@ -2564,7 +2564,7 @@ void InteractiveMenu::pressedContent()
         lCon1[4].isSelected = true;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         hs1Intro.stop();
         crossrailIntro.stop();
         c.stopLocationAudio();
@@ -2606,7 +2606,7 @@ void InteractiveMenu::pressedContent()
         lCon2[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         //c.load(0, 2, 0);
@@ -2627,7 +2627,7 @@ void InteractiveMenu::pressedContent()
         lCon2[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         //c.load(0, 2, 1);
@@ -2648,7 +2648,7 @@ void InteractiveMenu::pressedContent()
         lCon2[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         hs1Intro.stop();
         crossrailIntro.stop();
         c.stopLocationAudio();
@@ -2672,7 +2672,7 @@ void InteractiveMenu::pressedContent()
         lCon2[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(0, 2, 3);
@@ -2693,7 +2693,7 @@ void InteractiveMenu::pressedContent()
         lCon2[4].isSelected = true;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         hs1Intro.stop();
         crossrailIntro.stop();
         c.stopLocationAudio();
@@ -2735,7 +2735,7 @@ void InteractiveMenu::pressedContent()
         lCon3[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         //c.load(0, 3, 0);
@@ -2756,7 +2756,7 @@ void InteractiveMenu::pressedContent()
         lCon3[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(0, 3, 1);
@@ -2775,9 +2775,8 @@ void InteractiveMenu::pressedContent()
         lCon3[2].isSelected = true;
         lCon3[3].isSelected = false;
         lCon3[4].isSelected = false;
-        
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         hs1Intro.stop();
         crossrailIntro.stop();
         c.stopLocationAudio();
@@ -2801,7 +2800,7 @@ void InteractiveMenu::pressedContent()
         lCon3[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(0, 3, 3);
@@ -2822,7 +2821,7 @@ void InteractiveMenu::pressedContent()
         lCon3[4].isSelected = true;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         hs1Intro.stop();
         crossrailIntro.stop();
         c.stopLocationAudio();
@@ -2864,7 +2863,7 @@ void InteractiveMenu::pressedContent()
         lCon4[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(0, 4, 0);
@@ -2885,7 +2884,7 @@ void InteractiveMenu::pressedContent()
         lCon4[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(0, 4, 1);
@@ -2906,7 +2905,7 @@ void InteractiveMenu::pressedContent()
         lCon4[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         hs1Intro.stop();
         crossrailIntro.stop();
         c.stopLocationAudio();
@@ -2930,7 +2929,7 @@ void InteractiveMenu::pressedContent()
         lCon4[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(0, 4, 3);
@@ -2951,7 +2950,7 @@ void InteractiveMenu::pressedContent()
         lCon4[4].isSelected = true;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         hs1Intro.stop();
         crossrailIntro.stop();
         c.stopLocationAudio();
@@ -2994,7 +2993,7 @@ void InteractiveMenu::pressedContent()
         rCon0[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         hs1Intro.stop();
         crossrailIntro.stop();
         c.stopLocationAudio();
@@ -3018,7 +3017,7 @@ void InteractiveMenu::pressedContent()
         rCon0[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         //c.load(1, 0, 1);
@@ -3039,7 +3038,7 @@ void InteractiveMenu::pressedContent()
         rCon0[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         hs1Intro.stop();
         crossrailIntro.stop();
         // c.stopLocationAudio();
@@ -3063,7 +3062,7 @@ void InteractiveMenu::pressedContent()
         rCon0[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(1, 0, 3);
@@ -3084,7 +3083,7 @@ void InteractiveMenu::pressedContent()
         rCon0[4].isSelected = true;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(1, 0, 4);
@@ -3124,7 +3123,7 @@ void InteractiveMenu::pressedContent()
         rCon1[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         hs1Intro.stop();
         crossrailIntro.stop();
         c.stopLocationAudio();
@@ -3148,7 +3147,7 @@ void InteractiveMenu::pressedContent()
         rCon1[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(1, 1, 1);
@@ -3169,7 +3168,7 @@ void InteractiveMenu::pressedContent()
         rCon1[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         hs1Intro.stop();
         crossrailIntro.stop();
         c.stopLocationAudio();
@@ -3193,7 +3192,7 @@ void InteractiveMenu::pressedContent()
         rCon1[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(1, 1, 3);
@@ -3214,7 +3213,7 @@ void InteractiveMenu::pressedContent()
         rCon1[4].isSelected = true;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(1, 1, 4);
@@ -3254,7 +3253,7 @@ void InteractiveMenu::pressedContent()
         rCon2[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         hs1Intro.stop();
         crossrailIntro.stop();
         c.stopLocationAudio();
@@ -3278,7 +3277,7 @@ void InteractiveMenu::pressedContent()
         rCon2[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(1, 2, 1);
@@ -3299,7 +3298,7 @@ void InteractiveMenu::pressedContent()
         rCon2[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         hs1Intro.stop();
         crossrailIntro.stop();
         c.stopLocationAudio();
@@ -3323,7 +3322,7 @@ void InteractiveMenu::pressedContent()
         rCon2[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(1, 2, 3);
@@ -3344,7 +3343,7 @@ void InteractiveMenu::pressedContent()
         rCon2[4].isSelected = true;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(1, 2, 4);
@@ -3384,7 +3383,7 @@ void InteractiveMenu::pressedContent()
         rCon3[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         hs1Intro.stop();
         crossrailIntro.stop();
         c.stopLocationAudio();
@@ -3408,7 +3407,7 @@ void InteractiveMenu::pressedContent()
         rCon3[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(1, 3, 1);
@@ -3429,7 +3428,7 @@ void InteractiveMenu::pressedContent()
         rCon3[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         hs1Intro.stop();
         crossrailIntro.stop();
         c.stopLocationAudio();
@@ -3453,7 +3452,7 @@ void InteractiveMenu::pressedContent()
         rCon3[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(1, 3, 3);
@@ -3474,7 +3473,7 @@ void InteractiveMenu::pressedContent()
         rCon3[4].isSelected = true;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(1, 3, 4);
@@ -3514,7 +3513,7 @@ void InteractiveMenu::pressedContent()
         rCon4[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         hs1Intro.stop();
         crossrailIntro.stop();
         // c.stopLocationAudio();
@@ -3538,7 +3537,7 @@ void InteractiveMenu::pressedContent()
         rCon4[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(1, 4, 1);
@@ -3559,7 +3558,7 @@ void InteractiveMenu::pressedContent()
         rCon4[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         hs1Intro.stop();
         crossrailIntro.stop();
         // c.stopLocationAudio();
@@ -3583,7 +3582,7 @@ void InteractiveMenu::pressedContent()
         rCon4[4].isSelected = false;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(1, 4, 3);
@@ -3604,7 +3603,7 @@ void InteractiveMenu::pressedContent()
         rCon4[4].isSelected = true;
         
         // play button sound
-        snd2.play();
+        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(1, 4, 4);

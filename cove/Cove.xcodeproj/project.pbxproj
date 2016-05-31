@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		04C13EEA813A786CC1D8137A /* FxaaPass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9425843AEC3118B8FDEF1B0B /* FxaaPass.cpp */; };
 		114C00B13F753E59BB0984BB /* DofPass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E837DEBFAEA1CAD833A377DF /* DofPass.cpp */; };
+		14A7BCBF1CF85DAB00F3CB46 /* ofxSmartFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 14A7BCBD1CF85DAB00F3CB46 /* ofxSmartFont.cpp */; };
 		1AED355C1CA9467500D7519C /* Playhead.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AED355A1CA9467500D7519C /* Playhead.cpp */; };
 		1BEE448D5236FF7A3D1136A0 /* ofxFBXScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 95EB7C733541F64E2C4F7115 /* ofxFBXScene.cpp */; };
 		1C7AAD60C08516D9916859C1 /* glmMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EE11D8D334F3477226E0DB13 /* glmMesh.cpp */; };
@@ -89,7 +90,7 @@
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E4797F1786BE22985F7EE55F /* RGBShiftPass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5201F6A7A19258B7F1CA2E43 /* RGBShiftPass.cpp */; };
 		E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4B69E1D0A3A1BDC003C02F2 /* main.cpp */; };
-		E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */; };
+		E4B69E210A3A1BDC003C02F2 /* ofApp.mm in Sources */ = {isa = PBXBuildFile; fileRef = E4B69E1E0A3A1BDC003C02F2 /* ofApp.mm */; };
 		F190DEA53957B15584592223 /* ofxGlmTools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7891688DCA5E5483E5854D6F /* ofxGlmTools.cpp */; };
 		F285EB3169F1566CA3D93C20 /* ofxPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E112B3AEBEA2C091BF2B40AE /* ofxPanel.cpp */; };
 		F2C488627AEB484729EF7A98 /* glmPolarPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3E8CFE409C09EF5EB85DE51 /* glmPolarPoint.cpp */; };
@@ -187,6 +188,8 @@
 		13D73946A1538106D9BE5877 /* ofxFBXMeshMaterial.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxFBXMeshMaterial.cpp; path = ../../../addons/ofxFBX/src/ofxFBXMeshMaterial.cpp; sourceTree = SOURCE_ROOT; };
 		145A6FBAF062E46D7A5966C0 /* mixed_product.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = mixed_product.hpp; path = ../../../addons/ofxGlmTools/libs/glm/gtx/mixed_product.hpp; sourceTree = SOURCE_ROOT; };
 		14A0DEC0FD5BCDCA5789E196 /* fbxredblacktree.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxredblacktree.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/core/base/fbxredblacktree.h; sourceTree = SOURCE_ROOT; };
+		14A7BCBD1CF85DAB00F3CB46 /* ofxSmartFont.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxSmartFont.cpp; sourceTree = "<group>"; };
+		14A7BCBE1CF85DAB00F3CB46 /* ofxSmartFont.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxSmartFont.h; sourceTree = "<group>"; };
 		14F8B4286F653202B881D865 /* ToonPass.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ToonPass.h; path = ../../../addons/ofxPostProcessing/src/ToonPass.h; sourceTree = SOURCE_ROOT; };
 		15C9D59193BE78D6C9381039 /* fbxgeometryconverter.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxgeometryconverter.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/utils/fbxgeometryconverter.h; sourceTree = SOURCE_ROOT; };
 		15D30B2076AADAC089713CD2 /* fbxarch.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxarch.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/core/arch/fbxarch.h; sourceTree = SOURCE_ROOT; };
@@ -648,7 +651,7 @@
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E4B69B5B0A3A1756003C02F2 /* coveDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = coveDebug.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4B69E1D0A3A1BDC003C02F2 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = SOURCE_ROOT; };
-		E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofApp.cpp; path = src/ofApp.cpp; sourceTree = SOURCE_ROOT; };
+		E4B69E1E0A3A1BDC003C02F2 /* ofApp.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofApp.mm; path = src/ofApp.mm; sourceTree = SOURCE_ROOT; };
 		E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ofApp.h; path = src/ofApp.h; sourceTree = SOURCE_ROOT; };
 		E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = "openFrameworks-Info.plist"; sourceTree = "<group>"; };
 		E4D95AA7DC1E145978175C7A /* fbxweightedmapping.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxweightedmapping.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/scene/geometry/fbxweightedmapping.h; sourceTree = SOURCE_ROOT; };
@@ -778,6 +781,24 @@
 				277D654B74A9533B76780D41 /* glmFont.h */,
 			);
 			name = glmFontstash;
+			sourceTree = "<group>";
+		};
+		14A7BCBB1CF85DAB00F3CB46 /* ofxSmartFont */ = {
+			isa = PBXGroup;
+			children = (
+				14A7BCBC1CF85DAB00F3CB46 /* src */,
+			);
+			name = ofxSmartFont;
+			sourceTree = "<group>";
+		};
+		14A7BCBC1CF85DAB00F3CB46 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				14A7BCBD1CF85DAB00F3CB46 /* ofxSmartFont.cpp */,
+				14A7BCBE1CF85DAB00F3CB46 /* ofxSmartFont.h */,
+			);
+			name = src;
+			path = ../../../addons/ofxSmartFont/src;
 			sourceTree = "<group>";
 		};
 		1A8335E45879DCD139343712 /* detail */ = {
@@ -1552,6 +1573,7 @@
 				1F4FB5C423662B96ADFDCC0B /* ofxXmlSettings */,
 				F5F366B81CA47A63009E1A78 /* ofxNestedFileLoader */,
 				F57E4FDB1CCE1B7700FBECDA /* ofxFontStash */,
+				14A7BCBB1CF85DAB00F3CB46 /* ofxSmartFont */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -1817,7 +1839,7 @@
 				962C0EE51CA284A200F0CC7F /* Tiles */,
 				962C0EE41CA2849B00F0CC7F /* Route */,
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
-				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
+				E4B69E1E0A3A1BDC003C02F2 /* ofApp.mm */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
 				7A246416748EA2F045E7FAAA /* common */,
 				9D6E8A8AABF45023A89537B1 /* Globals.cpp */,
@@ -2091,7 +2113,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
-				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
+				E4B69E210A3A1BDC003C02F2 /* ofApp.mm in Sources */,
 				DD84AC983A67192FC72A473E /* Content.cpp in Sources */,
 				F57E4FE61CCE1B7700FBECDA /* ofxFontStash.cpp in Sources */,
 				F55C09DC1CB2AE6F0071864C /* ImageDisplayer.cpp in Sources */,
@@ -2156,6 +2178,7 @@
 				F57E4FE81CCE1B7700FBECDA /* stb_truetype.c in Sources */,
 				B59194C82B8D802DA33EC465 /* HsbShiftPass.cpp in Sources */,
 				884CB4D049E35C51E949A565 /* KaleidoscopePass.cpp in Sources */,
+				14A7BCBF1CF85DAB00F3CB46 /* ofxSmartFont.cpp in Sources */,
 				7AB51F1099DC01486D18FAF6 /* LimbDarkeningPass.cpp in Sources */,
 				B1747F12881D899DCA2647FC /* LUTPass.cpp in Sources */,
 				8072A86E35F7000F7CDEEF42 /* NoiseWarpPass.cpp in Sources */,
@@ -2395,6 +2418,7 @@
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../../libs/glut/lib/osx\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_MODEL_TUNING = NONE;
 				HEADER_SEARCH_PATHS = (
 					"$(OF_CORE_HEADERS)",
@@ -2458,12 +2482,14 @@
 				INFOPLIST_FILE = "openFrameworks-Info.plist";
 				INSTALL_PATH = /Applications;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_LDFLAGS = (
 					"$(OF_CORE_FRAMEWORKS)",
 					"$(OF_CORE_LIBS)",
 					../../../addons/ofxFBX/libs/fbxsdk_2016.1/lib/osx/libfbxsdk.a,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)Debug";
+				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2481,6 +2507,7 @@
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../../libs/glut/lib/osx\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_MODEL_TUNING = NONE;
 				HEADER_SEARCH_PATHS = (
 					"$(OF_CORE_HEADERS)",
@@ -2544,12 +2571,14 @@
 				INFOPLIST_FILE = "openFrameworks-Info.plist";
 				INSTALL_PATH = /Applications;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_LDFLAGS = (
 					"$(OF_CORE_FRAMEWORKS)",
 					"$(OF_CORE_LIBS)",
 					../../../addons/ofxFBX/libs/fbxsdk_2016.1/lib/osx/libfbxsdk.a,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 				baseConfigurationReference = E4EB6923138AFD0F00A09F29;
