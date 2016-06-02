@@ -10,7 +10,7 @@ int main( ){
     
     ofSetupOpenGL(1080, 1920, OF_FULLSCREEN);
     
-    ofxWatchdog::watch(3000, true, true, true);
+    // ofxWatchdog::watch(3000, true, true, true);
     
     ofRunApp(new ofApp());
 }

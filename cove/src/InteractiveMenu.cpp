@@ -2357,14 +2357,14 @@ void InteractiveMenu::pressedContent()
     // ------------------------------------
     if (lCon0[0].isMousePressed() && bLPlace[0] && !lCon0[0].isSelected)
     {
+        if(!lCon0[0].isSelected) {
+            snd2.play();
+        }
         lCon0[0].isSelected = true;
         lCon0[1].isSelected = false;
         lCon0[2].isSelected = false;
         lCon0[3].isSelected = false;
         lCon0[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         //c.load(0, 0, 0);
@@ -2379,14 +2379,14 @@ void InteractiveMenu::pressedContent()
     }
     else if (lCon0[1].isMousePressed() && bLPlace[0] && !lCon0[1].isSelected)
     {
+        if(!lCon0[1].isSelected) {
+            snd2.play();
+        }
         lCon0[0].isSelected = false;
         lCon0[1].isSelected = true;
         lCon0[2].isSelected = false;
         lCon0[3].isSelected = false;
         lCon0[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         //c.load(0, 0, 1);
@@ -2401,14 +2401,15 @@ void InteractiveMenu::pressedContent()
     }
     else if (lCon0[2].isMousePressed() && bLPlace[0] && !lCon0[2].isSelected)
     {
+        if(!lCon0[2].isSelected) {
+            snd2.play();
+        }
         lCon0[0].isSelected = false;
         lCon0[1].isSelected = false;
         lCon0[2].isSelected = true;
         lCon0[3].isSelected = false;
         lCon0[4].isSelected = false;
         
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
         hs1Intro.stop();
         crossrailIntro.stop();
         c.stopLocationAudio();
@@ -2426,14 +2427,14 @@ void InteractiveMenu::pressedContent()
     }
     else if (lCon0[3].isMousePressed() && bLPlace[0] && !lCon0[3].isSelected)
     {
+        if(!lCon0[3].isSelected) {
+            snd2.play();
+        }
         lCon0[0].isSelected = false;
         lCon0[1].isSelected = false;
         lCon0[2].isSelected = false;
         lCon0[3].isSelected = true;
         lCon0[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         //c.load(0, 0, 3);
@@ -2448,14 +2449,15 @@ void InteractiveMenu::pressedContent()
     }
     else if (lCon0[4].isMousePressed() && bLPlace[0] && !lCon0[4].isSelected)
     {
+        if(!lCon0[4].isSelected) {
+            snd2.play();
+        }
         lCon0[0].isSelected = false;
         lCon0[1].isSelected = false;
         lCon0[2].isSelected = false;
         lCon0[3].isSelected = false;
         lCon0[4].isSelected = true;
         
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
         hs1Intro.stop();
         crossrailIntro.stop();
         c.stopLocationAudio();
@@ -2493,14 +2495,14 @@ void InteractiveMenu::pressedContent()
     // ------------------------------------
     if (lCon1[0].isMousePressed() && bLPlace[1] && !lCon1[0].isSelected)
     {
+        if(!lCon1[0].isSelected) {
+            snd2.play();
+        }
         lCon1[0].isSelected = true;
         lCon1[1].isSelected = false;
         lCon1[2].isSelected = false;
         lCon1[3].isSelected = false;
         lCon1[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         //c.load(0, 1, 0);
@@ -2514,14 +2516,14 @@ void InteractiveMenu::pressedContent()
     }
     else if (lCon1[1].isMousePressed() && bLPlace[1] && !lCon1[1].isSelected)
     {
+        if(!lCon1[1].isSelected) {
+            snd2.play();
+        }
         lCon1[0].isSelected = false;
         lCon1[1].isSelected = true;
         lCon1[2].isSelected = false;
         lCon1[3].isSelected = false;
         lCon1[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         //c.load(0, 1, 1);
@@ -2535,14 +2537,15 @@ void InteractiveMenu::pressedContent()
     }
     else if (lCon1[2].isMousePressed() && bLPlace[1] && !lCon1[2].isSelected)
     {
+        if(!lCon1[2].isSelected) {
+            snd2.play();
+        }
         lCon1[0].isSelected = false;
         lCon1[1].isSelected = false;
         lCon1[2].isSelected = true;
         lCon1[3].isSelected = false;
         lCon1[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
+
         hs1Intro.stop();
         crossrailIntro.stop();
         c.stopLocationAudio();
@@ -2560,14 +2563,14 @@ void InteractiveMenu::pressedContent()
     }
     else if (lCon1[3].isMousePressed() && bLPlace[1] && !lCon1[3].isSelected)
     {
+        if(!lCon1[3].isSelected) {
+            snd2.play();
+        }
         lCon1[0].isSelected = false;
         lCon1[1].isSelected = false;
         lCon1[2].isSelected = false;
         lCon1[3].isSelected = true;
         lCon1[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         //c.load(0, 1, 3);
@@ -2581,14 +2584,15 @@ void InteractiveMenu::pressedContent()
     }
     else if (lCon1[4].isMousePressed() && bLPlace[1] && !lCon1[4].isSelected)
     {
+        if(!lCon1[4].isSelected) {
+            snd2.play();
+        }
         lCon1[0].isSelected = false;
         lCon1[1].isSelected = false;
         lCon1[2].isSelected = false;
         lCon1[3].isSelected = false;
         lCon1[4].isSelected = true;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
+
         hs1Intro.stop();
         crossrailIntro.stop();
         c.stopLocationAudio();
@@ -2623,14 +2627,14 @@ void InteractiveMenu::pressedContent()
     // ------------------------------------
     if (lCon2[0].isMousePressed() && bLPlace[2] && !lCon2[0].isSelected)
     {
+        if(!lCon2[0].isSelected) {
+            snd2.play();
+        }
         lCon2[0].isSelected = true;
         lCon2[1].isSelected = false;
         lCon2[2].isSelected = false;
         lCon2[3].isSelected = false;
         lCon2[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         //c.load(0, 2, 0);
@@ -2644,14 +2648,14 @@ void InteractiveMenu::pressedContent()
     }
     else if (lCon2[1].isMousePressed() && bLPlace[2] && !lCon2[1].isSelected)
     {
+        if(!lCon2[1].isSelected) {
+            snd2.play();
+        }
         lCon2[0].isSelected = false;
         lCon2[1].isSelected = true;
         lCon2[2].isSelected = false;
         lCon2[3].isSelected = false;
         lCon2[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         //c.load(0, 2, 1);
@@ -2665,14 +2669,15 @@ void InteractiveMenu::pressedContent()
     }
     else if (lCon2[2].isMousePressed() && bLPlace[2] && !lCon2[2].isSelected)
     {
+        if(!lCon2[2].isSelected) {
+            snd2.play();
+        }
         lCon2[0].isSelected = false;
         lCon2[1].isSelected = false;
         lCon2[2].isSelected = true;
         lCon2[3].isSelected = false;
         lCon2[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
+
         hs1Intro.stop();
         crossrailIntro.stop();
         c.stopLocationAudio();
@@ -2689,14 +2694,14 @@ void InteractiveMenu::pressedContent()
     }
     else if (lCon2[3].isMousePressed() && bLPlace[2] && !lCon2[3].isSelected)
     {
+        if(!lCon2[3].isSelected) {
+            snd2.play();
+        }
         lCon2[0].isSelected = false;
         lCon2[1].isSelected = false;
         lCon2[2].isSelected = false;
         lCon2[3].isSelected = true;
         lCon2[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(0, 2, 3);
@@ -2710,14 +2715,15 @@ void InteractiveMenu::pressedContent()
     }
     else if (lCon2[4].isMousePressed() && bLPlace[2] && !lCon2[4].isSelected)
     {
+        if(!lCon2[4].isSelected) {
+            snd2.play();
+        }
         lCon2[0].isSelected = false;
         lCon2[1].isSelected = false;
         lCon2[2].isSelected = false;
         lCon2[3].isSelected = false;
         lCon2[4].isSelected = true;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
+
         hs1Intro.stop();
         crossrailIntro.stop();
         c.stopLocationAudio();
@@ -2752,14 +2758,14 @@ void InteractiveMenu::pressedContent()
     // ------------------------------------
     if (lCon3[0].isMousePressed() && bLPlace[3] && !lCon3[0].isSelected)
     {
+        if(!lCon3[0].isSelected) {
+            snd2.play();
+        }
         lCon3[0].isSelected = true;
         lCon3[1].isSelected = false;
         lCon3[2].isSelected = false;
         lCon3[3].isSelected = false;
         lCon3[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         //c.load(0, 3, 0);
@@ -2773,14 +2779,14 @@ void InteractiveMenu::pressedContent()
     }
     else if (lCon3[1].isMousePressed() && bLPlace[3] && !lCon3[1].isSelected)
     {
+        if(!lCon3[1].isSelected) {
+            snd2.play();
+        }
         lCon3[0].isSelected = false;
         lCon3[1].isSelected = true;
         lCon3[2].isSelected = false;
         lCon3[3].isSelected = false;
         lCon3[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(0, 3, 1);
@@ -2794,13 +2800,15 @@ void InteractiveMenu::pressedContent()
     }
     else if (lCon3[2].isMousePressed() && bLPlace[3] && !lCon3[2].isSelected)
     {
+        if(!lCon3[2].isSelected) {
+            snd2.play();
+        }
         lCon3[0].isSelected = false;
         lCon3[1].isSelected = false;
         lCon3[2].isSelected = true;
         lCon3[3].isSelected = false;
         lCon3[4].isSelected = false;
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
+
         hs1Intro.stop();
         crossrailIntro.stop();
         c.stopLocationAudio();
@@ -2817,14 +2825,15 @@ void InteractiveMenu::pressedContent()
     }
     else if (lCon3[3].isMousePressed() && bLPlace[3] && !lCon3[3].isSelected)
     {
+        if(!lCon3[3].isSelected) {
+            snd2.play();
+        }
         lCon3[0].isSelected = false;
         lCon3[1].isSelected = false;
         lCon3[2].isSelected = false;
         lCon3[3].isSelected = true;
         lCon3[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
+
         
         // load current content, enable vignette
         // c.load(0, 3, 3);
@@ -2838,14 +2847,15 @@ void InteractiveMenu::pressedContent()
     }
     else if (lCon3[4].isMousePressed() && bLPlace[3] && !lCon3[4].isSelected)
     {
+        if(!lCon3[4].isSelected) {
+            snd2.play();
+        }
         lCon3[0].isSelected = false;
         lCon3[1].isSelected = false;
         lCon3[2].isSelected = false;
         lCon3[3].isSelected = false;
         lCon3[4].isSelected = true;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
+
         hs1Intro.stop();
         crossrailIntro.stop();
         c.stopLocationAudio();
@@ -2880,14 +2890,14 @@ void InteractiveMenu::pressedContent()
     // ------------------------------------
     if (lCon4[0].isMousePressed() && bLPlace[4] && !lCon4[0].isSelected)
     {
+        if(!lCon4[0].isSelected) {
+            snd2.play();
+        }
         lCon4[0].isSelected = true;
         lCon4[1].isSelected = false;
         lCon4[2].isSelected = false;
         lCon4[3].isSelected = false;
         lCon4[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(0, 4, 0);
@@ -2901,14 +2911,14 @@ void InteractiveMenu::pressedContent()
     }
     else if (lCon4[1].isMousePressed() && bLPlace[4] && !lCon4[1].isSelected)
     {
+        if(!lCon4[1].isSelected) {
+            snd2.play();
+        }
         lCon4[0].isSelected = false;
         lCon4[1].isSelected = true;
         lCon4[2].isSelected = false;
         lCon4[3].isSelected = false;
         lCon4[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(0, 4, 1);
@@ -2922,14 +2932,15 @@ void InteractiveMenu::pressedContent()
     }
     else if (lCon4[2].isMousePressed() && bLPlace[4] && !lCon4[2].isSelected)
     {
+        if(!lCon4[2].isSelected) {
+            snd2.play();
+        }
         lCon4[0].isSelected = false;
         lCon4[1].isSelected = false;
         lCon4[2].isSelected = true;
         lCon4[3].isSelected = false;
         lCon4[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
+
         hs1Intro.stop();
         crossrailIntro.stop();
         c.stopLocationAudio();
@@ -2946,14 +2957,14 @@ void InteractiveMenu::pressedContent()
     }
     else if (lCon4[3].isMousePressed() && bLPlace[4] && !lCon4[3].isSelected)
     {
+        if(!lCon4[3].isSelected) {
+            snd2.play();
+        }
         lCon4[0].isSelected = false;
         lCon4[1].isSelected = false;
         lCon4[2].isSelected = false;
         lCon4[3].isSelected = true;
         lCon4[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(0, 4, 3);
@@ -2967,14 +2978,15 @@ void InteractiveMenu::pressedContent()
     }
     else if (lCon4[4].isMousePressed() && bLPlace[4] && !lCon4[4].isSelected)
     {
+        if(!lCon4[4].isSelected) {
+            snd2.play();
+        }
         lCon4[0].isSelected = false;
         lCon4[1].isSelected = false;
         lCon4[2].isSelected = false;
         lCon4[3].isSelected = false;
         lCon4[4].isSelected = true;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
+
         hs1Intro.stop();
         crossrailIntro.stop();
         c.stopLocationAudio();
@@ -3010,14 +3022,15 @@ void InteractiveMenu::pressedContent()
     // ------------------------------------
     if (rCon0[0].isMousePressed() && bRPlace[0] && !rCon0[0].isSelected)
     {
+        if(!rCon0[0].isSelected) {
+            snd2.play();
+        }
         rCon0[0].isSelected = true;
         rCon0[1].isSelected = false;
         rCon0[2].isSelected = false;
         rCon0[3].isSelected = false;
         rCon0[4].isSelected = false;
         
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
         hs1Intro.stop();
         crossrailIntro.stop();
         c.stopLocationAudio();
@@ -3034,14 +3047,14 @@ void InteractiveMenu::pressedContent()
     }
     else if (rCon0[1].isMousePressed() && bRPlace[0] && !rCon0[1].isSelected)
     {
+        if(!rCon0[1].isSelected) {
+            snd2.play();
+        }
         rCon0[0].isSelected = false;
         rCon0[1].isSelected = true;
         rCon0[2].isSelected = false;
         rCon0[3].isSelected = false;
         rCon0[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         //c.load(1, 0, 1);
@@ -3055,14 +3068,15 @@ void InteractiveMenu::pressedContent()
     }
     else if (rCon0[2].isMousePressed() && bRPlace[0] && !rCon0[2].isSelected)
     {
+        if(!rCon0[2].isSelected) {
+            snd2.play();
+        }
         rCon0[0].isSelected = false;
         rCon0[1].isSelected = false;
         rCon0[2].isSelected = true;
         rCon0[3].isSelected = false;
         rCon0[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
+
         hs1Intro.stop();
         crossrailIntro.stop();
         // c.stopLocationAudio();
@@ -3079,14 +3093,14 @@ void InteractiveMenu::pressedContent()
     }
     else if (rCon0[3].isMousePressed() && bRPlace[0] && !rCon0[3].isSelected)
     {
+        if(!rCon0[3].isSelected) {
+            snd2.play();
+        }
         rCon0[0].isSelected = false;
         rCon0[1].isSelected = false;
         rCon0[2].isSelected = false;
         rCon0[3].isSelected = true;
         rCon0[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(1, 0, 3);
@@ -3100,14 +3114,14 @@ void InteractiveMenu::pressedContent()
     }
     else if (rCon0[4].isMousePressed() && bRPlace[0] && !rCon0[4].isSelected)
     {
+        if(!rCon0[4].isSelected) {
+            snd2.play();
+        }
         rCon0[0].isSelected = false;
         rCon0[1].isSelected = false;
         rCon0[2].isSelected = false;
         rCon0[3].isSelected = false;
         rCon0[4].isSelected = true;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(1, 0, 4);
@@ -3140,14 +3154,15 @@ void InteractiveMenu::pressedContent()
     // ------------------------------------
     if (rCon1[0].isMousePressed() && bRPlace[1] && !rCon1[0].isSelected)
     {
+        if(!rCon1[0].isSelected) {
+            snd2.play();
+        }
         rCon1[0].isSelected = true;
         rCon1[1].isSelected = false;
         rCon1[2].isSelected = false;
         rCon1[3].isSelected = false;
         rCon1[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
+
         hs1Intro.stop();
         crossrailIntro.stop();
         c.stopLocationAudio();
@@ -3164,14 +3179,14 @@ void InteractiveMenu::pressedContent()
     }
     else if (rCon1[1].isMousePressed() && bRPlace[1] && !rCon1[1].isSelected)
     {
+        if(!rCon1[1].isSelected) {
+            snd2.play();
+        }
         rCon1[0].isSelected = false;
         rCon1[1].isSelected = true;
         rCon1[2].isSelected = false;
         rCon1[3].isSelected = false;
         rCon1[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(1, 1, 1);
@@ -3185,14 +3200,15 @@ void InteractiveMenu::pressedContent()
     }
     else if (rCon1[2].isMousePressed() && bRPlace[1] && !rCon1[2].isSelected)
     {
+        if(!rCon1[2].isSelected) {
+            snd2.play();
+        }
         rCon1[0].isSelected = false;
         rCon1[1].isSelected = false;
         rCon1[2].isSelected = true;
         rCon1[3].isSelected = false;
         rCon1[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
+
         hs1Intro.stop();
         crossrailIntro.stop();
         c.stopLocationAudio();
@@ -3209,14 +3225,14 @@ void InteractiveMenu::pressedContent()
     }
     else if (rCon1[3].isMousePressed() && bRPlace[1] && !rCon1[3].isSelected)
     {
+        if(!rCon1[3].isSelected) {
+            snd2.play();
+        }
         rCon1[0].isSelected = false;
         rCon1[1].isSelected = false;
         rCon1[2].isSelected = false;
         rCon1[3].isSelected = true;
         rCon1[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(1, 1, 3);
@@ -3230,14 +3246,14 @@ void InteractiveMenu::pressedContent()
     }
     else if (rCon1[4].isMousePressed() && bRPlace[1] && !rCon1[4].isSelected)
     {
+        if(!rCon1[4].isSelected) {
+            snd2.play();
+        }
         rCon1[0].isSelected = false;
         rCon1[1].isSelected = false;
         rCon1[2].isSelected = false;
         rCon1[3].isSelected = false;
         rCon1[4].isSelected = true;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(1, 1, 4);
@@ -3270,14 +3286,15 @@ void InteractiveMenu::pressedContent()
     // ------------------------------------
     if (rCon2[0].isMousePressed() && bRPlace[2] && !rCon2[0].isSelected)
     {
+        if(!rCon2[0].isSelected) {
+            snd2.play();
+        }
         rCon2[0].isSelected = true;
         rCon2[1].isSelected = false;
         rCon2[2].isSelected = false;
         rCon2[3].isSelected = false;
         rCon2[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
+
         hs1Intro.stop();
         crossrailIntro.stop();
         c.stopLocationAudio();
@@ -3294,14 +3311,14 @@ void InteractiveMenu::pressedContent()
     }
     else if (rCon2[1].isMousePressed() && bRPlace[2] && !rCon2[1].isSelected)
     {
+        if(!rCon2[1].isSelected) {
+            snd2.play();
+        }
         rCon2[0].isSelected = false;
         rCon2[1].isSelected = true;
         rCon2[2].isSelected = false;
         rCon2[3].isSelected = false;
         rCon2[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(1, 2, 1);
@@ -3315,14 +3332,15 @@ void InteractiveMenu::pressedContent()
     }
     else if (rCon2[2].isMousePressed() && bRPlace[2] && !rCon2[2].isSelected)
     {
+        if(!rCon2[2].isSelected) {
+            snd2.play();
+        }
         rCon2[0].isSelected = false;
         rCon2[1].isSelected = false;
         rCon2[2].isSelected = true;
         rCon2[3].isSelected = false;
         rCon2[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
+
         hs1Intro.stop();
         crossrailIntro.stop();
         c.stopLocationAudio();
@@ -3339,14 +3357,14 @@ void InteractiveMenu::pressedContent()
     }
     else if (rCon2[3].isMousePressed() && bRPlace[2] && !rCon2[3].isSelected)
     {
+        if(!rCon2[3].isSelected) {
+            snd2.play();
+        }
         rCon2[0].isSelected = false;
         rCon2[1].isSelected = false;
         rCon2[2].isSelected = false;
         rCon2[3].isSelected = true;
         rCon2[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(1, 2, 3);
@@ -3360,14 +3378,14 @@ void InteractiveMenu::pressedContent()
     }
     else if (rCon2[4].isMousePressed() && bRPlace[2] && !rCon2[4].isSelected)
     {
+        if(!rCon2[4].isSelected) {
+            snd2.play();
+        }
         rCon2[0].isSelected = false;
         rCon2[1].isSelected = false;
         rCon2[2].isSelected = false;
         rCon2[3].isSelected = false;
         rCon2[4].isSelected = true;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(1, 2, 4);
@@ -3400,14 +3418,15 @@ void InteractiveMenu::pressedContent()
     // ------------------------------------
     if (rCon3[0].isMousePressed() && bRPlace[3] && !rCon3[0].isSelected)
     {
+        if(!rCon3[0].isSelected) {
+            snd2.play();
+        }
         rCon3[0].isSelected = true;
         rCon3[1].isSelected = false;
         rCon3[2].isSelected = false;
         rCon3[3].isSelected = false;
         rCon3[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
+
         hs1Intro.stop();
         crossrailIntro.stop();
         c.stopLocationAudio();
@@ -3424,14 +3443,14 @@ void InteractiveMenu::pressedContent()
     }
     else if (rCon3[1].isMousePressed() && bRPlace[3] && !rCon3[1].isSelected)
     {
+        if(!rCon3[1].isSelected) {
+            snd2.play();
+        }
         rCon3[0].isSelected = false;
         rCon3[1].isSelected = true;
         rCon3[2].isSelected = false;
         rCon3[3].isSelected = false;
         rCon3[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(1, 3, 1);
@@ -3445,14 +3464,15 @@ void InteractiveMenu::pressedContent()
     }
     else if (rCon3[2].isMousePressed() && bRPlace[3] && !rCon3[2].isSelected)
     {
+        if(!rCon3[2].isSelected) {
+            snd2.play();
+        }
         rCon3[0].isSelected = false;
         rCon3[1].isSelected = false;
         rCon3[2].isSelected = true;
         rCon3[3].isSelected = false;
         rCon3[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
+
         hs1Intro.stop();
         crossrailIntro.stop();
         c.stopLocationAudio();
@@ -3469,14 +3489,14 @@ void InteractiveMenu::pressedContent()
     }
     else if (rCon3[3].isMousePressed() && bRPlace[3] && !rCon3[3].isSelected)
     {
+        if(!rCon3[3].isSelected) {
+            snd2.play();
+        }
         rCon3[0].isSelected = false;
         rCon3[1].isSelected = false;
         rCon3[2].isSelected = false;
         rCon3[3].isSelected = true;
         rCon3[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(1, 3, 3);
@@ -3490,14 +3510,14 @@ void InteractiveMenu::pressedContent()
     }
     else if (rCon3[4].isMousePressed() && bRPlace[3] && !rCon3[4].isSelected)
     {
+        if(!rCon3[4].isSelected) {
+            snd2.play();
+        }
         rCon3[0].isSelected = false;
         rCon3[1].isSelected = false;
         rCon3[2].isSelected = false;
         rCon3[3].isSelected = false;
         rCon3[4].isSelected = true;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(1, 3, 4);
@@ -3530,14 +3550,15 @@ void InteractiveMenu::pressedContent()
     // ------------------------------------
     if (rCon4[0].isMousePressed() && bRPlace[4] && !rCon4[0].isSelected)
     {
+        if(!rCon4[0].isSelected) {
+            snd2.play();
+        }
         rCon4[0].isSelected = true;
         rCon4[1].isSelected = false;
         rCon4[2].isSelected = false;
         rCon4[3].isSelected = false;
         rCon4[4].isSelected = false;
         
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
         hs1Intro.stop();
         crossrailIntro.stop();
         // c.stopLocationAudio();
@@ -3554,14 +3575,14 @@ void InteractiveMenu::pressedContent()
     }
     else if (rCon4[1].isMousePressed() && bRPlace[4] && !rCon4[1].isSelected)
     {
+        if(!rCon4[1].isSelected) {
+            snd2.play();
+        }
         rCon4[0].isSelected = false;
         rCon4[1].isSelected = true;
         rCon4[2].isSelected = false;
         rCon4[3].isSelected = false;
         rCon4[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(1, 4, 1);
@@ -3575,14 +3596,15 @@ void InteractiveMenu::pressedContent()
     }
     else if (rCon4[2].isMousePressed() && bRPlace[4] && !rCon4[2].isSelected)
     {
+        if(!rCon4[2].isSelected) {
+            snd2.play();
+        }
         rCon4[0].isSelected = false;
         rCon4[1].isSelected = false;
         rCon4[2].isSelected = true;
         rCon4[3].isSelected = false;
         rCon4[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
+
         hs1Intro.stop();
         crossrailIntro.stop();
         // c.stopLocationAudio();
@@ -3599,14 +3621,14 @@ void InteractiveMenu::pressedContent()
     }
     else if (rCon4[3].isMousePressed() && bRPlace[4] && !rCon4[3].isSelected)
     {
+        if(!rCon4[3].isSelected) {
+            snd2.play();
+        }
         rCon4[0].isSelected = false;
         rCon4[1].isSelected = false;
         rCon4[2].isSelected = false;
         rCon4[3].isSelected = true;
         rCon4[4].isSelected = false;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(1, 4, 3);
@@ -3620,14 +3642,14 @@ void InteractiveMenu::pressedContent()
     }
     else if (rCon4[4].isMousePressed() && bRPlace[4] && !rCon4[4].isSelected)
     {
+        if(!rCon4[4].isSelected) {
+            snd2.play();
+        }
         rCon4[0].isSelected = false;
         rCon4[1].isSelected = false;
         rCon4[2].isSelected = false;
         rCon4[3].isSelected = false;
         rCon4[4].isSelected = true;
-        
-        // play button sound
-        if(!snd2.isPlaying()) snd2.play();
         
         // load current content, enable vignette
         // c.load(1, 4, 4);
