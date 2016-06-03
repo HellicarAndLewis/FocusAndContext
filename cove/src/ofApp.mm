@@ -20,7 +20,7 @@ void ofApp::setup()
     ofEnableAlphaBlending();
     
     //ofToggleFullscreen();
-    //ofHideCursor();
+    ofHideCursor();
     
     //Shifted screen over to work on adjacent screen
     //ofSetWindowPosition(-1920-1080, 0);
