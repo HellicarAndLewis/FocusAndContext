@@ -115,6 +115,10 @@ void ofApp::setup()
     maxIdleTime = idleTime.getValue("idleTime", 300.);
     
     cam.disableMouseInput();
+    
+    CGCaptureAllDisplays();
+    NSWindow * window = (NSWindow *)ofGetWindowPtr()->getCocoaWindow();
+    [window setLevel:CGShieldingWindowLevel()];
 }
 
 void ofApp::setupGui()
@@ -670,11 +674,6 @@ void ofApp::autoSysUpdate()
 
 void ofApp::update()
 {
-    
-//    CGCaptureAllDisplays();
-//    NSWindow * window = (NSWindow *)ofGetWindowPtr()->getCocoaWindow();
-//    [window setLevel:CGShieldingWindowLevel()];
-    
     // update sounds
     if (snds.isPlaying() && bCove)
     {
