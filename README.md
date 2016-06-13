@@ -21,6 +21,12 @@ An series of interactions that place content in geographical space.
  5. If you want to change the idle time, ie the time the cove waits until it switches projects autonomously you'll need to quit the application by pressing escape. Navigate to the file found here: ~/Documents/openFrameworksNightly/apps/FocusAndContext/cove/bin/data/settings/idleTime.xml
  6. Double click on the xml file to open it in any text editor
  7. Change the time displayed from: <idleTime>150.</idleTime> to <idleTime>[NEW NUMBER]</idleTime> to whatever you want!
+ 
+## Nightly Restart Protocol
+ 1. Install LaunchControl from here: http://www.soma-zone.com/LaunchControl/ which is a gui for setting up simple launchd daemons.
+ 2. Write an apple script to close the app, wait for the app to close then restart the computer but running an appleScript
+ 3. Add that script to a launchd daemon scheduled to run at a particular time of day.
+ 3. Add a launchd daemon to open the application on system boot. Make sure you point to the actual .exe file within the app package.
 
 ## Addons
 - ofxDatGui: https://github.com/braitsch/ofxDatGui
