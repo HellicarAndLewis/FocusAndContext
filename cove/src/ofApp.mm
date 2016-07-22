@@ -33,7 +33,7 @@ void ofApp::setup()
     tiltShift = 0.0;
     
     ofSetLogLevel(OF_LOG_ERROR);
-    
+        
     // center mesh on launch
     meshPosition.set(-16156.9, 11756.6);
 
@@ -115,6 +115,10 @@ void ofApp::setup()
     maxIdleTime = idleTime.getValue("idleTime", 300.);
     
     cam.disableMouseInput();
+    
+    CGCaptureAllDisplays();
+    NSWindow * window = (NSWindow *)ofGetWindowPtr()->getCocoaWindow();
+    [window setLevel:CGShieldingWindowLevel()];
 }
 
 void ofApp::setupGui()
@@ -670,10 +674,6 @@ void ofApp::autoSysUpdate()
 
 void ofApp::update()
 {
-    
-//    CGCaptureAllDisplays();
-//    NSWindow * window = (NSWindow *)ofGetWindowPtr()->getCocoaWindow();
-//    [window setLevel:CGShieldingWindowLevel()];
     
     // update sounds
     if (snds.isPlaying() && bCove)
