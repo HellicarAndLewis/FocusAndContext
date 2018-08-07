@@ -43,6 +43,7 @@ public:
             x = ofToInt(tokens[1]);
             y = ofToInt(tokens[2]);
             isValid = true;
+            
         }
         else {
             ofLogError() << "in LocalTile, " << fileName << " is not in the expected tile name format of zoom-x-y.json";

@@ -42,14 +42,16 @@ void TileLoader::loadDir(string path) {
         string fileName = ofFilePath::getFileName(path);
         LocalTile localTile(fileName);
         
-        ofLogVerbose() << "new tile at " << path << " " << localTile.x << "," << localTile.y << " " << localTile.zoom;
-        
+        cout << "new tile at " << path << " " << localTile.x << "," << localTile.y << " " << localTile.zoom;
+                
         if (i == 0) {
             // This is important! Need to set the offset for the first tile manually!
             builder.setOffset(localTile.x, localTile.y, localTile.zoom);
         }
         if (localTile.isValid) {
-            localTile.tile = builder.getFromFile(ofToDataPath(path, true));
+            string dataPath = ofToDataPath(path, true);
+            glmTile tempTile = builder.getFromFile(dataPath);
+            localTile.tile.setVectorTile(tempTile);
             //    "earth", _tile, 0.0);
             //    "landuse", _tile, .1);
             //    "water", _tile, .2);

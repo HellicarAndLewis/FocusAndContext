@@ -20,7 +20,7 @@ void ofApp::setup()
     ofEnableAlphaBlending();
     
     //ofToggleFullscreen();
-    ofHideCursor();
+    //ofHideCursor();
     
     //Shifted screen over to work on adjacent screen
     //ofSetWindowPosition(-1920-1080, 0);
@@ -116,9 +116,9 @@ void ofApp::setup()
     
     cam.disableMouseInput();
     
-    CGCaptureAllDisplays();
-    NSWindow * window = (NSWindow *)ofGetWindowPtr()->getCocoaWindow();
-    [window setLevel:CGShieldingWindowLevel()];
+//    CGCaptureAllDisplays();
+//    NSWindow * window = (NSWindow *)ofGetWindowPtr()->getCocoaWindow();
+//    [window setLevel:CGShieldingWindowLevel()];
 }
 
 void ofApp::setupGui()
@@ -950,7 +950,6 @@ void ofApp::draw()
     if (bDebugMsg) drawDebugMsg();
     
     ofDisableSmoothing();
-
 }
 
 void ofApp::drawVignette()
@@ -1317,6 +1316,8 @@ void ofApp::mousePressed(int x, int y, int button){
 
 void ofApp::mouseReleased(int x, int y, int button)
 {
+    cout<<"X: "<<x<<endl;
+    cout<<"Y: "<<y<<endl;
     if (bCove)
     {
         // loads hs1 project

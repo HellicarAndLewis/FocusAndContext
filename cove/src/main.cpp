@@ -1,6 +1,6 @@
 #include "ofMain.h"
 #include "ofApp.h"
-#include "ofxWatchdog.h"
+//#include "ofxWatchdog.h"
 
 int main( ){
 //    ofAppGlutWindow window;
@@ -10,7 +10,7 @@ int main( ){
     
     ofSetupOpenGL(1080, 1920, OF_FULLSCREEN);
     
-    ofxWatchdog::watch(180000, true, true, true);
+    //ofxWatchdog::watch(180000, true, true, true);
     
     ofRunApp(new ofApp());
 }
