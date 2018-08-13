@@ -2099,131 +2099,34 @@ void InteractiveMenu::activateLeftLocation(int index) {
 }
 
 //--------------------------------------------------------------
-void InteractiveMenu::pressedLocation()
-{
-    /*
-    // menu button check
-    for (int i = 0; i < BUTTON_AMT; i++)
-    {
-        // based on left button, load point
-        if (bLeftActive[i] && buttonClicked)
-        {
-            buttonClicked = false;
+void InteractiveMenu::activateRightLocation(int index) {
+    if(!bRightActive[index]) {
+        snd1.play();
+    }// play menu button sound
+    for(int i = 0; i < BUTTON_AMT; i++) {
+        if(i == index) {
+            bRightActive[i] = true;
+            if(!c.introSounds[1][i].isPlaying()) c.introSounds[1][i].play();
         }
-        
-        // based on right button, load point
-        if (bRightActive[i] && buttonClicked)
-        {
-            buttonClicked = false;
+        else {
+            bRightActive[i] = false;
+            if(c.introSounds[1][i].isPlaying()) c.introSounds[1][i].stop();
         }
     }
-     */
-    
+    c.stopAudio();
+    hs1Intro.stop();
+    crossrailIntro.stop();
+}
+
+//--------------------------------------------------------------
+void InteractiveMenu::pressedLocation()
+{
     for (int i = 0; i < length; i++)
     {
         // if left menu is active:
         if (lPoints[i].isMousePressed(0) == 1 && leftOn /*&& !bLeftActive[i]*/ && !buttonClicked)
         {
-//            switch (i) {
-//                case 0:
-//                    if(!bLeftActive[0]) {
-//                        snd1.play();
-//                    }// play menu button sound
-//                    for(int i = 0; i < BUTTON_AMT; i++) {
-//                        if(i == 0) {
-//                            bLeftActive[i] = true;
-//                            if(!c.introSounds[0][i].isPlaying()) c.introSounds[0][i].play();
-//                        }
-//                        else {
-//                            bLeftActive[i] = false;
-//                            if(c.introSounds[0][i].isPlaying()) c.introSounds[0][i].stop();
-//                        }
-//                    }
-//                    c.stopAudio();
-//                    hs1Intro.stop();
-//                    crossrailIntro.stop();
-//                    break;
-//                case 1:
-//                    if(!bLeftActive[1]) {
-//                        snd1.play();
-//                    }// play menu button sound
-//                    bLeftActive[0] = false;
-//                    bLeftActive[1] = true;
-//                    bLeftActive[2] = false;
-//                    bLeftActive[3] = false;
-//                    bLeftActive[4] = false;
-//                    c.stopAudio();
-//                    hs1Intro.stop();
-//                    crossrailIntro.stop();
-//                    for(int j = 0; j < 5; j++) {
-//                        if(j != i) {
-//                            if(c.introSounds[0][j].isPlaying()) c.introSounds[0][j].stop();
-//                        } else {
-//                            if(!c.introSounds[0][j].isPlaying()) c.introSounds[0][j].play();
-//                        }
-//                    }
-//                    break;
-//                case 2:
-//                    if(!bLeftActive[2]) {
-//                        snd1.play();
-//                    }// play menu button sound
-//                    bLeftActive[0] = false;
-//                    bLeftActive[1] = false;
-//                    bLeftActive[2] = true;
-//                    bLeftActive[3] = false;
-//                    bLeftActive[4] = false;
-//                    c.stopAudio();
-//                    hs1Intro.stop();
-//                    crossrailIntro.stop();
-//                    for(int j = 0; j < 5; j++) {
-//                        if(j != i) {
-//                            if(c.introSounds[0][j].isPlaying()) c.introSounds[0][j].stop();
-//                        } else {
-//                            if(!c.introSounds[0][j].isPlaying()) c.introSounds[0][j].play();
-//                        }
-//                    }
-//                    break;
-//                case 3:
-//                    if(!bLeftActive[3]) {
-//                        snd1.play();
-//                    }// play menu button sound
-//                    bLeftActive[0] = false;
-//                    bLeftActive[1] = false;
-//                    bLeftActive[2] = false;
-//                    bLeftActive[3] = true;
-//                    bLeftActive[4] = false;
-//                    c.stopAudio();
-//                    hs1Intro.stop();
-//                    crossrailIntro.stop();
-//                    for(int j = 0; j < 5; j++) {
-//                        if(j != i) {
-//                            if(c.introSounds[0][j].isPlaying()) c.introSounds[0][j].stop();
-//                        } else {
-//                            if(!c.introSounds[0][j].isPlaying()) c.introSounds[0][j].play();
-//                        }
-//                    }
-//                    break;
-//                case 4:
-//                    if(!bLeftActive[4]) {
-//                        snd1.play();
-//                    }// play menu button sound
-//                    bLeftActive[0] = false;
-//                    bLeftActive[1] = false;
-//                    bLeftActive[2] = false;
-//                    bLeftActive[3] = false;
-//                    bLeftActive[4] = true;
-//                    c.stopAudio();
-//                    hs1Intro.stop();
-//                    crossrailIntro.stop();
-//                    for(int j = 0; j < 5; j++) {
-//                        if(j != i) {
-//                            if(c.introSounds[0][j].isPlaying()) c.introSounds[0][j].stop();
-//                        } else {
-//                            if(!c.introSounds[0][j].isPlaying()) c.introSounds[0][j].play();
-//                        }
-//                    }
-//                    break;
-//            }
+            // activate each left location?
             activateLeftLocation(i);
             
             for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
@@ -2247,108 +2150,10 @@ void InteractiveMenu::pressedLocation()
         // check for right button clicks
         if (rPoints[i].isMousePressed(0) == 1 && rightOn /*&& !bRightActive[i]*/ && !buttonClicked)
         {
-            switch (i) {
-                case 0:
-                    if(!bRightActive[0]) {
-                        snd1.play();
-                    }// play menu button sound
-                    bRightActive[0] = true;
-                    bRightActive[1] = false;
-                    bRightActive[2] = false;
-                    bRightActive[3] = false;
-                    bRightActive[4] = false;
-                    c.stopAudio();
-                    hs1Intro.stop();
-                    crossrailIntro.stop();
-                    for(int j = 0; j < 5; j++) {
-                        if(j != i) {
-                            if(c.introSounds[1][j].isPlaying()) c.introSounds[1][j].stop();
-                        } else {
-                            if(!c.introSounds[1][j].isPlaying()) c.introSounds[1][j].play();
-                        }
-                    }
-                    break;
-                case 1:
-                    if(!bRightActive[1]) {
-                        snd1.play();
-                    }// play menu button sound
-                    bRightActive[0] = false;
-                    bRightActive[1] = true;
-                    bRightActive[2] = false;
-                    bRightActive[3] = false;
-                    bRightActive[4] = false;
-                    c.stopAudio();
-                    hs1Intro.stop();
-                    crossrailIntro.stop();
-                    for(int j = 0; j < 5; j++) {
-                        if(j != i) {
-                            if(c.introSounds[1][j].isPlaying()) c.introSounds[1][j].stop();
-                        } else {
-                            if(!c.introSounds[1][j].isPlaying()) c.introSounds[1][j].play();
-                        }
-                    }
-                    break;
-                case 2:
-                    if(!bRightActive[2]) {
-                        snd1.play();
-                    }// play menu button sound
-                    bRightActive[0] = false;
-                    bRightActive[1] = false;
-                    bRightActive[2] = true;
-                    bRightActive[3] = false;
-                    bRightActive[4] = false;
-                    c.stopAudio();
-                    hs1Intro.stop();
-                    crossrailIntro.stop();
-                    for(int j = 0; j < 5; j++) {
-                        if(j != i) {
-                            if(c.introSounds[1][j].isPlaying()) c.introSounds[1][j].stop();
-                        } else {
-                            if(!c.introSounds[1][j].isPlaying()) c.introSounds[1][j].play();
-                        }
-                    }
-                    break;
-                case 3:
-                    if(!bRightActive[3]) {
-                        snd1.play();
-                    }// play menu button sound
-                    bRightActive[0] = false;
-                    bRightActive[1] = false;
-                    bRightActive[2] = false;
-                    bRightActive[3] = true;
-                    bRightActive[4] = false;
-                    c.stopAudio();
-                    hs1Intro.stop();
-                    crossrailIntro.stop();
-                    for(int j = 0; j < 5; j++) {
-                        if(j != i) {
-                            if(c.introSounds[1][j].isPlaying()) c.introSounds[1][j].stop();
-                        } else {
-                            if(!c.introSounds[1][j].isPlaying()) c.introSounds[1][j].play();
-                        }
-                    }
-                    break;
-                case 4:
-                    if(!bRightActive[4]) {
-                        snd1.play();
-                    }// play menu button sound
-                    bRightActive[0] = false;
-                    bRightActive[1] = false;
-                    bRightActive[2] = false;
-                    bRightActive[3] = false;
-                    bRightActive[4] = true;
-                    c.stopAudio();
-                    hs1Intro.stop();
-                    crossrailIntro.stop();
-                    for(int j = 0; j < 5; j++) {
-                        if(j != i) {
-                            if(c.introSounds[1][j].isPlaying()) c.introSounds[1][j].stop();
-                        } else {
-                            if(!c.introSounds[1][j].isPlaying()) c.introSounds[1][j].play();
-                        }
-                    }
-                    break;
-            }
+            // activate each right location?
+
+            activateRightLocation(i);
+            
             for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
                 for(auto content = location->second.begin(); content != location->second.end(); content++) {
                     (*content)->setIsActive(false);
@@ -2368,6 +2173,15 @@ void InteractiveMenu::pressedLocation()
         }
     }
 }
+
+void InteractiveMenu::activateLeftContent(int index) {
+    
+}
+
+void InteractiveMenu::activateRightContent(int index) {
+    
+}
+
 
 //--------------------------------------------------------------
 void InteractiveMenu::pressedContent()

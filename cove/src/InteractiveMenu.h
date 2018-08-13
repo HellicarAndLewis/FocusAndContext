@@ -27,8 +27,10 @@ public:
     void drawContentMenu();
     void drawContent();
     void transform();
+    void activateLeftContent(int index);
+    void activateRightContent(int index);
     void activateLeftLocation(int index);
-//    void activateRightLocation();
+    void activateRightLocation(int index);
     void transformLeftContent0();
     void transformLeftContent1();
     void transformLeftContent2();
