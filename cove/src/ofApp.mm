@@ -23,7 +23,8 @@ void ofApp::setup()
     //ofHideCursor();
     
     //Shifted screen over to work on adjacent screen
-    //ofSetWindowPosition(-1920-1080, 0);
+    ofSetWindowPosition(1921, 0);
+    ofToggleFullscreen();
     
     // camera draw distance
     cam.setFarClip(300000);
@@ -833,6 +834,7 @@ void ofApp::update()
 void ofApp::menuSetup(int _w, int _h)
 {
     // configure menu
+    // TODO: Remove magic numbers
     menu.setup(_w, _h, 112, 100, 40, 0.2, 0.09);
     
     // default left side on at start

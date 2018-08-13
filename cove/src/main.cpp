@@ -1,6 +1,5 @@
 #include "ofMain.h"
 #include "ofApp.h"
-//#include "ofxWatchdog.h"
 
 int main( ){
 //    ofAppGlutWindow window;
@@ -8,9 +7,13 @@ int main( ){
 //    ofSetupOpenGL(&window, 1080, 1920, OF_FULLSCREEN);
 //    ofRunApp( new ofApp());
     
-    ofSetupOpenGL(1080, 1920, OF_FULLSCREEN);
+    ofGLFWWindowSettings settings;
+//    settings.multiMonitorFullScreen = true;
+    settings.monitor = 1;
+    settings.windowMode = OF_FULLSCREEN;
+    ofCreateWindow(settings);
     
-    //ofxWatchdog::watch(180000, true, true, true);
+//    ofSetupOpenGL(1080, 1920, OF_WINDOW);
     
     ofRunApp(new ofApp());
 }
