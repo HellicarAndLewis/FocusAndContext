@@ -27,6 +27,8 @@ public:
     void drawContentMenu();
     void drawContent();
     void transform();
+    void activateLeftLocation(int index);
+//    void activateRightLocation();
     void transformLeftContent0();
     void transformLeftContent1();
     void transformLeftContent2();
@@ -37,7 +39,7 @@ public:
     void transformRightContent2();
     void transformRightContent3();
     void transformRightContent4();
-    void pressed();
+    void pressedLocation();
     void pressedContent();
     
     // content menu right

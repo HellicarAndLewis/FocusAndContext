@@ -5,7 +5,7 @@
 //  Created by Jason Walters on 13/02/2016.
 //  Last edited by Jason Walters on 9/03/2016.
 //  Last edited by James Bentley on 28/04/2016.
-//
+//  Updated by James Bentley on 13/08/2018
 //
 
 #include "InteractiveMenu.h"
@@ -519,7 +519,7 @@ void InteractiveMenu::update()
     drawMenu();
     
     // check button presses
-    pressed();
+    pressedLocation();
     
     // button position and size
     transform();
@@ -2079,7 +2079,27 @@ void InteractiveMenu::drawMenu()
 }
 
 //--------------------------------------------------------------
-void InteractiveMenu::pressed()
+void InteractiveMenu::activateLeftLocation(int index) {
+    if(!bLeftActive[index]) {
+        snd1.play();
+    }// play menu button sound
+    for(int i = 0; i < BUTTON_AMT; i++) {
+        if(i == index) {
+            bLeftActive[i] = true;
+            if(!c.introSounds[0][i].isPlaying()) c.introSounds[0][i].play();
+        }
+        else {
+            bLeftActive[i] = false;
+            if(c.introSounds[0][i].isPlaying()) c.introSounds[0][i].stop();
+        }
+    }
+    c.stopAudio();
+    hs1Intro.stop();
+    crossrailIntro.stop();
+}
+
+//--------------------------------------------------------------
+void InteractiveMenu::pressedLocation()
 {
     /*
     // menu button check
@@ -2101,110 +2121,110 @@ void InteractiveMenu::pressed()
     
     for (int i = 0; i < length; i++)
     {
+        // if left menu is active:
         if (lPoints[i].isMousePressed(0) == 1 && leftOn /*&& !bLeftActive[i]*/ && !buttonClicked)
         {
-            switch (i) {
-                case 0:
-                    if(!bLeftActive[0]) {
-                        snd1.play();
-                    }// play menu button sound
-                    bLeftActive[0] = true;
-                    bLeftActive[1] = false;
-                    bLeftActive[2] = false;
-                    bLeftActive[3] = false;
-                    bLeftActive[4] = false;
-                    c.stopAudio();
-                    hs1Intro.stop();
-                    crossrailIntro.stop();
-                    for(int j = 0; j < 5; j++) {
-                        if(j != i) {
-                           if(c.introSounds[0][j].isPlaying()) c.introSounds[0][j].stop();
-                        } else {
-                            if(!c.introSounds[0][j].isPlaying()) c.introSounds[0][j].play();
-                        }
-                    }
-                    break;
-                case 1:
-                    if(!bLeftActive[1]) {
-                        snd1.play();
-                    }// play menu button sound
-                    bLeftActive[0] = false;
-                    bLeftActive[1] = true;
-                    bLeftActive[2] = false;
-                    bLeftActive[3] = false;
-                    bLeftActive[4] = false;
-                    c.stopAudio();
-                    hs1Intro.stop();
-                    crossrailIntro.stop();
-                    for(int j = 0; j < 5; j++) {
-                        if(j != i) {
-                            if(c.introSounds[0][j].isPlaying()) c.introSounds[0][j].stop();
-                        } else {
-                            if(!c.introSounds[0][j].isPlaying()) c.introSounds[0][j].play();
-                        }
-                    }
-                    break;
-                case 2:
-                    if(!bLeftActive[2]) {
-                        snd1.play();
-                    }// play menu button sound
-                    bLeftActive[0] = false;
-                    bLeftActive[1] = false;
-                    bLeftActive[2] = true;
-                    bLeftActive[3] = false;
-                    bLeftActive[4] = false;
-                    c.stopAudio();
-                    hs1Intro.stop();
-                    crossrailIntro.stop();
-                    for(int j = 0; j < 5; j++) {
-                        if(j != i) {
-                            if(c.introSounds[0][j].isPlaying()) c.introSounds[0][j].stop();
-                        } else {
-                            if(!c.introSounds[0][j].isPlaying()) c.introSounds[0][j].play();
-                        }
-                    }
-                    break;
-                case 3:
-                    if(!bLeftActive[3]) {
-                        snd1.play();
-                    }// play menu button sound
-                    bLeftActive[0] = false;
-                    bLeftActive[1] = false;
-                    bLeftActive[2] = false;
-                    bLeftActive[3] = true;
-                    bLeftActive[4] = false;
-                    c.stopAudio();
-                    hs1Intro.stop();
-                    crossrailIntro.stop();
-                    for(int j = 0; j < 5; j++) {
-                        if(j != i) {
-                            if(c.introSounds[0][j].isPlaying()) c.introSounds[0][j].stop();
-                        } else {
-                            if(!c.introSounds[0][j].isPlaying()) c.introSounds[0][j].play();
-                        }
-                    }
-                    break;
-                case 4:
-                    if(!bLeftActive[4]) {
-                        snd1.play();
-                    }// play menu button sound
-                    bLeftActive[0] = false;
-                    bLeftActive[1] = false;
-                    bLeftActive[2] = false;
-                    bLeftActive[3] = false;
-                    bLeftActive[4] = true;
-                    c.stopAudio();
-                    hs1Intro.stop();
-                    crossrailIntro.stop();
-                    for(int j = 0; j < 5; j++) {
-                        if(j != i) {
-                            if(c.introSounds[0][j].isPlaying()) c.introSounds[0][j].stop();
-                        } else {
-                            if(!c.introSounds[0][j].isPlaying()) c.introSounds[0][j].play();
-                        }
-                    }
-                    break;
-            }
+//            switch (i) {
+//                case 0:
+//                    if(!bLeftActive[0]) {
+//                        snd1.play();
+//                    }// play menu button sound
+//                    for(int i = 0; i < BUTTON_AMT; i++) {
+//                        if(i == 0) {
+//                            bLeftActive[i] = true;
+//                            if(!c.introSounds[0][i].isPlaying()) c.introSounds[0][i].play();
+//                        }
+//                        else {
+//                            bLeftActive[i] = false;
+//                            if(c.introSounds[0][i].isPlaying()) c.introSounds[0][i].stop();
+//                        }
+//                    }
+//                    c.stopAudio();
+//                    hs1Intro.stop();
+//                    crossrailIntro.stop();
+//                    break;
+//                case 1:
+//                    if(!bLeftActive[1]) {
+//                        snd1.play();
+//                    }// play menu button sound
+//                    bLeftActive[0] = false;
+//                    bLeftActive[1] = true;
+//                    bLeftActive[2] = false;
+//                    bLeftActive[3] = false;
+//                    bLeftActive[4] = false;
+//                    c.stopAudio();
+//                    hs1Intro.stop();
+//                    crossrailIntro.stop();
+//                    for(int j = 0; j < 5; j++) {
+//                        if(j != i) {
+//                            if(c.introSounds[0][j].isPlaying()) c.introSounds[0][j].stop();
+//                        } else {
+//                            if(!c.introSounds[0][j].isPlaying()) c.introSounds[0][j].play();
+//                        }
+//                    }
+//                    break;
+//                case 2:
+//                    if(!bLeftActive[2]) {
+//                        snd1.play();
+//                    }// play menu button sound
+//                    bLeftActive[0] = false;
+//                    bLeftActive[1] = false;
+//                    bLeftActive[2] = true;
+//                    bLeftActive[3] = false;
+//                    bLeftActive[4] = false;
+//                    c.stopAudio();
+//                    hs1Intro.stop();
+//                    crossrailIntro.stop();
+//                    for(int j = 0; j < 5; j++) {
+//                        if(j != i) {
+//                            if(c.introSounds[0][j].isPlaying()) c.introSounds[0][j].stop();
+//                        } else {
+//                            if(!c.introSounds[0][j].isPlaying()) c.introSounds[0][j].play();
+//                        }
+//                    }
+//                    break;
+//                case 3:
+//                    if(!bLeftActive[3]) {
+//                        snd1.play();
+//                    }// play menu button sound
+//                    bLeftActive[0] = false;
+//                    bLeftActive[1] = false;
+//                    bLeftActive[2] = false;
+//                    bLeftActive[3] = true;
+//                    bLeftActive[4] = false;
+//                    c.stopAudio();
+//                    hs1Intro.stop();
+//                    crossrailIntro.stop();
+//                    for(int j = 0; j < 5; j++) {
+//                        if(j != i) {
+//                            if(c.introSounds[0][j].isPlaying()) c.introSounds[0][j].stop();
+//                        } else {
+//                            if(!c.introSounds[0][j].isPlaying()) c.introSounds[0][j].play();
+//                        }
+//                    }
+//                    break;
+//                case 4:
+//                    if(!bLeftActive[4]) {
+//                        snd1.play();
+//                    }// play menu button sound
+//                    bLeftActive[0] = false;
+//                    bLeftActive[1] = false;
+//                    bLeftActive[2] = false;
+//                    bLeftActive[3] = false;
+//                    bLeftActive[4] = true;
+//                    c.stopAudio();
+//                    hs1Intro.stop();
+//                    crossrailIntro.stop();
+//                    for(int j = 0; j < 5; j++) {
+//                        if(j != i) {
+//                            if(c.introSounds[0][j].isPlaying()) c.introSounds[0][j].stop();
+//                        } else {
+//                            if(!c.introSounds[0][j].isPlaying()) c.introSounds[0][j].play();
+//                        }
+//                    }
+//                    break;
+//            }
+            activateLeftLocation(i);
             
             for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
                 for(auto content = location->second.begin(); content != location->second.end(); content++) {
@@ -2549,7 +2569,6 @@ void InteractiveMenu::pressedContent()
         hs1Intro.stop();
         crossrailIntro.stop();
         c.stopLocationAudio();
-        
         
         // load current content, enable vignette
         //c.load(0, 1, 2);

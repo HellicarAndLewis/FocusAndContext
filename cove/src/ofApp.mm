@@ -5,6 +5,7 @@
 //  Created by Chris Mullany on 14/01/2016.
 //  Last edited by Jason Walters on 10/03/2016.
 //  Last edited by James Bentley on 28/04/2016.
+//  Updated by James Bentley on 13/08/2018
 //
 //
 
@@ -835,7 +836,12 @@ void ofApp::menuSetup(int _w, int _h)
 {
     // configure menu
     // TODO: Remove magic numbers
-    menu.setup(_w, _h, 112, 100, 40, 0.2, 0.09);
+    // original sizes:
+    float _mainArea = 112.0 / 1080.;
+    float _subArea = 100.0 / 1080.;
+    float _padding = 40.0 / 1080.;
+
+    menu.setup(_w, _h, _mainArea * _w, _subArea * _w, _padding * _w, 0.2, 0.09);
     
     // default left side on at start
     menu.leftOn = true;
