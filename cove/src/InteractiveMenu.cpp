@@ -2126,9 +2126,10 @@ void InteractiveMenu::pressedLocation()
         // if left menu is active:
         if (lPoints[i].isMousePressed(0) == 1 && leftOn /*&& !bLeftActive[i]*/ && !buttonClicked)
         {
-            // activate each left location?
+            // Activate location that was clicked on
             activateLeftLocation(i);
             
+            // Deactivate all crossrail and hs1 content displayers
             for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
                 for(auto content = location->second.begin(); content != location->second.end(); content++) {
                     (*content)->setIsActive(false);
@@ -2139,10 +2140,11 @@ void InteractiveMenu::pressedLocation()
                     (*content)->setIsActive(false);
                 }
             }
+            // Deselect all crossrail and hs1 content
             for(int i = 0; i < allCons.size(); i++) {
                 allCons[i]->isSelected = false;
             }
-            
+            // Set globals
             buttonClicked = true;
             Globals::buttonPressed = true;
         }
@@ -2150,10 +2152,10 @@ void InteractiveMenu::pressedLocation()
         // check for right button clicks
         if (rPoints[i].isMousePressed(0) == 1 && rightOn /*&& !bRightActive[i]*/ && !buttonClicked)
         {
-            // activate each right location?
-
+            // Activate location that was clicked on
             activateRightLocation(i);
             
+            // Deactivate all crossrail and hs1 content displayers
             for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
                 for(auto content = location->second.begin(); content != location->second.end(); content++) {
                     (*content)->setIsActive(false);
@@ -2164,10 +2166,13 @@ void InteractiveMenu::pressedLocation()
                     (*content)->setIsActive(false);
                 }
             }
+            
+            // Deselect all crossrail and hs1 content
             for(int i = 0; i < allCons.size(); i++) {
                 allCons[i]->isSelected = false;
             }
             
+            // Set globals
             buttonClicked = true;
             Globals::buttonPressed = true;
         }
