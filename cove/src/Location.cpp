@@ -42,7 +42,7 @@ void Location::setup(string title) {
 void Location::update() {
 }
 
-void Location::draw(ofCamera& cam, float _alpha, float _height)
+void Location::draw(ofCamera& cam, ofVec3f meshPosition, float _alpha, float _height)
 {
     if (!hasLabel) return;
     
@@ -129,6 +129,8 @@ void Location::draw(ofCamera& cam, float _alpha, float _height)
     ofSetColor(255, 255, 255, ofMap(finalAlpha, 0., 1., 0., 255.));
     lineHeight = 1600;
     ofDrawLine(position.x, position.y, 0, position.x, position.y + height + verticalOffset, 0);
+    ofSetColor(255, 0, 0);
+    ofDrawSphere(position, 500);
     ofNoFill();
     ofSetCircleResolution(50);
     ofDrawCircle(position.x, position.y, 500);
@@ -153,6 +155,25 @@ void Location::draw(ofCamera& cam, float _alpha, float _height)
     currentImage->getTexture().unbind();
     ofDisablePointSprites();
     billboardShader.end();
+    
+    if(ofGetMousePressed()) {
+        
+        ofVec3f p1 = ofVec3f(position.x, position.y + height + verticalOffset, position.z) + meshPosition;
+        
+        p1 = cam.worldToScreen(p1);
+        
+        if(title=="St Pancras") {
+            cout<<"P1: "<<p1<<endl;
+        }
+        
+        ofVec2f mouse = ofVec2f(ofGetMouseX(), ofGetMouseY());
+        
+        if(mouse.x > p1.x - size/2. && mouse.x < p1.x + size/2.) {
+            if(mouse.y > p1.y - size/2. && mouse.y < p1.y + size/2.) {
+                cout << "clicked "<<title<<endl;
+            }
+        }
+    }
     
     ofSetColor(255);
 }

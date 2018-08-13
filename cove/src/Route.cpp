@@ -80,7 +80,7 @@ void Route::update(float percent) {
     }
 }
 
-void Route::draw(ofCamera& cam) {
+void Route::draw(ofCamera& cam, ofVec3f meshPosition) {
     
     // lerp alpha values
     if (activeProject == 0) {
@@ -107,7 +107,7 @@ void Route::draw(ofCamera& cam) {
     
     ofSetColor(255);
     for (auto &location: locationsLeft) {
-        location.draw(cam, alphaLeft, -1150);
+        location.draw(cam, meshPosition, alphaLeft, -1150);
     }
     ofEnableDepthTest();
     
@@ -125,7 +125,7 @@ void Route::draw(ofCamera& cam) {
     
     ofSetColor(255);
     for (auto &location: locationsRight) {
-        location.draw(cam, alphaRight, -1600);
+        location.draw(cam, meshPosition, alphaRight, -1600);
     }
     ofEnableDepthTest();
 }

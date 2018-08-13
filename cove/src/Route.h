@@ -18,7 +18,7 @@ public:
     
     void setup();
     void update(float percent = -1);
-    void draw(ofCamera& cam);
+    void draw(ofCamera& cam, ofVec3f meshPosition);
     void draw2d();
     void flushData();
     

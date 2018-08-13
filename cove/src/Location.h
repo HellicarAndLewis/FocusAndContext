@@ -15,7 +15,7 @@ public:
     
 	void setup(string title);
 	void update();
-	void draw(ofCamera& cam, float _alpha, float _height);
+	void draw(ofCamera& cam, ofVec3f meshPosition, float _alpha, float _height);
     void draw2d();
     
     float getLon();
@@ -43,6 +43,9 @@ public:
     float verticalOffsetSaved;
     ofTrueTypeFont* titleFont;
     
+    ofVec3f transformedP1;
+    ofVec3f transformedP2;
+
     ofShader billboardShader;
     ofFbo fbo;
     
