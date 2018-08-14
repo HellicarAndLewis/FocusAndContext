@@ -1131,9 +1131,9 @@ void ofApp::drawScene()
     
     cam.begin();
     ofPushMatrix();
-//    ofRotateX(sceneRotation.x);
-//    ofRotateY(sceneRotation.y);
-//    ofRotateZ(sceneRotation.z);
+    ofRotateX(sceneRotation.x);
+    ofRotateY(sceneRotation.y);
+    ofRotateZ(sceneRotation.z);
     ofTranslate(meshPosition);
     ofEnableDepthTest();
     route.draw(cam, meshPosition);
