@@ -156,24 +156,18 @@ void Location::draw(ofCamera& cam, ofVec3f meshPosition, float _alpha, float _he
     ofDisablePointSprites();
     billboardShader.end();
     
+    // Check if label has been clicked on.
     if(ofGetMousePressed()) {
         
         ofVec3f p1 = ofVec3f(position.x, position.y + height + verticalOffset, position.z) + meshPosition;
         
         p1 = cam.worldToScreen(p1);
         
-        if(title=="St Pancras") {
-            cout<<"P1: "<<p1<<endl;
-        }
-        
         ofVec2f mouse = ofVec2f(ofGetMouseX(), ofGetMouseY());
         
         if(mouse.x > p1.x - size/2. && mouse.x < p1.x + size/2.) {
-            if(mouse.y > p1.y - size/2. && mouse.y < p1.y + size/2.) {
-                cout << "clicked "<<title<<endl;
-//                if(title != "") {
-                    ofNotifyEvent(onLabelClicked, title);
-//                }
+            if(mouse.y > p1.y - size/4. && mouse.y < p1.y + size/4.) {
+                ofNotifyEvent(onLabelClicked, title);
             }
         }
     }

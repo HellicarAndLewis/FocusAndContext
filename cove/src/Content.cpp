@@ -93,7 +93,7 @@ void Content::fileLocation() {
     crossrailDisplayers["LiverpoolStreet"] = vector<ContentDisplayer*>();
     crossrailDisplayers["CanaryWharf"] = vector<ContentDisplayer*>();
     
-//    //Load HS1 Content w/ new displayers
+    //Load HS1 Content w/ new displayers
 //    int locationNameIndex = 7;
 //    int storyIndex = 8; // This is the file with all the info about each content piece
 //    int contentComponentIndex = 9; // This is where the component is, ie backgorund, notes, title or content

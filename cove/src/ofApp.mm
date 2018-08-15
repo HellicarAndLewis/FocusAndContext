@@ -14,7 +14,7 @@
 #include "glmGeom.h"
 #include "Globals.h"
 
-#define HS1_ZOOMED_OUT_CAM_DISTANCE 270000
+#define HS1_ZOOMED_OUT_CAM_DISTANCE 125000
 
 void ofApp::setup()
 {
@@ -117,10 +117,6 @@ void ofApp::setup()
     maxIdleTime = idleTime.getValue("idleTime", 300.);
     
     cam.disableMouseInput();
-    
-//    CGCaptureAllDisplays();
-//    NSWindow * window = (NSWindow *)ofGetWindowPtr()->getCocoaWindow();
-//    [window setLevel:CGShieldingWindowLevel()];
 }
 
 void ofApp::setupGui()
