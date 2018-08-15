@@ -43,6 +43,8 @@ public:
     float verticalOffsetSaved;
     ofTrueTypeFont* titleFont;
     
+    ofEvent<string> onLabelClicked;
+    
     ofVec3f transformedP1;
     ofVec3f transformedP2;
 

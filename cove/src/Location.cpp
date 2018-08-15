@@ -171,6 +171,9 @@ void Location::draw(ofCamera& cam, ofVec3f meshPosition, float _alpha, float _he
         if(mouse.x > p1.x - size/2. && mouse.x < p1.x + size/2.) {
             if(mouse.y > p1.y - size/2. && mouse.y < p1.y + size/2.) {
                 cout << "clicked "<<title<<endl;
+//                if(title != "") {
+                    ofNotifyEvent(onLabelClicked, title);
+//                }
             }
         }
     }

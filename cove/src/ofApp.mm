@@ -841,7 +841,7 @@ void ofApp::menuSetup(int _w, int _h)
     float _subArea = 100.0 / 1080.;
     float _padding = 40.0 / 1080.;
 
-    menu.setup(_w, _h, _mainArea * _w, _subArea * _w, _padding * _w, 0.2, 0.09);
+    menu.setup(_w, _h, _mainArea * _w, _subArea * _w, _padding * _w, 0.2, 0.09, route.getLeftPOIs(), route.getRightPOIs());
     
     // default left side on at start
     menu.leftOn = true;
@@ -1421,6 +1421,8 @@ void ofApp::windowResized(int w, int h)
     
     // post processing setup
     effectsSetup(w, h);
+    
+    
     
     // reconfigure menu for new window shape
     if (bCove) menuSetup(w, h);

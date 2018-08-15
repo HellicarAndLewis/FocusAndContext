@@ -233,6 +233,26 @@ void Route::loadLeft(string path, ofVec3f posOffset) {
     activeLocation->isActive = true;
 }
 
+vector<Location*> Route::getLeftPOIs() {
+    vector<Location*> pois;
+    for(int i = 0; i < locationsLeft.size(); i++) {
+        if(locationsLeft[i].hasLabel) {
+            pois.push_back(&locationsLeft[i]);
+        }
+    }
+    return pois;
+}
+
+vector<Location*> Route::getRightPOIs() {
+    vector<Location*> pois;
+    for(int i = 0; i < locationsRight.size(); i++) {
+        if(locationsRight[i].hasLabel) {
+            pois.push_back(&locationsRight[i]);
+        }
+    }
+    return pois;
+}
+
 void Route::loadRight(string path, ofVec3f posOffset) {
     
     activeProject = 1;

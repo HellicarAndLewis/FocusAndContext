@@ -13,7 +13,7 @@
 #include "ofxNestedFileLoader.h"
 
 //--------------------------------------------------------------
-void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, float _padding, float _easeIn, float _easeOut)
+void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, float _padding, float _easeIn, float _easeOut, vector<Location*> _lLocations, vector<Location*> _rLocations)
 {
     // setup variables
     width = _w;
@@ -49,6 +49,21 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     crossrailIntro.setMultiPlay(false);
     crossrailIntro.setLoop(false);
     
+    for(int i = 0; i < BUTTON_AMT; i++) {
+        lLocations[i] = _lLocations[i];
+        rLocations[i] = _rLocations[i];
+    }
+    
+    for(int  i = 0; i < BUTTON_AMT; i++) {
+        ofAddListener(lLocations[i]->onLabelClicked, this, &InteractiveMenu::onLabelClicked);
+        ofAddListener(rLocations[i]->onLabelClicked, this, &InteractiveMenu::onLabelClicked);
+    }
+    
+//    for(int i = 0; i < BUTTON_AMT; i++) {
+//        cout<<"Left: "<<i<<" : "<<lLocations[i]->title<<endl;
+//        cout<<"Right: "<<i<<" : "<<rLocations[i]->title<<endl;
+//    }
+    
     // setup left sub menu
     for (int i = 0; i < length; i++)
     {
@@ -74,6 +89,8 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
         rPoints[i].fadeLabel = false;
         rPoints[i].isDraw = true;
     }
+    
+//    ofAddListener(Location.onLabelClicked, this, &InteractiveMenu::onLabelClicked);
     
     // left sub menu titles
     lPoints[0].title = "HS1/Location/StPancras";
@@ -248,6 +265,60 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     c.setCons(allCons);
     
     leftWasOn = false;
+}
+
+//--------------------------------------------------------------
+void InteractiveMenu::onLabelClicked(string & title) {
+    cout<<title<<" Clicked in Interactive Menu!"<<endl;
+    if(leftOn) {
+        for(int i = 0; i < BUTTON_AMT; i++) {
+            if(lLocations[i]->title == title) {
+                activateLeftLocation(i);
+                // Deactivate all crossrail and hs1 content displayers
+                for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+                    for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                        (*content)->setIsActive(false);
+                    }
+                }
+                for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+                    for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                        (*content)->setIsActive(false);
+                    }
+                }
+                // Deselect all crossrail and hs1 content
+                for(int i = 0; i < allCons.size(); i++) {
+                    allCons[i]->isSelected = false;
+                }
+                // Set globals
+                buttonClicked = true;
+                Globals::buttonPressed = true;
+            }
+        }
+    } else if(rightOn) {
+        for(int i = 0; i < BUTTON_AMT; i++) {
+            if(rLocations[i]->title == title) {
+                activateRightLocation(BUTTON_AMT - 1 - i);
+                // Deactivate all crossrail and hs1 content displayers
+                for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+                    for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                        (*content)->setIsActive(false);
+                    }
+                }
+                for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+                    for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                        (*content)->setIsActive(false);
+                    }
+                }
+                // Deselect all crossrail and hs1 content
+                for(int i = 0; i < allCons.size(); i++) {
+                    allCons[i]->isSelected = false;
+                }
+                // Set globals
+                buttonClicked = true;
+                Globals::buttonPressed = true;
+            }
+        }
+    }
 }
 
 //--------------------------------------------------------------

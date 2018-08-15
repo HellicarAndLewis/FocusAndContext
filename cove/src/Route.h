@@ -24,6 +24,8 @@ public:
     
     void loadLeft(string path, ofVec3f posOffset);
     void loadRight(string path, ofVec3f posOffset);
+    vector<Location*> getLeftPOIs();
+    vector<Location*> getRightPOIs();
     Location* getLocation();
     ofPoint getPosition(bool doInvert = false);
     

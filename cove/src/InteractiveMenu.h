@@ -13,13 +13,14 @@
 #include "ofMain.h"
 #include "InteractiveObject.h"
 #include "Content.h"
+#include "Location.h"
 
 #define		BUTTON_AMT		5
 
 class InteractiveMenu
 {
 public:
-    void setup(int _w, int _h, float _mainArea, float _subArea, float _padding, float _easeIn, float _easeOut);
+    void setup(int _w, int _h, float _mainArea, float _subArea, float _padding, float _easeIn, float _easeOut, vector<Location*> _lLocations, vector<Location*> _rLocations);
     void setupLeftContent();
     void setupRightContent();
     void update();
@@ -27,6 +28,7 @@ public:
     void drawContentMenu();
     void drawContent();
     void transform();
+    void onLabelClicked(string & title);
     void activateLeftContent(int index);
     void activateRightContent(int index);
     void activateLeftLocation(int index);
@@ -85,6 +87,10 @@ public:
     InteractiveObject rPoints[BUTTON_AMT];
     InteractiveObject leftMain;
     InteractiveObject rightMain;
+    
+    // location labels
+    Location* lLocations[BUTTON_AMT];
+    Location* rLocations[BUTTON_AMT];
     
     bool bLLineH[BUTTON_AMT];
     bool bRLineH[BUTTON_AMT];
