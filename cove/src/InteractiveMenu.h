@@ -27,60 +27,30 @@ public:
     void drawMenu();
     void drawContentMenu();
     void drawContent();
-//    void transformPortrait();
+    void transformPortrait();
     void transformLandscape();
 
     void onLabelClicked(string & title);
-    void activateLeftContent(int index);
-    void activateRightContent(int index);
+    void activateLeftContent(int locationIndex, int contentIndex);
+    void activateRightContent(int locationIndex, int contentIndex);
     void activateLeftLocation(int index);
     void activateRightLocation(int index);
-    void transformLeftContent0();
-    void transformLeftContent1();
-    void transformLeftContent2();
-    void transformLeftContent3();
-    void transformLeftContent4();
-    void transformRightContent0();
-    void transformRightContent1();
-    void transformRightContent2();
-    void transformRightContent3();
-    void transformRightContent4();
+    void transformLeftContent(int index);
+    void transformRightContent(int index);
+    bool otherLeftHLinesAreInactive(int index);
+    bool otherRightHLinesAreInactive(int index);
     void pressedLocation();
     void pressedContent();
     
     // content menu right
-    InteractiveObject rCon4HLine;
-    InteractiveObject rCon4VLine;
-    InteractiveObject rCon4[BUTTON_AMT];
-    InteractiveObject rCon3HLine;
-    InteractiveObject rCon3VLine;
-    InteractiveObject rCon3[BUTTON_AMT];
-    InteractiveObject rCon2HLine;
-    InteractiveObject rCon2VLine;
-    InteractiveObject rCon2[BUTTON_AMT];
-    InteractiveObject rCon1HLine;
-    InteractiveObject rCon1VLine;
-    InteractiveObject rCon1[BUTTON_AMT];
-    InteractiveObject rCon0HLine;
-    InteractiveObject rCon0VLine;
-    InteractiveObject rCon0[BUTTON_AMT];
+    InteractiveObject rConHLines[BUTTON_AMT];
+    InteractiveObject rConVLines[BUTTON_AMT];
+    InteractiveObject rCon[BUTTON_AMT][BUTTON_AMT];
     
     // content menu left
-    InteractiveObject lCon4HLine;
-    InteractiveObject lCon4VLine;
-    InteractiveObject lCon4[BUTTON_AMT];
-    InteractiveObject lCon3HLine;
-    InteractiveObject lCon3VLine;
-    InteractiveObject lCon3[BUTTON_AMT];
-    InteractiveObject lCon2HLine;
-    InteractiveObject lCon2VLine;
-    InteractiveObject lCon2[BUTTON_AMT];
-    InteractiveObject lCon1HLine;
-    InteractiveObject lCon1VLine;
-    InteractiveObject lCon1[BUTTON_AMT];
-    InteractiveObject lCon0HLine;
-    InteractiveObject lCon0VLine;
-    InteractiveObject lCon0[BUTTON_AMT];
+    InteractiveObject lConHLines[BUTTON_AMT];
+    InteractiveObject lConVLines[BUTTON_AMT];
+    InteractiveObject lCon[BUTTON_AMT][BUTTON_AMT];
     
     // main menu stuff
     InteractiveObject lLine;
@@ -102,28 +72,12 @@ public:
     string contentRLabels[BUTTON_AMT][BUTTON_AMT];
     
     // left content positions and sizes
-    ofVec2f posLCon0[BUTTON_AMT];
-    ofVec2f posLCon1[BUTTON_AMT];
-    ofVec2f posLCon2[BUTTON_AMT];
-    ofVec2f posLCon3[BUTTON_AMT];
-    ofVec2f posLCon4[BUTTON_AMT];
-    float sizeLCon0[BUTTON_AMT];
-    float sizeLCon1[BUTTON_AMT];
-    float sizeLCon2[BUTTON_AMT];
-    float sizeLCon3[BUTTON_AMT];
-    float sizeLCon4[BUTTON_AMT];
+    ofVec2f posLCon[BUTTON_AMT][BUTTON_AMT];
+    float sizeLCon[BUTTON_AMT][BUTTON_AMT];
     
     // right content positions and sizes
-    ofVec2f posRCon0[BUTTON_AMT];
-    ofVec2f posRCon1[BUTTON_AMT];
-    ofVec2f posRCon2[BUTTON_AMT];
-    ofVec2f posRCon3[BUTTON_AMT];
-    ofVec2f posRCon4[BUTTON_AMT];
-    float sizeRCon0[BUTTON_AMT];
-    float sizeRCon1[BUTTON_AMT];
-    float sizeRCon2[BUTTON_AMT];
-    float sizeRCon3[BUTTON_AMT];
-    float sizeRCon4[BUTTON_AMT];
+    ofVec2f posRCon[BUTTON_AMT][BUTTON_AMT];
+    float sizeRCon[BUTTON_AMT][BUTTON_AMT];
     
     //amalgam of all the Con objects
     vector<InteractiveObject*> allCons;

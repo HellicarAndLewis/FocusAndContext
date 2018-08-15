@@ -96,11 +96,19 @@ public:
                     ofSetLineWidth(3);
                     // menu line color
                     ofSetColor(255, 130, 0);
-                    ofDrawLine(x-lineLength, y+height/2, x, y+height/2);
+                    ofDrawLine(x-width/2, y, x-width/2, y-lineLength);
                     break;
                     
                 case 3:
-                    // vertical content menu line
+                    // left horizontal content menu line
+                    // line thickness
+                    ofSetLineWidth(3);
+                    // menu line color
+                    ofSetColor(255, 130, 0);
+                    ofDrawLine(x, y+height/2, x, y+height/2-lineLength);
+                    break;
+                case 4:
+                    // right horizontal content menu line
                     // line thickness
                     ofSetLineWidth(3);
                     // menu line color
@@ -162,7 +170,7 @@ public:
     }
     
     void draw() {
-        drawLandscape();
+        drawPortrait();
     }
     
     virtual void onRollOver(int x, int y) {
