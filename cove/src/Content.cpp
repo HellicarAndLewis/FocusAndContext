@@ -94,18 +94,18 @@ void Content::fileLocation() {
     crossrailDisplayers["CanaryWharf"] = vector<ContentDisplayer*>();
     
     //Load HS1 Content w/ new displayers
-//    int locationNameIndex = 7;
-//    int storyIndex = 8; // This is the file with all the info about each content piece
-//    int contentComponentIndex = 9; // This is where the component is, ie backgorund, notes, title or content
-//    int contentFileIndex = 10; // This is the actual content file
-//    auto currentProjectDisplayers = &hs1Displayers;
-//    
-//    //Pre-load POI audio with placeholders
-//    for(int i = 0; i < 5; i++) {
-//        introSoundPaths[0][i] = "content/Google Drive/Arup/Research/Content/Placeholder/no_audio.wav";
-//        introSoundPaths[1][i] = "content/Google Drive/Arup/Research/Content/Placeholder/no_audio.wav";
-//    }
-//    
+    int locationNameIndex = 7;
+    int storyIndex = 8; // This is the file with all the info about each content piece
+    int contentComponentIndex = 9; // This is where the component is, ie backgorund, notes, title or content
+    int contentFileIndex = 10; // This is the actual content file
+    auto currentProjectDisplayers = &hs1Displayers;
+    
+    //Pre-load POI audio with placeholders
+    for(int i = 0; i < 5; i++) {
+        introSoundPaths[0][i] = "content/Google Drive/Arup/Research/Content/Placeholder/no_audio.wav";
+        introSoundPaths[1][i] = "content/Google Drive/Arup/Research/Content/Placeholder/no_audio.wav";
+    }
+    
 //    ofxNestedFileLoader loader;
 //    vector<string> currentPaths = loader.load("content/Google Drive/Arup/Research/Content/HS1/Location");
 //    for(int i = 0; i < currentPaths.size(); i++) {
@@ -201,11 +201,11 @@ void Content::fileLocation() {
 //            }
 //        }
 //    }
-//    
+//
 //    currentProjectDisplayers = &crossrailDisplayers;
 //    currentPaths.clear();
 //    loader.clearPaths();
-//    
+//
 //    //load Crossrail content w/ new displayers
 //    currentPaths = loader.load("content/Google Drive/Arup/Research/Content/Crossrail/Location");
 //    for(int i = 0; i < currentPaths.size(); i++) {

@@ -61,8 +61,7 @@ public:
     void update() {
     }
     
-    void draw() {
-        
+    void drawLandscape() {
         if (isDraw) {
             switch (drawType) {
                 case 0: //Tiles
@@ -88,7 +87,7 @@ public:
                     ofSetLineWidth(3);
                     // menu line color
                     ofSetColor(255, 130, 0);
-                    ofDrawLine(x, y+height/2, x+lineLength, y+height/2);
+                    ofDrawLine(x + width/2, y, x + width/2, y-lineLength);
                     break;
                     
                 case 2:
@@ -110,6 +109,60 @@ public:
                     break;
             }
         }
+    }
+    
+    void drawPortrait() {
+        if (isDraw) {
+            switch (drawType) {
+                case 0: //Tiles
+                    // when selected, lerp to white
+                    if (isSelected) color = ofLerp(color, 255, 0.2);
+                    else color = ofLerp(color, 240, 0.2);
+                    
+                    ofSetColor(color);
+                    ofDrawRectRounded(x, y, width, height, 10);
+                    
+                    // fades content titles
+                    if (fadeLabel) alpha = ofLerp(alpha, 0, 0.1);
+                    else alpha = ofLerp(alpha, 255, 0.2);
+                    //ofSetColor(255);
+                    ofSetColor(255, alpha);
+                    // draws menu tiles
+                    image.draw(x, y, width, height);
+                    break;
+                    
+                case 1:
+                    // left menu line
+                    // line thickness
+                    ofSetLineWidth(3);
+                    // menu line color
+                    ofSetColor(255, 130, 0);
+                    ofDrawLine(x, y+height/2, x + lineLength, y+height/2);
+                    break;
+                    
+                case 2:
+                    // right menu line
+                    // line thickness
+                    ofSetLineWidth(3);
+                    // menu line color
+                    ofSetColor(255, 130, 0);
+                    ofDrawLine(x-lineLength, y+height/2, x, y+height/2);
+                    break;
+                    
+                case 3:
+                    // vertical content menu line
+                    // line thickness
+                    ofSetLineWidth(3);
+                    // menu line color
+                    ofSetColor(255, 130, 0);
+                    ofDrawLine(x, y+height/2, x, y+height/2-lineLength);
+                    break;
+            }
+        }
+    }
+    
+    void draw() {
+        drawLandscape();
     }
     
     virtual void onRollOver(int x, int y) {

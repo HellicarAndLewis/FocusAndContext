@@ -129,13 +129,13 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     lLine.lineLength = 0;
     lLine.drawType = 1;
     lLine.isDraw = true;
-    lLine.set(padding, height - padding - mainArea, 0, mainArea);
+    lLine.set(padding, height - padding - mainArea, mainArea, mainArea);
     
     // setup right menu line
     rLine.lineLength = 0;
     rLine.drawType = 2;
     rLine.isDraw = true;
-    rLine.set(width - padding, height - padding - mainArea, 0, mainArea);
+    rLine.set(width - padding, height - padding - mainArea, mainArea, mainArea);
     
     
     //----------------------
@@ -593,7 +593,9 @@ void InteractiveMenu::update()
     pressedLocation();
     
     // button position and size
-    transform();
+//    transformPortrait();
+    transformLandscape();
+
     
     // draw menu content objects and lines
     drawContentMenu();
@@ -1875,27 +1877,22 @@ void InteractiveMenu::transformRightContent4()
 }
 
 //--------------------------------------------------------------
-void InteractiveMenu::transform()
+void InteractiveMenu::transformLandscape()
 {
     // left sub menu animations
     for (int i = 0; i < length; i++)
     {
         if (leftOn)
         {
+            float distance = i * (subArea + padding) + (padding * 2) + mainArea;
+            posLeft[i].x = ofLerp(posLeft[i].x, padding + (areaDiff/2), easeOut);
+            posLeft[i].y = ofLerp(posLeft[i].y, distance, easeOut);
             if (bLeftActive[i])
             {
-                float distance = i * (subArea + padding) + (padding * 2) + mainArea;
-                posLeft[i].x = ofLerp(posLeft[i].x, distance, easeOut);
-                posLeft[i].y = ofLerp(posLeft[i].y, height - padding - mainArea + (areaDiff / 2), easeOut);
-                
                 sizeLeft[i] = ofLerp(sizeLeft[i], mainArea, easeOut);
             }
             else
             {
-                float distance = i * (subArea + padding) + (padding * 2) + mainArea;
-                posLeft[i].x = ofLerp(posLeft[i].x, distance, easeOut);
-                posLeft[i].y = ofLerp(posLeft[i].y, height - padding - mainArea + (areaDiff / 2), easeOut);
-                
                 sizeLeft[i] = ofLerp(sizeLeft[i], subArea, easeOut);
             }
             
@@ -1932,20 +1929,15 @@ void InteractiveMenu::transform()
     {
         if (rightOn)
         {
-            float distance = width - padding - subArea - (i  * (subArea + padding) + (padding * 1) + mainArea);
-            
-            if (bRightActive[i])
+            float distance = (i  * (subArea + padding) + (padding * 1) + mainArea);
+            posRight[i].x = ofLerp(posRight[i].x, width - padding - subArea - (areaDiff/2), easeOut);
+            posRight[i].y = ofLerp(posRight[i].y, distance, easeOut);
+            if (bLeftActive[i])
             {
-                posRight[i].x = ofLerp(posRight[i].x, distance, easeOut);
-                posRight[i].y = ofLerp(posRight[i].y, height - padding - mainArea + (areaDiff / 2), easeOut);
-                
                 sizeRight[i] = ofLerp(sizeRight[i], mainArea, easeOut);
             }
             else
             {
-                posRight[i].x = ofLerp(posRight[i].x, distance, easeOut);
-                posRight[i].y = ofLerp(posRight[i].y, height - padding - mainArea + (areaDiff / 2), easeOut);
-                
                 sizeRight[i] = ofLerp(sizeRight[i], subArea, easeOut);
             }
         }
@@ -1999,6 +1991,134 @@ void InteractiveMenu::transform()
         rLine.lineLength = ofLerp(rLine.lineLength, 0, easeIn);// * 2);
     }
 }
+
+
+//--------------------------------------------------------------
+//void InteractiveMenu::transformPortrait()
+//{
+//    return;
+//    // left sub menu animations
+//    for (int i = 0; i < length; i++)
+//    {
+//        if (leftOn)
+//        {
+//            if (bLeftActive[i])
+//            {
+//                float distance = i * (subArea + padding) + (padding * 2) + mainArea;
+//                posLeft[i].x = ofLerp(posLeft[i].x, distance, easeOut);
+//                posLeft[i].y = ofLerp(posLeft[i].y, height - padding - mainArea + (areaDiff / 2), easeOut);
+//                
+//                sizeLeft[i] = ofLerp(sizeLeft[i], mainArea, easeOut);
+//            }
+//            else
+//            {
+//                float distance = i * (subArea + padding) + (padding * 2) + mainArea;
+//                posLeft[i].x = ofLerp(posLeft[i].x, distance, easeOut);
+//                posLeft[i].y = ofLerp(posLeft[i].y, height - padding - mainArea + (areaDiff / 2), easeOut);
+//                
+//                sizeLeft[i] = ofLerp(sizeLeft[i], subArea, easeOut);
+//            }
+//            
+//        }
+//        else
+//        {
+//            posLeft[i].x = ofLerp(posLeft[i].x, padding, easeIn);
+//            posLeft[i].y = ofLerp(posLeft[i].y, height - padding - mainArea + (areaDiff / 2), easeIn);
+//            
+//            sizeLeft[i] = ofLerp(sizeLeft[i], subArea, easeIn);
+//            
+//            bLeftActive[i] = false;
+//        }
+//        
+//        // update objects position and size // Change sized here maybe JB
+//        lPoints[i].setPosition(posLeft[i]);
+//        lPoints[i].setFromCenter(posLeft[i].x+subArea/2, posLeft[i].y+subArea/2, sizeLeft[i], sizeLeft[i]);
+//        lPoints[i].isSelected = bLeftActive[i];
+//    }
+//    
+//    if (leftClose)
+//    {
+//        for (int i = 0; i < length; i++)
+//        {
+//            sizeLeft[i] = ofLerp(sizeLeft[i], subArea, easeIn);
+//            bLeftActive[i] = false;
+//        }
+//        
+//        leftClose = false;
+//    }
+//    
+//    // right sub menu animations
+//    for (int i = 0; i < length; i++)
+//    {
+//        if (rightOn)
+//        {
+//            float distance = width - padding - subArea - (i  * (subArea + padding) + (padding * 1) + mainArea);
+//            
+//            if (bRightActive[i])
+//            {
+//                posRight[i].x = ofLerp(posRight[i].x, distance, easeOut);
+//                posRight[i].y = ofLerp(posRight[i].y, height - padding - mainArea + (areaDiff / 2), easeOut);
+//                
+//                sizeRight[i] = ofLerp(sizeRight[i], mainArea, easeOut);
+//            }
+//            else
+//            {
+//                posRight[i].x = ofLerp(posRight[i].x, distance, easeOut);
+//                posRight[i].y = ofLerp(posRight[i].y, height - padding - mainArea + (areaDiff / 2), easeOut);
+//                
+//                sizeRight[i] = ofLerp(sizeRight[i], subArea, easeOut);
+//            }
+//        }
+//        else
+//        {
+//            posRight[i].x = ofLerp(posRight[i].x, width - padding - subArea, easeIn);
+//            posRight[i].y = ofLerp(posRight[i].y, height - padding - mainArea + (areaDiff / 2), easeIn);
+//            
+//            sizeRight[i] = ofLerp(sizeRight[i], subArea, easeIn);
+//            
+//            bRightActive[i] = false;
+//        }
+//        
+//        // update objects position and size
+//        rPoints[i].setPosition(posRight[i]);
+//        rPoints[i].setFromCenter(posRight[i].x+subArea/2, posRight[i].y+subArea/2, sizeRight[i], sizeRight[i]);
+//        rPoints[i].isSelected = bRightActive[i];
+//    }
+//    
+//    if (rightClose)
+//    {
+//        for (int i = 0; i < length; i++)
+//        {
+//            sizeRight[i] = ofLerp(sizeRight[i], subArea, easeIn);
+//            bRightActive[i] = false;
+//        }
+//        
+//        rightClose = false;
+//    }
+//    
+//    // Line stuff....
+//    float lineDist = (length-1) * (subArea + padding) + (padding + subArea + padding);
+//    
+//    // left side lines
+//    if (leftOn)
+//    {
+//        lLine.lineLength = ofLerp(lLine.lineLength, lineDist, easeOut);
+//    }
+//    else
+//    {
+//        lLine.lineLength = ofLerp(lLine.lineLength, 0, easeIn);// * 2);
+//    }
+//    
+//    // right side lines
+//    if (rightOn)
+//    {
+//        rLine.lineLength = ofLerp(rLine.lineLength, lineDist, easeOut);
+//    }
+//    else
+//    {
+//        rLine.lineLength = ofLerp(rLine.lineLength, 0, easeIn);// * 2);
+//    }
+//}
 
 //--------------------------------------------------------------
 void InteractiveMenu::drawContentMenu()

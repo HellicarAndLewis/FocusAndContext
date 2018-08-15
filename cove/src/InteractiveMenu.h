@@ -27,7 +27,9 @@ public:
     void drawMenu();
     void drawContentMenu();
     void drawContent();
-    void transform();
+//    void transformPortrait();
+    void transformLandscape();
+
     void onLabelClicked(string & title);
     void activateLeftContent(int index);
     void activateRightContent(int index);
