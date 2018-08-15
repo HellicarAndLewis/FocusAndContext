@@ -14,7 +14,8 @@
 #include "glmGeom.h"
 #include "Globals.h"
 
-#define HS1_ZOOMED_OUT_CAM_DISTANCE 125000
+#define HS1_ZOOMED_OUT_CAM_DISTANCE 125000 // was 270000 for portrait
+#define CROSSRAIL_ZOOMED_OUT_CAM_DISTANCE 30000 // was 60000 for portrait
 
 void ofApp::setup()
 {
@@ -701,7 +702,7 @@ void ofApp::update()
             camTilt = 0;
             
             if (route.activeProject == 0) camDistance = HS1_ZOOMED_OUT_CAM_DISTANCE;
-            else camDistance = 60000;
+            else camDistance = CROSSRAIL_ZOOMED_OUT_CAM_DISTANCE;
         }
         else
         {
@@ -715,7 +716,7 @@ void ofApp::update()
                 camTilt = 0;
                 
                 if (route.activeProject == 0) camDistance = HS1_ZOOMED_OUT_CAM_DISTANCE;
-                else camDistance = 60000;
+                else camDistance = CROSSRAIL_ZOOMED_OUT_CAM_DISTANCE;
             }
             else
             {
