@@ -59,6 +59,7 @@ public:
     
     
     void update() {
+//        cout<<isDraw<<endl;
     }
     
     void drawLandscape() {
@@ -173,6 +174,19 @@ public:
         drawPortrait();
     }
     
+    void debug() {
+        cout<<"title "<<title<<endl;
+        cout<<"lineLength "<<lineLength<<endl;
+        cout<<"color "<<color<<endl;
+        cout<<"alpha "<<alpha<<endl;
+        cout<<"drawType "<<drawType<<endl;
+        cout<<"isMainTile "<<isMainTile<<endl;
+        cout<<"isSelected "<<isSelected<<endl;
+        cout<<"isDraw "<<isDraw<<endl;
+        cout<<"fadeLabel "<<fadeLabel<<endl;
+        
+    }
+    
     virtual void onRollOver(int x, int y) {
     }
     
@@ -189,9 +203,11 @@ public:
     }
     
     virtual void onPress(int x, int y, int button) {
+//        cout<<"Press!"<<endl;
     }
     
     virtual void onRelease(int x, int y, int button) {
+//        cout<<"Release!"<<endl;
     }
     
     virtual void onReleaseOutside(int x, int y, int button) {

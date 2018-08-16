@@ -278,6 +278,9 @@ void InteractiveMenu::setupLeftContent()
             lCon[j][i].title = contentLLabels[j][i];
         }
         
+        lCon[4][0].debug();
+        lCon[3][0].debug();
+        
         // setup vertical line
         lConVLines[j].lineLength = 0;
         lConVLines[j].drawType = 3;
@@ -306,7 +309,6 @@ void InteractiveMenu::setupRightContent()
             posRCon[j][i].set(width - padding - subArea, height - padding - mainArea + (areaDiff / 2));
             cout<<"X: "<<width - padding - subArea<<endl;
             cout<<"Y: "<<height - padding - mainArea + (areaDiff / 2)<<endl;
-
             
             rCon[j][i].set(posRCon[j][i], subArea, subArea);
             rCon[j][i].drawType = 0;
@@ -483,13 +485,24 @@ void InteractiveMenu::transformLeftContent(int index) {
         }
         
         // if objects are in place, the do something...
-        if (bLeftActive[index] && posLCon[index][4].x > posLeft[4].x - easeOut)
-        {
-            bLPlace[index] = true;
+        if(index < 4) {
+            if (bLeftActive[index] && posLCon[index][4].x > posLeft[4].x - easeOut)
+            {
+                bLPlace[index] = true;
+            }
+            else {
+                bLPlace[index] = false;
+            }
+        } else {
+            if (bLeftActive[index] && posLCon[index][0].x < posLeft[0].x + easeOut)
+            {
+                bLPlace[index] = true;
+            }
+            else {
+                bLPlace[index] = false;
+            }
         }
-        else {
-            bLPlace[index] = false;
-        }
+
     }
     else
     {
@@ -546,8 +559,12 @@ void InteractiveMenu::transformLeftContent(int index) {
 }
 
 void InteractiveMenu::transformRightContent(int index) {
-    if(rightOn) {
-        if(bRightActive[index] && otherRightHLinesAreInactive(index)) {
+    // if left side menu is active
+    if (rightOn)
+    {
+        // if content item #3 is active
+        if (bRightActive[index] && otherRightHLinesAreInactive(index))
+        {
             for (int i = 0; i < BUTTON_AMT; i++)
             {
                 posRCon[index][i].y = ofLerp(posRCon[index][i].y, contentHeight, easeOut);
@@ -560,7 +577,6 @@ void InteractiveMenu::transformRightContent(int index) {
             
             rConVLines[index].lineLength = ofLerp(rConVLines[index].lineLength, mainArea, easeOut);
             
-            //Check magic numbers here!
             if (posRCon[index][0].y < posRight[index].y)
             {
                 if (!bRLineH[index]) bRLineH[index] = true;
@@ -572,12 +588,12 @@ void InteractiveMenu::transformRightContent(int index) {
                 rConHLines[index].lineLength = ofLerp(rConHLines[index].lineLength, l, easeOut);
             }
         }
-        else if (!bRLineH[0] && !bRLineH[1] && !bRLineH[2] && !bRLineH[3] && !bRLineH[4])
+        else if (!bLLineH[0] && !bLLineH[1] && !bLLineH[2] && !bLLineH[3] && !bLLineH[4])
         {
-            float distance = index * (subArea + padding) + (padding * 2) + mainArea;
+            float distance = width - padding - subArea - (index  * (subArea + padding) + padding + mainArea);
             float dest = distance + easeIn;
             
-            // if content item #index is not active
+            // if content item #3 is not active
             for (int i = 0; i < BUTTON_AMT; i++)
             {
                 posRCon[index][i].x = ofLerp(posRCon[index][i].x, distance, easeIn);
@@ -587,7 +603,6 @@ void InteractiveMenu::transformRightContent(int index) {
                     posRCon[index][i].y = ofLerp(posRCon[index][i].y, posRight[i].y, easeIn);
                     rConVLines[index].lineLength = ofLerp(rConVLines[index].lineLength, 0, easeIn * 2);
                     
-                    // Note magic numbers again
                     if (posRCon[index][4].y >= posRight[index].y - easeIn)
                     {
                         if (bRLineH[index]) bRLineH[index] = false;
@@ -599,22 +614,32 @@ void InteractiveMenu::transformRightContent(int index) {
         }
         
         // if objects are in place, the do something...
-        if (bRightActive[index] && posRCon[index][4].x > posRight[4].x - easeOut)
-        {
-            bRPlace[index] = true;
-        }
-        else {
-            bRPlace[index] = false;
+        if(index > 0) {
+            if (bRightActive[index] && posRCon[index][0].x > posRight[0].x - easeOut)
+            {
+                bRPlace[index] = true;
+            }
+            else {
+                bRPlace[index] = false;
+            }
+        } else {
+            if (bRightActive[index] && posRCon[index][4].x < posRight[4].x + easeOut)
+            {
+                bRPlace[index] = true;
+            }
+            else {
+                bRPlace[index] = false;
+            }
         }
     }
     else
     {
-        if (posRCon[index][4].y < posRight[0].y - easeIn)
+        if (posRCon[index][4].y < posRight[index].y - easeIn)
         {
-            float distance = index * (subArea + padding) + (padding * 2) + mainArea;
+            float distance = width - padding - subArea - (index  * (subArea + padding) + padding + mainArea);
             float dest = distance + easeIn;
             
-            // if content item #index is not active
+            // if content item #0 is not active
             for (int i = 0; i < BUTTON_AMT; i++)
             {
                 posRCon[index][i].x = ofLerp(posRCon[index][i].x, distance, easeIn);
@@ -633,7 +658,7 @@ void InteractiveMenu::transformRightContent(int index) {
             // returns content item #index pos to default
             for (int i = 0; i < BUTTON_AMT; i++)
             {
-                posRCon[index][i].x = ofLerp(posRCon[index][i].x, padding, easeIn);
+                posRCon[index][i].x = ofLerp(posRCon[index][i].x, width - padding - subArea, easeIn);
             }
         }
     }
@@ -654,11 +679,16 @@ void InteractiveMenu::transformRightContent(int index) {
         rCon[index][i].setFromCenter(posRCon[index][i].x+subArea/2, posRCon[index][i].y+subArea/2, sizeRCon[index][i], sizeRCon[index][i]);
     }
     
-    // content item #index vertical line
+    // content item #1 vertical line
     rConVLines[index].setPosition(posRCon[index][index].x + subArea/2, posRight[index].y);
     
     // horizontal line
-    rConHLines[index].setPosition(posRCon[index][index].x + rConHLines[index].lineLength * 0.25 * index, posRCon[index][index].y + subArea/2);
+    if(index == 0) {
+        rConHLines[index].setPosition(posRCon[index][index].x + rConHLines[index].lineLength * 0.25 * index, posRCon[index][0].y + subArea/2); // note this is ugly
+    } else {
+        rConHLines[index].setPosition(posRCon[index][index].x + rConHLines[index].lineLength * 0.25 * index, posRCon[index][1].y + subArea/2); // note this is ugly
+    }
+
 }
 
 //--------------------------------------------------------------
@@ -788,7 +818,6 @@ void InteractiveMenu::transformPortrait()
             if (bLeftActive[i])
             {
                 float distance = i * (subArea + padding) + (padding * 2) + mainArea;
-                cout<<"posLeft: "<<posLeft[i]<<endl;
                 posLeft[i].x = ofLerp(posLeft[i].x, distance, easeOut);
                 posLeft[i].y = ofLerp(posLeft[i].y, height - padding - mainArea + (areaDiff / 2), easeOut);
                 
@@ -1107,9 +1136,24 @@ void InteractiveMenu::pressedContent()
     // ------------------------------------
     // left content menu item selection
     // ------------------------------------
+//    cout<<3<<","<<0<<": "<<"IsMousePressed: "<<lCon[3][0].isMousePressed()<<endl;
+//    cout<<3<<","<<0<<": "<<"blPlace (only i index): "<<bLPlace[3]<<endl;
+    if(lCon[3][0].isMousePressed() && !bLPlace[3]) {
+        cout<<"MousePressed [3][0] and bLPlace[3] inactive!"<<endl;
+    }
+//    cout<<3<<","<<0<<": "<<"!lCon[i][j].isSelected: "<<!lCon[3][0].isSelected<<endl;
+//    cout<<4<<","<<0<<": "<<"IsMousePressed: "<<lCon[4][0].isMousePressed()<<endl;
+//    cout<<4<<","<<0<<": "<<"blPlace (only i index): "<<bLPlace[4]<<endl;
+    if(lCon[4][0].isMousePressed() && !bLPlace[4]) {
+        cout<<"MousePressed [4][0] and bLPlace[4] inactive!"<<endl;
+    }
+//    cout<<4<<","<<0<<": "<<"!lCon[i][j].isSelected: "<<!lCon[4][0].isSelected<<endl;
     for(int i = 0; i < BUTTON_AMT; i++) {
         bool contentActivated = false;
         for(int j = 0; j < BUTTON_AMT; j++) {
+
+//            cout<<i<<","<<j<<": "<<"enabled: "<<lCon[i][j].enabled<<endl;
+//            lCon[i][j].isMousePressed()
             if(lCon[i][j].isMousePressed() && bLPlace[i] && !lCon[i][j].isSelected) {
                 activateLeftContent(i, j);
                 contentActivated = true;
