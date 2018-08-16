@@ -278,9 +278,6 @@ void InteractiveMenu::setupLeftContent()
             lCon[j][i].title = contentLLabels[j][i];
         }
         
-        lCon[4][0].debug();
-        lCon[3][0].debug();
-        
         // setup vertical line
         lConVLines[j].lineLength = 0;
         lConVLines[j].drawType = 3;
@@ -461,31 +458,51 @@ void InteractiveMenu::transformLeftContent(int index) {
         else if (!bRLineH[0] && !bRLineH[1] && !bRLineH[2] && !bRLineH[3] && !bRLineH[4])
         {
             float distance = index * (subArea + padding) + (padding * 2) + mainArea;
-            float dest = distance + easeIn;
+            float dest;
+            if(index != 4) {
+                dest = distance + easeIn;
+            } else {
+                dest = distance - easeIn;
+            }
             
             // if content item #0 is not active
             for (int i = 0; i < BUTTON_AMT; i++)
             {
                 posLCon[index][i].x = ofLerp(posLCon[index][i].x, distance, easeIn);
                 
-                if (posLCon[index][0].x <= dest && posLCon[index][1].x <= dest && posLCon[index][2].x <= dest && posLCon[index][3].x <= dest && posLCon[index][4].x <= dest)
-                {
-                    posLCon[index][i].y = ofLerp(posLCon[index][i].y, posLeft[i].y, easeIn);
-                    lConVLines[index].lineLength = ofLerp(lConVLines[index].lineLength, 0, easeIn * 2);
-                    
-                    // Note magic numbers again
-                    if (posLCon[index][4].y >= posLeft[index].y - easeIn)
+                if(index != 4) {
+                    if (posLCon[index][0].x <= dest && posLCon[index][1].x <= dest && posLCon[index][2].x <= dest && posLCon[index][3].x <= dest && posLCon[index][4].x <= dest)
                     {
-                        if (bLLineH[index]) bLLineH[index] = false;
+                        posLCon[index][i].y = ofLerp(posLCon[index][i].y, posLeft[i].y, easeIn);
+                        lConVLines[index].lineLength = ofLerp(lConVLines[index].lineLength, 0, easeIn * 2);
+                        
+                        // Note magic numbers again
+                        if (posLCon[index][4].y >= posLeft[index].y - easeIn)
+                        {
+                            if (bLLineH[index]) bLLineH[index] = false;
+                        }
+                    }
+                } else {
+                    if (posLCon[index][0].x >= dest && posLCon[index][1].x >= dest && posLCon[index][2].x >= dest && posLCon[index][3].x >= dest && posLCon[index][4].x >= dest)
+                    {
+                        posLCon[index][i].y = ofLerp(posLCon[index][i].y, posLeft[i].y, easeIn);
+                        lConVLines[index].lineLength = ofLerp(lConVLines[index].lineLength, 0, easeIn * 2);
+                        
+                        // Note magic numbers again
+                        if (posLCon[index][4].y >= posLeft[index].y - easeIn)
+                        {
+                            if (bLLineH[index]) bLLineH[index] = false;
+                        }
                     }
                 }
+
             }
             
             lConHLines[index].lineLength = ofLerp(lConHLines[index].lineLength, 0, easeIn);
         }
         
-        // if objects are in place, the do something...
-        if(index < 4) {
+        // if objects are in place, then do something...
+        if(index != 4) {
             if (bLeftActive[index] && posLCon[index][4].x > posLeft[4].x - easeOut)
             {
                 bLPlace[index] = true;
@@ -509,17 +526,31 @@ void InteractiveMenu::transformLeftContent(int index) {
         if (posLCon[index][4].y < posLeft[0].y - easeIn)
         {
             float distance = index * (subArea + padding) + (padding * 2) + mainArea;
-            float dest = distance + easeIn;
-            
+;
+            float dest;
+            if(index != 4) {
+                dest = distance + easeIn;
+            } else {
+                dest = distance - easeIn;
+            }
+
             // if content item #index is not active
             for (int i = 0; i < BUTTON_AMT; i++)
             {
                 posLCon[index][i].x = ofLerp(posLCon[index][i].x, distance, easeIn);
                 
-                if (posLCon[index][0].x <= dest && posLCon[index][1].x <= dest && posLCon[index][2].x <= dest && posLCon[index][3].x <= dest && posLCon[index][4].x <= dest)
-                {
-                    posLCon[index][i].y = ofLerp(posLCon[index][i].y, posLeft[i].y, easeIn);
-                    lConVLines[index].lineLength = ofLerp(lConVLines[index].lineLength, 0, easeIn * 2);
+                if(index != 4) {
+                    if (posLCon[index][0].x <= dest && posLCon[index][1].x <= dest && posLCon[index][2].x <= dest && posLCon[index][3].x <= dest && posLCon[index][4].x <= dest)
+                    {
+                        posLCon[index][i].y = ofLerp(posLCon[index][i].y, posLeft[i].y, easeIn);
+                        lConVLines[index].lineLength = ofLerp(lConVLines[index].lineLength, 0, easeIn * 2);
+                    }
+                } else {
+                    if (posLCon[index][0].x >= dest && posLCon[index][1].x >= dest && posLCon[index][2].x >= dest && posLCon[index][3].x >= dest && posLCon[index][4].x >= dest)
+                    {
+                        posLCon[index][i].y = ofLerp(posLCon[index][i].y, posLeft[i].y, easeIn);
+                        lConVLines[index].lineLength = ofLerp(lConVLines[index].lineLength, 0, easeIn * 2);
+                    }
                 }
             }
             
@@ -562,7 +593,7 @@ void InteractiveMenu::transformRightContent(int index) {
     // if left side menu is active
     if (rightOn)
     {
-        // if content item #3 is active
+        // if content item #index is active
         if (bRightActive[index] && otherRightHLinesAreInactive(index))
         {
             for (int i = 0; i < BUTTON_AMT; i++)
@@ -591,30 +622,49 @@ void InteractiveMenu::transformRightContent(int index) {
         else if (!bLLineH[0] && !bLLineH[1] && !bLLineH[2] && !bLLineH[3] && !bLLineH[4])
         {
             float distance = width - padding - subArea - (index  * (subArea + padding) + padding + mainArea);
-            float dest = distance + easeIn;
+            float dest;
+            if(index != 0) {
+                dest = distance + easeIn;
+            } else {
+                dest = distance - easeIn;
+            }
             
             // if content item #3 is not active
             for (int i = 0; i < BUTTON_AMT; i++)
             {
                 posRCon[index][i].x = ofLerp(posRCon[index][i].x, distance, easeIn);
                 
-                if (posRCon[index][0].x <= dest && posRCon[index][1].x <= dest && posRCon[index][2].x <= dest && posRCon[index][3].x <= dest && posRCon[index][4].x <= dest)
-                {
-                    posRCon[index][i].y = ofLerp(posRCon[index][i].y, posRight[i].y, easeIn);
-                    rConVLines[index].lineLength = ofLerp(rConVLines[index].lineLength, 0, easeIn * 2);
-                    
-                    if (posRCon[index][4].y >= posRight[index].y - easeIn)
+                if(index != 0) {
+                    if (posRCon[index][0].x <= dest && posRCon[index][1].x <= dest && posRCon[index][2].x <= dest && posRCon[index][3].x <= dest && posRCon[index][4].x <= dest)
                     {
-                        if (bRLineH[index]) bRLineH[index] = false;
+                        posRCon[index][i].y = ofLerp(posRCon[index][i].y, posRight[i].y, easeIn);
+                        rConVLines[index].lineLength = ofLerp(rConVLines[index].lineLength, 0, easeIn * 2);
+                        
+                        if (posRCon[index][4].y >= posRight[index].y - easeIn)
+                        {
+                            if (bRLineH[index]) bRLineH[index] = false;
+                        }
+                    }
+                } else {
+                    if (posRCon[index][0].x >= dest && posRCon[index][1].x >= dest && posRCon[index][2].x >= dest && posRCon[index][3].x >= dest && posRCon[index][4].x >= dest)
+                    {
+                        posRCon[index][i].y = ofLerp(posRCon[index][i].y, posRight[i].y, easeIn);
+                        rConVLines[index].lineLength = ofLerp(rConVLines[index].lineLength, 0, easeIn * 2);
+                        
+                        if (posRCon[index][4].y >= posRight[index].y - easeIn)
+                        {
+                            if (bRLineH[index]) bRLineH[index] = false;
+                        }
                     }
                 }
+
             }
             
             rConHLines[index].lineLength = ofLerp(rConHLines[index].lineLength, 0, easeIn);
         }
         
         // if objects are in place, the do something...
-        if(index > 0) {
+        if(index != 0) {
             if (bRightActive[index] && posRCon[index][0].x > posRight[0].x - easeOut)
             {
                 bRPlace[index] = true;
@@ -637,18 +687,32 @@ void InteractiveMenu::transformRightContent(int index) {
         if (posRCon[index][4].y < posRight[index].y - easeIn)
         {
             float distance = width - padding - subArea - (index  * (subArea + padding) + padding + mainArea);
-            float dest = distance + easeIn;
+            float dest;
+            if(index != 0) {
+                dest = distance + easeIn;
+            } else {
+                dest = distance - easeIn;
+            }
             
             // if content item #0 is not active
             for (int i = 0; i < BUTTON_AMT; i++)
             {
                 posRCon[index][i].x = ofLerp(posRCon[index][i].x, distance, easeIn);
                 
-                if (posRCon[index][0].x <= dest && posRCon[index][1].x <= dest && posRCon[index][2].x <= dest && posRCon[index][3].x <= dest && posRCon[index][4].x <= dest)
-                {
-                    posRCon[index][i].y = ofLerp(posRCon[index][i].y, posRight[i].y, easeIn);
-                    rConVLines[index].lineLength = ofLerp(rConVLines[index].lineLength, 0, easeIn * 2);
+                if(index != 0) {
+                    if (posRCon[index][0].x <= dest && posRCon[index][1].x <= dest && posRCon[index][2].x <= dest && posRCon[index][3].x <= dest && posRCon[index][4].x <= dest)
+                    {
+                        posRCon[index][i].y = ofLerp(posRCon[index][i].y, posRight[i].y, easeIn);
+                        rConVLines[index].lineLength = ofLerp(rConVLines[index].lineLength, 0, easeIn * 2);
+                    }
+                } else {
+                    if (posRCon[index][0].x >= dest && posRCon[index][1].x >= dest && posRCon[index][2].x >= dest && posRCon[index][3].x >= dest && posRCon[index][4].x >= dest)
+                    {
+                        posRCon[index][i].y = ofLerp(posRCon[index][i].y, posRight[i].y, easeIn);
+                        rConVLines[index].lineLength = ofLerp(rConVLines[index].lineLength, 0, easeIn * 2);
+                    }
                 }
+
             }
             
             rConHLines[index].lineLength = ofLerp(rConHLines[index].lineLength, 0, easeIn);
@@ -1136,18 +1200,6 @@ void InteractiveMenu::pressedContent()
     // ------------------------------------
     // left content menu item selection
     // ------------------------------------
-//    cout<<3<<","<<0<<": "<<"IsMousePressed: "<<lCon[3][0].isMousePressed()<<endl;
-//    cout<<3<<","<<0<<": "<<"blPlace (only i index): "<<bLPlace[3]<<endl;
-    if(lCon[3][0].isMousePressed() && !bLPlace[3]) {
-        cout<<"MousePressed [3][0] and bLPlace[3] inactive!"<<endl;
-    }
-//    cout<<3<<","<<0<<": "<<"!lCon[i][j].isSelected: "<<!lCon[3][0].isSelected<<endl;
-//    cout<<4<<","<<0<<": "<<"IsMousePressed: "<<lCon[4][0].isMousePressed()<<endl;
-//    cout<<4<<","<<0<<": "<<"blPlace (only i index): "<<bLPlace[4]<<endl;
-    if(lCon[4][0].isMousePressed() && !bLPlace[4]) {
-        cout<<"MousePressed [4][0] and bLPlace[4] inactive!"<<endl;
-    }
-//    cout<<4<<","<<0<<": "<<"!lCon[i][j].isSelected: "<<!lCon[4][0].isSelected<<endl;
     for(int i = 0; i < BUTTON_AMT; i++) {
         bool contentActivated = false;
         for(int j = 0; j < BUTTON_AMT; j++) {
