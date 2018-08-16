@@ -824,9 +824,6 @@ void ofApp::update()
     // pass along which mode we're in to global variable
     Globals::programType = bCove;
     Globals::project = route.activeProject;
-
-    
-    //cout<<scroller.getValue()<<endl;
 }
 
 void ofApp::menuSetup(int _w, int _h)

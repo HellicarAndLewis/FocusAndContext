@@ -114,7 +114,10 @@ public:
                     ofSetLineWidth(3);
                     // menu line color
                     ofSetColor(255, 130, 0);
-                    ofDrawLine(x, y+height/2, x, y+height/2-lineLength);
+                    ofDrawLine(x, y+height/2, x + lineLength, y+height/2);
+//                    ofSetColor(255, 0, 0);
+//                    ofDrawSphere(x, y+height/2, 500);
+//                    ofDrawSphere(x + lineLength, y+height/2, 500);
                     break;
             }
         }
@@ -159,7 +162,7 @@ public:
                     break;
                     
                 case 3:
-                    // vertical content menu line
+                    // horizontal content menu line
                     // line thickness
                     ofSetLineWidth(3);
                     // menu line color
@@ -171,7 +174,7 @@ public:
     }
     
     void draw() {
-        drawPortrait();
+        drawLandscape();
     }
     
     void debug() {
