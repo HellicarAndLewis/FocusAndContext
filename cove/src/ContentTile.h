@@ -15,7 +15,7 @@ public:
     void onPress(int x, int y, int button) {
         
     }
-}
+};
 
 
 #endif /* ContentTile_h */
