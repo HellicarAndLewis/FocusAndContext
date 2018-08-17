@@ -79,239 +79,239 @@ void Content::setup()
 
 //--------------------------------------------------------------
 void Content::fileLocation() {
-    //Initialize hs1 content
-    hs1Displayers["StPancras"] = vector<ContentDisplayer*>();
-    hs1Displayers["StratfordInternational"] = vector<ContentDisplayer*>();
-    hs1Displayers["EbbsfleetInternational"] = vector<ContentDisplayer*>();
-    hs1Displayers["MedwayViaduct"] = vector<ContentDisplayer*>();
-    hs1Displayers["AshfordInternational"] = vector<ContentDisplayer*>();
-    
-    //initialize crossrail content
-    crossrailDisplayers["Soho"] = vector<ContentDisplayer*>();
-    crossrailDisplayers["TottenhamCourtRoad"] = vector<ContentDisplayer*>();
-    crossrailDisplayers["Barbican"] = vector<ContentDisplayer*>();
-    crossrailDisplayers["LiverpoolStreet"] = vector<ContentDisplayer*>();
-    crossrailDisplayers["CanaryWharf"] = vector<ContentDisplayer*>();
-    
-    //Load HS1 Content w/ new displayers
-    int locationNameIndex = 7;
-    int storyIndex = 8; // This is the file with all the info about each content piece
-    int contentComponentIndex = 9; // This is where the component is, ie backgorund, notes, title or content
-    int contentFileIndex = 10; // This is the actual content file
-    auto currentProjectDisplayers = &hs1Displayers;
-    
-    //Pre-load POI audio with placeholders
-    for(int i = 0; i < 5; i++) {
-        introSoundPaths[0][i] = "content/Google Drive/Arup/Research/Content/Placeholder/no_audio.wav";
-        introSoundPaths[1][i] = "content/Google Drive/Arup/Research/Content/Placeholder/no_audio.wav";
-    }
-    
-    ofxNestedFileLoader loader;
-    vector<string> currentPaths = loader.load("content/Google Drive/Arup/Research/Content/HS1/Location");
-    for(int i = 0; i < currentPaths.size(); i++) {
-        vector<string> splitString = ofSplitString(currentPaths[i], "/");
-        if(splitString[splitString.size()-1] == "Icon\r") {
-            // Ignore all icon files
-        } else if(splitString[storyIndex] == "IntroAudio" || splitString[storyIndex] == "MenuButton" || splitString[contentComponentIndex] == "Notes") {
-            //Ignore our notes and folders that should be loaded elsewhere
-            if(splitString[storyIndex] == "IntroAudio") {
-                string locationName = splitString[locationNameIndex];
-                int locationIndex = locationsDictionary[0].at(locationName);
-                introSoundPaths[0][locationIndex] = currentPaths[i];
-            }
-        } else {
-            string contentPath = splitString[contentFileIndex];
-            string locationName = splitString[locationNameIndex];
-            vector<string> contentPathSplit = ofSplitString(contentPath, ".");
-            string fileType = contentPathSplit[1];
-            if(splitString[contentComponentIndex] == "Content") {
-                if(fileType == "png" || fileType == "jpg") {
-                    //We've got an image!
-                    ImageDisplayer* displayer = new ImageDisplayer();
-                    displayer->setImage(currentPaths[i]);
-                    displayer->setBackgroundImage(&backgroundImage169);
-                    displayer->setContentLocation(currentPaths[i]);
-                    displayer->setPlayhead(&playhead);
-                    displayer->setTitleFont(&titleFont);
-                    displayer->setTextFont(&textFont);
-                    displayer->setSourceFont(&sourceFont);
-                    (*currentProjectDisplayers)[locationName].push_back(displayer);
-                } else if(fileType == "wav") {
-                    //We've got an audio file!
-                    AudioDisplayer* displayer = new AudioDisplayer();
-                    displayer->setAudio(currentPaths[i]);
-                    displayer->setBackgroundImage(&backgroundImageAudio);
-                    displayer->setContentLocation(currentPaths[i]);
-                    displayer->setPlayhead(&playhead);
-                    displayer->setTitleFont(&titleFont);
-                    displayer->setTextFont(&textFont);
-                    displayer->setSourceFont(&sourceFont);
-                    (*currentProjectDisplayers)[locationName].push_back(displayer);
-                } else if(fileType == "mp4" || fileType == "mov") {
-                    //We've got a video!
-                    VideoDisplayer* displayer = new VideoDisplayer();
-                    displayer->setVideo(currentPaths[i]);
-                    if(displayer->getVideo()->getHeight() == 742) {
-                        displayer->setBackgroundImage(&backgroundImage65);
-                    } else if(displayer->getVideo()->getHeight() == 726) {
-                        displayer->setBackgroundImage(&backgroundImage43);
-                    } else {
-                        displayer->setBackgroundImage(&backgroundImage169);
-                    }
-                    displayer->setContentLocation(currentPaths[i]);
-                    displayer->setPlayhead(&playhead);
-                    displayer->setTitleFont(&titleFont);
-                    displayer->setTextFont(&textFont);
-                    displayer->setSourceFont(&sourceFont);
-
-                    (*currentProjectDisplayers)[locationName].push_back(displayer);
-                } else if(fileType == "fbx") {
-                    //We've got a model!
-                    ModelDisplayer* displayer = new ModelDisplayer();
-                    displayer->setScene(currentPaths[i]);
-                    displayer->setBackgroundImage(&backgroundImage169);
-                    displayer->setContentLocation(currentPaths[i]);
-                    displayer->setPlayhead(&playhead);
-                    displayer->setCamera(&cam);
-                    displayer->setLight(&light);
-                    displayer->setTitleFont(&titleFont);
-                    displayer->setTextFont(&textFont);
-                    displayer->setSourceFont(&sourceFont);
-                    displayer->setTextImage(&spinMeImage);
-                    (*currentProjectDisplayers)[locationName].push_back(displayer);
-                } else {
-                    //SOME USELESS FILE, IGNORE IT!
-                }
-            } else if(splitString[contentComponentIndex] == "Title") {
-                ofxXmlSettings displayableText;
-                displayableText.load(currentPaths[i]);
-                string titleText = displayableText.getValue("Title", "Title");
-                string infoText = displayableText.getValue("Text", "Info Text");
-                string sourceText = displayableText.getValue("Source", "Source");
-                float cutoffPercent = displayableText.getValue("Cutoff", 0.5);
-
-//                ofImage* image = new ofImage();
-//                image->load(currentPaths[i]);
-                if((*currentProjectDisplayers)[locationName].size() > 0) {
-                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setTitle(titleText);
-                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setText(infoText);
-                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setSource("Source: " + sourceText);
-                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setTextCutoffPercent(cutoffPercent);
-                }
-            }
-        }
-    }
-
-    currentProjectDisplayers = &crossrailDisplayers;
-    currentPaths.clear();
-    loader.clearPaths();
-
-    //load Crossrail content w/ new displayers
-    currentPaths = loader.load("content/Google Drive/Arup/Research/Content/Crossrail/Location");
-    for(int i = 0; i < currentPaths.size(); i++) {
-        vector<string> splitString = ofSplitString(currentPaths[i], "/");
-        if(splitString[splitString.size()-1] == "Icon\r") {
-            // Ignore all icon files
-        } else if(splitString[storyIndex] == "IntroAudio" || splitString[storyIndex] == "MenuButton" || splitString[contentComponentIndex] == "Notes") {
-            //Ignore our notes and folders that should be loaded elsewhere
-            if(splitString[storyIndex] == "IntroAudio") {
-                string locationName = splitString[locationNameIndex];
-                int locationIndex = locationsDictionary[1].at(locationName);
-                introSoundPaths[1][locationIndex] = currentPaths[i];
-            }
-        } else {
-            string contentPath = splitString[contentFileIndex];
-            string locationName = splitString[locationNameIndex];
-            vector<string> contentPathSplit = ofSplitString(contentPath, ".");
-            string fileType = contentPathSplit[1];
-            if(splitString[contentComponentIndex] == "Content") {
-                if(fileType == "png" || fileType == "jpg") {
-                    //We've got an image!
-                    ImageDisplayer* displayer = new ImageDisplayer();
-                    displayer->setImage(currentPaths[i]);
-                    displayer->setBackgroundImage(&backgroundImage169);
-                    displayer->setContentLocation(currentPaths[i]);
-                    displayer->setPlayhead(&playhead);
-                    displayer->setTitleFont(&titleFont);
-                    displayer->setTextFont(&textFont);
-                    displayer->setSourceFont(&sourceFont);
-                    (*currentProjectDisplayers)[locationName].push_back(displayer);
-                } else if(fileType == "wav") {
-                    //We've got an audio file!
-                    AudioDisplayer* displayer = new AudioDisplayer();
-                    displayer->setAudio(currentPaths[i]);
-                    displayer->setBackgroundImage(&backgroundImageAudio);
-                    displayer->setContentLocation(currentPaths[i]);
-                    displayer->setPlayhead(&playhead);
-                    displayer->setTitleFont(&titleFont);
-                    displayer->setTextFont(&textFont);
-                    displayer->setSourceFont(&sourceFont);
-                    (*currentProjectDisplayers)[locationName].push_back(displayer);
-                } else if(fileType == "mp4" || fileType == "mov") {
-                    //We've got a video!
-                    VideoDisplayer* displayer = new VideoDisplayer();
-                    displayer->setVideo(currentPaths[i]);
-                    if(displayer->getVideo()->getHeight() == 742) {
-                        displayer->setBackgroundImage(&backgroundImage65);
-                    } else if(displayer->getVideo()->getHeight() == 726) {
-                        displayer->setBackgroundImage(&backgroundImage43);
-                    } else {
-                        displayer->setBackgroundImage(&backgroundImage169);
-                    }
-                    displayer->setContentLocation(currentPaths[i]);
-                    displayer->setPlayhead(&playhead);
-                    displayer->setTitleFont(&titleFont);
-                    displayer->setTextFont(&textFont);
-                    displayer->setSourceFont(&sourceFont);
-                    (*currentProjectDisplayers)[locationName].push_back(displayer);
-                } else if(fileType == "fbx") {
-                    //We've got a model!
-                    ModelDisplayer* displayer = new ModelDisplayer();
-                    displayer->setScene(currentPaths[i]);
-                    displayer->setBackgroundImage(&backgroundImage169);
-                    displayer->setContentLocation(currentPaths[i]);
-                    displayer->setPlayhead(&playhead);
-                    displayer->setCamera(&cam);
-                    displayer->setLight(&light);
-                    displayer->setTitleFont(&titleFont);
-                    displayer->setTextFont(&textFont);
-                    displayer->setSourceFont(&sourceFont);
-                    displayer->setTextImage(&spinMeImage);
-                    (*currentProjectDisplayers)[locationName].push_back(displayer);
-                } else {
-                    //SOMETHING'S GONE WRONG!
-                }
-            } else if(splitString[contentComponentIndex] == "Title") {
-                ofxXmlSettings displayableText;
-                displayableText.load(currentPaths[i]);
-                string titleText = displayableText.getValue("Title", "Title");
-                string infoText = displayableText.getValue("Text", "Info Text");
-                string sourceText = displayableText.getValue("Source", "Source");
-                float cutoffPercent = displayableText.getValue("Cutoff", 0.5);
-
-                //                ofImage* image = new ofImage();
-                //                image->load(currentPaths[i]);
-                if((*currentProjectDisplayers)[locationName].size() > 0) {
-                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setTitle(titleText);
-                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setText(infoText);
-                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setSource("Source: " + sourceText);
-                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setTextCutoffPercent(cutoffPercent);
-                }
-            }
-        }
-    }
-
-    //pre-load all POI intro sounds
-    bool loaded = introSounds[0][0].load(introSoundPaths[0][0]);
-    introSounds[0][1].load(introSoundPaths[0][1]);
-    introSounds[0][2].load(introSoundPaths[0][2]);
-    introSounds[0][3].load(introSoundPaths[0][3]);
-    introSounds[0][4].load(introSoundPaths[0][4]);
-    introSounds[1][0].load(introSoundPaths[1][0]);
-    introSounds[1][1].load(introSoundPaths[1][1]);
-    introSounds[1][2].load(introSoundPaths[1][2]);
-    introSounds[1][3].load(introSoundPaths[1][3]);
-    introSounds[1][4].load(introSoundPaths[1][4]);
+//    //Initialize hs1 content
+//    hs1Displayers["StPancras"] = vector<ContentDisplayer*>();
+//    hs1Displayers["StratfordInternational"] = vector<ContentDisplayer*>();
+//    hs1Displayers["EbbsfleetInternational"] = vector<ContentDisplayer*>();
+//    hs1Displayers["MedwayViaduct"] = vector<ContentDisplayer*>();
+//    hs1Displayers["AshfordInternational"] = vector<ContentDisplayer*>();
+//
+//    //initialize crossrail content
+//    crossrailDisplayers["Soho"] = vector<ContentDisplayer*>();
+//    crossrailDisplayers["TottenhamCourtRoad"] = vector<ContentDisplayer*>();
+//    crossrailDisplayers["Barbican"] = vector<ContentDisplayer*>();
+//    crossrailDisplayers["LiverpoolStreet"] = vector<ContentDisplayer*>();
+//    crossrailDisplayers["CanaryWharf"] = vector<ContentDisplayer*>();
+//
+//    //Load HS1 Content w/ new displayers
+//    int locationNameIndex = 7;
+//    int storyIndex = 8; // This is the file with all the info about each content piece
+//    int contentComponentIndex = 9; // This is where the component is, ie backgorund, notes, title or content
+//    int contentFileIndex = 10; // This is the actual content file
+//    auto currentProjectDisplayers = &hs1Displayers;
+//
+//    //Pre-load POI audio with placeholders
+//    for(int i = 0; i < 5; i++) {
+//        introSoundPaths[0][i] = "content/Google Drive/Arup/Research/Content/Placeholder/no_audio.wav";
+//        introSoundPaths[1][i] = "content/Google Drive/Arup/Research/Content/Placeholder/no_audio.wav";
+//    }
+//
+//    ofxNestedFileLoader loader;
+//    vector<string> currentPaths = loader.load("content/Google Drive/Arup/Research/Content/HS1/Location");
+//    for(int i = 0; i < currentPaths.size(); i++) {
+//        vector<string> splitString = ofSplitString(currentPaths[i], "/");
+//        if(splitString[splitString.size()-1] == "Icon\r") {
+//            // Ignore all icon files
+//        } else if(splitString[storyIndex] == "IntroAudio" || splitString[storyIndex] == "MenuButton" || splitString[contentComponentIndex] == "Notes") {
+//            //Ignore our notes and folders that should be loaded elsewhere
+//            if(splitString[storyIndex] == "IntroAudio") {
+//                string locationName = splitString[locationNameIndex];
+//                int locationIndex = locationsDictionary[0].at(locationName);
+//                introSoundPaths[0][locationIndex] = currentPaths[i];
+//            }
+//        } else {
+//            string contentPath = splitString[contentFileIndex];
+//            string locationName = splitString[locationNameIndex];
+//            vector<string> contentPathSplit = ofSplitString(contentPath, ".");
+//            string fileType = contentPathSplit[1];
+//            if(splitString[contentComponentIndex] == "Content") {
+//                if(fileType == "png" || fileType == "jpg") {
+//                    //We've got an image!
+//                    ImageDisplayer* displayer = new ImageDisplayer();
+//                    displayer->setImage(currentPaths[i]);
+//                    displayer->setBackgroundImage(&backgroundImage169);
+//                    displayer->setContentLocation(currentPaths[i]);
+//                    displayer->setPlayhead(&playhead);
+//                    displayer->setTitleFont(&titleFont);
+//                    displayer->setTextFont(&textFont);
+//                    displayer->setSourceFont(&sourceFont);
+//                    (*currentProjectDisplayers)[locationName].push_back(displayer);
+//                } else if(fileType == "wav") {
+//                    //We've got an audio file!
+//                    AudioDisplayer* displayer = new AudioDisplayer();
+//                    displayer->setAudio(currentPaths[i]);
+//                    displayer->setBackgroundImage(&backgroundImageAudio);
+//                    displayer->setContentLocation(currentPaths[i]);
+//                    displayer->setPlayhead(&playhead);
+//                    displayer->setTitleFont(&titleFont);
+//                    displayer->setTextFont(&textFont);
+//                    displayer->setSourceFont(&sourceFont);
+//                    (*currentProjectDisplayers)[locationName].push_back(displayer);
+//                } else if(fileType == "mp4" || fileType == "mov") {
+//                    //We've got a video!
+//                    VideoDisplayer* displayer = new VideoDisplayer();
+//                    displayer->setVideo(currentPaths[i]);
+//                    if(displayer->getVideo()->getHeight() == 742) {
+//                        displayer->setBackgroundImage(&backgroundImage65);
+//                    } else if(displayer->getVideo()->getHeight() == 726) {
+//                        displayer->setBackgroundImage(&backgroundImage43);
+//                    } else {
+//                        displayer->setBackgroundImage(&backgroundImage169);
+//                    }
+//                    displayer->setContentLocation(currentPaths[i]);
+//                    displayer->setPlayhead(&playhead);
+//                    displayer->setTitleFont(&titleFont);
+//                    displayer->setTextFont(&textFont);
+//                    displayer->setSourceFont(&sourceFont);
+//
+//                    (*currentProjectDisplayers)[locationName].push_back(displayer);
+//                } else if(fileType == "fbx") {
+//                    //We've got a model!
+//                    ModelDisplayer* displayer = new ModelDisplayer();
+//                    displayer->setScene(currentPaths[i]);
+//                    displayer->setBackgroundImage(&backgroundImage169);
+//                    displayer->setContentLocation(currentPaths[i]);
+//                    displayer->setPlayhead(&playhead);
+//                    displayer->setCamera(&cam);
+//                    displayer->setLight(&light);
+//                    displayer->setTitleFont(&titleFont);
+//                    displayer->setTextFont(&textFont);
+//                    displayer->setSourceFont(&sourceFont);
+//                    displayer->setTextImage(&spinMeImage);
+//                    (*currentProjectDisplayers)[locationName].push_back(displayer);
+//                } else {
+//                    //SOME USELESS FILE, IGNORE IT!
+//                }
+//            } else if(splitString[contentComponentIndex] == "Title") {
+//                ofxXmlSettings displayableText;
+//                displayableText.load(currentPaths[i]);
+//                string titleText = displayableText.getValue("Title", "Title");
+//                string infoText = displayableText.getValue("Text", "Info Text");
+//                string sourceText = displayableText.getValue("Source", "Source");
+//                float cutoffPercent = displayableText.getValue("Cutoff", 0.5);
+//
+////                ofImage* image = new ofImage();
+////                image->load(currentPaths[i]);
+//                if((*currentProjectDisplayers)[locationName].size() > 0) {
+//                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setTitle(titleText);
+//                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setText(infoText);
+//                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setSource("Source: " + sourceText);
+//                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setTextCutoffPercent(cutoffPercent);
+//                }
+//            }
+//        }
+//    }
+//
+//    currentProjectDisplayers = &crossrailDisplayers;
+//    currentPaths.clear();
+//    loader.clearPaths();
+//
+//    //load Crossrail content w/ new displayers
+//    currentPaths = loader.load("content/Google Drive/Arup/Research/Content/Crossrail/Location");
+//    for(int i = 0; i < currentPaths.size(); i++) {
+//        vector<string> splitString = ofSplitString(currentPaths[i], "/");
+//        if(splitString[splitString.size()-1] == "Icon\r") {
+//            // Ignore all icon files
+//        } else if(splitString[storyIndex] == "IntroAudio" || splitString[storyIndex] == "MenuButton" || splitString[contentComponentIndex] == "Notes") {
+//            //Ignore our notes and folders that should be loaded elsewhere
+//            if(splitString[storyIndex] == "IntroAudio") {
+//                string locationName = splitString[locationNameIndex];
+//                int locationIndex = locationsDictionary[1].at(locationName);
+//                introSoundPaths[1][locationIndex] = currentPaths[i];
+//            }
+//        } else {
+//            string contentPath = splitString[contentFileIndex];
+//            string locationName = splitString[locationNameIndex];
+//            vector<string> contentPathSplit = ofSplitString(contentPath, ".");
+//            string fileType = contentPathSplit[1];
+//            if(splitString[contentComponentIndex] == "Content") {
+//                if(fileType == "png" || fileType == "jpg") {
+//                    //We've got an image!
+//                    ImageDisplayer* displayer = new ImageDisplayer();
+//                    displayer->setImage(currentPaths[i]);
+//                    displayer->setBackgroundImage(&backgroundImage169);
+//                    displayer->setContentLocation(currentPaths[i]);
+//                    displayer->setPlayhead(&playhead);
+//                    displayer->setTitleFont(&titleFont);
+//                    displayer->setTextFont(&textFont);
+//                    displayer->setSourceFont(&sourceFont);
+//                    (*currentProjectDisplayers)[locationName].push_back(displayer);
+//                } else if(fileType == "wav") {
+//                    //We've got an audio file!
+//                    AudioDisplayer* displayer = new AudioDisplayer();
+//                    displayer->setAudio(currentPaths[i]);
+//                    displayer->setBackgroundImage(&backgroundImageAudio);
+//                    displayer->setContentLocation(currentPaths[i]);
+//                    displayer->setPlayhead(&playhead);
+//                    displayer->setTitleFont(&titleFont);
+//                    displayer->setTextFont(&textFont);
+//                    displayer->setSourceFont(&sourceFont);
+//                    (*currentProjectDisplayers)[locationName].push_back(displayer);
+//                } else if(fileType == "mp4" || fileType == "mov") {
+//                    //We've got a video!
+//                    VideoDisplayer* displayer = new VideoDisplayer();
+//                    displayer->setVideo(currentPaths[i]);
+//                    if(displayer->getVideo()->getHeight() == 742) {
+//                        displayer->setBackgroundImage(&backgroundImage65);
+//                    } else if(displayer->getVideo()->getHeight() == 726) {
+//                        displayer->setBackgroundImage(&backgroundImage43);
+//                    } else {
+//                        displayer->setBackgroundImage(&backgroundImage169);
+//                    }
+//                    displayer->setContentLocation(currentPaths[i]);
+//                    displayer->setPlayhead(&playhead);
+//                    displayer->setTitleFont(&titleFont);
+//                    displayer->setTextFont(&textFont);
+//                    displayer->setSourceFont(&sourceFont);
+//                    (*currentProjectDisplayers)[locationName].push_back(displayer);
+//                } else if(fileType == "fbx") {
+//                    //We've got a model!
+//                    ModelDisplayer* displayer = new ModelDisplayer();
+//                    displayer->setScene(currentPaths[i]);
+//                    displayer->setBackgroundImage(&backgroundImage169);
+//                    displayer->setContentLocation(currentPaths[i]);
+//                    displayer->setPlayhead(&playhead);
+//                    displayer->setCamera(&cam);
+//                    displayer->setLight(&light);
+//                    displayer->setTitleFont(&titleFont);
+//                    displayer->setTextFont(&textFont);
+//                    displayer->setSourceFont(&sourceFont);
+//                    displayer->setTextImage(&spinMeImage);
+//                    (*currentProjectDisplayers)[locationName].push_back(displayer);
+//                } else {
+//                    //SOMETHING'S GONE WRONG!
+//                }
+//            } else if(splitString[contentComponentIndex] == "Title") {
+//                ofxXmlSettings displayableText;
+//                displayableText.load(currentPaths[i]);
+//                string titleText = displayableText.getValue("Title", "Title");
+//                string infoText = displayableText.getValue("Text", "Info Text");
+//                string sourceText = displayableText.getValue("Source", "Source");
+//                float cutoffPercent = displayableText.getValue("Cutoff", 0.5);
+//
+//                //                ofImage* image = new ofImage();
+//                //                image->load(currentPaths[i]);
+//                if((*currentProjectDisplayers)[locationName].size() > 0) {
+//                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setTitle(titleText);
+//                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setText(infoText);
+//                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setSource("Source: " + sourceText);
+//                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setTextCutoffPercent(cutoffPercent);
+//                }
+//            }
+//        }
+//    }
+//
+//    //pre-load all POI intro sounds
+//    bool loaded = introSounds[0][0].load(introSoundPaths[0][0]);
+//    introSounds[0][1].load(introSoundPaths[0][1]);
+//    introSounds[0][2].load(introSoundPaths[0][2]);
+//    introSounds[0][3].load(introSoundPaths[0][3]);
+//    introSounds[0][4].load(introSoundPaths[0][4]);
+//    introSounds[1][0].load(introSoundPaths[1][0]);
+//    introSounds[1][1].load(introSoundPaths[1][1]);
+//    introSounds[1][2].load(introSoundPaths[1][2]);
+//    introSounds[1][3].load(introSoundPaths[1][3]);
+//    introSounds[1][4].load(introSoundPaths[1][4]);
 }
 
 //--------------------------------------------------------------

@@ -186,6 +186,10 @@
 		1280645AAA9C03C55DF655C1 /* random.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = random.hpp; path = ../../../addons/ofxGlmTools/libs/glm/gtx/random.hpp; sourceTree = SOURCE_ROOT; };
 		136F97856F8309BC48738DCC /* fbxanimcurvefilters.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxanimcurvefilters.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/scene/animation/fbxanimcurvefilters.h; sourceTree = SOURCE_ROOT; };
 		13D73946A1538106D9BE5877 /* ofxFBXMeshMaterial.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxFBXMeshMaterial.cpp; path = ../../../addons/ofxFBX/src/ofxFBXMeshMaterial.cpp; sourceTree = SOURCE_ROOT; };
+		143CCAF52126F544001F2D76 /* InteractiveTile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InteractiveTile.h; sourceTree = "<group>"; };
+		143CCAF62126F557001F2D76 /* InteractiveLine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InteractiveLine.h; sourceTree = "<group>"; };
+		143CCAF72127205B001F2D76 /* MainTile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainTile.h; sourceTree = "<group>"; };
+		143CCAF8212720AF001F2D76 /* LocationTile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocationTile.h; sourceTree = "<group>"; };
 		145A6FBAF062E46D7A5966C0 /* mixed_product.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = mixed_product.hpp; path = ../../../addons/ofxGlmTools/libs/glm/gtx/mixed_product.hpp; sourceTree = SOURCE_ROOT; };
 		14A0DEC0FD5BCDCA5789E196 /* fbxredblacktree.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxredblacktree.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/core/base/fbxredblacktree.h; sourceTree = SOURCE_ROOT; };
 		14A7BCBD1CF85DAB00F3CB46 /* ofxSmartFont.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxSmartFont.cpp; sourceTree = "<group>"; };
@@ -1260,7 +1264,11 @@
 			children = (
 				7A22FE1F38BFC3DBCB480A58 /* InteractiveMenu.cpp */,
 				F3F82F715042CF0FFBDC134E /* InteractiveMenu.h */,
+				143CCAF52126F544001F2D76 /* InteractiveTile.h */,
+				143CCAF72127205B001F2D76 /* MainTile.h */,
+				143CCAF8212720AF001F2D76 /* LocationTile.h */,
 				E6FB442968B6FC56A3E48686 /* InteractiveObject.h */,
+				143CCAF62126F557001F2D76 /* InteractiveLine.h */,
 			);
 			name = Menu;
 			sourceTree = "<group>";

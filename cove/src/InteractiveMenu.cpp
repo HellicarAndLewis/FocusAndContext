@@ -93,6 +93,74 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     lPoints[2].title = "HS1/Location/EbbsfleetInternational";
     lPoints[3].title = "HS1/Location/MedwayViaduct";
     lPoints[4].title = "HS1/Location/AshfordInternational";
+    
+    vector<LocationTile*> leftLocationObjects;
+    vector<InteractiveTile*> tilesForLeftLocationTilesToCheck;
+    for(int i = 0; i < BUTTON_AMT; i++) {
+        leftLocationObjects.push_back(&hs1LocationTiles[i]);
+        tilesForLeftLocationTilesToCheck.push_back(&hs1LocationTiles[i]);
+    }
+    
+    vector<LocationTile*> rightLocationObjects;
+    vector<InteractiveTile*> tilesForRightLocationTilesToCheck;
+    for(int i = 0; i < BUTTON_AMT; i++) {
+        rightLocationObjects.push_back(&crossrailLocationTiles[i]);
+        tilesForRightLocationTilesToCheck.push_back(&crossrailLocationTiles[i]);
+    }
+    
+    ofVec2f hs1Base = ofVec2f(padding, height - padding - mainArea);
+    hs1Tile.set(hs1Base.x, hs1Base.y, mainArea, mainArea);
+    hs1Tile.locationTilesToExpand = leftLocationObjects;
+    hs1Tile.locationTilesToCollapse = rightLocationObjects;
+    
+    ofVec2f crossrailBase = ofVec2f((width - padding) - mainArea, height - padding - mainArea);
+    crossrailTile.set(crossrailBase.x, crossrailBase.y, mainArea, mainArea);
+    crossrailTile.locationTilesToExpand = rightLocationObjects;
+    crossrailTile.locationTilesToCollapse = leftLocationObjects;
+    
+    vector<ofVec2f> hs1Expand;
+    hs1Expand.resize(1);
+    
+    vector<ofVec2f> hs1Collapse;
+    hs1Collapse.push_back(hs1Base);
+    
+    vector<ofVec2f> crossrailExpand;
+    crossrailExpand.resize(1);
+    
+    vector<ofVec2f> crossrailCollapse;
+    crossrailCollapse.push_back(crossrailBase);
+    
+    hs1LocationTiles[0].title = "HS1/Location/StPancras";
+    hs1LocationTiles[1].title = "HS1/Location/StratfordInternational";
+    hs1LocationTiles[2].title = "HS1/Location/EbbsfleetInternational";
+    hs1LocationTiles[3].title = "HS1/Location/MedwayViaduct";
+    hs1LocationTiles[4].title = "HS1/Location/AshfordInternational";
+    int step = 100;
+    for(int i = 0; i < BUTTON_AMT; i++) {
+        hs1Expand[0] = ofVec2f(ofVec2f(hs1Base.x, hs1Base.y - (i+1)*padding - (i+1)*mainArea));
+        hs1LocationTiles[i].addAnimation(hs1Expand, easeOut);
+        hs1LocationTiles[i].addAnimation(hs1Collapse, easeIn);
+        hs1LocationTiles[i].isMainTile = false;
+        hs1LocationTiles[i].setup();
+        hs1LocationTiles[i].setObjectsToCheck(tilesForLeftLocationTilesToCheck);
+        hs1LocationTiles[i].set(hs1Base.x, hs1Base.y, mainArea - 20, mainArea - 20);
+    }
+    
+    crossrailLocationTiles[4].title = "Crossrail/Location/Soho";
+    crossrailLocationTiles[3].title = "Crossrail/Location/TottenhamCourtRoad";
+    crossrailLocationTiles[2].title = "Crossrail/Location/Barbican";
+    crossrailLocationTiles[1].title = "Crossrail/Location/LiverpoolStreet";
+    crossrailLocationTiles[0].title = "Crossrail/Location/CanaryWharf";
+    for(int i = 0; i < BUTTON_AMT; i++) {
+        crossrailExpand[0] = ofVec2f(ofVec2f(crossrailBase.x, crossrailBase.y - (i+1)*padding - (i+1)*mainArea));
+        crossrailLocationTiles[i].addAnimation(crossrailExpand, easeOut);
+        crossrailLocationTiles[i].addAnimation(crossrailCollapse, easeIn);
+        crossrailLocationTiles[i].isMainTile = false;
+        crossrailLocationTiles[i].setup();
+        crossrailLocationTiles[i].setObjectsToCheck(tilesForRightLocationTilesToCheck);
+        crossrailLocationTiles[i].set(crossrailBase.x, crossrailBase.y, mainArea - 20, mainArea - 20);
+    }
+    
     // right sub menu titles
     rPoints[4].title = "Crossrail/Location/Soho";
     rPoints[3].title = "Crossrail/Location/TottenhamCourtRoad";
@@ -304,8 +372,6 @@ void InteractiveMenu::setupRightContent()
         for (int i = 0; i < BUTTON_AMT; i++)
         {
             posRCon[j][i].set(width - padding - subArea, height - padding - mainArea + (areaDiff / 2));
-            cout<<"X: "<<width - padding - subArea<<endl;
-            cout<<"Y: "<<height - padding - mainArea + (areaDiff / 2)<<endl;
             
             rCon[j][i].set(posRCon[j][i], subArea, subArea);
             rCon[j][i].drawType = 0;
@@ -328,6 +394,15 @@ void InteractiveMenu::setupRightContent()
 //--------------------------------------------------------------
 void InteractiveMenu::update()
 {
+    hs1Tile.update();
+    for(int i = 0; i < BUTTON_AMT; i++) {
+        hs1LocationTiles[i].update();
+    }
+    crossrailTile.update();
+    for(int i = 0; i < BUTTON_AMT; i++) {
+       crossrailLocationTiles[i].update();
+    }
+    
     // check button presses
     pressedLocation();
     
@@ -1033,7 +1108,14 @@ void InteractiveMenu::drawContentMenu()
 
 //--------------------------------------------------------------
 void InteractiveMenu::drawMenu() {
-
+    hs1Tile.draw();
+    for(int i = 0; i < BUTTON_AMT; i++) {
+        hs1LocationTiles[i].draw();
+    }
+    crossrailTile.draw();
+    for(int i = 0; i < BUTTON_AMT; i++) {
+        crossrailLocationTiles[i].draw();
+    }
 }
 
 //--------------------------------------------------------------

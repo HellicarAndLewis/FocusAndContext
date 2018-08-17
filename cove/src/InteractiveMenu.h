@@ -11,9 +11,12 @@
 #pragma once
 
 #include "ofMain.h"
-#include "InteractiveObject.h"
+//#include "InteractiveObject.h"
 #include "Content.h"
 #include "Location.h"
+#include "LocationTile.h"
+#include "MainTile.h"
+
 
 #define		BUTTON_AMT		5
 
@@ -59,6 +62,12 @@ public:
     InteractiveObject rPoints[BUTTON_AMT];
     InteractiveObject leftMain;
     InteractiveObject rightMain;
+    
+    // interactive location tiles for left (ie HS1)
+    LocationTile hs1LocationTiles[BUTTON_AMT];
+    LocationTile crossrailLocationTiles[BUTTON_AMT];
+    MainTile hs1Tile;
+    MainTile crossrailTile;
     
     // location labels
     Location* lLocations[BUTTON_AMT];

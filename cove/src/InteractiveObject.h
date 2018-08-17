@@ -19,6 +19,7 @@ public:
     ofTrueTypeFont fontMain;
     ofTrueTypeFont fontSub;
     string title;
+    string subText;
     float lineLength;
     float color;
     float alpha;
@@ -60,6 +61,10 @@ public:
     
     void update() {
 //        cout<<isDraw<<endl;
+    }
+    
+    virtual bool isNearPosition() {
+        
     }
     
     void drawLandscape() {
@@ -190,6 +195,9 @@ public:
         
     }
     
+    virtual void setAnimation(int anim) {
+    }
+    
     virtual void onRollOver(int x, int y) {
     }
     
@@ -206,11 +214,9 @@ public:
     }
     
     virtual void onPress(int x, int y, int button) {
-//        cout<<"Press!"<<endl;
     }
     
     virtual void onRelease(int x, int y, int button) {
-//        cout<<"Release!"<<endl;
     }
     
     virtual void onReleaseOutside(int x, int y, int button) {
