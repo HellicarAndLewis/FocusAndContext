@@ -192,7 +192,6 @@ public:
         cout<<"isSelected "<<isSelected<<endl;
         cout<<"isDraw "<<isDraw<<endl;
         cout<<"fadeLabel "<<fadeLabel<<endl;
-        
     }
     
     virtual void setAnimation(int anim) {

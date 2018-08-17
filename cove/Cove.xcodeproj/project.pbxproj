@@ -190,6 +190,7 @@
 		143CCAF62126F557001F2D76 /* InteractiveLine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InteractiveLine.h; sourceTree = "<group>"; };
 		143CCAF72127205B001F2D76 /* MainTile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainTile.h; sourceTree = "<group>"; };
 		143CCAF8212720AF001F2D76 /* LocationTile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocationTile.h; sourceTree = "<group>"; };
+		143CCAF921272B27001F2D76 /* ContentTile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContentTile.h; sourceTree = "<group>"; };
 		145A6FBAF062E46D7A5966C0 /* mixed_product.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = mixed_product.hpp; path = ../../../addons/ofxGlmTools/libs/glm/gtx/mixed_product.hpp; sourceTree = SOURCE_ROOT; };
 		14A0DEC0FD5BCDCA5789E196 /* fbxredblacktree.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxredblacktree.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/core/base/fbxredblacktree.h; sourceTree = SOURCE_ROOT; };
 		14A7BCBD1CF85DAB00F3CB46 /* ofxSmartFont.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxSmartFont.cpp; sourceTree = "<group>"; };
@@ -1267,6 +1268,7 @@
 				143CCAF52126F544001F2D76 /* InteractiveTile.h */,
 				143CCAF72127205B001F2D76 /* MainTile.h */,
 				143CCAF8212720AF001F2D76 /* LocationTile.h */,
+				143CCAF921272B27001F2D76 /* ContentTile.h */,
 				E6FB442968B6FC56A3E48686 /* InteractiveObject.h */,
 				143CCAF62126F557001F2D76 /* InteractiveLine.h */,
 			);
