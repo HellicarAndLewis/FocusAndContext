@@ -12,8 +12,21 @@
 
 class ContentTile : public InteractiveTile {
 public:
-    void onPress(int x, int y, int button) {
+    
+    void setup() {
+        InteractiveTile::setup();
         
+        debugColor = ofColor(0, 0, 255);
+    }
+    
+    void update() {
+        InteractiveTile::update();
+    }
+    
+    void onPress(int x, int y, int button) {
+        cout<<"Content Tile Pressed!"<<endl;
+//        width = width * 1.1;
+//        height = height * 1.1;
     }
 };
 

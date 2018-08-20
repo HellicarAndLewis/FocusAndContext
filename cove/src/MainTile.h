@@ -13,29 +13,45 @@
 
 class MainTile : public InteractiveTile {
 public:
-    vector<LocationTile*> locationTilesToExpand;
-    vector<LocationTile*> locationTilesToCollapse;
-
+    vector<InteractiveTile*> tilesToCollapse;
+    vector<InteractiveTile*> tilesToExpand;
+    
+    void setup() {
+        InteractiveTile::setup();
+        debugColor = ofColor(0, 255, 0);
+    }
     // Do something when pressed
     void onPress(int x, int y, int button) {
-        ExpandLocationTiles();
-        CollapseLocationTiles();
+        cout<<"Main Tile Pressed!"<<endl;
+        collapseTiles();
+        expandTiles();
     }
     
-    void draw() {
-        ofSetColor(255, 255, 0);
-        ofDrawRectangle(x, y, width, height);
-    }
-    
-    void ExpandLocationTiles() {
-        for(int i = 0; i < locationTilesToExpand.size(); i++) {
-            locationTilesToExpand[i]->setAnimation(Anim::expand);
+    void addTilesToExpand(vector<InteractiveTile*> _tiles) {
+        if(tilesToExpand.size() == 0) {
+            tilesToExpand = _tiles;
+        } else {
+            tilesToExpand.insert(tilesToExpand.end(), _tiles.begin(), _tiles.end());
         }
     }
     
-    void CollapseLocationTiles() {
-        for(int i = 0; i < locationTilesToCollapse.size(); i++) {
-            locationTilesToCollapse[i]->setAnimation(Anim::collapse);
+    void addTilesToCollapse(vector<InteractiveTile*> _tiles) {
+        if(tilesToCollapse.size() == 0) {
+            tilesToCollapse = _tiles;
+        } else {
+            tilesToCollapse.insert(tilesToCollapse.end(), _tiles.begin(), _tiles.end());
+        }
+    }
+    
+    void collapseTiles() {
+        for(int i = 0; i < tilesToCollapse.size(); i++) {
+            tilesToCollapse[i]->setAnimation(Anim::collapseToMain);
+        }
+    }
+    
+    void expandTiles() {
+        for(int i = 0; i < tilesToExpand.size(); i++) {
+            tilesToExpand[i]->setAnimation(Anim::expandFromMain);
         }
     }
 };

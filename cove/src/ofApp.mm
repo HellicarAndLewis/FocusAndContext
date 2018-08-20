@@ -934,6 +934,7 @@ void ofApp::draw()
     
     // draw cove content
     if (bCove) {
+        menu.drawMenu();
         menu.drawContent();
     }
     else c.draw();
@@ -1318,8 +1319,6 @@ void ofApp::mousePressed(int x, int y, int button){
 
 void ofApp::mouseReleased(int x, int y, int button)
 {
-    cout<<"X: "<<x<<endl;
-    cout<<"Y: "<<y<<endl;
     if (bCove)
     {
         // loads hs1 project

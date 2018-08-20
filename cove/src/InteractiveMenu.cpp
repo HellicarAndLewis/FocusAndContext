@@ -53,140 +53,151 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
         lLocations[i] = _lLocations[i];
         rLocations[i] = _rLocations[i];
     }
-    
+
     for(int  i = 0; i < BUTTON_AMT; i++) {
         ofAddListener(lLocations[i]->onLabelClicked, this, &InteractiveMenu::onLabelClicked);
         ofAddListener(rLocations[i]->onLabelClicked, this, &InteractiveMenu::onLabelClicked);
     }
     
-    // setup left location menu
-    for (int i = 0; i < length; i++)
-    {
-        posLeft[i].set(padding, height - padding - mainArea + (areaDiff / 2));
-        sizeLeft[i] = subArea;
-        
-        lPoints[i].drawType = 0;
-        lPoints[i].set(padding, height - padding - mainArea + (areaDiff / 2), subArea, subArea);
-        lPoints[i].isMainTile = false;
-        lPoints[i].fadeLabel = false;
-        lPoints[i].isDraw = true;
-    }
-    
-    // setup right location menu
-    for (int i = 0; i < length; i++)
-    {
-        posRight[i].set(width - padding - subArea, height - padding - mainArea + (areaDiff / 2));
-        sizeRight[i] = subArea;
-        
-        rPoints[i].drawType = 0;
-        rPoints[i].set(width - padding - subArea, height - padding - mainArea + (areaDiff / 2), subArea, subArea);
-        rPoints[i].isMainTile = false;
-        rPoints[i].fadeLabel = false;
-        rPoints[i].isDraw = true;
-    }
-    
-//    ofAddListener(Location.onLabelClicked, this, &InteractiveMenu::onLabelClicked);
-    
     // left sub menu titles
-    lPoints[0].title = "HS1/Location/StPancras";
-    lPoints[1].title = "HS1/Location/StratfordInternational";
-    lPoints[2].title = "HS1/Location/EbbsfleetInternational";
-    lPoints[3].title = "HS1/Location/MedwayViaduct";
-    lPoints[4].title = "HS1/Location/AshfordInternational";
-    
-    vector<LocationTile*> leftLocationObjects;
-    vector<InteractiveTile*> tilesForLeftLocationTilesToCheck;
+
+    vector<InteractiveTile*> hs1LocationObjects;
+    vector<InteractiveTile*> crossrailLocationObjects;
+    vector<InteractiveTile*> hs1ContentObjects;
+    vector<InteractiveTile*> crossrailContentObjects;
+
     for(int i = 0; i < BUTTON_AMT; i++) {
-        leftLocationObjects.push_back(&hs1LocationTiles[i]);
-        tilesForLeftLocationTilesToCheck.push_back(&hs1LocationTiles[i]);
+        hs1LocationObjects.push_back(&hs1LocationTiles[i]);
+        crossrailLocationObjects.push_back(&crossrailLocationTiles[i]);
+        for(int j = 0; j < BUTTON_AMT; j++) {
+            hs1ContentObjects.push_back(&hs1ContentTiles[i][j]);
+            crossrailContentObjects.push_back(&crossrailContentTiles[i][j]);
+        }
     }
-    
-    vector<LocationTile*> rightLocationObjects;
-    vector<InteractiveTile*> tilesForRightLocationTilesToCheck;
-    for(int i = 0; i < BUTTON_AMT; i++) {
-        rightLocationObjects.push_back(&crossrailLocationTiles[i]);
-        tilesForRightLocationTilesToCheck.push_back(&crossrailLocationTiles[i]);
-    }
-    
+
+    // Set the base positions of the buttons.
     ofVec2f hs1Base = ofVec2f(padding, height - padding - mainArea);
-    hs1Tile.set(hs1Base.x, hs1Base.y, mainArea, mainArea);
-    hs1Tile.locationTilesToExpand = leftLocationObjects;
-    hs1Tile.locationTilesToCollapse = rightLocationObjects;
-    
     ofVec2f crossrailBase = ofVec2f((width - padding) - mainArea, height - padding - mainArea);
+
+    // Setup the Main tiles.
+    hs1Tile.set(hs1Base.x, hs1Base.y, mainArea, mainArea);
+    hs1Tile.setup();
+    hs1Tile.addTilesToExpand(hs1LocationObjects);
+    hs1Tile.addTilesToCollapse(crossrailLocationObjects);
+    hs1Tile.addTilesToCollapse(crossrailContentObjects);
+    hs1Tile.addTilesToCollapse(hs1ContentObjects);
+
     crossrailTile.set(crossrailBase.x, crossrailBase.y, mainArea, mainArea);
-    crossrailTile.locationTilesToExpand = rightLocationObjects;
-    crossrailTile.locationTilesToCollapse = leftLocationObjects;
-    
+    crossrailTile.setup();
+    crossrailTile.addTilesToExpand(crossrailLocationObjects);
+    crossrailTile.addTilesToCollapse(hs1LocationObjects);
+    crossrailTile.addTilesToCollapse(hs1ContentObjects);
+    crossrailTile.addTilesToCollapse(crossrailContentObjects);
+
     vector<ofVec2f> hs1Expand;
     hs1Expand.resize(1);
-    
+
     vector<ofVec2f> hs1Collapse;
-    hs1Collapse.push_back(hs1Base);
-    
+    hs1Collapse.push_back(ofVec2f(0, 0));
+
     vector<ofVec2f> crossrailExpand;
     crossrailExpand.resize(1);
-    
+
     vector<ofVec2f> crossrailCollapse;
-    crossrailCollapse.push_back(crossrailBase);
-    
+    crossrailCollapse.push_back(ofVec2f(0, 0));
+
+    vector<ofVec2f> hs1ContentExpand;
+    hs1ContentExpand.resize(2);
+
+    vector<ofVec2f> hs1ContentCollapse;
+    hs1ContentCollapse.resize(2);
+
+    vector<ofVec2f> crossrailContentExpand;
+    crossrailContentExpand.resize(1);
+
+    vector<ofVec2f> crossrailContentCollapse;
+    crossrailContentCollapse.resize(1);
+
     hs1LocationTiles[0].title = "HS1/Location/StPancras";
     hs1LocationTiles[1].title = "HS1/Location/StratfordInternational";
     hs1LocationTiles[2].title = "HS1/Location/EbbsfleetInternational";
     hs1LocationTiles[3].title = "HS1/Location/MedwayViaduct";
     hs1LocationTiles[4].title = "HS1/Location/AshfordInternational";
-    int step = 100;
     for(int i = 0; i < BUTTON_AMT; i++) {
-        hs1Expand[0] = ofVec2f(ofVec2f(hs1Base.x, hs1Base.y - (i+1)*padding - (i+1)*mainArea));
+        hs1LocationTiles[i].parentTile = &hs1Tile;
+        hs1Expand[0] = ofVec2f(0, 0 - (i+1)*padding - (i+1)*mainArea);
         hs1LocationTiles[i].addAnimation(hs1Expand, easeOut);
         hs1LocationTiles[i].addAnimation(hs1Collapse, easeIn);
-        hs1LocationTiles[i].isMainTile = false;
         hs1LocationTiles[i].setup();
-        hs1LocationTiles[i].setObjectsToCheck(tilesForLeftLocationTilesToCheck);
-        hs1LocationTiles[i].set(hs1Base.x, hs1Base.y, mainArea - 20, mainArea - 20);
+        hs1LocationTiles[i].set(0, 0, mainArea - 20, mainArea - 20);
+        vector<InteractiveTile*> contentTilesToExpand;
+        vector<InteractiveTile*> contentTilesToCollapse;
+        for(int j = 0; j < BUTTON_AMT; j++) {
+            contentTilesToExpand.push_back(&hs1ContentTiles[i][j]);
+            for(int k = 0; k < BUTTON_AMT; k++) {
+                if(k != i) {
+                    contentTilesToCollapse.push_back(&hs1ContentTiles[k][j]);
+                }
+            }
+        }
+        hs1LocationTiles[i].addTilesToExpand(contentTilesToExpand);
+        hs1LocationTiles[i].addTilesToCollapse(contentTilesToCollapse);
+        hs1LocationTiles[i].addTilesToCollapse(crossrailContentObjects);
+
+        for(int j = 0; j < BUTTON_AMT; j++) {
+            hs1ContentTiles[i][j].parentTile = &hs1LocationTiles[i];
+            hs1ContentExpand[0] = ofVec2f(padding + mainArea, 0);
+            hs1ContentExpand[1] = ofVec2f(padding + mainArea, (i - j) * (padding + mainArea));
+
+            hs1ContentCollapse[0] = ofVec2f(padding + mainArea, 0);
+            hs1ContentCollapse[1] = ofVec2f(0, 0);
+            
+            hs1ContentTiles[i][j].setup();
+            hs1ContentTiles[i][j].set(0, 0, mainArea - 40, mainArea - 40);
+            hs1ContentTiles[i][j].addAnimation(hs1Expand, easeOut);
+            hs1ContentTiles[i][j].addAnimation(hs1Collapse, easeIn);
+            hs1ContentTiles[i][j].addAnimation(hs1ContentExpand, easeIn);
+            hs1ContentTiles[i][j].addAnimation(hs1ContentCollapse, easeOut);
+        }
     }
-    
+
     crossrailLocationTiles[4].title = "Crossrail/Location/Soho";
     crossrailLocationTiles[3].title = "Crossrail/Location/TottenhamCourtRoad";
     crossrailLocationTiles[2].title = "Crossrail/Location/Barbican";
     crossrailLocationTiles[1].title = "Crossrail/Location/LiverpoolStreet";
     crossrailLocationTiles[0].title = "Crossrail/Location/CanaryWharf";
     for(int i = 0; i < BUTTON_AMT; i++) {
-        crossrailExpand[0] = ofVec2f(ofVec2f(crossrailBase.x, crossrailBase.y - (i+1)*padding - (i+1)*mainArea));
+        crossrailLocationTiles[i].parentTile = &crossrailTile;
+        crossrailExpand[0] = ofVec2f(0, 0 - (i+1)*padding - (i+1)*mainArea);
         crossrailLocationTiles[i].addAnimation(crossrailExpand, easeOut);
         crossrailLocationTiles[i].addAnimation(crossrailCollapse, easeIn);
-        crossrailLocationTiles[i].isMainTile = false;
         crossrailLocationTiles[i].setup();
-        crossrailLocationTiles[i].setObjectsToCheck(tilesForRightLocationTilesToCheck);
-        crossrailLocationTiles[i].set(crossrailBase.x, crossrailBase.y, mainArea - 20, mainArea - 20);
+        crossrailLocationTiles[i].set(0, 0, mainArea - 20, mainArea - 20);
+        vector<InteractiveTile*> contentTilesToExpand;
+        vector<InteractiveTile*> contentTilesToCollapse;
+        for(int j = 0; j < BUTTON_AMT; j++) {
+            contentTilesToExpand.push_back(&crossrailContentTiles[i][j]);
+            for(int k = 0; k < BUTTON_AMT; k++) {
+                if(k != i) {
+                    contentTilesToCollapse.push_back(&crossrailContentTiles[k][j]);
+                }
+            }
+        }
+        crossrailLocationTiles[i].tilesToExpand = contentTilesToExpand;
+        crossrailLocationTiles[i].tilesToCollapse = contentTilesToCollapse;
+
+        for(int j = 0; j < BUTTON_AMT; j++) {
+            crossrailContentTiles[i][j].parentTile = &crossrailLocationTiles[i];
+            crossrailContentExpand[0] = ofVec2f(0 - (j+1) * padding - (j+1) * mainArea, 0);
+            crossrailContentCollapse[0] = ofVec2f(0, 0);
+            crossrailContentTiles[i][j].setup();
+            crossrailContentTiles[i][j].set(0, 0, mainArea - 40, mainArea - 40);
+            crossrailContentTiles[i][j].addAnimation(crossrailExpand, easeOut);
+            crossrailContentTiles[i][j].addAnimation(crossrailCollapse, easeIn);
+            crossrailContentTiles[i][j].addAnimation(crossrailContentExpand, easeIn);
+            crossrailContentTiles[i][j].addAnimation(crossrailContentCollapse, easeOut);
+        }
     }
-    
-    // right sub menu titles
-    rPoints[4].title = "Crossrail/Location/Soho";
-    rPoints[3].title = "Crossrail/Location/TottenhamCourtRoad";
-    rPoints[2].title = "Crossrail/Location/Barbican";
-    rPoints[1].title = "Crossrail/Location/LiverpoolStreet";
-    rPoints[0].title = "Crossrail/Location/CanaryWharf";
-    
-    // setup left menu main
-    leftMain.isMainTile = true;
-    leftMain.fadeLabel = false;
-    leftMain.title = "HS1";
-    leftMain.lineLength = 0;
-    leftMain.drawType = 0;
-    leftMain.isDraw = true;
-    leftMain.set(padding, height - padding - mainArea, mainArea, mainArea);
-    leftMain.setup();
-    
-    // setup right menu main
-    rightMain.isMainTile = true;
-    rightMain.fadeLabel = false;
-    rightMain.title = "Crossrail";
-    rightMain.lineLength = 0;
-    rightMain.drawType = 0;
-    rightMain.isDraw = true;
-    rightMain.set((width - padding) - mainArea, height - padding - mainArea, mainArea, mainArea);
-    rightMain.setup();
     
     // setup left menu line
     lLine.lineLength = 0;
@@ -397,14 +408,20 @@ void InteractiveMenu::update()
     hs1Tile.update();
     for(int i = 0; i < BUTTON_AMT; i++) {
         hs1LocationTiles[i].update();
+        for(int j = 0; j < BUTTON_AMT; j++) {
+            hs1ContentTiles[i][j].update();
+        }
     }
     crossrailTile.update();
     for(int i = 0; i < BUTTON_AMT; i++) {
        crossrailLocationTiles[i].update();
+        for(int j = 0; j < BUTTON_AMT; j++) {
+            crossrailContentTiles[i][j].update();
+        }
     }
     
     // check button presses
-    pressedLocation();
+//    pressedLocation();
     
     // button position and size
 //    transformPortrait();
@@ -415,9 +432,6 @@ void InteractiveMenu::update()
     
     // content pressed
     pressedContent();
-    
-    // draw menu objects and lines
-    drawMenu();
     
     // hs1 project content menu position and size
     for(int i = 0; i < BUTTON_AMT; i++) {
@@ -1111,10 +1125,16 @@ void InteractiveMenu::drawMenu() {
     hs1Tile.draw();
     for(int i = 0; i < BUTTON_AMT; i++) {
         hs1LocationTiles[i].draw();
+        for(int j = 0; j < BUTTON_AMT; j++) {
+            hs1ContentTiles[i][j].draw();
+        }
     }
     crossrailTile.draw();
     for(int i = 0; i < BUTTON_AMT; i++) {
         crossrailLocationTiles[i].draw();
+        for(int j = 0; j < BUTTON_AMT; j++) {
+            crossrailContentTiles[i][j].draw();
+        }
     }
 }
 

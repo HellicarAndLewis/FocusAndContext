@@ -1265,12 +1265,12 @@
 			children = (
 				7A22FE1F38BFC3DBCB480A58 /* InteractiveMenu.cpp */,
 				F3F82F715042CF0FFBDC134E /* InteractiveMenu.h */,
-				E6FB442968B6FC56A3E48686 /* InteractiveObject.h */,
 				143CCAF52126F544001F2D76 /* InteractiveTile.h */,
 				143CCAF72127205B001F2D76 /* MainTile.h */,
 				143CCAF8212720AF001F2D76 /* LocationTile.h */,
 				143CCAF921272B27001F2D76 /* ContentTile.h */,
 				143CCAF62126F557001F2D76 /* InteractiveLine.h */,
+				E6FB442968B6FC56A3E48686 /* InteractiveObject.h */,
 			);
 			name = Menu;
 			sourceTree = "<group>";

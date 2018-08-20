@@ -11,11 +11,14 @@
 #pragma once
 
 #include "ofMain.h"
-//#include "InteractiveObject.h"
+#include "InteractiveObject.h"
 #include "Content.h"
 #include "Location.h"
-#include "LocationTile.h"
+
 #include "MainTile.h"
+#include "LocationTile.h"
+#include "ContentTile.h"
+
 
 
 #define		BUTTON_AMT		5
@@ -68,7 +71,9 @@ public:
     LocationTile crossrailLocationTiles[BUTTON_AMT];
     MainTile hs1Tile;
     MainTile crossrailTile;
-    
+    ContentTile hs1ContentTiles[BUTTON_AMT][BUTTON_AMT];
+    ContentTile crossrailContentTiles[BUTTON_AMT][BUTTON_AMT];
+        
     // location labels
     Location* lLocations[BUTTON_AMT];
     Location* rLocations[BUTTON_AMT];
