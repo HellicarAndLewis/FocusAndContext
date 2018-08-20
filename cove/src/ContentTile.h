@@ -13,20 +13,49 @@
 class ContentTile : public InteractiveTile {
 public:
     
+    ofVec2f expandTarget;
+    ofVec2f intermediateTarget;
+    ofVec2f collapseTarget;
+    
+    bool isExpanded;
+    
     void setup() {
         InteractiveTile::setup();
         
-        debugColor = ofColor(0, 0, 255);
+        color = ofColor(0, 0, 255);
     }
     
-    void update() {
-        InteractiveTile::update();
+    void update(float easing) {
+        InteractiveTile::update(easing);
+        if(isNearTarget() && target == expandTarget) {
+            isExpanded = true;
+        } else {
+            isExpanded = false;
+        }
     }
     
     void onPress(int x, int y, int button) {
-        cout<<"Content Tile Pressed!"<<endl;
-//        width = width * 1.1;
-//        height = height * 1.1;
+        bool someTilesAnimating = false;
+        for(int i = 0; i < allTiles.size(); i++) {
+            if(allTiles[i]->animationStep > -1) {
+                someTilesAnimating = true;
+            }
+        }
+        if(!someTilesAnimating && target == expandTarget) {
+            cout<<"Content Tile Pressed!"<<endl;
+        }
+    }
+    
+    void goToIntermediateTarget() {
+        target = intermediateTarget;
+    }
+    
+    void collapse() {
+        target = collapseTarget;
+    }
+    
+    void expand() {
+        target = expandTarget;
     }
 };
 

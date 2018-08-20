@@ -67,12 +67,12 @@ public:
     InteractiveObject rightMain;
     
     // interactive location tiles for left (ie HS1)
-    LocationTile hs1LocationTiles[BUTTON_AMT];
-    LocationTile crossrailLocationTiles[BUTTON_AMT];
-    MainTile hs1Tile;
-    MainTile crossrailTile;
-    ContentTile hs1ContentTiles[BUTTON_AMT][BUTTON_AMT];
-    ContentTile crossrailContentTiles[BUTTON_AMT][BUTTON_AMT];
+    vector< LocationTile* > hs1LocationTiles;
+    vector< LocationTile* > crossrailLocationTiles;
+    MainTile* hs1MainTile;
+    MainTile* crossrailMainTile;
+    vector< vector<ContentTile*> > hs1ContentTiles;
+    vector< vector<ContentTile*> > crossrailContentTiles;
         
     // location labels
     Location* lLocations[BUTTON_AMT];

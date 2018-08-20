@@ -13,51 +13,117 @@
 
 class LocationTile : public InteractiveTile {
 public:
-    vector<InteractiveTile*> tilesToExpand;
-    vector<InteractiveTile*> tilesToCollapse;
     
+    ofVec2f collapseTarget;
+    ofVec2f expandTarget;
+    
+    vector<ContentTile*> contentTilesToCollapse;
+    vector<ContentTile*> contentTilesToExpand;
+        
     void setup() {
         InteractiveTile::setup();
         
-        debugColor = ofColor(255, 0, 0);
+        color = ofColor(255, 0, 0);
     }
     
-    void update() {
-        InteractiveTile::update();
+    void update(float easing) {
+        InteractiveTile::update(easing);
+        switch(animationStep) {
+            case 0 :
+                sendCollapseContentTilesToIntermediateTarget();
+                if(allContentTilesInPosition()) {
+                    animationStep++;
+                }
+                break;
+            case 1 :
+                collapseContentTiles();
+                if(allContentTilesInPosition()) {
+                    animationStep++;
+                }
+                break;
+            case 2 :
+                sendExpandContentTilesToIntermediateTarget();
+                if(allContentTilesInPosition()) {
+                    animationStep++;
+                }
+                break;
+            case 3:
+                expandContentTiles();
+                if(allContentTilesInPosition()) {
+                    animationStep++;
+                }
+                break;
+            default :
+                animationStep = -1;
+                break;
+        }
     }
     
     void onPress(int x, int y, int button) {
-        cout<<"Location Tile Pressed"<<endl;
-        collapseTiles();
-        expandTiles();
-    }
-    
-    void expandTiles() {
-        for(int i = 0; i < tilesToExpand.size(); i++) {
-            tilesToExpand[i]->setAnimation(Anim::expandFromLocation);
+        bool someTilesAnimating = false;
+        for(int i = 0; i < allTiles.size(); i++) {
+            if(allTiles[i]->animationStep > -1) {
+                someTilesAnimating = true;
+            }
+        }
+        if(!someTilesAnimating && target == expandTarget) {
+            bool expanded = true;
+            for(int i = 0; i < contentTilesToExpand.size(); i++) {
+                if(!(contentTilesToExpand[i]->isExpanded)) {
+                    expanded = false;
+                }
+            }
+            if(!expanded) {
+                animationStep = 0;
+            }
         }
     }
     
-    void collapseTiles() {
-        for(int i = 0; i < tilesToCollapse.size(); i++) {
-            tilesToCollapse[i]->setAnimation(Anim::collapseToLocation);
+    bool allContentTilesInPosition() {
+        for(int i = 0; i < contentTilesToCollapse.size(); i++) {
+            if(!contentTilesToCollapse[i]->isNearTarget()) {
+                return false;
+            }
+        }
+        for(int i = 0; i < contentTilesToExpand.size(); i++) {
+            if(!contentTilesToExpand[i]->isNearTarget()) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    void sendCollapseContentTilesToIntermediateTarget() {
+        for(int i = 0; i < contentTilesToCollapse.size(); i++) {
+            if(contentTilesToCollapse[i]->isExpanded) {
+                contentTilesToCollapse[i]->goToIntermediateTarget();
+            }
         }
     }
     
-    void addTilesToExpand(vector<InteractiveTile*> _tiles) {
-        if(tilesToExpand.size() == 0) {
-            tilesToExpand = _tiles;
-        } else {
-            tilesToExpand.insert(tilesToExpand.end(), _tiles.begin(), _tiles.end());
+    void sendExpandContentTilesToIntermediateTarget() {
+        for(int i = 0; i < contentTilesToExpand.size(); i++) {
+            contentTilesToExpand[i]->goToIntermediateTarget();
         }
     }
     
-    void addTilesToCollapse(vector<InteractiveTile*> _tiles) {
-        if(tilesToCollapse.size() == 0) {
-            tilesToCollapse = _tiles;
-        } else {
-            tilesToCollapse.insert(tilesToCollapse.end(), _tiles.begin(), _tiles.end());
+    void collapseContentTiles() {
+        for(int i = 0; i < contentTilesToCollapse.size(); i++) {
+            contentTilesToCollapse[i]->collapse();
         }
+    }
+    
+    void expandContentTiles() {
+        for(int i = 0; i < contentTilesToExpand.size(); i++) {
+            contentTilesToExpand[i]->expand();
+        }
+    }
+    void collapse() {
+        target = collapseTarget;
+    }
+    
+    void expand() {
+        target = expandTarget;
     }
     
 };
