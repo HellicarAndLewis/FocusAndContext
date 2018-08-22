@@ -17,12 +17,14 @@ public:
     ofVec2f intermediateTarget;
     ofVec2f collapseTarget;
     
+    
+    
     bool isExpanded;
     
     void setup() {
         InteractiveTile::setup();
         
-        color = ofColor(0, 0, 255);
+        color = ofColor(240);
     }
     
     void update(float easing) {

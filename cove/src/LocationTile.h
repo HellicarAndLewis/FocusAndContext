@@ -23,7 +23,7 @@ public:
     void setup() {
         InteractiveTile::setup();
         
-        color = ofColor(255, 0, 0);
+        color = ofColor(240);
     }
     
     void update(float easing) {

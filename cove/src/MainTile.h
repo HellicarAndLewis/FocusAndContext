@@ -24,7 +24,7 @@ public:
     
     void setup() {
         InteractiveTile::setup();
-        color = ofColor(0, 255, 0);
+        color = ofColor(255);
     }
     // Do something when pressed
     void onPress(int x, int y, int button) {

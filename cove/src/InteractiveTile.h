@@ -14,7 +14,6 @@
 
 class InteractiveTile {
 public:
-    
     InteractiveTile* parentTile = nullptr;
     
     vector<InteractiveTile*> allTiles;
