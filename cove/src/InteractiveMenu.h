@@ -34,8 +34,6 @@ public:
     void drawMenu();
     void drawContentMenu();
     void drawContent();
-    void transformPortrait();
-    void transformLandscape();
 
     void onLabelClicked(string & title);
     void onMainButtonClicked(string & title);
@@ -43,8 +41,6 @@ public:
     void activateRightContent(int locationIndex, int contentIndex);
     void activateLeftLocation(int index);
     void activateRightLocation(int index);
-    void transformLeftContent(int index);
-    void transformRightContent(int index);
     bool otherLeftHLinesAreInactive(int index);
     bool otherRightHLinesAreInactive(int index);
     void pressedLocation();
