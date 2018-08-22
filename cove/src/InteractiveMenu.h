@@ -43,8 +43,6 @@ public:
     void activateRightLocation(int index);
     bool otherLeftHLinesAreInactive(int index);
     bool otherRightHLinesAreInactive(int index);
-    void pressedLocation();
-    void pressedContent();
     
     ofxFontStash titleFont;
     

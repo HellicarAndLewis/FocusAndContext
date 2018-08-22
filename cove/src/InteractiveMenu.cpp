@@ -349,18 +349,6 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     
     hs1MainTile->title = "HS1";
     crossrailMainTile->title = "Crossrail";
-
-    // setup left menu line
-    lLine.lineLength = 0;
-    lLine.drawType = 1;
-    lLine.isDraw = true;
-    lLine.set(padding, height - padding - mainArea, mainArea, mainArea);
-    
-    // setup right menu line
-    rLine.lineLength = 0;
-    rLine.drawType = 2;
-    rLine.isDraw = true;
-    rLine.set(width - padding, height - padding - mainArea, mainArea, mainArea);
     
     for(int i = 0; i < 5; i++) {
         lPoints[i].setup();
@@ -658,67 +646,6 @@ void InteractiveMenu::activateRightLocation(int index) {
     crossrailIntro.stop();
 }
 
-//--------------------------------------------------------------
-void InteractiveMenu::pressedLocation()
-{
-    for (int i = 0; i < length; i++)
-    {
-        // if left menu is active:
-        if (lPoints[i].isMousePressed(0) == 1 && leftOn /*&& !bLeftActive[i]*/ && !buttonClicked)
-        {
-            // Activate location that was clicked on
-            activateLeftLocation(i);
-            
-            // Deactivate all crossrail and hs1 content displayers
-            for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
-                for(auto content = location->second.begin(); content != location->second.end(); content++) {
-                    (*content)->setIsActive(false);
-                }
-            }
-            for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
-                for(auto content = location->second.begin(); content != location->second.end(); content++) {
-                    (*content)->setIsActive(false);
-                }
-            }
-            // Deselect all crossrail and hs1 content
-            for(int i = 0; i < allCons.size(); i++) {
-                allCons[i]->isSelected = false;
-            }
-            // Set globals
-            buttonClicked = true;
-            Globals::buttonPressed = true;
-        }
-        
-        // check for right button clicks
-        if (rPoints[i].isMousePressed(0) == 1 && rightOn /*&& !bRightActive[i]*/ && !buttonClicked)
-        {
-            // Activate location that was clicked on
-            activateRightLocation(i);
-            
-            // Deactivate all crossrail and hs1 content displayers
-            for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
-                for(auto content = location->second.begin(); content != location->second.end(); content++) {
-                    (*content)->setIsActive(false);
-                }
-            }
-            for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
-                for(auto content = location->second.begin(); content != location->second.end(); content++) {
-                    (*content)->setIsActive(false);
-                }
-            }
-            
-            // Deselect all crossrail and hs1 content
-            for(int i = 0; i < allCons.size(); i++) {
-                allCons[i]->isSelected = false;
-            }
-            
-            // Set globals
-            buttonClicked = true;
-            Globals::buttonPressed = true;
-        }
-    }
-}
-
 void InteractiveMenu::activateLeftContent(int locationIndex, int contentIndex) {
     string locationNames[5];
     locationNames[0] = "StPancras";
@@ -773,72 +700,6 @@ void InteractiveMenu::activateRightContent(int locationIndex, int contentIndex) 
     c.crossrailDisplayers[locationNames[locationIndex]][contentIndex]->setIsActive(true);
     if (!Globals::vignetteOn)
         Globals::vignetteOn = true;
-}
-
-
-//--------------------------------------------------------------
-void InteractiveMenu::pressedContent()
-{
-    // ------------------------------------
-    // left content menu item selection
-    // ------------------------------------
-    for(int i = 0; i < BUTTON_AMT; i++) {
-        bool contentActivated = false;
-        for(int j = 0; j < BUTTON_AMT; j++) {
-
-//            cout<<i<<","<<j<<": "<<"enabled: "<<lCon[i][j].enabled<<endl;
-//            lCon[i][j].isMousePressed()
-            if(lCon[i][j].isMousePressed() && bLPlace[i] && !lCon[i][j].isSelected) {
-                activateLeftContent(i, j);
-                contentActivated = true;
-                break;
-            }
-        }
-        if(!contentActivated) {
-            if (!bLPlace[0] && !bLPlace[1] && !bLPlace[2] && !bLPlace[3] && !bLPlace[4] && !bRPlace[0] && !bRPlace[1] && !bRPlace[2] && !bRPlace[3] && !bRPlace[4])
-            {
-                for(int j = 0; j < BUTTON_AMT; j++) {
-                    lCon[i][j].isSelected = false;
-                }
-                // close content, stop video, and disable vignette
-                c.item = 5;
-                c.stopVideos();
-                c.stopAudio();
-                // c.stopLocationAudio();
-                if (Globals::vignetteOn)
-                    Globals::vignetteOn = false;
-            }
-        }
-    }
-    
-    // ------------------------------------
-    // right content menu item selection
-    // ------------------------------------
-    for(int i = 0; i < BUTTON_AMT; i++) {
-        bool contentActivated = false;
-        for(int j = 0; j < BUTTON_AMT; j++) {
-            if(rCon[i][j].isMousePressed() && bRPlace[i] && !rCon[i][j].isSelected) {
-                activateRightContent(i, j);
-                contentActivated = true;
-                break;
-            }
-        }
-        if(!contentActivated) {
-            if (!bLPlace[0] && !bLPlace[1] && !bLPlace[2] && !bLPlace[3] && !bLPlace[4] && !bRPlace[0] && !bRPlace[1] && !bRPlace[2] && !bRPlace[3] && !bRPlace[4])
-            {
-                for(int j = 0; j < BUTTON_AMT; j++) {
-                    rCon[i][j].isSelected = false;
-                }
-                // close content, stop video, and disable vignette
-                c.item = 5;
-                c.stopVideos();
-                c.stopAudio();
-                // c.stopLocationAudio();
-                if (Globals::vignetteOn)
-                    Globals::vignetteOn = false;
-            }
-        }
-    }
 }
 
 //--------------------------------------------------------------
