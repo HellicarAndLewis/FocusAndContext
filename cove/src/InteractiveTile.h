@@ -21,6 +21,7 @@ public:
     ofVec2f size;
     
     ofxFontStash* font;
+    Content* c;
 
     ofVec2f position;
     ofVec2f target;
@@ -97,6 +98,19 @@ public:
                 
         if(hitTest(x, y)) {                        // if mouse is over
             onPress(x, y, button);                    // call onPress
+        }
+    }
+    
+    void deactivateAllContent() {
+        for(auto location = c->hs1Displayers.begin(); location != c->hs1Displayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
+        }
+        for(auto location = c->crossrailDisplayers.begin(); location != c->crossrailDisplayers.end(); location++) {
+            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                (*content)->setIsActive(false);
+            }
         }
     }
     

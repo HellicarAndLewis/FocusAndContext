@@ -9,6 +9,7 @@
 #define ContentTile_h
 
 #include "InteractiveTile.h"
+#include "Content.h"
 
 class ContentTile : public InteractiveTile {
 public:
@@ -17,7 +18,7 @@ public:
     ofVec2f intermediateTarget;
     ofVec2f collapseTarget;
     
-    
+    ContentDisplayer* contentDisplayerToActivate;
     
     bool isExpanded;
     
@@ -44,7 +45,8 @@ public:
             }
         }
         if(!someTilesAnimating && target == expandTarget) {
-            cout<<"Content Tile Pressed!"<<endl;
+            deactivateAllContent();
+            contentDisplayerToActivate->setIsActive(true);
         }
     }
     

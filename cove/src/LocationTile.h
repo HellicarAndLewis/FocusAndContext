@@ -67,6 +67,7 @@ public:
             }
         }
         if(!someTilesAnimating && target == expandTarget) {
+            deactivateAllContent();
             bool expanded = true;
             for(int i = 0; i < contentTilesToExpand.size(); i++) {
                 if(!(contentTilesToExpand[i]->isExpanded)) {

@@ -28,7 +28,6 @@ public:
     }
     // Do something when pressed
     void onPress(int x, int y, int button) {
-        cout<<"Main Tile Pressed!"<<endl;
         bool someTilesAnimating = false;
         for(int i = 0; i < allTiles.size(); i++) {
             if(allTiles[i]->animationStep > -1) {
@@ -36,6 +35,7 @@ public:
             }
         }
         if(!someTilesAnimating) {
+            deactivateAllContent();
             animationStep = 0;
         }
     }

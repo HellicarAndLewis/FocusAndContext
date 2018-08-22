@@ -31,6 +31,9 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     rightOn = false;
     buttonClicked = false;
     
+    // content media setup
+    c.setup();
+    
     titleFont.setup("fonts/Plain-Regular.ttf", 1.5, 1024, true, 8, 2.0);
 
     // menu button sounds
@@ -100,6 +103,7 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     
     for(int i = 0; i < allInteractiveTiles.size(); i++) {
         allInteractiveTiles[i]->font = &titleFont;
+        allInteractiveTiles[i]->c = &c;
     }
     
     // Setup content Tiles
@@ -113,6 +117,7 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
             hs1ContentTiles[i][j]->expandTarget = ofVec2f((mainArea + padding), (i - j) * (mainArea + padding));
             hs1ContentTiles[i][j]->isExpanded = false;
             hs1ContentTiles[i][j]->allTiles = allInteractiveTiles;
+            hs1ContentTiles[i][j]->contentDisplayerToActivate = c.hs1Displayers["StPancras"][0];
             hs1ContentTiles[i][j]->setup();
         }
     }
@@ -127,6 +132,7 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
             crossrailContentTiles[i][j]->size = ofVec2f(mainArea - 10, mainArea - 10);
             crossrailContentTiles[i][j]->isExpanded = false;
             crossrailContentTiles[i][j]->allTiles = allInteractiveTiles;
+            crossrailContentTiles[i][j]->contentDisplayerToActivate = c.crossrailDisplayers["Soho"][0];
             crossrailContentTiles[i][j]->setup();
         }
     }
@@ -354,9 +360,6 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     // setup content menu items
     setupLeftContent();
     setupRightContent();
-    
-    // content media setup
-    c.setup();
     
     
     for(int i = 0; i < 5; i++) {
