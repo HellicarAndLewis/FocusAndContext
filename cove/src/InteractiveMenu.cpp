@@ -350,19 +350,19 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     hs1MainTile->title = "HS1";
     crossrailMainTile->title = "Crossrail";
     
-    for(int i = 0; i < 5; i++) {
-        lPoints[i].setup();
-        rPoints[i].setup();
-    }
+//    for(int i = 0; i < 5; i++) {
+//        lPoints[i].setup();
+//        rPoints[i].setup();
+//    }
     
-    for(int i = 0; i < 5; i++) {
-        for(int j = 4; j > -1; j--) {
-            allCons.push_back(&rCon[j][i]);
-        }
-        for(int j = 4; j > -1; j--) {
-            allCons.push_back(&lCon[j][i]);
-        }
-    }
+//    for(int i = 0; i < 5; i++) {
+//        for(int j = 4; j > -1; j--) {
+//            allCons.push_back(&rCon[j][i]);
+//        }
+//        for(int j = 4; j > -1; j--) {
+//            allCons.push_back(&lCon[j][i]);
+//        }
+//    }
     
     c.setCons(allCons);
     
@@ -376,7 +376,6 @@ void InteractiveMenu::onMainButtonClicked(string & title) {
         loadCrossrail = false;
         leftOn = true;
         rightOn = false;
-
     }
     else if (title == crossrailMainTile->title)
     {
@@ -384,6 +383,10 @@ void InteractiveMenu::onMainButtonClicked(string & title) {
         loadCrossrail = true;
         rightOn = true;
         leftOn = false;
+    }
+    for(int i = 0; i < BUTTON_AMT; i++) {
+        bLeftActive[i] = false;
+        bRightActive[i] = false;
     }
 }
 
@@ -537,16 +540,11 @@ void InteractiveMenu::activateLeftContent(int locationIndex, int contentIndex) {
     locationNames[3] = "MedwayViaduct";
     locationNames[4] = "AshfordInternational";
 
-    if(!lCon[locationIndex][contentIndex].isSelected) {
-        snd2.play();
-    }
-    for(int i = 0; i < BUTTON_AMT; i++) {
-        lCon[locationIndex][i].isSelected = false;
-    }
-    lCon[locationIndex][contentIndex].isSelected = true;
+    // Might need to play a sound here:
+//    if(!lCon[locationIndex][contentIndex].isSelected) {
+//        snd2.play();
+//    }
     
-    // load current content, enable vignette
-    //c.load(0, 0, 0);
     for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
         for(auto content = location->second.begin(); content != location->second.end(); content++) {
             (*content)->setIsActive(false);
@@ -565,17 +563,12 @@ void InteractiveMenu::activateRightContent(int locationIndex, int contentIndex) 
     locationNames[2] = "Barbican";
     locationNames[3] = "TottenhamCourtRoad";
     locationNames[4] = "Soho";
+    // Maybe need to play sound here
     
-    if(!rCon[locationIndex][contentIndex].isSelected) {
-        snd2.play();
-    }
-    for(int i = 0; i < BUTTON_AMT; i++) {
-        rCon[locationIndex][i].isSelected = false;
-    }
-    rCon[locationIndex][contentIndex].isSelected = true;
+//    if(!rCon[locationIndex][contentIndex].isSelected) {
+//        snd2.play();
+//    }
     
-    // load current content, enable vignette
-    //c.load(0, 0, 0);
     for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
         for(auto content = location->second.begin(); content != location->second.end(); content++) {
             (*content)->setIsActive(false);

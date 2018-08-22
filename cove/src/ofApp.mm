@@ -783,9 +783,6 @@ void ofApp::update()
                 if(Globals::project == 1) {
                     menu.leftSwitch = true;
                     
-                    menu.leftMain.isSelected = true;
-                    menu.rightMain.isSelected = false;
-                    
                     menu.leftClose = true;
                     menu.rightClose = true;
                     
@@ -799,9 +796,6 @@ void ofApp::update()
                     loadProject(0);
                 } else {
                     menu.rightSwitch = true;
-                    
-                    menu.leftMain.isSelected = false;
-                    menu.rightMain.isSelected = true;
                     
                     menu.leftClose = true;
                     menu.rightClose = true;
@@ -840,9 +834,6 @@ void ofApp::menuSetup(int _w, int _h)
     // default left side on at start
     menu.leftOn = true;
     
-    // make sure left main button is highlighted
-    menu.leftMain.isSelected = true;
-    
     // first point is cam
     isCam = true;
 }
@@ -858,14 +849,14 @@ void ofApp::menuUpdates()
         for (int i = 0; i < BUTTON_AMT; i++)
         {
             // based on left button, load point
-            if (menu.bLeftActive[i] && menu.buttonClicked)
+            if (menu.bLeftActive[i])
             {
                 loadPoint(i);
                 menu.buttonClicked = false;
             }
             
             // based on right button, load point
-            if (menu.bRightActive[i] && menu.buttonClicked)
+            if (menu.bRightActive[i])
             {
                 loadPoint((BUTTON_AMT-1)-i);
                 menu.buttonClicked = false;
@@ -1326,9 +1317,6 @@ void ofApp::mouseReleased(int x, int y, int button)
         {
             menu.leftSwitch = true;
             
-            menu.leftMain.isSelected = true;
-            menu.rightMain.isSelected = false;
-            
             menu.leftClose = true;
             menu.rightClose = true;
             
@@ -1368,9 +1356,6 @@ void ofApp::mouseReleased(int x, int y, int button)
         if (menu.loadCrossrail)
         {
             menu.rightSwitch = true;
-            
-            menu.leftMain.isSelected = false;
-            menu.rightMain.isSelected = true;
             
             menu.leftClose = true;
             menu.rightClose = true;

@@ -41,24 +41,6 @@ public:
     
     ofxFontStash titleFont;
     
-    // content menu right
-    InteractiveObject rConHLines[BUTTON_AMT];
-    InteractiveObject rConVLines[BUTTON_AMT];
-    InteractiveObject rCon[BUTTON_AMT][BUTTON_AMT];
-    
-    // content menu left
-    InteractiveObject lConHLines[BUTTON_AMT];
-    InteractiveObject lConVLines[BUTTON_AMT];
-    InteractiveObject lCon[BUTTON_AMT][BUTTON_AMT];
-    
-    // main menu stuff
-    InteractiveObject lLine;
-    InteractiveObject rLine;
-    InteractiveObject lPoints[BUTTON_AMT];
-    InteractiveObject rPoints[BUTTON_AMT];
-    InteractiveObject leftMain;
-    InteractiveObject rightMain;
-    
     // interactive location tiles for left (ie HS1)
     vector< LocationTile* > hs1LocationTiles;
     vector< LocationTile* > crossrailLocationTiles;
@@ -73,30 +55,10 @@ public:
     // location labels
     Location* lLocations[BUTTON_AMT];
     Location* rLocations[BUTTON_AMT];
-    
-    bool bLLineH[BUTTON_AMT];
-    bool bRLineH[BUTTON_AMT];
-    bool bLPlace[BUTTON_AMT];
-    bool bRPlace[BUTTON_AMT];
-    string contentLLabels[BUTTON_AMT][BUTTON_AMT];
-    string contentRLabels[BUTTON_AMT][BUTTON_AMT];
-    
-    // left content positions and sizes
-    ofVec2f posLCon[BUTTON_AMT][BUTTON_AMT];
-    float sizeLCon[BUTTON_AMT][BUTTON_AMT];
-    
-    // right content positions and sizes
-    ofVec2f posRCon[BUTTON_AMT][BUTTON_AMT];
-    float sizeRCon[BUTTON_AMT][BUTTON_AMT];
+
     
     //amalgam of all the Con objects
     vector<InteractiveObject*> allCons;
-    
-    // main menu positions and sizes
-    ofVec2f posLeft[BUTTON_AMT];
-    ofVec2f posRight[BUTTON_AMT];
-    float sizeLeft[BUTTON_AMT];
-    float sizeRight[BUTTON_AMT];
     
     // variables
     bool bLeftActive[BUTTON_AMT];

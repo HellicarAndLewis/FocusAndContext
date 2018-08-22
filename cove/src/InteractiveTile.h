@@ -26,8 +26,6 @@ public:
     ofVec2f target;
     string title;
     
-    
-    
     int animationStep = -1;
     
     ofColor color;
