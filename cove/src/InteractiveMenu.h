@@ -28,8 +28,6 @@ class InteractiveMenu
 {
 public:
     void setup(int _w, int _h, float _mainArea, float _subArea, float _padding, float _easeIn, float _easeOut, vector<Location*> _lLocations, vector<Location*> _rLocations);
-    void setupLeftContent();
-    void setupRightContent();
     void update();
     void drawMenu();
     void drawContent();

@@ -354,11 +354,6 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
         lPoints[i].setup();
         rPoints[i].setup();
     }
-
-    // setup content menu items
-    setupLeftContent();
-    setupRightContent();
-    
     
     for(int i = 0; i < 5; i++) {
         for(int j = 4; j > -1; j--) {
@@ -442,71 +437,6 @@ void InteractiveMenu::onLabelClicked(string & title) {
                 Globals::buttonPressed = true;
             }
         }
-    }
-}
-
-//--------------------------------------------------------------
-void InteractiveMenu::setupLeftContent()
-{
-    // default x position
-    float dX = (padding * 2);
-    
-    // ----------------------------------
-    // content menu item 0
-    // ----------------------------------
-    // setup objects
-    for(int j = 0; j < BUTTON_AMT; j++) {
-        for (int i = 0; i < BUTTON_AMT; i++)
-        {
-            posLCon[j][i].set(padding, height - padding - mainArea + (areaDiff / 2));
-            lCon[j][i].set(posLCon[j][i], subArea, subArea);
-            lCon[j][i].drawType = 0;
-            lCon[j][i].lineLength = 0;
-            lCon[j][i].title = contentLLabels[j][i];
-        }
-        
-        // setup vertical line
-        lConVLines[j].lineLength = 0;
-        lConVLines[j].drawType = 3;
-        lConVLines[j].set(lCon[j][j].x, lCon[j][j].y, mainArea, mainArea);
-
-        // setup horizonal line
-        lConHLines[j].lineLength = 0;
-        lConHLines[j].drawType = 1;
-//        lConHLines[j].set(dX, height - padding - mainArea, mainArea, mainArea); //DANGER! Don't know why this doesn't need to be set
-    }
-}
-
-//--------------------------------------------------------------
-void InteractiveMenu::setupRightContent()
-{
-    // default x position
-    float dX = (padding * 2);
-    
-    // ----------------------------------
-    // content menu item 0
-    // ----------------------------------
-    // setup objects
-    for(int j = 0; j < BUTTON_AMT; j++) {
-        for (int i = 0; i < BUTTON_AMT; i++)
-        {
-            posRCon[j][i].set(width - padding - subArea, height - padding - mainArea + (areaDiff / 2));
-            
-            rCon[j][i].set(posRCon[j][i], subArea, subArea);
-            rCon[j][i].drawType = 0;
-            rCon[j][i].lineLength = 0;
-            rCon[j][i].title = contentRLabels[j][i];
-        }
-        
-        // setup vertical line
-        rConVLines[j].lineLength = 0;
-        rConVLines[j].drawType = 3;
-        rConVLines[j].set(rCon[j][j].x, rCon[j][j].y, mainArea, mainArea);
-        
-        // setup horizonal line
-        rConHLines[j].lineLength = 0;
-        rConHLines[j].drawType = 2;
-        rConHLines[j].set(dX, height - padding - mainArea, mainArea, 0); //DANGER! Don't know why this doesn't need to be set
     }
 }
 
