@@ -533,40 +533,6 @@ void InteractiveMenu::update()
 }
 
 //--------------------------------------------------------------
-void InteractiveMenu::drawContentMenu()
-{
-    // ----------------------------------
-    // left content menu items drawing
-    // ----------------------------------
-    // objects
-    for(int j = 0; j < BUTTON_AMT; j++) {
-        for (int i = 0; i < BUTTON_AMT; i++) {
-            lCon[j][i].isDraw = bLLineH[j];
-            // fade in labels
-            lCon[j][i].fadeLabel = !bLPlace[j];
-        }
-        // lines
-        lConVLines[j].isDraw = bLLineH[j];
-        lConHLines[j].isDraw = bLLineH[j];
-    }
-    
-    // ----------------------------------
-    // right content menu items drawing
-    // ----------------------------------
-    
-    for(int j = 0; j < BUTTON_AMT; j++) {
-        for (int i = 0; i < BUTTON_AMT; i++) {
-            rCon[j][i].isDraw = bRLineH[j];
-            // fade in labels
-            rCon[j][i].fadeLabel = !bRPlace[j];
-        }
-        // lines
-        rConVLines[j].isDraw = bRLineH[j];
-        rConHLines[j].isDraw = bRLineH[j];
-    }
-}
-
-//--------------------------------------------------------------
 void InteractiveMenu::drawMenu() {
     for(int i = 0; i < BUTTON_AMT; i++) {
         for(int j = 0; j < BUTTON_AMT; j++) {
@@ -583,7 +549,13 @@ void InteractiveMenu::drawMenu() {
         crossrailLocationTiles[i]->draw();
     }
     crossrailMainTile->draw();
+}
 
+//--------------------------------------------------------------
+void InteractiveMenu::drawContent()
+{
+    // content class draw function
+    c.draw();
 }
 
 //--------------------------------------------------------------
@@ -626,6 +598,7 @@ void InteractiveMenu::activateRightLocation(int index) {
     crossrailIntro.stop();
 }
 
+//--------------------------------------------------------------
 void InteractiveMenu::activateLeftContent(int locationIndex, int contentIndex) {
     string locationNames[5];
     locationNames[0] = "StPancras";
@@ -654,6 +627,7 @@ void InteractiveMenu::activateLeftContent(int locationIndex, int contentIndex) {
         Globals::vignetteOn = true;
 }
 
+//--------------------------------------------------------------
 void InteractiveMenu::activateRightContent(int locationIndex, int contentIndex) {
     string locationNames[5];
     locationNames[0] = "CanaryWharf";
@@ -680,11 +654,4 @@ void InteractiveMenu::activateRightContent(int locationIndex, int contentIndex) 
     c.crossrailDisplayers[locationNames[locationIndex]][contentIndex]->setIsActive(true);
     if (!Globals::vignetteOn)
         Globals::vignetteOn = true;
-}
-
-//--------------------------------------------------------------
-void InteractiveMenu::drawContent()
-{
-    // content class draw function
-    c.draw();
 }

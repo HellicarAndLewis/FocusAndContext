@@ -32,7 +32,6 @@ public:
     void setupRightContent();
     void update();
     void drawMenu();
-    void drawContentMenu();
     void drawContent();
 
     void onLabelClicked(string & title);
