@@ -217,71 +217,132 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     hs1LocationTiles[3]->title = "Medway Viaduct";
     hs1LocationTiles[4]->title = "Ashford International";
     
+    //St Pancras
     hs1ContentTiles[0][0]->title = "Designing the Undercroft";
     hs1ContentTiles[0][1]->title = "Station Renovation";
     hs1ContentTiles[0][2]->title = "Acoustic Testing";
     hs1ContentTiles[0][3]->title = "Land Use Plan";
     hs1ContentTiles[0][4]->title = "Station Model";
-    
+    hs1ContentTiles[0][0]->contentDisplayerToActivate = c.hs1Displayers["StPancras"][0];
+    hs1ContentTiles[0][1]->contentDisplayerToActivate = c.hs1Displayers["StPancras"][1];
+    hs1ContentTiles[0][2]->contentDisplayerToActivate = c.hs1Displayers["StPancras"][2];
+    hs1ContentTiles[0][3]->contentDisplayerToActivate = c.hs1Displayers["StPancras"][3];
+    hs1ContentTiles[0][4]->contentDisplayerToActivate = c.hs1Displayers["StPancras"][4];
+
+    // Stratford
     hs1ContentTiles[1][0]->title = "Tunnel Boring into London";
     hs1ContentTiles[1][1]->title = "Site Diagram";
     hs1ContentTiles[1][2]->title = "Under Construction";
     hs1ContentTiles[1][3]->title = "Stratford Today";
     hs1ContentTiles[1][4]->title = "Station Model";
+    hs1ContentTiles[1][0]->contentDisplayerToActivate = c.hs1Displayers["StratfordInternational"][0];
+    hs1ContentTiles[1][1]->contentDisplayerToActivate = c.hs1Displayers["StratfordInternational"][1];
+    hs1ContentTiles[1][2]->contentDisplayerToActivate = c.hs1Displayers["StratfordInternational"][2];
+    hs1ContentTiles[1][3]->contentDisplayerToActivate = c.hs1Displayers["StratfordInternational"][3];
+    hs1ContentTiles[1][4]->contentDisplayerToActivate = c.hs1Displayers["StratfordInternational"][4];
     
+    //Ebbsfleet
     hs1ContentTiles[2][0]->title = "Town Development";
     hs1ContentTiles[2][1]->title = "Bridge Push";
     hs1ContentTiles[2][2]->title = "Linking Overpass";
     hs1ContentTiles[2][3]->title = "Station Design";
     hs1ContentTiles[2][4]->title = "Ebbsfleet Elephant";
+    hs1ContentTiles[2][0]->contentDisplayerToActivate = c.hs1Displayers["EbbsfleetInternational"][0];
+    hs1ContentTiles[2][1]->contentDisplayerToActivate = c.hs1Displayers["EbbsfleetInternational"][1];
+    hs1ContentTiles[2][2]->contentDisplayerToActivate = c.hs1Displayers["EbbsfleetInternational"][2];
+    hs1ContentTiles[2][3]->contentDisplayerToActivate = c.hs1Displayers["EbbsfleetInternational"][3];
+    hs1ContentTiles[2][4]->contentDisplayerToActivate = c.hs1Displayers["EbbsfleetInternational"][4];
     
+    // Medway Viaduct
     hs1ContentTiles[3][0]->title = "Mapping Urban Regeneration";
     hs1ContentTiles[3][1]->title = "Under Construction";
     hs1ContentTiles[3][2]->title = "Aerial Footage";
     hs1ContentTiles[3][3]->title = "Completed Medway Viaduct";
     hs1ContentTiles[3][4]->title = "Bridge Model";
+    hs1ContentTiles[3][0]->contentDisplayerToActivate = c.hs1Displayers["MedwayViaduct"][0];
+    hs1ContentTiles[3][1]->contentDisplayerToActivate = c.hs1Displayers["MedwayViaduct"][1];
+    hs1ContentTiles[3][2]->contentDisplayerToActivate = c.hs1Displayers["MedwayViaduct"][2];
+    hs1ContentTiles[3][3]->contentDisplayerToActivate = c.hs1Displayers["MedwayViaduct"][3];
+    hs1ContentTiles[3][4]->contentDisplayerToActivate = c.hs1Displayers["MedwayViaduct"][4];
     
+    // Ashford
     hs1ContentTiles[4][0]->title = "The Campaign for HS1";
     hs1ContentTiles[4][1]->title = "The Arup Alignment";
     hs1ContentTiles[4][2]->title = "Relocating Houses";
     hs1ContentTiles[4][3]->title = "Ashford International Station";
     hs1ContentTiles[4][4]->title = "Ashford Today";
+    hs1ContentTiles[4][0]->contentDisplayerToActivate = c.hs1Displayers["AshfordInternational"][0];
+    hs1ContentTiles[4][1]->contentDisplayerToActivate = c.hs1Displayers["AshfordInternational"][1];
+    hs1ContentTiles[4][2]->contentDisplayerToActivate = c.hs1Displayers["AshfordInternational"][2];
+    hs1ContentTiles[4][3]->contentDisplayerToActivate = c.hs1Displayers["AshfordInternational"][3];
+    hs1ContentTiles[4][4]->contentDisplayerToActivate = c.hs1Displayers["AshfordInternational"][4];
 
+    // Crossrail
     crossrailLocationTiles[4]->title = "Soho";
     crossrailLocationTiles[3]->title = "Tottenham Court Road";
     crossrailLocationTiles[2]->title = "Barbican";
     crossrailLocationTiles[1]->title = "Liverpool Street";
     crossrailLocationTiles[0]->title = "Canary Wharf";
     
+    // Canary Wharf
     crossrailContentTiles[0][0]->title = "Station Model";
     crossrailContentTiles[0][1]->title = "Crossrail Place";
     crossrailContentTiles[0][2]->title = "Elevated Walkway";
     crossrailContentTiles[0][3]->title = "Section View of Crossrail Place";
     crossrailContentTiles[0][4]->title = "Cofferdam Construction";
+    crossrailContentTiles[0][0]->contentDisplayerToActivate = c.crossrailDisplayers["CanaryWharf"][0];
+    crossrailContentTiles[0][1]->contentDisplayerToActivate = c.crossrailDisplayers["CanaryWharf"][1];
+    crossrailContentTiles[0][2]->contentDisplayerToActivate = c.crossrailDisplayers["CanaryWharf"][2];
+    crossrailContentTiles[0][3]->contentDisplayerToActivate = c.crossrailDisplayers["CanaryWharf"][3];
+    crossrailContentTiles[0][4]->contentDisplayerToActivate = c.crossrailDisplayers["CanaryWharf"][4];
     
+    // Liverpool Street
     crossrailContentTiles[1][0]->title = "Station Model";
     crossrailContentTiles[1][1]->title = "Historical Layers";
     crossrailContentTiles[1][2]->title = "Excavation Site";
     crossrailContentTiles[1][3]->title = "Plague Pit";
     crossrailContentTiles[1][4]->title = "The Archaeological Dig";
+    crossrailContentTiles[1][0]->contentDisplayerToActivate = c.crossrailDisplayers["LiverpoolStreet"][0];
+    crossrailContentTiles[1][1]->contentDisplayerToActivate = c.crossrailDisplayers["LiverpoolStreet"][1];
+    crossrailContentTiles[1][2]->contentDisplayerToActivate = c.crossrailDisplayers["LiverpoolStreet"][2];
+    crossrailContentTiles[1][3]->contentDisplayerToActivate = c.crossrailDisplayers["LiverpoolStreet"][3];
+    crossrailContentTiles[1][4]->contentDisplayerToActivate = c.crossrailDisplayers["LiverpoolStreet"][4];
     
+    // Barbican
     crossrailContentTiles[2][0]->title = "Floating Track Slab Model";
     crossrailContentTiles[2][1]->title = "Railway Gantry";
     crossrailContentTiles[2][2]->title = "Tracks Under the Barbican";
     crossrailContentTiles[2][3]->title = "Installing Floating Track";
     crossrailContentTiles[2][4]->title = "Silent Tracks";
+    crossrailContentTiles[2][0]->contentDisplayerToActivate = c.crossrailDisplayers["Barbican"][0];
+    crossrailContentTiles[2][1]->contentDisplayerToActivate = c.crossrailDisplayers["Barbican"][1];
+    crossrailContentTiles[2][2]->contentDisplayerToActivate = c.crossrailDisplayers["Barbican"][2];
+    crossrailContentTiles[2][3]->contentDisplayerToActivate = c.crossrailDisplayers["Barbican"][3];
+    crossrailContentTiles[2][4]->contentDisplayerToActivate = c.crossrailDisplayers["Barbican"][4];
     
+    // Tottenham Court Road
     crossrailContentTiles[3][0]->title = "Station Model";
     crossrailContentTiles[3][1]->title = "Platform Tunnel";
     crossrailContentTiles[3][2]->title = "Tunnel Boring Machines";
     crossrailContentTiles[3][3]->title = "Concrete Ring Construction";
     crossrailContentTiles[3][4]->title = "Station Design";
+    crossrailContentTiles[3][0]->contentDisplayerToActivate = c.crossrailDisplayers["TottenhamCourtRoad"][0];
+    crossrailContentTiles[3][1]->contentDisplayerToActivate = c.crossrailDisplayers["TottenhamCourtRoad"][1];
+    crossrailContentTiles[3][2]->contentDisplayerToActivate = c.crossrailDisplayers["TottenhamCourtRoad"][2];
+    crossrailContentTiles[3][3]->contentDisplayerToActivate = c.crossrailDisplayers["TottenhamCourtRoad"][3];
+    crossrailContentTiles[3][4]->contentDisplayerToActivate = c.crossrailDisplayers["TottenhamCourtRoad"][4];
     
+    // Soho
     crossrailContentTiles[4][0]->title = "Wallasea Island";
     crossrailContentTiles[4][1]->title = "Grout Shaft";
     crossrailContentTiles[4][2]->title = "Sinking Ground";
     crossrailContentTiles[4][3]->title = "Monitoring Spots";
     crossrailContentTiles[4][4]->title = "Tunnelling Under Historic Buildings";
+    crossrailContentTiles[4][0]->contentDisplayerToActivate = c.crossrailDisplayers["Soho"][0];
+    crossrailContentTiles[4][1]->contentDisplayerToActivate = c.crossrailDisplayers["Soho"][1];
+    crossrailContentTiles[4][2]->contentDisplayerToActivate = c.crossrailDisplayers["Soho"][2];
+    crossrailContentTiles[4][3]->contentDisplayerToActivate = c.crossrailDisplayers["Soho"][3];
+    crossrailContentTiles[4][4]->contentDisplayerToActivate = c.crossrailDisplayers["Soho"][4];
     
     hs1MainTile->title = "HS1";
     crossrailMainTile->title = "Crossrail";
