@@ -187,7 +187,6 @@
 		136F97856F8309BC48738DCC /* fbxanimcurvefilters.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxanimcurvefilters.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/scene/animation/fbxanimcurvefilters.h; sourceTree = SOURCE_ROOT; };
 		13D73946A1538106D9BE5877 /* ofxFBXMeshMaterial.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxFBXMeshMaterial.cpp; path = ../../../addons/ofxFBX/src/ofxFBXMeshMaterial.cpp; sourceTree = SOURCE_ROOT; };
 		143CCAF52126F544001F2D76 /* InteractiveTile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InteractiveTile.h; sourceTree = "<group>"; };
-		143CCAF62126F557001F2D76 /* InteractiveLine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InteractiveLine.h; sourceTree = "<group>"; };
 		143CCAF72127205B001F2D76 /* MainTile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainTile.h; sourceTree = "<group>"; };
 		143CCAF8212720AF001F2D76 /* LocationTile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocationTile.h; sourceTree = "<group>"; };
 		143CCAF921272B27001F2D76 /* ContentTile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContentTile.h; sourceTree = "<group>"; };
@@ -1269,7 +1268,6 @@
 				143CCAF72127205B001F2D76 /* MainTile.h */,
 				143CCAF8212720AF001F2D76 /* LocationTile.h */,
 				143CCAF921272B27001F2D76 /* ContentTile.h */,
-				143CCAF62126F557001F2D76 /* InteractiveLine.h */,
 				E6FB442968B6FC56A3E48686 /* InteractiveObject.h */,
 			);
 			name = Menu;
