@@ -9,7 +9,7 @@
 #define InteractiveTile_h
 
 #include "ofMain.h"
-
+#include "ofxFontStash.h"
 //#include "ofxMSAInteractiveObject.h"
 
 class InteractiveTile {
@@ -21,6 +21,8 @@ public:
     
     ofVec2f size;
     
+    ofxFontStash* font;
+
     ofVec2f position;
     ofVec2f target;
     string title;
@@ -34,6 +36,8 @@ public:
         
         // set default color to darkened white
         color = ofColor(240);
+        
+        title = "Test Test Test";
     }
     
     // Return true if the interactive object is near where it should be;
@@ -58,7 +62,14 @@ public:
             newY += parentTile->position.y;
         }
         ofSetColor(color);
-        ofDrawRectangle(newX, newY, size.x, size.y);
+        ofDrawRectRounded(newX, newY, size.x, size.y, 10);
+        ofSetRectMode(OF_RECTMODE_CORNER);
+        ofSetColor(0);
+        int numLines;
+        int textBuffer = 10;
+        string test = "A";
+        ofRectangle r = font->drawMultiLineColumn(test, 12, newX + textBuffer, newY + textBuffer, size.x - textBuffer, numLines, true);
+        font->drawMultiLineColumn(title, 12, newX + textBuffer, newY + r.height + textBuffer, size.x - textBuffer, numLines);
         ofPopMatrix();
     }
     

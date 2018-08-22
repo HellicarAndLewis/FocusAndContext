@@ -14,6 +14,7 @@
 #include "InteractiveObject.h"
 #include "Content.h"
 #include "Location.h"
+#include "ofxFontStash.h"
 
 #include "MainTile.h"
 #include "LocationTile.h"
@@ -47,6 +48,8 @@ public:
     bool otherRightHLinesAreInactive(int index);
     void pressedLocation();
     void pressedContent();
+    
+    ofxFontStash titleFont;
     
     // content menu right
     InteractiveObject rConHLines[BUTTON_AMT];

@@ -31,6 +31,8 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     rightOn = false;
     buttonClicked = false;
     
+    titleFont.setup("fonts/Plain-Regular.ttf", 1.5, 1024, true, 8, 2.0);
+
     // menu button sounds
     snd1.load("content/audio/Arup_buttonPress1.wav");
     snd1.setMultiPlay(false);
@@ -96,15 +98,19 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
         }
     }
     
+    for(int i = 0; i < allInteractiveTiles.size(); i++) {
+        allInteractiveTiles[i]->font = &titleFont;
+    }
+    
     // Setup content Tiles
     for(int i = 0; i < hs1ContentTiles.size(); i++) {
         for(int j = 0; j < hs1ContentTiles[i].size(); j++) {
             hs1ContentTiles[i][j]->parentTile = hs1LocationTiles[i];
+            hs1ContentTiles[i][j]->size = ofVec2f(mainArea - 10, mainArea - 10);
             hs1ContentTiles[i][j]->position = ofVec2f(0, 0);
             hs1ContentTiles[i][j]->collapseTarget = ofVec2f(0, 0);
             hs1ContentTiles[i][j]->intermediateTarget = ofVec2f((mainArea + padding), 0);
             hs1ContentTiles[i][j]->expandTarget = ofVec2f((mainArea + padding), (i - j) * (mainArea + padding));
-            hs1ContentTiles[i][j]->size = ofVec2f(mainArea - 40, mainArea - 40);
             hs1ContentTiles[i][j]->isExpanded = false;
             hs1ContentTiles[i][j]->allTiles = allInteractiveTiles;
             hs1ContentTiles[i][j]->setup();
@@ -118,7 +124,7 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
             crossrailContentTiles[i][j]->collapseTarget = ofVec2f(0, 0);
             crossrailContentTiles[i][j]->intermediateTarget = ofVec2f(-(mainArea + padding), 0);
             crossrailContentTiles[i][j]->expandTarget = ofVec2f(-(mainArea + padding), (i - j) * (mainArea + padding));
-            crossrailContentTiles[i][j]->size = ofVec2f(mainArea - 40, mainArea - 40);
+            crossrailContentTiles[i][j]->size = ofVec2f(mainArea - 10, mainArea - 10);
             crossrailContentTiles[i][j]->isExpanded = false;
             crossrailContentTiles[i][j]->allTiles = allInteractiveTiles;
             crossrailContentTiles[i][j]->setup();
@@ -131,7 +137,7 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
         hs1LocationTiles[i]->position = ofVec2f(0, 0);
         hs1LocationTiles[i]->collapseTarget = ofVec2f(0, 0);
         hs1LocationTiles[i]->expandTarget = ofVec2f(0, - (i+1) * mainArea - (i+1) * padding);
-        hs1LocationTiles[i]->size = ofVec2f(mainArea - 20, mainArea - 20);
+        hs1LocationTiles[i]->size = ofVec2f(mainArea - 10, mainArea - 10);
         hs1LocationTiles[i]->contentTilesToExpand = hs1ContentTiles[i];
         for(int j = 0; j < hs1ContentTiles.size(); j++) {
             if(j != i) {
@@ -149,7 +155,7 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
         crossrailLocationTiles[i]->position = ofVec2f(0, 0);
         crossrailLocationTiles[i]->collapseTarget = ofVec2f(0, 0);
         crossrailLocationTiles[i]->expandTarget = ofVec2f(0, - (i+1) * mainArea - (i+1) * padding);
-        crossrailLocationTiles[i]->size = ofVec2f(mainArea - 20, mainArea - 20);
+        crossrailLocationTiles[i]->size = ofVec2f(mainArea - 10, mainArea - 10);
         crossrailLocationTiles[i]->contentTilesToExpand = crossrailContentTiles[i];
         for(int j = 0; j < crossrailContentTiles.size(); j++) {
             if(j != i) {
@@ -199,17 +205,17 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     crossrailMainTile->allTiles = allInteractiveTiles;
     crossrailMainTile->setup();
     
-//    hs1LocationTiles[0].title = "HS1/Location/StPancras";
-//    hs1LocationTiles[1].title = "HS1/Location/StratfordInternational";
-//    hs1LocationTiles[2].title = "HS1/Location/EbbsfleetInternational";
-//    hs1LocationTiles[3].title = "HS1/Location/MedwayViaduct";
-//    hs1LocationTiles[4].title = "HS1/Location/AshfordInternational";
-//
-//    crossrailLocationTiles[4].title = "Crossrail/Location/Soho";
-//    crossrailLocationTiles[3].title = "Crossrail/Location/TottenhamCourtRoad";
-//    crossrailLocationTiles[2].title = "Crossrail/Location/Barbican";
-//    crossrailLocationTiles[1].title = "Crossrail/Location/LiverpoolStreet";
-//    crossrailLocationTiles[0].title = "Crossrail/Location/CanaryWharf";
+    hs1LocationTiles[0]->title = "St Pancras International";
+    hs1LocationTiles[1]->title = "Stratford International";
+    hs1LocationTiles[2]->title = "Ebbsfleet International";
+    hs1LocationTiles[3]->title = "Medway Viaduct";
+    hs1LocationTiles[4]->title = "Ashford International";
+
+    crossrailLocationTiles[4]->title = "Soho";
+    crossrailLocationTiles[3]->title = "Tottenham Court Road";
+    crossrailLocationTiles[2]->title = "Barbican";
+    crossrailLocationTiles[1]->title = "Liverpool Street";
+    crossrailLocationTiles[0]->title = "Canary Wharf";
 
     // setup left menu line
     lLine.lineLength = 0;
@@ -1134,20 +1140,22 @@ void InteractiveMenu::drawContentMenu()
 
 //--------------------------------------------------------------
 void InteractiveMenu::drawMenu() {
-    hs1MainTile->draw();
     for(int i = 0; i < BUTTON_AMT; i++) {
-        hs1LocationTiles[i]->draw();
         for(int j = 0; j < BUTTON_AMT; j++) {
             hs1ContentTiles[i][j]->draw();
         }
+        hs1LocationTiles[i]->draw();
     }
-    crossrailMainTile->draw();
+    hs1MainTile->draw();
+    
     for(int i = 0; i < BUTTON_AMT; i++) {
-        crossrailLocationTiles[i]->draw();
         for(int j = 0; j < BUTTON_AMT; j++) {
             crossrailContentTiles[i][j]->draw();
         }
+        crossrailLocationTiles[i]->draw();
     }
+    crossrailMainTile->draw();
+
 }
 
 //--------------------------------------------------------------
