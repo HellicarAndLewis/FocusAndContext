@@ -350,20 +350,6 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     hs1MainTile->title = "HS1";
     crossrailMainTile->title = "Crossrail";
     
-//    for(int i = 0; i < 5; i++) {
-//        lPoints[i].setup();
-//        rPoints[i].setup();
-//    }
-    
-//    for(int i = 0; i < 5; i++) {
-//        for(int j = 4; j > -1; j--) {
-//            allCons.push_back(&rCon[j][i]);
-//        }
-//        for(int j = 4; j > -1; j--) {
-//            allCons.push_back(&lCon[j][i]);
-//        }
-//    }
-    
     c.setCons(allCons);
     
     leftWasOn = false;
