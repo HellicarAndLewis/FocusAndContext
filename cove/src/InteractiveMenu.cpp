@@ -142,9 +142,9 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     // Setup Location Tiles
     for(int i = 0; i < hs1LocationTiles.size(); i++) {
         hs1LocationTiles[i]->parentTile = hs1MainTile;
-        hs1LocationTiles[i]->position = ofVec2f(0, 0);
-        hs1LocationTiles[i]->collapseTarget = ofVec2f(0, 0);
-        hs1LocationTiles[i]->expandTarget = ofVec2f(0, - (i+1) * mainArea - (i+1) * padding);
+        hs1LocationTiles[i]->position = ofVec2f(5, 0);
+        hs1LocationTiles[i]->collapseTarget = ofVec2f(5, 0);
+        hs1LocationTiles[i]->expandTarget = ofVec2f(5, - (i+1) * mainArea - (i+1) * padding);
         hs1LocationTiles[i]->size = ofVec2f(mainArea - 10, mainArea - 10);
         hs1LocationTiles[i]->contentTilesToExpand = hs1ContentTiles[i];
         hs1LocationTiles[i]->location = lLocations[i];
@@ -158,12 +158,13 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
         hs1LocationTiles[i]->allTiles = allInteractiveTiles;
         hs1LocationTiles[i]->setup();
     }
+    hs1LocationTiles[4]->tilesToDrawLinesTo.push_back(hs1MainTile);
     
     for(int i = 0; i < crossrailLocationTiles.size(); i++) {
         crossrailLocationTiles[i]->parentTile = crossrailMainTile;
-        crossrailLocationTiles[i]->position = ofVec2f(0, 0);
-        crossrailLocationTiles[i]->collapseTarget = ofVec2f(0, 0);
-        crossrailLocationTiles[i]->expandTarget = ofVec2f(0, - (i+1) * mainArea - (i+1) * padding);
+        crossrailLocationTiles[i]->position = ofVec2f(5, 0);
+        crossrailLocationTiles[i]->collapseTarget = ofVec2f(5, 0);
+        crossrailLocationTiles[i]->expandTarget = ofVec2f(5, - (i+1) * mainArea - (i+1) * padding);
         crossrailLocationTiles[i]->size = ofVec2f(mainArea - 10, mainArea - 10);
         crossrailLocationTiles[i]->contentTilesToExpand = crossrailContentTiles[i];
         crossrailLocationTiles[i]->location = rLocations[BUTTON_AMT - 1- i];
@@ -453,6 +454,13 @@ void InteractiveMenu::update()
 
 //--------------------------------------------------------------
 void InteractiveMenu::drawMenu() {
+    for(int i = 0; i < BUTTON_AMT; i++) {
+        for(int j = 0; j < BUTTON_AMT; j++) {
+            hs1ContentTiles[i][j]->drawLines();
+        }
+        hs1LocationTiles[i]->drawLines();
+    }
+    
     for(int i = 0; i < BUTTON_AMT; i++) {
         for(int j = 0; j < BUTTON_AMT; j++) {
             hs1ContentTiles[i][j]->draw();

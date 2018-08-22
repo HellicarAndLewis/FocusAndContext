@@ -16,7 +16,8 @@ public:
     InteractiveTile* parentTile = nullptr;
     
     vector<InteractiveTile*> allTiles;
-    
+    vector<InteractiveTile*> tilesToDrawLinesTo;
+
     ofVec2f size;
     
     ofxFontStash* font;
@@ -25,6 +26,7 @@ public:
     ofVec2f position;
     ofVec2f target;
     string title;
+    
     
     int animationStep = -1;
     
@@ -70,6 +72,40 @@ public:
         ofRectangle r = font->drawMultiLineColumn(test, 12, newX + textBuffer, newY + textBuffer, size.x - textBuffer, numLines, true);
         font->drawMultiLineColumn(title, 12, newX + textBuffer, newY + r.height + textBuffer, size.x - textBuffer, numLines);
         ofPopMatrix();
+    }
+    
+    void drawLines() {
+        for(int i = 0; i < tilesToDrawLinesTo.size(); i++) {
+            ofSetLineWidth(3);
+            ofSetColor(255, 130, 0);
+            ofVec2f me = ofVec2f(position.x + size.x/2, position.y + size.y/2);
+            ofVec2f other = ofVec2f(tilesToDrawLinesTo[i]->position.x + tilesToDrawLinesTo[i]->size.x/2, tilesToDrawLinesTo[i]->position.y + tilesToDrawLinesTo[i]->size.y/2);
+            float newX = me.x;
+            float newY = me.y;
+            if(parentTile != nullptr) {
+                if(parentTile->parentTile != nullptr) {
+                    newX += parentTile->parentTile->position.x;
+                    newY += parentTile->parentTile->position.y;
+                }
+                newX += parentTile->position.x;
+                newY += parentTile->position.y;
+            }
+            me.x = newX;
+            me.y = newY;
+            
+            newX = other.x;
+            newY = other.y;
+            if(parentTile != nullptr) {
+                if(parentTile->parentTile != nullptr) {
+                    newX += parentTile->parentTile->position.x;
+                    newY += parentTile->parentTile->position.y;
+                }
+                newX += parentTile->position.x;
+                newY += parentTile->position.y;
+            }
+
+            ofDrawLine(me.x, me.y, other.x, other.y);
+        }
     }
     
     // Update performs the transforms of the animations and steps through positions withint the current animation state.
