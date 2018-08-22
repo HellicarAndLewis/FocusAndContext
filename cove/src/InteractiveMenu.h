@@ -41,8 +41,6 @@ public:
     void activateRightContent(int locationIndex, int contentIndex);
     void activateLeftLocation(int index);
     void activateRightLocation(int index);
-    bool otherLeftHLinesAreInactive(int index);
-    bool otherRightHLinesAreInactive(int index);
     
     ofxFontStash titleFont;
     

@@ -532,26 +532,6 @@ void InteractiveMenu::update()
     c.update();
 }
 
-bool InteractiveMenu::otherLeftHLinesAreInactive(int index) {
-    bool b = true;
-    for(int i = 0; i < BUTTON_AMT; i++) {
-        if(i != index) {
-            b = b && !bLLineH[i];
-        }
-    }
-    return b;
-}
-
-bool InteractiveMenu::otherRightHLinesAreInactive(int index) {
-    bool b = true;
-    for(int i = 0; i < BUTTON_AMT; i++) {
-        if(i != index) {
-            b = b && !bRLineH[i];
-        }
-    }
-    return b;
-}
-
 //--------------------------------------------------------------
 void InteractiveMenu::drawContentMenu()
 {
