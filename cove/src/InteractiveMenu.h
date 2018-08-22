@@ -38,6 +38,7 @@ public:
     void transformLandscape();
 
     void onLabelClicked(string & title);
+    void onMainButtonClicked(string & title);
     void activateLeftContent(int locationIndex, int contentIndex);
     void activateRightContent(int locationIndex, int contentIndex);
     void activateLeftLocation(int index);
@@ -76,6 +77,9 @@ public:
     MainTile* crossrailMainTile;
     vector< vector<ContentTile*> > hs1ContentTiles;
     vector< vector<ContentTile*> > crossrailContentTiles;
+    
+    bool loadHs1;
+    bool loadCrossrail;
         
     // location labels
     Location* lLocations[BUTTON_AMT];

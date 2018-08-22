@@ -10,7 +10,6 @@
 
 #include "ofMain.h"
 #include "ofxFontStash.h"
-//#include "ofxMSAInteractiveObject.h"
 
 class InteractiveTile {
 public:
@@ -26,6 +25,8 @@ public:
     ofVec2f position;
     ofVec2f target;
     string title;
+    
+    
     
     int animationStep = -1;
     

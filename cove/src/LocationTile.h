@@ -8,6 +8,7 @@
 #ifndef LocationTile_h
 #define LocationTile_h
 
+#include "Location.h"
 #include "InteractiveTile.h"
 #include "ContentTile.h"
 
@@ -19,7 +20,10 @@ public:
     
     vector<ContentTile*> contentTilesToCollapse;
     vector<ContentTile*> contentTilesToExpand;
-        
+    
+    // This is kind of a janky way to get zooming in to work. I'm going to notify the location points "onClick" event so I can zoom in with the buttons to.
+    Location* location;
+    
     void setup() {
         InteractiveTile::setup();
         
@@ -67,6 +71,8 @@ public:
             }
         }
         if(!someTilesAnimating && target == expandTarget) {
+            string locationTitle = location->title;
+            ofNotifyEvent(location->onLabelClicked, locationTitle);
             deactivateAllContent();
             bool expanded = true;
             for(int i = 0; i < contentTilesToExpand.size(); i++) {

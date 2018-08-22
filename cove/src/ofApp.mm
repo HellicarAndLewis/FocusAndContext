@@ -1322,7 +1322,7 @@ void ofApp::mouseReleased(int x, int y, int button)
     if (bCove)
     {
         // loads hs1 project
-        if (menu.leftMain.isMousePressed(0) == 1)
+        if (menu.loadHs1)
         {
             menu.leftSwitch = true;
             
@@ -1360,10 +1360,12 @@ void ofApp::mouseReleased(int x, int y, int button)
             }
             
             menu.c.stopLocationAudio();
+            menu.loadHs1 = false;
+            menu.loadCrossrail = false;
         }
         
         // loads crossrail project
-        if (menu.rightMain.isMousePressed(0) == 1)
+        if (menu.loadCrossrail)
         {
             menu.rightSwitch = true;
             
@@ -1401,6 +1403,9 @@ void ofApp::mouseReleased(int x, int y, int button)
             }
             
             menu.c.stopLocationAudio();
+            
+            menu.loadHs1 = false;
+            menu.loadCrossrail = false;
         }
     }
 }

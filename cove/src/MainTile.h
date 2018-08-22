@@ -22,6 +22,8 @@ public:
         
     bool animating = false;
     
+    ofEvent<string> onClick;
+    
     void setup() {
         InteractiveTile::setup();
         color = ofColor(255);
@@ -35,6 +37,7 @@ public:
             }
         }
         if(!someTilesAnimating) {
+            ofNotifyEvent(onClick, title);
             deactivateAllContent();
             animationStep = 0;
         }

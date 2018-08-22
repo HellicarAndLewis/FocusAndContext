@@ -58,11 +58,6 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
         lLocations[i] = _lLocations[i];
         rLocations[i] = _rLocations[i];
     }
-
-    for(int  i = 0; i < BUTTON_AMT; i++) {
-        ofAddListener(lLocations[i]->onLabelClicked, this, &InteractiveMenu::onLabelClicked);
-        ofAddListener(rLocations[i]->onLabelClicked, this, &InteractiveMenu::onLabelClicked);
-    }
     
     // Set the base positions of the buttons.
     ofVec2f hs1Base = ofVec2f(padding, height - padding - mainArea);
@@ -117,7 +112,6 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
             hs1ContentTiles[i][j]->expandTarget = ofVec2f((mainArea + padding), (i - j) * (mainArea + padding));
             hs1ContentTiles[i][j]->isExpanded = false;
             hs1ContentTiles[i][j]->allTiles = allInteractiveTiles;
-            hs1ContentTiles[i][j]->contentDisplayerToActivate = c.hs1Displayers["StPancras"][0];
             hs1ContentTiles[i][j]->setup();
         }
     }
@@ -132,7 +126,6 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
             crossrailContentTiles[i][j]->size = ofVec2f(mainArea - 10, mainArea - 10);
             crossrailContentTiles[i][j]->isExpanded = false;
             crossrailContentTiles[i][j]->allTiles = allInteractiveTiles;
-            crossrailContentTiles[i][j]->contentDisplayerToActivate = c.crossrailDisplayers["Soho"][0];
             crossrailContentTiles[i][j]->setup();
         }
     }
@@ -145,6 +138,7 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
         hs1LocationTiles[i]->expandTarget = ofVec2f(0, - (i+1) * mainArea - (i+1) * padding);
         hs1LocationTiles[i]->size = ofVec2f(mainArea - 10, mainArea - 10);
         hs1LocationTiles[i]->contentTilesToExpand = hs1ContentTiles[i];
+        hs1LocationTiles[i]->location = lLocations[i];
         for(int j = 0; j < hs1ContentTiles.size(); j++) {
             if(j != i) {
                 for(int k = 0; k < BUTTON_AMT; k++) {
@@ -163,6 +157,7 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
         crossrailLocationTiles[i]->expandTarget = ofVec2f(0, - (i+1) * mainArea - (i+1) * padding);
         crossrailLocationTiles[i]->size = ofVec2f(mainArea - 10, mainArea - 10);
         crossrailLocationTiles[i]->contentTilesToExpand = crossrailContentTiles[i];
+        crossrailLocationTiles[i]->location = rLocations[i];
         for(int j = 0; j < crossrailContentTiles.size(); j++) {
             if(j != i) {
                 for(int k = 0; k < BUTTON_AMT; k++) {
@@ -210,6 +205,14 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     }
     crossrailMainTile->allTiles = allInteractiveTiles;
     crossrailMainTile->setup();
+    
+    for(int  i = 0; i < BUTTON_AMT; i++) {
+        ofAddListener(lLocations[i]->onLabelClicked, this, &InteractiveMenu::onLabelClicked);
+        ofAddListener(rLocations[i]->onLabelClicked, this, &InteractiveMenu::onLabelClicked);
+        ofAddListener(hs1MainTile->onClick, this, &InteractiveMenu::onMainButtonClicked);
+        ofAddListener(crossrailMainTile->onClick, this, &InteractiveMenu::onMainButtonClicked);
+
+    }
     
     hs1LocationTiles[0]->title = "St Pancras International";
     hs1LocationTiles[1]->title = "Stratford International";
@@ -359,60 +362,6 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     rLine.isDraw = true;
     rLine.set(width - padding, height - padding - mainArea, mainArea, mainArea);
     
-    //----------------------
-    // content stuff
-    //----------------------
-    
-    ofxNestedFileLoader loader;
-    vector<string> paths = loader.load("content/Google Drive/Arup/Research/Content/HS1");
-    int labelsIndex = 0;
-//    for(int i = 0; i < paths.size(); i++) {
-//        vector<string> splitString = ofSplitString(paths[i], "/");
-//        if(splitString.size() == 11) {
-//            if(splitString[9] == "MenuButton" && splitString[10] != "Icon\r") {
-//                string full = paths[i];
-//                string file = splitString[splitString.size() - 1];
-//                vector<string> splitFile = ofSplitString(file, ".");
-//                string title = splitFile[0];
-//                cout<<title<<endl;
-////                string title = splitString[5] + "/" + splitString[6] + "/" + splitString[7] + "/" + splitString[8];
-//                int locationIndex = c.locationsDictionary[0].at(splitString[7]);
-////                hs1ContentTiles[locationIndex][labelsIndex]->title = title;
-//                //contentLLabels[locationIndex][labelsIndex] = title;
-//                labelsIndex++;
-//                if(labelsIndex == 5) {
-//                    labelsIndex = 0;
-//                }
-//            }
-//        }
-//    }
-    
-    loader.clearPaths();
-    
-//    content/Google Drive/Arup/Research/Content/HS1/Location/AshfordInternational/01_Media_ImgMap/Background/White Planel.png
-    
-//    paths = loader.load("content/Google Drive/Arup/Research/Content/Crossrail");
-//    labelsIndex = 0;
-//    for(int i = 0; i < paths.size(); i++) {
-//        vector<string> splitString = ofSplitString(paths[i], "/");
-//        if(splitString.size() == 11) {
-//            if(splitString[9] == "MenuButton" && splitString[10] != "Icon\r") {
-//                string full = paths[i];
-//                string file = splitString[splitString.size() - 1];
-//                vector<string> splitFile = ofSplitString(file, ".");
-//                string title = splitFile[0];
-////                string title = splitString[5] + "/" + splitString[6] + "/" + splitString[7] + "/" + splitString[8];
-//                int locationIndex = c.locationsDictionary[1].at(splitString[7]);
-////                contentRLabels[locationIndex][labelsIndex] = title;
-//                cout<<title<<endl;
-//                labelsIndex++;
-//                if(labelsIndex == 5) {
-//                    labelsIndex = 0;
-//                }
-//            }
-//        }
-//    }
-    
     for(int i = 0; i < 5; i++) {
         lPoints[i].setup();
         rPoints[i].setup();
@@ -435,6 +384,19 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     c.setCons(allCons);
     
     leftWasOn = false;
+}
+
+//--------------------------------------------------------------
+void InteractiveMenu::onMainButtonClicked(string & title) {
+    if(title == hs1MainTile->title) {
+        loadHs1 = true;
+        loadCrossrail = false;
+    }
+    else if (title == crossrailMainTile->title)
+    {
+        loadHs1 = false;
+        loadCrossrail = true;
+    }
 }
 
 //--------------------------------------------------------------
@@ -573,81 +535,66 @@ void InteractiveMenu::update()
         }
     }
     
-    // check button presses
-//    pressedLocation();
-    
-    // button position and size
-//    transformPortrait();
-    transformLandscape();
-
-    // draw menu content objects and lines
-    drawContentMenu();
-    
-    // content pressed
-    pressedContent();
-    
-    // hs1 project content menu position and size
-    for(int i = 0; i < BUTTON_AMT; i++) {
-        transformLeftContent(i);
-        transformRightContent(i);
-    }
-    
-    // delayed project selection swtich
-    if (leftSwitch && !bRLineH[0] && !bRLineH[1] && !bRLineH[2] && !bRLineH[3] && !bRLineH[4])
-    {
-        if (!leftOn) leftOn = true;
-        if (rightOn) rightOn = false;
-        
-        leftSwitch = false;
-    }
-    else if (rightSwitch && !bLLineH[0] && !bLLineH[1] && !bLLineH[2] && !bLLineH[3] && !bLLineH[4])
-    {
-        if (leftOn) leftOn = false;
-        if (!rightOn) rightOn = true;
-        
-        rightSwitch = false;
-    }
-    
     // update content
     c.update();
     
-    if(leftOn && !leftWasOn) {
-        crossrailIntro.stop();
-        c.stopLocationAudio();
-        hs1Intro.play();
-        leftWasOn = true;
-        for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
-            for(auto content = location->second.begin(); content != location->second.end(); content++) {
-                (*content)->setIsActive(false);
-            }
-        }
-        for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
-            for(auto content = location->second.begin(); content != location->second.end(); content++) {
-                (*content)->setIsActive(false);
-            }
-        }
-        for(int i = 0; i < allCons.size(); i++) {
-            allCons[i]->isSelected = false;
-        }
-    } else if(rightOn && leftWasOn) {
-        hs1Intro.stop();
-        c.stopLocationAudio();
-        crossrailIntro.play();
-        leftWasOn = false;
-        for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
-            for(auto content = location->second.begin(); content != location->second.end(); content++) {
-                (*content)->setIsActive(false);
-            }
-        }
-        for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
-            for(auto content = location->second.begin(); content != location->second.end(); content++) {
-                (*content)->setIsActive(false);
-            }
-        }
-        for(int i = 0; i < allCons.size(); i++) {
-            allCons[i]->isSelected = false;
-        }
-    }
+//    // check button presses
+////    pressedLocation();
+//
+//    // button position and size
+////    transformPortrait();
+//    transformLandscape();
+//
+//    // draw menu content objects and lines
+//    drawContentMenu();
+//
+//    // content pressed
+//    pressedContent();
+//
+//    // hs1 project content menu position and size
+//    for(int i = 0; i < BUTTON_AMT; i++) {
+//        transformLeftContent(i);
+//        transformRightContent(i);
+//    }
+//
+    
+//    if(leftOn && !leftWasOn) {
+//        crossrailIntro.stop();
+//        c.stopLocationAudio();
+//        hs1Intro.play();
+//        leftWasOn = true;
+//        for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+//            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+//                (*content)->setIsActive(false);
+//            }
+//        }
+//        for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+//            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+//                (*content)->setIsActive(false);
+//            }
+//        }
+//        for(int i = 0; i < allCons.size(); i++) {
+//            allCons[i]->isSelected = false;
+//        }
+//    } else if(rightOn && leftWasOn) {
+//        hs1Intro.stop();
+//        c.stopLocationAudio();
+//        crossrailIntro.play();
+//        leftWasOn = false;
+//        for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+//            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+//                (*content)->setIsActive(false);
+//            }
+//        }
+//        for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+//            for(auto content = location->second.begin(); content != location->second.end(); content++) {
+//                (*content)->setIsActive(false);
+//            }
+//        }
+//        for(int i = 0; i < allCons.size(); i++) {
+//            allCons[i]->isSelected = false;
+//        }
+//    }
 }
 
 bool InteractiveMenu::otherLeftHLinesAreInactive(int index) {

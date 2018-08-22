@@ -371,6 +371,10 @@ void Route::populateLocationsLeft() {
         xml.pushTag("location", i);
         Location location;
         location.titleFont = &titleFont;
+        string s = xml.getValue("title", "");
+        if(s != "") {
+            cout<<s<<endl;
+        }
         location.setup(xml.getValue("title", ""));
         location.latlon.set(xml.getValue("lat", 0.0f), xml.getValue("lon", 0.0f));
         location.camDistance = xml.getValue("camera:distance", 8000);
