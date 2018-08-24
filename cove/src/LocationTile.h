@@ -21,7 +21,7 @@ public:
     vector<ContentTile*> contentTilesToCollapse;
     vector<ContentTile*> contentTilesToExpand;
     
-    // This is kind of a janky way to get zooming in to work. I'm going to notify the location points "onClick" event so I can zoom in with the buttons to.
+    // This is kind of a janky way to get zooming in to work. I'm going to notify the location points "onClick" event so I can zoom in with the buttons too.
     Location* location;
     
     void setup() {

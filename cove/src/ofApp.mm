@@ -829,8 +829,8 @@ void ofApp::menuSetup(int _w, int _h)
     // configure menu
     // TODO: Remove magic numbers
     // original sizes:
-    float _mainArea = 112.0 / 1080.;
-    float _subArea = 100.0 / 1080.;
+    float _mainArea = 130.0 / 1080.;
+    float _subArea = 112.0 / 1080.;
     float _padding = 40.0 / 1080.;
 
     menu.setup(_w, _h, _mainArea * _h, _subArea * _h, _padding * _h, 0.2, 0.09, route.getLeftPOIs(), route.getRightPOIs());
