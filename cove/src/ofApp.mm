@@ -794,6 +794,9 @@ void ofApp::update()
                     
                     // hs1
                     loadProject(0);
+                    
+                    menu.hs1MainTile->onPress(0, 0, 0);
+                    
                 } else {
                     menu.rightSwitch = true;
                     
@@ -808,6 +811,7 @@ void ofApp::update()
                     
                     // crossrail
                     loadProject(1);
+                    menu.crossrailMainTile->onPress(0, 0, 0);
                 }
                 lastPressTime = ofGetElapsedTimef();
             }
