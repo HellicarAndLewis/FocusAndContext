@@ -835,6 +835,8 @@ void ofApp::menuSetup(int _w, int _h)
 
     menu.setup(_w, _h, _mainArea * _h, _subArea * _h, _padding * _h, 0.2, 0.09, route.getLeftPOIs(), route.getRightPOIs());
     
+    menu.hs1MainTile->onPress(0, 0, 0);
+    
     // default left side on at start
     menu.leftOn = true;
     
