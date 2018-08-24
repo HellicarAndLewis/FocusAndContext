@@ -95,14 +95,17 @@ public:
             
             newX = other.x;
             newY = other.y;
-            if(parentTile != nullptr) {
-                if(parentTile->parentTile != nullptr) {
-                    newX += parentTile->parentTile->position.x;
-                    newY += parentTile->parentTile->position.y;
+            InteractiveTile* otherParentTile = tilesToDrawLinesTo[i]->parentTile;
+            if(otherParentTile != nullptr) {
+                if(otherParentTile->parentTile != nullptr) {
+                    newX += otherParentTile->parentTile->position.x;
+                    newY += otherParentTile->parentTile->position.y;
                 }
-                newX += parentTile->position.x;
-                newY += parentTile->position.y;
+                newX += otherParentTile->position.x;
+                newY += otherParentTile->position.y;
             }
+            other.x = newX;
+            other.y = newY;
 
             ofDrawLine(me.x, me.y, other.x, other.y);
         }

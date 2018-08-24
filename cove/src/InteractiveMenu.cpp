@@ -148,6 +148,7 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
         hs1LocationTiles[i]->size = ofVec2f(mainArea - 10, mainArea - 10);
         hs1LocationTiles[i]->contentTilesToExpand = hs1ContentTiles[i];
         hs1LocationTiles[i]->location = lLocations[i];
+        hs1LocationTiles[i]->tilesToDrawLinesTo.push_back(hs1ContentTiles[i][i]);
         for(int j = 0; j < hs1ContentTiles.size(); j++) {
             if(j != i) {
                 for(int k = 0; k < BUTTON_AMT; k++) {
@@ -168,6 +169,8 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
         crossrailLocationTiles[i]->size = ofVec2f(mainArea - 10, mainArea - 10);
         crossrailLocationTiles[i]->contentTilesToExpand = crossrailContentTiles[i];
         crossrailLocationTiles[i]->location = rLocations[BUTTON_AMT - 1- i];
+        crossrailLocationTiles[i]->tilesToDrawLinesTo.push_back(crossrailContentTiles[i][i]);
+
         for(int j = 0; j < crossrailContentTiles.size(); j++) {
             if(j != i) {
                 for(int k = 0; k < BUTTON_AMT; k++) {
@@ -178,6 +181,8 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
         crossrailLocationTiles[i]->allTiles = allInteractiveTiles;
         crossrailLocationTiles[i]->setup();
     }
+    crossrailLocationTiles[4]->tilesToDrawLinesTo.push_back(crossrailMainTile);
+
     
     // Setup content Tiles
     for(int i = 0; i < hs1ContentTiles.size(); i++) {
@@ -192,6 +197,7 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
             hs1ContentTiles[i][j]->allTiles = allInteractiveTiles;
             hs1ContentTiles[i][j]->setup();
         }
+        hs1ContentTiles[i][0]->tilesToDrawLinesTo.push_back(hs1ContentTiles[i][4]);
     }
     
     for(int i = 0; i < crossrailContentTiles.size(); i++) {
@@ -206,6 +212,7 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
             crossrailContentTiles[i][j]->allTiles = allInteractiveTiles;
             crossrailContentTiles[i][j]->setup();
         }
+        crossrailContentTiles[i][0]->tilesToDrawLinesTo.push_back(crossrailContentTiles[i][4]);
     }
     
     for(int  i = 0; i < BUTTON_AMT; i++) {
@@ -457,8 +464,11 @@ void InteractiveMenu::drawMenu() {
     for(int i = 0; i < BUTTON_AMT; i++) {
         for(int j = 0; j < BUTTON_AMT; j++) {
             hs1ContentTiles[i][j]->drawLines();
+            crossrailContentTiles[i][j]->drawLines();
+
         }
         hs1LocationTiles[i]->drawLines();
+        crossrailLocationTiles[i]->drawLines();
     }
     
     for(int i = 0; i < BUTTON_AMT; i++) {
