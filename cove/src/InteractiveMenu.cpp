@@ -389,6 +389,7 @@ void InteractiveMenu::onLabelClicked(string & title) {
     if(leftOn) {
         for(int i = 0; i < BUTTON_AMT; i++) {
             if(lLocations[i]->title == title) {
+                hs1LocationTiles[i]->activate();
                 activateLeftLocation(i);
                 // Deactivate all crossrail and hs1 content displayers
                 for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
@@ -413,6 +414,7 @@ void InteractiveMenu::onLabelClicked(string & title) {
     } else if(rightOn) {
         for(int i = 0; i < BUTTON_AMT; i++) {
             if(rLocations[i]->title == title) {
+                crossrailLocationTiles[BUTTON_AMT - 1 - i]->activate();
                 activateRightLocation(BUTTON_AMT - 1 - i);
                 // Deactivate all crossrail and hs1 content displayers
                 for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {

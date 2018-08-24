@@ -63,6 +63,19 @@ public:
         }
     }
     
+    void activate() {
+        deactivateAllContent();
+        bool expanded = true;
+        for(int i = 0; i < contentTilesToExpand.size(); i++) {
+            if(!(contentTilesToExpand[i]->isExpanded)) {
+                expanded = false;
+            }
+        }
+        if(!expanded) {
+            animationStep = 0;
+        }
+    }
+    
     void onPress(int x, int y, int button) {
         bool someTilesAnimating = false;
         for(int i = 0; i < allTiles.size(); i++) {
@@ -73,16 +86,7 @@ public:
         if(!someTilesAnimating && target == expandTarget) {
             string locationTitle = location->title;
             ofNotifyEvent(location->onLabelClicked, locationTitle);
-            deactivateAllContent();
-            bool expanded = true;
-            for(int i = 0; i < contentTilesToExpand.size(); i++) {
-                if(!(contentTilesToExpand[i]->isExpanded)) {
-                    expanded = false;
-                }
-            }
-            if(!expanded) {
-                animationStep = 0;
-            }
+            activate();
         }
     }
     
