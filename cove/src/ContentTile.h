@@ -46,6 +46,7 @@ public:
         }
         if(!someTilesAnimating && target == expandTarget) {
             deactivateAllContent();
+            sound->play();
             contentDisplayerToActivate->setIsActive(true);
         }
     }

@@ -74,6 +74,7 @@ public:
         if(!expanded) {
             animationStep = 0;
         }
+        sound->play();
     }
     
     void onPress(int x, int y, int button) {

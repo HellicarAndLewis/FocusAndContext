@@ -40,6 +40,7 @@ public:
             ofNotifyEvent(onClick, title);
             deactivateAllContent();
             animationStep = 0;
+            sound->play();
         }
     }
     

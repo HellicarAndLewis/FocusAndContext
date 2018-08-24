@@ -107,6 +107,7 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     hs1MainTile->size = ofVec2f(mainArea, mainArea);
     hs1MainTile->locationTilesToExpand = hs1LocationTiles;
     hs1MainTile->locationTilesToCollapse = crossrailLocationTiles;
+    hs1MainTile->sound = &hs1Intro;
     for(int i = 0; i < hs1ContentTiles.size(); i++) {
         for(int j = 0; j < hs1ContentTiles[i].size(); j++) {
             hs1MainTile->contentTilesToCollapse.push_back(hs1ContentTiles[i][j]);
@@ -125,6 +126,7 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     crossrailMainTile->size = ofVec2f(mainArea, mainArea);
     crossrailMainTile->locationTilesToExpand = crossrailLocationTiles;
     crossrailMainTile->locationTilesToCollapse = hs1LocationTiles;
+    crossrailMainTile->sound = &crossrailIntro;
     for(int i = 0; i < hs1ContentTiles.size(); i++) {
         for(int j = 0; j < hs1ContentTiles[i].size(); j++) {
             crossrailMainTile->contentTilesToCollapse.push_back(hs1ContentTiles[i][j]);
@@ -149,6 +151,7 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
         hs1LocationTiles[i]->contentTilesToExpand = hs1ContentTiles[i];
         hs1LocationTiles[i]->location = lLocations[i];
         hs1LocationTiles[i]->tilesToDrawLinesTo.push_back(hs1ContentTiles[i][i]);
+        hs1LocationTiles[i]->sound = &snd1;
         for(int j = 0; j < hs1ContentTiles.size(); j++) {
             if(j != i) {
                 for(int k = 0; k < BUTTON_AMT; k++) {
@@ -170,6 +173,7 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
         crossrailLocationTiles[i]->contentTilesToExpand = crossrailContentTiles[i];
         crossrailLocationTiles[i]->location = rLocations[BUTTON_AMT - 1- i];
         crossrailLocationTiles[i]->tilesToDrawLinesTo.push_back(crossrailContentTiles[i][i]);
+        crossrailLocationTiles[i]->sound = &snd2;
 
         for(int j = 0; j < crossrailContentTiles.size(); j++) {
             if(j != i) {
@@ -196,6 +200,7 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
             hs1ContentTiles[i][j]->isExpanded = false;
             hs1ContentTiles[i][j]->allTiles = allInteractiveTiles;
             hs1ContentTiles[i][j]->setup();
+            hs1ContentTiles[i][j]->sound = &snd1;
         }
         hs1ContentTiles[i][0]->tilesToDrawLinesTo.push_back(hs1ContentTiles[i][4]);
     }
@@ -211,6 +216,7 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
             crossrailContentTiles[i][j]->isExpanded = false;
             crossrailContentTiles[i][j]->allTiles = allInteractiveTiles;
             crossrailContentTiles[i][j]->setup();
+            crossrailContentTiles[i][j]->sound = &snd2;
         }
         crossrailContentTiles[i][0]->tilesToDrawLinesTo.push_back(crossrailContentTiles[i][4]);
     }
@@ -547,9 +553,9 @@ void InteractiveMenu::activateLeftContent(int locationIndex, int contentIndex) {
     locationNames[4] = "AshfordInternational";
 
     // Might need to play a sound here:
-//    if(!lCon[locationIndex][contentIndex].isSelected) {
-//        snd2.play();
-//    }
+    //if(!lCon[locationIndex][contentIndex].isSelected) {
+    snd2.play();
+    //}
     
     for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
         for(auto content = location->second.begin(); content != location->second.end(); content++) {
@@ -572,7 +578,7 @@ void InteractiveMenu::activateRightContent(int locationIndex, int contentIndex) 
     // Maybe need to play sound here
     
 //    if(!rCon[locationIndex][contentIndex].isSelected) {
-//        snd2.play();
+        snd2.play();
 //    }
     
     for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {

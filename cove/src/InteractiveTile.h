@@ -27,6 +27,7 @@ public:
     ofVec2f target;
     string title;
     
+    ofSoundPlayer* sound;
     
     int animationStep = -1;
     
