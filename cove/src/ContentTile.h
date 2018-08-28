@@ -45,6 +45,9 @@ public:
         } else {
             isExpanded = false;
         }
+        if(!contentDisplayerToActivate->getIsActive()) {
+            ensmall();
+        }
     }
     
     void onPress(int x, int y, int button) {
