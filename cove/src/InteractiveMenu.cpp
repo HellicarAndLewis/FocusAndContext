@@ -163,11 +163,12 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
             }
         }
         for(int j = 0; j < hs1ContentTiles.size(); j++) {
-            if(j != i) {
-                for(int k = 0; k < BUTTON_AMT; k++) {
+            for(int k = 0; k < BUTTON_AMT; k++) {
+                if(j != i) {
                     hs1LocationTiles[i]->contentTilesToCollapse.push_back(hs1ContentTiles[j][k]);
-                    hs1LocationTiles[i]->contentTilesToEnsmall.push_back(hs1ContentTiles[j][k]);
                 }
+                hs1LocationTiles[i]->contentTilesToEnsmall.push_back(hs1ContentTiles[j][k]);
+                hs1LocationTiles[i]->contentTilesToEnsmall.push_back(crossrailContentTiles[j][k]);
             }
         }
         hs1LocationTiles[i]->allTiles = allInteractiveTiles;
@@ -194,11 +195,12 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
             }
         }
         for(int j = 0; j < crossrailContentTiles.size(); j++) {
-            if(j != i) {
-                for(int k = 0; k < BUTTON_AMT; k++) {
+            for(int k = 0; k < BUTTON_AMT; k++) {
+                if(j != i) {
                     crossrailLocationTiles[i]->contentTilesToCollapse.push_back(crossrailContentTiles[j][k]);
-                    crossrailLocationTiles[i]->contentTilesToEnsmall.push_back(crossrailContentTiles[j][k]);
                 }
+                crossrailLocationTiles[i]->contentTilesToEnsmall.push_back(hs1ContentTiles[j][k]);
+                crossrailLocationTiles[i]->contentTilesToEnsmall.push_back(crossrailContentTiles[j][k]);
             }
         }
         crossrailLocationTiles[i]->allTiles = allInteractiveTiles;

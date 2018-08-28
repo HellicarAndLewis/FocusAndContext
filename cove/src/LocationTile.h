@@ -59,11 +59,12 @@ public:
                 break;
             case 3 :
                 ensmallLocationTilesToEnsmall();
-                if(allLocationTilesAreEnsmalled()) {
+                enlarge();
+                if(allLocationTilesAreEnsmalled() && isNearSizeTarget()) {
                     animationStep++;
                 }
+                break;
             case 4 :
-                enlarge();
                 sendExpandContentTilesToIntermediateTarget();
                 if(allContentTilesInPosition()) {
                     animationStep++;
@@ -83,6 +84,7 @@ public:
     
     void activate() {
         deactivateAllContent();
+        ensmallContentTilesToEnsmall();
         bool expanded = true;
         for(int i = 0; i < contentTilesToExpand.size(); i++) {
             if(!(contentTilesToExpand[i]->isExpanded)) {
