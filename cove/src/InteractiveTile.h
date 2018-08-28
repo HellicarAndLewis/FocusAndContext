@@ -80,10 +80,10 @@ public:
         ofSetRectMode(OF_RECTMODE_CORNER);
         ofSetColor(0);
         int numLines;
-        int textBuffer = 10;
+        int textBuffer = ofGetWidth() * 8. / 1920.;
         string test = "A";
-        ofRectangle r = font->drawMultiLineColumn(test, 12, newX - size.x/2 + textBuffer, newY - size.y/2 + textBuffer, textWidth - textBuffer, numLines, true);
-        font->drawMultiLineColumn(title, 12, newX - size.x/2 + textBuffer, newY - size.y/2 + r.height + textBuffer, textWidth - textBuffer, numLines);
+        ofRectangle r = font->drawMultiLineColumn(test, 12, newX - size.x/2 + textBuffer, newY - size.y/2 + textBuffer, textWidth - textBuffer*2, numLines, true);
+        font->drawMultiLineColumn(title, 12, newX - size.x/2 + textBuffer, newY - size.y/2 + r.height + textBuffer, textWidth - textBuffer*2, numLines);
         ofPopMatrix();
     }
     
