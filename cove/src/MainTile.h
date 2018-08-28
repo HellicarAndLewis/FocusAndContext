@@ -48,24 +48,31 @@ public:
         InteractiveTile::update(easing);
         switch(animationStep) {
             case 0 :
+                ensmallContentTiles();
+                if(allContentTilesCorrectSize()) {
+                    animationStep++;
+                }
+                break;
+            case 1 :
                 sendCollapseContentTilesToIntermediateTarget();
                 if(allContentTilesInPosition()) {
                     animationStep++;
                 }
                 break;
-            case 1 :
+            case 2 :
                 collapseContentTiles();
                 if(allContentTilesInPosition()) {
                     animationStep++;
                 }
                 break;
-            case 2 :
-                collapseLocationTiles();
-                if(allLocationTilesInPosition()) {
+            case 3 :
+                ensmallLocationTiles();
+                if(allLocationTilesCorrectSize()) {
                     animationStep++;
                 }
                 break;
-            case 3 :
+            case 4 :
+                collapseLocationTiles();
                 expandLocationTiles();
                 if(allLocationTilesInPosition()) {
                     animationStep++;
@@ -94,6 +101,44 @@ public:
             }
         }
         return true;
+    }
+    
+    bool allLocationTilesCorrectSize() {
+        for(int i = 0; i < locationTilesToExpand.size(); i++) {
+            if(!locationTilesToExpand[i]->isNearSizeTarget()) {
+                return false;
+            }
+        }
+        for(int i = 0; i < locationTilesToCollapse.size(); i++) {
+            if(!locationTilesToCollapse[i]->isNearSizeTarget()) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    bool allContentTilesCorrectSize() {
+        for(int i = 0; i < locationTilesToCollapse.size(); i++) {
+            if(!locationTilesToCollapse[i]->isNearSizeTarget()) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    void ensmallLocationTiles() {
+        for(int i = 0; i < locationTilesToExpand.size(); i++) {
+            locationTilesToExpand[i]->ensmall();
+        }
+        for(int i = 0; i < locationTilesToCollapse.size(); i++) {
+            locationTilesToCollapse[i]->ensmall();
+        }
+    }
+    
+    void ensmallContentTiles() {
+        for(int i = 0; i < contentTilesToCollapse.size(); i++) {
+            contentTilesToCollapse[i]->ensmall();
+        }
     }
     
     void collapseLocationTiles() {

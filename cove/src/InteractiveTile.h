@@ -21,6 +21,7 @@ public:
     ofVec2f size;
     ofVec2f sizeTarget;
     float textWidth;
+    float textBuffer;
     
     ofxFontStash* font;
     Content* c;
@@ -44,6 +45,8 @@ public:
         colorTarget = ofColor(240);
         
         textWidth = size.x;
+        
+        textBuffer = ofGetWidth() * 8.0 / 1920.;
     }
     
     // Return true if the interactive object is near where it should be;
@@ -80,10 +83,10 @@ public:
         ofSetRectMode(OF_RECTMODE_CORNER);
         ofSetColor(0);
         int numLines;
-        int textBuffer = 10;
         string test = "A";
-        ofRectangle r = font->drawMultiLineColumn(test, 12, newX - size.x/2 + textBuffer, newY - size.y/2 + textBuffer, textWidth - textBuffer, numLines, true);
-        font->drawMultiLineColumn(title, 12, newX - size.x/2 + textBuffer, newY - size.y/2 + r.height + textBuffer, textWidth - textBuffer, numLines);
+        ofRectangle r = font->drawMultiLineColumn(test, 12, newX - size.x/2 + textBuffer, newY - size.y/2 + textBuffer, textWidth - textBuffer*2
+                                                , numLines, true);
+        font->drawMultiLineColumn(title, 12, newX - size.x/2 + textBuffer, newY - size.y/2 + r.height + textBuffer, textWidth - textBuffer*2, numLines);
         ofPopMatrix();
     }
     
