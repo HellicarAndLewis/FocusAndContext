@@ -20,6 +20,7 @@ public:
 
     ofVec2f size;
     ofVec2f sizeTarget;
+    float textWidth;
     
     ofxFontStash* font;
     Content* c;
@@ -41,8 +42,8 @@ public:
         // set default color to darkened white
         color = ofColor(240);
         colorTarget = ofColor(240);
-
-        title = "Test Test Test";
+        
+        textWidth = size.x;
     }
     
     // Return true if the interactive object is near where it should be;
@@ -81,8 +82,8 @@ public:
         int numLines;
         int textBuffer = 10;
         string test = "A";
-        ofRectangle r = font->drawMultiLineColumn(test, 12, newX - size.x/2 + textBuffer, newY - size.y/2 + textBuffer, size.x - textBuffer, numLines, true);
-        font->drawMultiLineColumn(title, 12, newX - size.x/2 + textBuffer, newY - size.y/2 + r.height + textBuffer, size.x - textBuffer, numLines);
+        ofRectangle r = font->drawMultiLineColumn(test, 12, newX - size.x/2 + textBuffer, newY - size.y/2 + textBuffer, textWidth - textBuffer, numLines, true);
+        font->drawMultiLineColumn(title, 12, newX - size.x/2 + textBuffer, newY - size.y/2 + r.height + textBuffer, textWidth - textBuffer, numLines);
         ofPopMatrix();
     }
     
