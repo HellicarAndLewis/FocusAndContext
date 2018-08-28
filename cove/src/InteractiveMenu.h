@@ -20,8 +20,6 @@
 #include "LocationTile.h"
 #include "ContentTile.h"
 
-
-
 #define		BUTTON_AMT		5
 
 class InteractiveMenu

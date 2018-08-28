@@ -60,8 +60,8 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     }
     
     // Set the base positions of the buttons.
-    ofVec2f hs1Base = ofVec2f(padding, height - padding - mainArea);
-    ofVec2f crossrailBase = ofVec2f((width - padding) - mainArea, height - padding - mainArea);
+    ofVec2f hs1Base = ofVec2f(padding + mainArea/2, height - padding - mainArea/2);
+    ofVec2f crossrailBase = ofVec2f((width - padding) - mainArea/2, height - padding - mainArea/2);
     
     // Initialize all my tile pointers;
     // Main tiles
@@ -144,9 +144,9 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     // Setup Location Tiles
     for(int i = 0; i < hs1LocationTiles.size(); i++) {
         hs1LocationTiles[i]->parentTile = hs1MainTile;
-        hs1LocationTiles[i]->position = ofVec2f(5, 0);
-        hs1LocationTiles[i]->collapseTarget = ofVec2f(5, 0);
-        hs1LocationTiles[i]->expandTarget = ofVec2f(5, - (i+1) * subArea - (i+1) * padding);
+        hs1LocationTiles[i]->position = ofVec2f(0, 0);
+        hs1LocationTiles[i]->collapseTarget = ofVec2f(0, 0);
+        hs1LocationTiles[i]->expandTarget = ofVec2f(0, - (i+1) * subArea - (i+1) * padding);
         hs1LocationTiles[i]->size = ofVec2f(subArea, subArea);
         hs1LocationTiles[i]->contentTilesToExpand = hs1ContentTiles[i];
         hs1LocationTiles[i]->location = lLocations[i];
@@ -166,9 +166,9 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     
     for(int i = 0; i < crossrailLocationTiles.size(); i++) {
         crossrailLocationTiles[i]->parentTile = crossrailMainTile;
-        crossrailLocationTiles[i]->position = ofVec2f(5, 0);
-        crossrailLocationTiles[i]->collapseTarget = ofVec2f(5, 0);
-        crossrailLocationTiles[i]->expandTarget = ofVec2f(5, - (i+1) * subArea - (i+1) * padding);
+        crossrailLocationTiles[i]->position = ofVec2f(0, 0);
+        crossrailLocationTiles[i]->collapseTarget = ofVec2f(0, 0);
+        crossrailLocationTiles[i]->expandTarget = ofVec2f(0, - (i+1) * subArea - (i+1) * padding);
         crossrailLocationTiles[i]->size = ofVec2f(subArea, subArea);
         crossrailLocationTiles[i]->contentTilesToExpand = crossrailContentTiles[i];
         crossrailLocationTiles[i]->location = rLocations[BUTTON_AMT - 1- i];
