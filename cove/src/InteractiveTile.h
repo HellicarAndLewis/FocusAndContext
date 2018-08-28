@@ -80,8 +80,8 @@ public:
         for(int i = 0; i < tilesToDrawLinesTo.size(); i++) {
             ofSetLineWidth(3);
             ofSetColor(255, 130, 0);
-            ofVec2f me = ofVec2f(position.x + size.x/2, position.y + size.y/2);
-            ofVec2f other = ofVec2f(tilesToDrawLinesTo[i]->position.x + tilesToDrawLinesTo[i]->size.x/2, tilesToDrawLinesTo[i]->position.y + tilesToDrawLinesTo[i]->size.y/2);
+            ofVec2f me = ofVec2f(position.x, position.y);
+            ofVec2f other = ofVec2f(tilesToDrawLinesTo[i]->position.x, tilesToDrawLinesTo[i]->position.y);
             float newX = me.x;
             float newY = me.y;
             if(parentTile != nullptr) {
