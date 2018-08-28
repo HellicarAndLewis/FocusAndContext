@@ -26,6 +26,11 @@ class InteractiveMenu
 {
 public:
     void setup(int _w, int _h, float _mainArea, float _subArea, float _padding, float _easeIn, float _easeOut, vector<Location*> _lLocations, vector<Location*> _rLocations);
+    void setTilePositionsLandscape();
+    void setTilePositionsPortrait();
+    void setupTiles(vector<InteractiveTile*> allInteractiveTiles);
+    void setTileTitlesAndContent();
+    vector<InteractiveTile*> initializeTiles();
     void update();
     void drawMenu();
     void drawContent();

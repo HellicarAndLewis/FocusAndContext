@@ -14,8 +14,11 @@
 #include "glmGeom.h"
 #include "Globals.h"
 
-#define HS1_ZOOMED_OUT_CAM_DISTANCE 125000 // was 270000 for portrait
-#define CROSSRAIL_ZOOMED_OUT_CAM_DISTANCE 30000 // was 60000 for portrait
+#define HS1_ZOOMED_OUT_CAM_DISTANCE_LANDSCAPE 125000 // was 270000 for portrait
+#define CROSSRAIL_ZOOMED_OUT_CAM_DISTANCE_LANDSCAPE 30000 // was 60000 for portrait
+#define HS1_ZOOMED_OUT_CAM_DISTANCE_PORTRAIT 270000
+#define CROSSRAIL_ZOOMED_OUT_CAM_DISTANCE_PORTRAIT 30000
+
 
 void ofApp::setup()
 {
@@ -30,7 +33,11 @@ void ofApp::setup()
     
     // camera draw distance
     cam.setFarClip(300000);
-    cam.setDistance(HS1_ZOOMED_OUT_CAM_DISTANCE);
+    if(ofGetWidth() > ofGetHeight()) {
+        cam.setDistance(HS1_ZOOMED_OUT_CAM_DISTANCE_LANDSCAPE);
+    } else {
+        cam.setDistance(HS1_ZOOMED_OUT_CAM_DISTANCE_PORTRAIT);
+    }
     
     //Set the initial tilt shift to 0
     tiltShift = 0.0;
@@ -701,8 +708,8 @@ void ofApp::update()
         {
             camTilt = 0;
             
-            if (route.activeProject == 0) camDistance = HS1_ZOOMED_OUT_CAM_DISTANCE;
-            else camDistance = CROSSRAIL_ZOOMED_OUT_CAM_DISTANCE;
+            if (route.activeProject == 0) camDistance = (ofGetWidth() > ofGetHeight()) ? HS1_ZOOMED_OUT_CAM_DISTANCE_LANDSCAPE : HS1_ZOOMED_OUT_CAM_DISTANCE_PORTRAIT;
+            else camDistance = (ofGetWidth() > ofGetHeight()) ? CROSSRAIL_ZOOMED_OUT_CAM_DISTANCE_LANDSCAPE : CROSSRAIL_ZOOMED_OUT_CAM_DISTANCE_PORTRAIT;
         }
         else
         {
@@ -715,8 +722,8 @@ void ofApp::update()
             {
                 camTilt = 0;
                 
-                if (route.activeProject == 0) camDistance = HS1_ZOOMED_OUT_CAM_DISTANCE;
-                else camDistance = CROSSRAIL_ZOOMED_OUT_CAM_DISTANCE;
+                if (route.activeProject == 0) camDistance = (ofGetWidth() > ofGetHeight()) ? HS1_ZOOMED_OUT_CAM_DISTANCE_LANDSCAPE : HS1_ZOOMED_OUT_CAM_DISTANCE_PORTRAIT;
+                else camDistance = (ofGetWidth() > ofGetHeight()) ? CROSSRAIL_ZOOMED_OUT_CAM_DISTANCE_LANDSCAPE : CROSSRAIL_ZOOMED_OUT_CAM_DISTANCE_PORTRAIT;
             }
             else
             {
@@ -829,11 +836,11 @@ void ofApp::menuSetup(int _w, int _h)
     // configure menu
     // TODO: Remove magic numbers
     // original sizes:
-    float _mainArea = 130.0 / 1080.;
-    float _subArea = 112.0 / 1080.;
-    float _padding = 40.0 / 1080.;
+    float _mainArea = 120.0;
+    float _subArea = 110.0;
+    float _padding = 35.0;
 
-    menu.setup(_w, _h, _mainArea * _h, _subArea * _h, _padding * _h, 0.2, 0.09, route.getLeftPOIs(), route.getRightPOIs());
+    menu.setup(_w, _h, _mainArea, _subArea, _padding, 0.2, 0.09, route.getLeftPOIs(), route.getRightPOIs());
     
     menu.hs1MainTile->onPress(0, 0, 0);
     
