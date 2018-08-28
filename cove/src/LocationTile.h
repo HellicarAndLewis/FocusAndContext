@@ -18,6 +18,12 @@ public:
     ofVec2f collapseTarget;
     ofVec2f expandTarget;
     
+    ofVec2f enlargeTarget;
+    ofVec2f ensmallTarget;
+    
+    vector<ContentTile*> contentTilesToEnsmall;
+    vector<LocationTile*> locationTilesToEnsmall;
+
     vector<ContentTile*> contentTilesToCollapse;
     vector<ContentTile*> contentTilesToExpand;
     
@@ -34,24 +40,36 @@ public:
         InteractiveTile::update(easing);
         switch(animationStep) {
             case 0 :
+                ensmallContentTilesToEnsmall();
+                if(allContentTilesAreEnsmalled()) {
+                    animationStep++;
+                }
+                break;
+            case 1 :
                 sendCollapseContentTilesToIntermediateTarget();
                 if(allContentTilesInPosition()) {
                     animationStep++;
                 }
                 break;
-            case 1 :
+            case 2 :
                 collapseContentTiles();
                 if(allContentTilesInPosition()) {
                     animationStep++;
                 }
                 break;
-            case 2 :
+            case 3 :
+                ensmallLocationTilesToEnsmall();
+                if(allLocationTilesAreEnsmalled()) {
+                    animationStep++;
+                }
+            case 4 :
+                enlarge();
                 sendExpandContentTilesToIntermediateTarget();
                 if(allContentTilesInPosition()) {
                     animationStep++;
                 }
                 break;
-            case 3:
+            case 5 :
                 expandContentTiles();
                 if(allContentTilesInPosition()) {
                     animationStep++;
@@ -90,7 +108,25 @@ public:
             activate();
         }
     }
+                   
+   bool allContentTilesAreEnsmalled() {
+       for(int i = 0; i < contentTilesToEnsmall.size(); i++) {
+           if(!contentTilesToEnsmall[i]->isNearSizeTarget()) {
+               return false;
+           }
+       }
+       return true;
+   }
     
+    bool allLocationTilesAreEnsmalled() {
+        for(int i = 0; i < locationTilesToEnsmall.size(); i++) {
+            if(!locationTilesToEnsmall[i]->isNearSizeTarget()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     bool allContentTilesInPosition() {
         for(int i = 0; i < contentTilesToCollapse.size(); i++) {
             if(!contentTilesToCollapse[i]->isNearTarget()) {
@@ -136,6 +172,26 @@ public:
     
     void expand() {
         target = expandTarget;
+    }
+    
+    void ensmallContentTilesToEnsmall() {
+        for(int i = 0; i < contentTilesToEnsmall.size(); i++) {
+            contentTilesToEnsmall[i]->ensmall();
+        }
+    }
+    
+    void ensmallLocationTilesToEnsmall() {
+        for(int i = 0; i < locationTilesToEnsmall.size(); i++) {
+            locationTilesToEnsmall[i]->ensmall();
+        }
+    }
+    
+    void enlarge() {
+        sizeTarget = enlargeTarget;
+    }
+    
+    void ensmall() {
+        sizeTarget = ensmallTarget;
     }
     
 };

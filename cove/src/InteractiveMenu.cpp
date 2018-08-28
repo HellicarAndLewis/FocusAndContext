@@ -105,6 +105,7 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     hs1MainTile->position = ofVec2f(hs1Base.x, hs1Base.y);
     hs1MainTile->target = ofVec2f(hs1Base.x, hs1Base.y);
     hs1MainTile->size = ofVec2f(mainArea, mainArea);
+    hs1MainTile->sizeTarget = ofVec2f(mainArea, mainArea);
     hs1MainTile->locationTilesToExpand = hs1LocationTiles;
     hs1MainTile->locationTilesToCollapse = crossrailLocationTiles;
     hs1MainTile->sound = &hs1Intro;
@@ -124,6 +125,7 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     crossrailMainTile->position = ofVec2f(crossrailBase.x, crossrailBase.y);
     crossrailMainTile->target = ofVec2f(crossrailBase.x, crossrailBase.y);
     crossrailMainTile->size = ofVec2f(mainArea, mainArea);
+    crossrailMainTile->sizeTarget = ofVec2f(mainArea, mainArea);
     crossrailMainTile->locationTilesToExpand = crossrailLocationTiles;
     crossrailMainTile->locationTilesToCollapse = hs1LocationTiles;
     crossrailMainTile->sound = &crossrailIntro;
@@ -148,14 +150,23 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
         hs1LocationTiles[i]->collapseTarget = ofVec2f(0, 0);
         hs1LocationTiles[i]->expandTarget = ofVec2f(0, - (i+1) * subArea - (i+1) * padding);
         hs1LocationTiles[i]->size = ofVec2f(subArea, subArea);
+        hs1LocationTiles[i]->sizeTarget = ofVec2f(subArea, subArea);
+        hs1LocationTiles[i]->enlargeTarget = ofVec2f(mainArea);
+        hs1LocationTiles[i]->ensmallTarget = ofVec2f(subArea);
         hs1LocationTiles[i]->contentTilesToExpand = hs1ContentTiles[i];
         hs1LocationTiles[i]->location = lLocations[i];
         hs1LocationTiles[i]->tilesToDrawLinesTo.push_back(hs1ContentTiles[i][i]);
         hs1LocationTiles[i]->sound = &snd1;
+        for(int j = 0; j < hs1LocationTiles.size(); j++) {
+            if(j != i) {
+                hs1LocationTiles[i]->locationTilesToEnsmall.push_back(hs1LocationTiles[j]);
+            }
+        }
         for(int j = 0; j < hs1ContentTiles.size(); j++) {
             if(j != i) {
                 for(int k = 0; k < BUTTON_AMT; k++) {
                     hs1LocationTiles[i]->contentTilesToCollapse.push_back(hs1ContentTiles[j][k]);
+                    hs1LocationTiles[i]->contentTilesToEnsmall.push_back(hs1ContentTiles[j][k]);
                 }
             }
         }
@@ -170,15 +181,23 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
         crossrailLocationTiles[i]->collapseTarget = ofVec2f(0, 0);
         crossrailLocationTiles[i]->expandTarget = ofVec2f(0, - (i+1) * subArea - (i+1) * padding);
         crossrailLocationTiles[i]->size = ofVec2f(subArea, subArea);
+        crossrailLocationTiles[i]->sizeTarget = ofVec2f(subArea, subArea);
+        crossrailLocationTiles[i]->enlargeTarget = ofVec2f(mainArea);
+        crossrailLocationTiles[i]->ensmallTarget = ofVec2f(subArea);
         crossrailLocationTiles[i]->contentTilesToExpand = crossrailContentTiles[i];
         crossrailLocationTiles[i]->location = rLocations[BUTTON_AMT - 1- i];
         crossrailLocationTiles[i]->tilesToDrawLinesTo.push_back(crossrailContentTiles[i][i]);
         crossrailLocationTiles[i]->sound = &snd2;
-
+        for(int j = 0; j < crossrailLocationTiles.size(); j++) {
+            if(j != i) {
+                crossrailLocationTiles[i]->locationTilesToEnsmall.push_back(crossrailLocationTiles[j]);
+            }
+        }
         for(int j = 0; j < crossrailContentTiles.size(); j++) {
             if(j != i) {
                 for(int k = 0; k < BUTTON_AMT; k++) {
                     crossrailLocationTiles[i]->contentTilesToCollapse.push_back(crossrailContentTiles[j][k]);
+                    crossrailLocationTiles[i]->contentTilesToEnsmall.push_back(crossrailContentTiles[j][k]);
                 }
             }
         }
@@ -193,12 +212,20 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
         for(int j = 0; j < hs1ContentTiles[i].size(); j++) {
             hs1ContentTiles[i][j]->parentTile = hs1LocationTiles[i];
             hs1ContentTiles[i][j]->size = ofVec2f(subArea, subArea);
+            hs1ContentTiles[i][j]->sizeTarget = ofVec2f(subArea, subArea);
+            hs1ContentTiles[i][j]->enlargeTarget = ofVec2f(mainArea);
+            hs1ContentTiles[i][j]->ensmallTarget = ofVec2f(subArea);
             hs1ContentTiles[i][j]->position = ofVec2f(0, 0);
             hs1ContentTiles[i][j]->collapseTarget = ofVec2f(0, 0);
             hs1ContentTiles[i][j]->intermediateTarget = ofVec2f((subArea + padding), 0);
             hs1ContentTiles[i][j]->expandTarget = ofVec2f((subArea + padding), (i - j) * (subArea + padding));
             hs1ContentTiles[i][j]->isExpanded = false;
             hs1ContentTiles[i][j]->allTiles = allInteractiveTiles;
+            for(int k = 0; k < hs1ContentTiles[i].size(); k++) {
+                if(k != j) {
+                    hs1ContentTiles[i][j]->contentTilesToEnsmall.push_back(hs1ContentTiles[i][k]);
+                }
+            }
             hs1ContentTiles[i][j]->setup();
             hs1ContentTiles[i][j]->sound = &snd1;
         }
@@ -208,13 +235,21 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     for(int i = 0; i < crossrailContentTiles.size(); i++) {
         for(int j = 0; j < crossrailContentTiles[i].size(); j++) {
             crossrailContentTiles[i][j]->parentTile = crossrailLocationTiles[i];
+            crossrailContentTiles[i][j]->size = ofVec2f(subArea, subArea);
+            crossrailContentTiles[i][j]->sizeTarget = ofVec2f(subArea, subArea);
+            crossrailContentTiles[i][j]->enlargeTarget = ofVec2f(mainArea);
+            crossrailContentTiles[i][j]->ensmallTarget = ofVec2f(subArea);
             crossrailContentTiles[i][j]->position = ofVec2f(0, 0);
             crossrailContentTiles[i][j]->collapseTarget = ofVec2f(0, 0);
             crossrailContentTiles[i][j]->intermediateTarget = ofVec2f(-(subArea + padding), 0);
             crossrailContentTiles[i][j]->expandTarget = ofVec2f(-(subArea + padding), (i - j) * (subArea + padding));
-            crossrailContentTiles[i][j]->size = ofVec2f(subArea, subArea);
             crossrailContentTiles[i][j]->isExpanded = false;
             crossrailContentTiles[i][j]->allTiles = allInteractiveTiles;
+            for(int k = 0; k < hs1ContentTiles[i].size(); k++) {
+                if(k != j) {
+                    crossrailContentTiles[i][j]->contentTilesToEnsmall.push_back(crossrailContentTiles[i][k]);
+                }
+            }
             crossrailContentTiles[i][j]->setup();
             crossrailContentTiles[i][j]->sound = &snd2;
         }

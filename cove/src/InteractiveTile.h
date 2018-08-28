@@ -19,6 +19,7 @@ public:
     vector<InteractiveTile*> tilesToDrawLinesTo;
 
     ofVec2f size;
+    ofVec2f sizeTarget;
     
     ofxFontStash* font;
     Content* c;
@@ -50,6 +51,13 @@ public:
         return false;
     }
     
+    bool isNearSizeTarget() {
+        if(ofDist(size.x, size.y, sizeTarget.x, sizeTarget.y) < 0.5) {
+            return true;
+        }
+        return false;
+    }
+    
     // Draw this tile
     void draw() {
         ofPushMatrix();
@@ -66,13 +74,13 @@ public:
         ofSetColor(color);
         ofSetRectMode(OF_RECTMODE_CENTER);
         ofDrawRectRounded(newX, newY, size.x, size.y, 10);
-//        ofSetRectMode(OF_RECTMODE_CORNER);
-//        ofSetColor(0);
-//        int numLines;
-//        int textBuffer = 10;
-//        string test = "A";
-//        ofRectangle r = font->drawMultiLineColumn(test, 12, newX + textBuffer, newY + textBuffer, size.x - textBuffer, numLines, true);
-//        font->drawMultiLineColumn(title, 12, newX + textBuffer, newY + r.height + textBuffer, size.x - textBuffer, numLines);
+        ofSetRectMode(OF_RECTMODE_CORNER);
+        ofSetColor(0);
+        int numLines;
+        int textBuffer = 10;
+        string test = "A";
+        ofRectangle r = font->drawMultiLineColumn(test, 12, newX - size.x/2 + textBuffer, newY - size.y/2 + textBuffer, size.x - textBuffer, numLines, true);
+        font->drawMultiLineColumn(title, 12, newX - size.x/2 + textBuffer, newY - size.y/2 + r.height + textBuffer, size.x - textBuffer, numLines);
         ofPopMatrix();
     }
     
@@ -117,7 +125,8 @@ public:
     void update(float easing) {
         position.x = ofLerp(position.x, target.x, easing);
         position.y = ofLerp(position.y, target.y, easing);
-
+        size.x = ofLerp(size.x, sizeTarget.x, easing);
+        size.y = ofLerp(size.y, sizeTarget.y, easing);
     }
     
     //--------------------------------------------------------------

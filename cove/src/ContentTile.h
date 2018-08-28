@@ -18,6 +18,11 @@ public:
     ofVec2f intermediateTarget;
     ofVec2f collapseTarget;
     
+    ofVec2f enlargeTarget;
+    ofVec2f ensmallTarget;
+    
+    vector<ContentTile*> contentTilesToEnsmall;
+    
     ContentDisplayer* contentDisplayerToActivate;
     
     bool isExpanded;
@@ -48,7 +53,23 @@ public:
             deactivateAllContent();
             sound->play();
             contentDisplayerToActivate->setIsActive(true);
+            enlarge();
+            ensmallContentTilesToEnsmall();
         }
+    }
+    
+    void ensmallContentTilesToEnsmall() {
+        for(int i = 0; i < contentTilesToEnsmall.size(); i++) {
+            contentTilesToEnsmall[i]->ensmall();
+        }
+    }
+    
+    void enlarge() {
+        sizeTarget = enlargeTarget;
+    }
+    
+    void ensmall() {
+        sizeTarget = ensmallTarget;
     }
     
     void goToIntermediateTarget() {
