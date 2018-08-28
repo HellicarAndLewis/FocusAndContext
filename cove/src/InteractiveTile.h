@@ -64,14 +64,15 @@ public:
             newY += parentTile->position.y;
         }
         ofSetColor(color);
+        ofSetRectMode(OF_RECTMODE_CENTER);
         ofDrawRectRounded(newX, newY, size.x, size.y, 10);
-        ofSetRectMode(OF_RECTMODE_CORNER);
-        ofSetColor(0);
-        int numLines;
-        int textBuffer = 10;
-        string test = "A";
-        ofRectangle r = font->drawMultiLineColumn(test, 12, newX + textBuffer, newY + textBuffer, size.x - textBuffer, numLines, true);
-        font->drawMultiLineColumn(title, 12, newX + textBuffer, newY + r.height + textBuffer, size.x - textBuffer, numLines);
+//        ofSetRectMode(OF_RECTMODE_CORNER);
+//        ofSetColor(0);
+//        int numLines;
+//        int textBuffer = 10;
+//        string test = "A";
+//        ofRectangle r = font->drawMultiLineColumn(test, 12, newX + textBuffer, newY + textBuffer, size.x - textBuffer, numLines, true);
+//        font->drawMultiLineColumn(title, 12, newX + textBuffer, newY + r.height + textBuffer, size.x - textBuffer, numLines);
         ofPopMatrix();
     }
     
@@ -165,7 +166,7 @@ public:
             newX += parentTile->position.x;
             newY += parentTile->position.y;
         }
-        return ((tx > newX) && (tx < newX + size.x) && (ty > newY) && (ty < newY + size.y));
+        return ((tx > newX - size.x/2) && (tx < newX + size.x/2) && (ty > newY-size.y/2) && (ty < newY + size.y/2));
     }
     
     // Do something when pressed
