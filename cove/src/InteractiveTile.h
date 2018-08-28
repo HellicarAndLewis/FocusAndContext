@@ -33,13 +33,15 @@ public:
     int animationStep = -1;
     
     ofColor color;
+    ofColor colorTarget;
     
     void setup() {
         ofAddListener(ofEvents().mousePressed, this, &InteractiveTile::_mousePressed);
         
         // set default color to darkened white
         color = ofColor(240);
-        
+        colorTarget = ofColor(240);
+
         title = "Test Test Test";
     }
     
@@ -127,6 +129,7 @@ public:
         position.y = ofLerp(position.y, target.y, easing);
         size.x = ofLerp(size.x, sizeTarget.x, easing);
         size.y = ofLerp(size.y, sizeTarget.y, easing);
+        color = color.lerp(colorTarget, easing);
     }
     
     //--------------------------------------------------------------

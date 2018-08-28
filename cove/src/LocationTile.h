@@ -27,6 +27,9 @@ public:
     vector<ContentTile*> contentTilesToCollapse;
     vector<ContentTile*> contentTilesToExpand;
     
+    ofColor smallColor;
+    ofColor largeColor;
+    
     // This is kind of a janky way to get zooming in to work. I'm going to notify the location points "onClick" event so I can zoom in with the buttons too.
     Location* location;
     
@@ -34,6 +37,8 @@ public:
         InteractiveTile::setup();
         
         color = ofColor(240);
+        smallColor = ofColor(240);
+        largeColor = ofColor(255);
     }
     
     void update(float easing) {
@@ -190,10 +195,12 @@ public:
     
     void enlarge() {
         sizeTarget = enlargeTarget;
+        colorTarget = largeColor;
     }
     
     void ensmall() {
         sizeTarget = ensmallTarget;
+        colorTarget = smallColor;
     }
     
 };

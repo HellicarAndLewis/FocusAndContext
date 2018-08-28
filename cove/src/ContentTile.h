@@ -21,6 +21,9 @@ public:
     ofVec2f enlargeTarget;
     ofVec2f ensmallTarget;
     
+    ofColor smallColor;
+    ofColor largeColor;
+    
     vector<ContentTile*> contentTilesToEnsmall;
     
     ContentDisplayer* contentDisplayerToActivate;
@@ -31,6 +34,8 @@ public:
         InteractiveTile::setup();
         
         color = ofColor(240);
+        smallColor = ofColor(240);
+        largeColor = ofColor(255);
     }
     
     void update(float easing) {
@@ -66,10 +71,12 @@ public:
     
     void enlarge() {
         sizeTarget = enlargeTarget;
+        colorTarget = largeColor;
     }
     
     void ensmall() {
         sizeTarget = ensmallTarget;
+        colorTarget = smallColor;
     }
     
     void goToIntermediateTarget() {
