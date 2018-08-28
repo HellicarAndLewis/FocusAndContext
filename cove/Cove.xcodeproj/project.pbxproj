@@ -663,7 +663,6 @@
 		E4EB6923138AFD0F00A09F29 /* Project.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Project.xcconfig; sourceTree = "<group>"; };
 		E547AB568F5E5027A880C47C /* ToonPass.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ToonPass.cpp; path = ../../../addons/ofxPostProcessing/src/ToonPass.cpp; sourceTree = SOURCE_ROOT; };
 		E575CF0D6867B5F09CBB2065 /* fbxeventhandler.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxeventhandler.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/core/fbxeventhandler.h; sourceTree = SOURCE_ROOT; };
-		E6FB442968B6FC56A3E48686 /* InteractiveObject.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = InteractiveObject.h; path = src/InteractiveObject.h; sourceTree = SOURCE_ROOT; };
 		E76DF598D41062128F0B9228 /* _fixes.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = _fixes.hpp; path = ../../../addons/ofxGlmTools/libs/glm/detail/_fixes.hpp; sourceTree = SOURCE_ROOT; };
 		E7DD50C5BC54569870454B35 /* matrix_operation.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = matrix_operation.hpp; path = ../../../addons/ofxGlmTools/libs/glm/gtx/matrix_operation.hpp; sourceTree = SOURCE_ROOT; };
 		E7E26C70DDE0C7D889F7D80A /* ofxVectorLabels.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxVectorLabels.h; path = ../../../addons/ofxVectorTile/src/ofxVectorLabels.h; sourceTree = SOURCE_ROOT; };
@@ -1268,7 +1267,6 @@
 				143CCAF72127205B001F2D76 /* MainTile.h */,
 				143CCAF8212720AF001F2D76 /* LocationTile.h */,
 				143CCAF921272B27001F2D76 /* ContentTile.h */,
-				E6FB442968B6FC56A3E48686 /* InteractiveObject.h */,
 			);
 			name = Menu;
 			sourceTree = "<group>";

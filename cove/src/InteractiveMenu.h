@@ -11,7 +11,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "InteractiveObject.h"
+//#include "InteractiveObject.h"
 #include "Content.h"
 #include "Location.h"
 #include "ofxFontStash.h"
@@ -58,10 +58,6 @@ public:
     // location labels
     Location* lLocations[BUTTON_AMT];
     Location* rLocations[BUTTON_AMT];
-
-    
-    //amalgam of all the Con objects
-    vector<InteractiveObject*> allCons;
     
     // variables
     bool bLeftActive[BUTTON_AMT];

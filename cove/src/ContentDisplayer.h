@@ -11,7 +11,6 @@
 #include "ofMain.h"
 #include "Playhead.h"
 #include "Globals.h"
-#include "InteractiveObject.h"
 #include "ofxFontStash.h"
 
 class ContentDisplayer {
@@ -37,7 +36,7 @@ public:
         if(isActive) Globals::vignetteOn = true;
         else Globals::vignetteOn = false;
     };
-    void setCons(vector<InteractiveObject*> _cons) { cons = _cons; };
+//    void setCons(vector<InteractiveObject*> _cons) { cons = _cons; };
     void setIsSpecial(bool _isSpecial) { isSpecial = _isSpecial; };
     void setTitleFont(ofxFontStash* font) { titleFont = font; };
     void setTextFont(ofxFontStash* font) { textFont = font; };
@@ -90,7 +89,7 @@ protected:
     
     int isSpecial;
     
-    vector<InteractiveObject*> cons;
+//    vector<InteractiveObject*> cons;
     
 };
 

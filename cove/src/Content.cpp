@@ -14,20 +14,6 @@
 const vector<map<string, int>> Content::locationsDictionary = createMaps();
 
 //--------------------------------------------------------------
-void Content::setCons(vector<InteractiveObject*> cons) {
-    for(auto location = hs1Displayers.begin(); location != hs1Displayers.end(); location++) {
-        for(auto content = location->second.begin(); content != location->second.end(); content++) {
-            (*content)->setCons(cons);
-        }
-    }
-    for(auto location = crossrailDisplayers.begin(); location != crossrailDisplayers.end(); location++) {
-        for(auto content = location->second.begin(); content != location->second.end(); content++) {
-            (*content)->setCons(cons);
-        }
-    }
-}
-
-//--------------------------------------------------------------
 void Content::setup()
 {
     // model camera view distance

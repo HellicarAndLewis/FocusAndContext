@@ -59,7 +59,7 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
         rLocations[i] = _rLocations[i];
     }
     
-    c.setCons(allCons);
+//    c.setCons(allCons);
     
     vector<InteractiveTile*> allTiles = initializeTiles();
     
@@ -570,9 +570,9 @@ void InteractiveMenu::onLabelClicked(string & title) {
                     }
                 }
                 // Deselect all crossrail and hs1 content
-                for(int i = 0; i < allCons.size(); i++) {
-                    allCons[i]->isSelected = false;
-                }
+//                for(int i = 0; i < allCons.size(); i++) {
+//                    allCons[i]->isSelected = false;
+//                }
                 // Set globals
                 buttonClicked = true;
                 Globals::buttonPressed = true;
@@ -595,9 +595,9 @@ void InteractiveMenu::onLabelClicked(string & title) {
                     }
                 }
                 // Deselect all crossrail and hs1 content
-                for(int i = 0; i < allCons.size(); i++) {
-                    allCons[i]->isSelected = false;
-                }
+//                for(int i = 0; i < allCons.size(); i++) {
+//                    allCons[i]->isSelected = false;
+//                }
                 // Set globals
                 buttonClicked = true;
                 Globals::buttonPressed = true;

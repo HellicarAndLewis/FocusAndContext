@@ -30,7 +30,6 @@ public:
     void stopVideos();
     void stopAudio();
     void stopLocationAudio();
-    void setCons(vector<InteractiveObject*> cons);
     
     // content locations
     // string path[2][5][5][3];

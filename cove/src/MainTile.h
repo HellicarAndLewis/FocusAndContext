@@ -18,8 +18,6 @@ public:
     vector<LocationTile*> locationTilesToCollapse;
     vector<ContentTile*> contentTilesToCollapse;
     
-    vector<InteractiveObject*> objectsThatAreAnimating;
-        
     bool animating = false;
     
     ofEvent<string> onClick;
