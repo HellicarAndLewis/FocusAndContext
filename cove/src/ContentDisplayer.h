@@ -88,8 +88,5 @@ protected:
     int type;
     
     int isSpecial;
-    
-//    vector<InteractiveObject*> cons;
-    
 };
 

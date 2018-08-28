@@ -22,9 +22,6 @@ void VideoDisplayer::update() {
         video->update();
         if(video->getPosition() >= 0.995) {
             setIsActive(false);
-//            for(int i = 0; i < cons.size(); i++) {
-//                cons[i]->isSelected = false;
-//            }
             video->setPosition(0.0);
         }
     }

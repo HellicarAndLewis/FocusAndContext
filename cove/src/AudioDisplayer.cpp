@@ -24,9 +24,6 @@ void AudioDisplayer::update() {
         }
         if(audio->getPosition() >= 0.99) {
             setIsActive(false);
-//            for(int i = 0; i < cons.size(); i++) {
-//                cons[i]->isSelected = false;
-//            }
         }
     }
 }
