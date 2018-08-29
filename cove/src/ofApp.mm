@@ -1294,9 +1294,9 @@ void ofApp::keyPressed(int key)
 {
     switch (key)
     {
-        case 'f':
-            ofToggleFullscreen();
-            break;
+//        case 'f':
+//            ofToggleFullscreen();
+//            break;
             
         case ' ':
             showGui(!gui->getVisible());
