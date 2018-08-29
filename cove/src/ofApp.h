@@ -142,6 +142,7 @@ public:
     
     // menu
     void menuSetup(int _w, int _h);
+    void menuSetPositions(int _w, int _h);
     void menuUpdates();
     InteractiveMenu menu;
     bool pointReached;

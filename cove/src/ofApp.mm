@@ -17,7 +17,7 @@
 #define HS1_ZOOMED_OUT_CAM_DISTANCE_LANDSCAPE 125000 // was 270000 for portrait
 #define CROSSRAIL_ZOOMED_OUT_CAM_DISTANCE_LANDSCAPE 30000 // was 60000 for portrait
 #define HS1_ZOOMED_OUT_CAM_DISTANCE_PORTRAIT 270000
-#define CROSSRAIL_ZOOMED_OUT_CAM_DISTANCE_PORTRAIT 30000
+#define CROSSRAIL_ZOOMED_OUT_CAM_DISTANCE_PORTRAIT 60000
 
 
 void ofApp::setup()
@@ -851,6 +851,30 @@ void ofApp::menuSetup(int _w, int _h)
     isCam = true;
 }
 
+void ofApp::menuSetPositions(int _w, int _h) {
+    
+    float _mainArea = 120.0;
+    float _subArea = 110.0;
+    float _padding = 35.0;
+    
+    menu.width = _w;
+    menu.height = _h;
+    menu.mainArea = _mainArea;
+    menu.subArea = _subArea;
+    menu.areaDiff = menu.mainArea - menu.subArea;
+    menu.padding = _padding;
+    menu.paddingVertical = menu.padding - 10;
+    menu.contentHeight = (menu.height - menu.padding - menu.mainArea + (menu.areaDiff / 2)) - menu.mainArea - menu.paddingVertical;
+    
+    if(ofGetWidth() < ofGetHeight()) {
+        menu.setTilePositionsPortrait();
+        cout<<"Portrait Menu"<<endl;
+    } else {
+        menu.setTilePositionsLandscape();
+        cout<<"Landscape Menu"<<endl;
+    }
+}
+
 void ofApp::menuUpdates()
 {
     // draw menu
@@ -1418,10 +1442,8 @@ void ofApp::windowResized(int w, int h)
     // post processing setup
     effectsSetup(w, h);
     
-    
-    
     // reconfigure menu for new window shape
-    if (bCove) menuSetup(w, h);
+    if (bCove) menuSetPositions(w, h);
     else c.setup();
 }
 
