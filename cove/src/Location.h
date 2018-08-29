@@ -25,6 +25,7 @@ public:
     ofPoint position;
     ofPoint tilePos;
     string title;
+    bool flipMouseInput;
     bool isActive;
     bool hasLabel;
     bool isAlpha;

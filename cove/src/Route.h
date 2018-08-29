@@ -22,6 +22,8 @@ public:
     void draw2d();
     void flushData();
     
+    void setLocationMouseFlip(bool _flip);
+    
     void loadLeft(string path, ofVec3f posOffset);
     void loadRight(string path, ofVec3f posOffset);
     vector<Location*> getLeftPOIs();

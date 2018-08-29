@@ -158,12 +158,20 @@ void Location::draw(ofCamera& cam, ofVec3f meshPosition, float _alpha, float _he
     
     // Check if label has been clicked on.
     if(ofGetMousePressed()) {
+        float x = ofGetMouseX();
+        float y = ofGetMouseY();
+        if(flipMouseInput) { // Only use this in portrait mode!
+            float xPercentage = (float)(ofGetMouseX()) / (float)(1080);
+            float yPercentage = (float)(ofGetMouseY()) / (float)1920;
+            float x = 1080 - 1080 * yPercentage;
+            float y = 1920 * xPercentage;
+        }
         
         ofVec3f p1 = ofVec3f(position.x, position.y + height + verticalOffset, position.z) + meshPosition;
         
         p1 = cam.worldToScreen(p1);
         
-        ofVec2f mouse = ofVec2f(ofGetMouseX(), ofGetMouseY());
+        ofVec2f mouse = ofVec2f(x, y);
         
         if(mouse.x > p1.x - size/2. && mouse.x < p1.x + size/2.) {
             if(mouse.y > p1.y - size/4. && mouse.y < p1.y + size/4.) {

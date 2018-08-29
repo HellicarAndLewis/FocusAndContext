@@ -37,6 +37,8 @@ public:
     ofColor color;
     ofColor colorTarget;
     
+    bool flipMouseInput;
+    
     void setup() {
         ofAddListener(ofEvents().mousePressed, this, &InteractiveTile::_mousePressed);
         
@@ -47,6 +49,8 @@ public:
         textWidth = size.x;
         
         textBuffer = ofGetWidth() * 8.0 / 1920.;
+        
+        flipMouseInput = false;
     }
     
     // Return true if the interactive object is near where it should be;
@@ -140,18 +144,15 @@ public:
     void _mousePressed(ofMouseEventArgs &e) {
         int x = e.x;
         int y = e.y;
-#ifdef TOUCH_ENABLED
-        //HORRIBLE HACK JB 23/3/16
-        /* HACK AREA */
-        float xPercentage = (float)(e.x) / (float)(1080);
-        float yPercentage = (float)(e.y) / (float)1920;
-        x = 1080 - 1080 * yPercentage;
-        y = 1920 * xPercentage;
-        /* HACK AREA */
-        // I'M SO SORRY!
-#endif
         int button = e.button;
-                
+        
+        if(flipMouseInput) { // Only use this in portrait mode!
+            float xPercentage = (float)(e.x) / (float)(1080);
+            float yPercentage = (float)(e.y) / (float)1920;
+            x = 1080 - 1080 * yPercentage;
+            y = 1920 * xPercentage;
+        }
+        
         if(hitTest(x, y)) {                        // if mouse is over
             onPress(x, y, button);                    // call onPress
         }

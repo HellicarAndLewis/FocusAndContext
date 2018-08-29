@@ -332,6 +332,15 @@ Location* Route::getLocation() {
     return activeLocation;
 }
 
+void Route::setLocationMouseFlip(bool _flip) {
+    for(int i = 0; i < locationsLeft.size(); i++) {
+        locationsLeft[i].flipMouseInput = _flip;
+    }
+    for(int i = 0; i < locationsRight.size(); i++) {
+        locationsRight[i].flipMouseInput = _flip;
+    }
+}
+
 //
 // returns the current position along the route
 // based on the current percent along the route

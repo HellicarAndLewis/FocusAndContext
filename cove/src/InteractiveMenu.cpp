@@ -391,6 +391,19 @@ void InteractiveMenu::setupTiles(vector<InteractiveTile*> allInteractiveTiles) {
 
 }
 
+void InteractiveMenu::setFlipMouseInput(bool _flip) {
+    hs1MainTile->flipMouseInput = _flip;
+    crossrailMainTile->flipMouseInput = _flip;
+    for(int i = 0; i < hs1LocationTiles.size(); i++) {
+        hs1LocationTiles[i]->flipMouseInput = _flip;
+        crossrailLocationTiles[i]->flipMouseInput = _flip;
+        for(int j = 0; j < hs1ContentTiles.size(); j++) {
+            hs1ContentTiles[i][j]->flipMouseInput = _flip;
+            crossrailContentTiles[i][j]->flipMouseInput = _flip;
+        }
+    }
+}
+
 void InteractiveMenu::setTileTitlesAndContent() {
     
     hs1LocationTiles[0]->title = "St Pancras International";
@@ -569,10 +582,6 @@ void InteractiveMenu::onLabelClicked(string & title) {
                         (*content)->setIsActive(false);
                     }
                 }
-                // Deselect all crossrail and hs1 content
-//                for(int i = 0; i < allCons.size(); i++) {
-//                    allCons[i]->isSelected = false;
-//                }
                 // Set globals
                 buttonClicked = true;
                 Globals::buttonPressed = true;

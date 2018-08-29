@@ -100,6 +100,23 @@ void ofApp::setup()
     if (bCove) menuSetup(ofGetWidth(), ofGetHeight());
     else c.setup();
     
+    bool flipMouseInput = false;
+    
+    for(int i = 0; i < arguments.size(); ++i) {
+        if(arguments.at(i) == "flip-mouse") {
+            flipMouseInput = true;
+            cout<<"Flipping mouse!"<<endl;
+            break;
+        }
+    }
+    
+    if(!flipMouseInput) {
+        cout<<"Not Flipping Mouse!"<<endl;
+    }
+    
+    menu.setFlipMouseInput(flipMouseInput);
+    route.setLocationMouseFlip(flipMouseInput);
+    
     tileIndex = 0;
     
     // effects

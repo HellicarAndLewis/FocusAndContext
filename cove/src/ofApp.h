@@ -182,4 +182,6 @@ public:
     // effects
     ofxPostProcessing post;
     void effectsSetup(float _w, float _h);
+    
+    vector<string> arguments;
 };

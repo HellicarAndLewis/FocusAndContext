@@ -1,18 +1,15 @@
 #include "ofMain.h"
 #include "ofApp.h"
 
-int main( ){
-//    ofAppGlutWindow window;
-//    window.setGlutDisplayString("rgba double samples>=4");
-//    ofSetupOpenGL(&window, 1080, 1920, OF_FULLSCREEN);
-//    ofRunApp( new ofApp());
-    
+int main(int argc, char *argv[] ){
+
     ofGLFWWindowSettings settings;
-    settings.monitor = 0;
     settings.windowMode = OF_FULLSCREEN;
     ofCreateWindow(settings);
     
-//    ofSetupOpenGL(1080, 1920, OF_WINDOW);
+    ofApp *app = new ofApp();
     
-    ofRunApp(new ofApp());
+    app->arguments = vector<string>(argv, argv + argc);
+    
+    ofRunApp(app);
 }

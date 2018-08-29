@@ -31,6 +31,7 @@ public:
     void setupTiles(vector<InteractiveTile*> allInteractiveTiles);
     void setTileTitlesAndContent();
     vector<InteractiveTile*> initializeTiles();
+    void setFlipMouseInput(bool _flip);
     void update();
     void drawMenu();
     void drawContent();
