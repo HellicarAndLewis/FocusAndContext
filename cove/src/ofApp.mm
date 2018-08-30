@@ -101,17 +101,19 @@ void ofApp::setup()
     else c.setup();
     
     bool flipMouseInput = false;
+    bool hideMouse = false;
     
     for(int i = 0; i < arguments.size(); ++i) {
         if(arguments.at(i) == "flip-mouse") {
             flipMouseInput = true;
-            cout<<"Flipping mouse!"<<endl;
-            break;
+        }
+        if(arguments.at(i) == "hide-mouse") {
+            hideMouse = true;
         }
     }
     
-    if(!flipMouseInput) {
-        cout<<"Not Flipping Mouse!"<<endl;
+    if(hideMouse) {
+        ofHideCursor();
     }
     
     menu.setFlipMouseInput(flipMouseInput);
