@@ -24,12 +24,19 @@ void ofApp::setup()
 {
     ofEnableAlphaBlending();
     
+    cout << "Before exepath: " << ofFilePath::getCurrentExePath() << endl;
+    cout << "Before cwd    : " << ofFilePath::getCurrentWorkingDirectory() << endl;
+    ofSetDataPathRoot(ofFilePath::getCurrentExeDir()+"/../Resources/");
+    cout << "After exepath:  " << ofFilePath::getCurrentExePath() << endl;
+    cout << "After cwd:      " << ofFilePath::getCurrentWorkingDirectory() << endl;
+    cout << ofToDataPath("",true) << endl;
+    
     //ofToggleFullscreen();
     //ofHideCursor();
     
     //Shifted screen over to work on adjacent screen
-    ofSetWindowPosition(1921, 0);
-    ofToggleFullscreen();
+//    ofSetWindowPosition(1921, 0);
+//    ofToggleFullscreen();
     
     // camera draw distance
     cam.setFarClip(300000);
@@ -48,24 +55,24 @@ void ofApp::setup()
     meshPosition.set(-16156.9, 11756.6);
 
     // FBO to render scene into shader
-    ofFbo::Settings settings;
-    settings.width = ofGetWidth();
-    settings.height = ofGetHeight();
-    settings.internalformat = GL_RGB;
-    settings.numSamples = 0;
-    settings.useDepth = true;
-    settings.useStencil = true;
-    settings.depthStencilAsTexture = true;
-#ifdef TARGET_OPENGLES
-    settings.textureTarget = GL_TEXTURE_2D;
-#else
-    settings.textureTarget = ofGetUsingArbTex() ? GL_TEXTURE_RECTANGLE_ARB : GL_TEXTURE_2D;
-#endif
-    fbo.allocate(settings);
-    shader.load("", "shader.frag");
+//    ofFbo::Settings settings;
+//    settings.width = ofGetWidth();
+//    settings.height = ofGetHeight();
+//    settings.internalformat = GL_RGB;
+//    settings.numSamples = 0;
+//    settings.useDepth = true;
+//    settings.useStencil = true;
+//    settings.depthStencilAsTexture = true;
+//#ifdef TARGET_OPENGLES
+//    settings.textureTarget = GL_TEXTURE_2D;
+//#else
+//    settings.textureTarget = ofGetUsingArbTex() ? GL_TEXTURE_RECTANGLE_ARB : GL_TEXTURE_2D;
+//#endif
+//    fbo.allocate(settings);
+//    shader.load("", "shader.frag");
     // waterShader.load("shadersGL2/water.vert", "shadersGL2/water.frag");
-    buildingsShader.load("shadersGL2/buildings.vert", "shadersGL2/buildings.frag");
-    roadsShader.load("shadersGL2/roads.vert", "shadersGL2/roads.frag");
+//    buildingsShader.load("shadersGL2/buildings.vert", "shadersGL2/buildings.frag");
+//    roadsShader.load("shadersGL2/roads.vert", "shadersGL2/roads.frag");
     bShader = false;
     
     // scroller
