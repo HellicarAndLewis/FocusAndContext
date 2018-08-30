@@ -570,7 +570,6 @@ void InteractiveMenu::onLabelClicked(string & title) {
         for(int i = 0; i < BUTTON_AMT; i++) {
             if(lLocations[i]->title == title) {
                 if(hs1LocationTiles[i]->activate()) {
-                    cout<<"Activating Left Location!"<<endl;
                     activateLeftLocation(i);
                     // Deactivate all crossrail and hs1 content displayers
                     for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
@@ -586,8 +585,6 @@ void InteractiveMenu::onLabelClicked(string & title) {
                     // Set globals
                     buttonClicked = true;
                     Globals::buttonPressed = true;
-                } else {
-                    cout<<"Not Activating Left Location Due to unexpandedness"<<endl;
                 }
             }
         }
