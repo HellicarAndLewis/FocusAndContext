@@ -569,47 +569,48 @@ void InteractiveMenu::onLabelClicked(string & title) {
     if(leftOn) {
         for(int i = 0; i < BUTTON_AMT; i++) {
             if(lLocations[i]->title == title) {
-                hs1LocationTiles[i]->activate();
-                activateLeftLocation(i);
-                // Deactivate all crossrail and hs1 content displayers
-                for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
-                    for(auto content = location->second.begin(); content != location->second.end(); content++) {
-                        (*content)->setIsActive(false);
+                if(hs1LocationTiles[i]->activate()) {
+                    cout<<"Activating Left Location!"<<endl;
+                    activateLeftLocation(i);
+                    // Deactivate all crossrail and hs1 content displayers
+                    for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+                        for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                            (*content)->setIsActive(false);
+                        }
                     }
-                }
-                for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
-                    for(auto content = location->second.begin(); content != location->second.end(); content++) {
-                        (*content)->setIsActive(false);
+                    for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+                        for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                            (*content)->setIsActive(false);
+                        }
                     }
+                    // Set globals
+                    buttonClicked = true;
+                    Globals::buttonPressed = true;
+                } else {
+                    cout<<"Not Activating Left Location Due to unexpandedness"<<endl;
                 }
-                // Set globals
-                buttonClicked = true;
-                Globals::buttonPressed = true;
             }
         }
     } else if(rightOn) {
         for(int i = 0; i < BUTTON_AMT; i++) {
             if(rLocations[i]->title == title) {
-                crossrailLocationTiles[BUTTON_AMT - 1 - i]->activate();
-                activateRightLocation(BUTTON_AMT - 1 - i);
-                // Deactivate all crossrail and hs1 content displayers
-                for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
-                    for(auto content = location->second.begin(); content != location->second.end(); content++) {
-                        (*content)->setIsActive(false);
+                if(crossrailLocationTiles[BUTTON_AMT - 1 - i]->activate()) {
+                    activateRightLocation(BUTTON_AMT - 1 - i);
+                    // Deactivate all crossrail and hs1 content displayers
+                    for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
+                        for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                            (*content)->setIsActive(false);
+                        }
                     }
-                }
-                for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
-                    for(auto content = location->second.begin(); content != location->second.end(); content++) {
-                        (*content)->setIsActive(false);
+                    for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {
+                        for(auto content = location->second.begin(); content != location->second.end(); content++) {
+                            (*content)->setIsActive(false);
+                        }
                     }
+                    // Set globals
+                    buttonClicked = true;
+                    Globals::buttonPressed = true;
                 }
-                // Deselect all crossrail and hs1 content
-//                for(int i = 0; i < allCons.size(); i++) {
-//                    allCons[i]->isSelected = false;
-//                }
-                // Set globals
-                buttonClicked = true;
-                Globals::buttonPressed = true;
             }
         }
     }
@@ -677,7 +678,7 @@ void InteractiveMenu::drawContent()
 void InteractiveMenu::activateLeftLocation(int index) {
     if(!bLeftActive[index]) {
         snd1.play();
-    }// play menu button sound
+    }
     for(int i = 0; i < BUTTON_AMT; i++) {
         if(i == index) {
             bLeftActive[i] = true;

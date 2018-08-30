@@ -87,7 +87,14 @@ public:
         }
     }
     
-    void activate() {
+    bool activate() {
+        bool someTilesAnimating = false;
+        for(int i = 0; i < allTiles.size(); i++) {
+            int animStep = allTiles[i]->animationStep;
+            if(animStep >= 0) {
+                someTilesAnimating = true;
+            }
+        }
         deactivateAllContent();
         ensmallContentTilesToEnsmall();
         bool expanded = true;
@@ -96,16 +103,19 @@ public:
                 expanded = false;
             }
         }
-        if(!expanded) {
-            animationStep = 0;
-        }
         sound->play();
+        if(!expanded && !someTilesAnimating) {
+            animationStep = 0;
+            return true;
+        }
+        return false;
     }
     
     void onPress(int x, int y, int button) {
         bool someTilesAnimating = false;
         for(int i = 0; i < allTiles.size(); i++) {
-            if(allTiles[i]->animationStep > -1) {
+            int animStep = allTiles[i]->animationStep;
+            if(animStep >= 0) {
                 someTilesAnimating = true;
             }
         }

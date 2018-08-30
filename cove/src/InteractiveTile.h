@@ -133,6 +133,9 @@ public:
     
     // Update performs the transforms of the animations and steps through positions withint the current animation state.
     void update(float easing) {
+        if(animationStep == 3) {
+            cout<<"Anim Step 3!"<<endl;
+        }
         position.x = ofLerp(position.x, target.x, easing);
         position.y = ofLerp(position.y, target.y, easing);
         size.x = ofLerp(size.x, sizeTarget.x, easing);
