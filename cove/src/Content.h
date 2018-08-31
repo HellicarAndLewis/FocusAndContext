@@ -17,6 +17,7 @@
 #include "Displayer.h"
 #include "ofxFontStash.h"
 #include "ofxXMLSettings.h"
+#include "ModelContentCam.h"
 
 class Content
 {
@@ -55,7 +56,7 @@ public:
     map<string, vector<ContentDisplayer*> > crossrailDisplayers;
     
     ofxFBXScene scene;
-    ofEasyCam cam;
+    ModelContentCam cam;
     ofxFBXManager model;
         
     ofLight light;

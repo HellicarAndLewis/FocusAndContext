@@ -11,6 +11,7 @@
 #include "ofMain.h"
 #include "ContentDisplayer.h"
 #include "ofxFBX.h"
+#include "ModelContentCam.h"
 
 class ModelDisplayer : public ContentDisplayer {
 public:
@@ -29,13 +30,13 @@ public:
         }
         return loaded;
     }
-    void setCamera(ofEasyCam* _camera) { cam = _camera; };
+    void setCamera(ModelContentCam* _camera) { cam = _camera; };
     void setLight(ofLight* _light) { light = _light; };
     
     // Getters
     ofxFBXManager* getManager() { return manager; };
     ofxFBXScene* getScene() { return scene; };
-    ofEasyCam* getCamera() { return cam; };
+    ModelContentCam* getCamera() { return cam; };
     ofLight* getLight() { return light; };
     
     // Functionality
@@ -45,7 +46,7 @@ public:
 private:
     ofxFBXManager* manager;
     ofxFBXScene* scene;
-    ofEasyCam* cam;
+    ModelContentCam* cam;
     ofLight* light;
     float camMaxZoom;
     float camMinZoom;

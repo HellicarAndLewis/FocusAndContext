@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		04C13EEA813A786CC1D8137A /* FxaaPass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9425843AEC3118B8FDEF1B0B /* FxaaPass.cpp */; };
 		114C00B13F753E59BB0984BB /* DofPass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E837DEBFAEA1CAD833A377DF /* DofPass.cpp */; };
+		1448FD6B2139500D00A6C6A2 /* ModelContentCam.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1448FD692139500D00A6C6A2 /* ModelContentCam.cpp */; };
 		14A7BCBF1CF85DAB00F3CB46 /* ofxSmartFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 14A7BCBD1CF85DAB00F3CB46 /* ofxSmartFont.cpp */; };
 		1AED355C1CA9467500D7519C /* Playhead.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AED355A1CA9467500D7519C /* Playhead.cpp */; };
 		1BEE448D5236FF7A3D1136A0 /* ofxFBXScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 95EB7C733541F64E2C4F7115 /* ofxFBXScene.cpp */; };
@@ -190,6 +191,8 @@
 		143CCAF72127205B001F2D76 /* MainTile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainTile.h; sourceTree = "<group>"; };
 		143CCAF8212720AF001F2D76 /* LocationTile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocationTile.h; sourceTree = "<group>"; };
 		143CCAF921272B27001F2D76 /* ContentTile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContentTile.h; sourceTree = "<group>"; };
+		1448FD692139500D00A6C6A2 /* ModelContentCam.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ModelContentCam.cpp; sourceTree = "<group>"; };
+		1448FD6A2139500D00A6C6A2 /* ModelContentCam.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModelContentCam.h; sourceTree = "<group>"; };
 		145A6FBAF062E46D7A5966C0 /* mixed_product.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = mixed_product.hpp; path = ../../../addons/ofxGlmTools/libs/glm/gtx/mixed_product.hpp; sourceTree = SOURCE_ROOT; };
 		14A0DEC0FD5BCDCA5789E196 /* fbxredblacktree.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = fbxredblacktree.h; path = ../../../addons/ofxFBX/libs/fbxsdk_2016.1/include/fbxsdk/core/base/fbxredblacktree.h; sourceTree = SOURCE_ROOT; };
 		14A7BCBD1CF85DAB00F3CB46 /* ofxSmartFont.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxSmartFont.cpp; sourceTree = "<group>"; };
@@ -1279,6 +1282,8 @@
 				4596D701FF56D27352ED094A /* Content.h */,
 				1AED355A1CA9467500D7519C /* Playhead.cpp */,
 				1AED355B1CA9467500D7519C /* Playhead.h */,
+				1448FD692139500D00A6C6A2 /* ModelContentCam.cpp */,
+				1448FD6A2139500D00A6C6A2 /* ModelContentCam.h */,
 			);
 			name = Content;
 			sourceTree = "<group>";
@@ -2173,6 +2178,7 @@
 				3A499904889C490DCF533C6E /* BloomPass.cpp in Sources */,
 				DFB75F1EBE744A456AC999F4 /* ContrastPass.cpp in Sources */,
 				778DCA6792476E5B9F57F175 /* ConvolutionPass.cpp in Sources */,
+				1448FD6B2139500D00A6C6A2 /* ModelContentCam.cpp in Sources */,
 				B58A80B21A55E254F48E6E13 /* DofAltPass.cpp in Sources */,
 				114C00B13F753E59BB0984BB /* DofPass.cpp in Sources */,
 				AE65C02FEC934514466A8D67 /* EdgePass.cpp in Sources */,
