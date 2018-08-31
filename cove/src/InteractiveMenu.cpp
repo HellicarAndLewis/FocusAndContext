@@ -127,7 +127,7 @@ vector<InteractiveTile*> InteractiveMenu::initializeTiles() {
 
 void InteractiveMenu::setTilePositionsPortrait() {
     
-    string test = "Archaeological";
+    string test = LONGEST_TITLE_WORD;
     int textSize = 40;
     int numLines;
     for(int i = textSize; i > 8; i--) {
@@ -138,8 +138,6 @@ void InteractiveMenu::setTilePositionsPortrait() {
             break;
         }
     }
-    
-    cout<<"Text Size: "<<textSize<<endl;
     
     // Set the base positions of the buttons.
     ofVec2f hs1Base = ofVec2f(padding + mainArea/2, height - padding - mainArea/2);
@@ -234,7 +232,7 @@ void InteractiveMenu::setTilePositionsPortrait() {
 
 void InteractiveMenu::setTilePositionsLandscape() {
     
-    string test = "Archaeological";
+    string test = LONGEST_TITLE_WORD;
     int textSize = 40;
     int numLines;
     for(int i = textSize; i > 8; i--) {
@@ -245,8 +243,6 @@ void InteractiveMenu::setTilePositionsLandscape() {
             break;
         }
     }
-    
-    cout<<"Text Size: "<<textSize<<endl;
     
     // Set the base positions of the buttons.
     ofVec2f hs1Base = ofVec2f(padding + mainArea/2, height - padding - mainArea/2);

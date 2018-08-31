@@ -941,8 +941,6 @@ void ofApp::menuSetPositions(int _w, int _h) {
         
         menu.setTilePositionsLandscape();
     }
-    
-
 }
 
 void ofApp::menuUpdates()

@@ -21,6 +21,7 @@
 #include "ContentTile.h"
 
 #define		BUTTON_AMT		5
+#define     LONGEST_TITLE_WORD "Archaeological"
 
 class InteractiveMenu
 {
