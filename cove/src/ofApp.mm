@@ -862,11 +862,34 @@ void ofApp::menuSetup(int _w, int _h)
     // configure menu
     // TODO: Remove magic numbers
     // original sizes:
+    
+    if(_w < _h) {
+        // we're doing portrait.
+        // In portrait mode we want our sizes to fit as follows:
+        // | - buffer - mainTile - b2 - subTile - b2 - subTile - b2 - subTile - b2 - subTile - b2 - subTile - b2 - mainTile - buffer - |
+        float _padding;
+        float _mainArea;
+        float _subArea;
+        _mainArea = _w / 7;
+        _subArea = _mainArea * 0.9;
+        _padding = 0;
+        menu.setup(_w, _h, _mainArea, _subArea, _padding, 0.2, 0.09, route.getLeftPOIs(), route.getRightPOIs());
+    } else {
+        // we're doing landscape.
+        // In Landscape mode we want our sizes to fit as follows (but vertically on eithert side from bottom to top):
+        // | buffer - mainTile - b2 - subTile - b2 - subTile - b2 - subTile - b2 - subTile - b2 - subTile - buffer - |
+        float _padding;
+        float _mainArea;
+        float _subArea;
+        _mainArea = _h / 2;
+        _subArea = _mainArea * 0.9;
+        _padding = 0;
+        menu.setup(_w, _h, _mainArea, _subArea, _padding, 0.2, 0.09, route.getLeftPOIs(), route.getRightPOIs());
+    }
+    
     float _mainArea = 120.0;
     float _subArea = 110.0;
     float _padding = 35.0;
-
-    menu.setup(_w, _h, _mainArea, _subArea, _padding, 0.2, 0.09, route.getLeftPOIs(), route.getRightPOIs());
     
     menu.hs1MainTile->onPress(0, 0, 0);
     
@@ -879,26 +902,47 @@ void ofApp::menuSetup(int _w, int _h)
 
 void ofApp::menuSetPositions(int _w, int _h) {
     
-    float _mainArea = 120.0;
-    float _subArea = 110.0;
-    float _padding = 35.0;
+    float _padding;
+    float _mainArea;
+    float _subArea;
+    float _buffer;
     
-    menu.width = _w;
-    menu.height = _h;
-    menu.mainArea = _mainArea;
-    menu.subArea = _subArea;
-    menu.areaDiff = menu.mainArea - menu.subArea;
-    menu.padding = _padding;
-    menu.paddingVertical = menu.padding - 10;
-    menu.contentHeight = (menu.height - menu.padding - menu.mainArea + (menu.areaDiff / 2)) - menu.mainArea - menu.paddingVertical;
-    
-    if(ofGetWidth() < ofGetHeight()) {
+    if(_w < _h) {
+        // we're doing portrait.
+        // In portrait mode we want our sizes to fit as follows:
+        // | - buffer - mainTile - b2 - subTile - b2 - subTile - b2 - subTile - b2 - subTile - b2 - subTile - b2 - mainTile - buffer - |
+        float buffer = _w * 0.05;
+        _mainArea = (_w - buffer*2) / 8;
+        _subArea = _mainArea * 0.9;
+        _padding = (_w  - (_mainArea * 2 + _subArea * 5)) / 8.0;
+        
+        menu.width = _w;
+        menu.height = _h;
+        menu.mainArea = _mainArea;
+        menu.subArea = _subArea;
+        menu.padding = _padding;
+        
         menu.setTilePositionsPortrait();
-        cout<<"Portrait Menu"<<endl;
     } else {
+        // we're doing landscape.
+        // In Landscape mode we want our sizes to fit as follows (but vertically on eithert side from bottom to top):
+        // | buffer - mainTile - b2 - subTile - b2 - subTile - b2 - subTile - b2 - subTile - b2 - subTile - buffer - |
+//        _h -= _h * 0.05;
+        float buffer = _h * 0.05;
+        _mainArea = (_h - buffer*2) / 7;
+        _subArea = _mainArea * 0.9;
+        _padding = (_h  - (_mainArea * 1 + _subArea * 5)) / 7.0;
+        
+        menu.width = _w;
+        menu.height = _h;
+        menu.mainArea = _mainArea;
+        menu.subArea = _subArea;
+        menu.padding = _padding;
+        
         menu.setTilePositionsLandscape();
-        cout<<"Landscape Menu"<<endl;
     }
+    
+
 }
 
 void ofApp::menuUpdates()

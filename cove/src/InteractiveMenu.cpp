@@ -20,10 +20,7 @@ void InteractiveMenu::setup(int _w, int _h, float _mainArea, float _subArea, flo
     height = _h;
     mainArea = _mainArea;
     subArea = _subArea;
-    areaDiff = mainArea - subArea;
     padding = _padding;
-    paddingVertical = padding - 10;
-    contentHeight = (height - padding - mainArea + (areaDiff / 2)) - mainArea - paddingVertical;
     easeIn = _easeIn;
     easeOut = _easeOut;
     length = BUTTON_AMT;
@@ -129,6 +126,21 @@ vector<InteractiveTile*> InteractiveMenu::initializeTiles() {
 }
 
 void InteractiveMenu::setTilePositionsPortrait() {
+    
+    string test = "Archaeological";
+    int textSize = 40;
+    int numLines;
+    for(int i = textSize; i > 8; i--) {
+        ofRectangle r = titleFont.drawMultiLineColumn(test, textSize, 0, 0, subArea - subArea * 0.1 *2
+                                                      , numLines, true);
+        textSize = i;
+        if(numLines == 1) {
+            break;
+        }
+    }
+    
+    cout<<"Text Size: "<<textSize<<endl;
+    
     // Set the base positions of the buttons.
     ofVec2f hs1Base = ofVec2f(padding + mainArea/2, height - padding - mainArea/2);
     ofVec2f crossrailBase = ofVec2f((width - padding) - mainArea/2, height - padding - mainArea/2);
@@ -138,12 +150,18 @@ void InteractiveMenu::setTilePositionsPortrait() {
     hs1MainTile->target = ofVec2f(hs1Base.x, hs1Base.y);
     hs1MainTile->size = ofVec2f(mainArea, mainArea);
     hs1MainTile->sizeTarget = ofVec2f(mainArea, mainArea);
+    hs1MainTile->textWidth = subArea;
+    hs1MainTile->textBuffer = subArea * 0.1;
+    hs1MainTile->textSize = textSize;
     
     crossrailMainTile->position = ofVec2f(crossrailBase.x, crossrailBase.y);
     crossrailMainTile->target = ofVec2f(crossrailBase.x, crossrailBase.y);
     crossrailMainTile->size = ofVec2f(mainArea, mainArea);
     crossrailMainTile->sizeTarget = ofVec2f(mainArea, mainArea);
-    
+    crossrailMainTile->textWidth = subArea;
+    crossrailMainTile->textBuffer = subArea * 0.1;
+    crossrailMainTile->textSize = textSize;
+
     // Setup Location Tiles
     for(int i = 0; i < hs1LocationTiles.size(); i++) {
         hs1LocationTiles[i]->parentTile = hs1MainTile;
@@ -154,6 +172,10 @@ void InteractiveMenu::setTilePositionsPortrait() {
         hs1LocationTiles[i]->sizeTarget = ofVec2f(subArea, subArea);
         hs1LocationTiles[i]->enlargeTarget = ofVec2f(mainArea);
         hs1LocationTiles[i]->ensmallTarget = ofVec2f(subArea);
+        hs1LocationTiles[i]->textWidth = subArea;
+        hs1LocationTiles[i]->textBuffer = subArea * 0.1;
+        hs1LocationTiles[i]->textSize = textSize;
+
     }
     
     for(int i = 0; i < crossrailLocationTiles.size(); i++) {
@@ -165,6 +187,10 @@ void InteractiveMenu::setTilePositionsPortrait() {
         crossrailLocationTiles[i]->sizeTarget = ofVec2f(subArea, subArea);
         crossrailLocationTiles[i]->enlargeTarget = ofVec2f(mainArea);
         crossrailLocationTiles[i]->ensmallTarget = ofVec2f(subArea);
+        crossrailLocationTiles[i]->textWidth = subArea;
+        crossrailLocationTiles[i]->textBuffer = subArea * 0.1;
+        crossrailLocationTiles[i]->textSize = textSize;
+
     }
     
     // Setup content Tiles
@@ -179,6 +205,10 @@ void InteractiveMenu::setTilePositionsPortrait() {
             hs1ContentTiles[i][j]->collapseTarget = ofVec2f(0, 0);
             hs1ContentTiles[i][j]->intermediateTarget = ofVec2f(0, -(subArea + padding));
             hs1ContentTiles[i][j]->expandTarget = ofVec2f(-(i - j) * (subArea + padding), -(subArea + padding));
+            hs1ContentTiles[i][j]->textWidth = subArea;
+            hs1ContentTiles[i][j]->textBuffer = subArea * 0.1;
+            hs1ContentTiles[i][j]->textSize = textSize;
+
         }
     }
 
@@ -194,11 +224,30 @@ void InteractiveMenu::setTilePositionsPortrait() {
             crossrailContentTiles[i][j]->collapseTarget = ofVec2f(0, 0);
             crossrailContentTiles[i][j]->intermediateTarget = ofVec2f(0, -(subArea + padding));
             crossrailContentTiles[i][j]->expandTarget = ofVec2f((i - j) * (subArea + padding), -(subArea + padding));
+            crossrailContentTiles[i][j]->textWidth = subArea;
+            crossrailContentTiles[i][j]->textBuffer = subArea * 0.1;
+            crossrailContentTiles[i][j]->textSize = textSize;
+
         }
     }
 }
 
 void InteractiveMenu::setTilePositionsLandscape() {
+    
+    string test = "International";
+    int textSize = 40;
+    int numLines;
+    for(int i = textSize; i > 8; i--) {
+        ofRectangle r = titleFont.drawMultiLineColumn(test, textSize, 0, 0, subArea - subArea * 0.1 *2
+                                                  , numLines, true);
+        if(numLines == 1) {
+            textSize = i;
+            break;
+        }
+    }
+    
+    cout<<"Text Size: "<<textSize<<endl;
+    
     // Set the base positions of the buttons.
     ofVec2f hs1Base = ofVec2f(padding + mainArea/2, height - padding - mainArea/2);
     ofVec2f crossrailBase = ofVec2f((width - padding) - mainArea/2, height - padding - mainArea/2);
@@ -208,12 +257,18 @@ void InteractiveMenu::setTilePositionsLandscape() {
     hs1MainTile->target = ofVec2f(hs1Base.x, hs1Base.y);
     hs1MainTile->size = ofVec2f(mainArea, mainArea);
     hs1MainTile->sizeTarget = ofVec2f(mainArea, mainArea);
-    
+    hs1MainTile->textWidth = mainArea;
+    hs1MainTile->textBuffer = mainArea * 0.1;
+    hs1MainTile->textSize = textSize;
+
     crossrailMainTile->position = ofVec2f(crossrailBase.x, crossrailBase.y);
     crossrailMainTile->target = ofVec2f(crossrailBase.x, crossrailBase.y);
     crossrailMainTile->size = ofVec2f(mainArea, mainArea);
     crossrailMainTile->sizeTarget = ofVec2f(mainArea, mainArea);
-    
+    crossrailMainTile->textWidth = mainArea;
+    crossrailMainTile->textBuffer = mainArea * 0.1;
+    crossrailMainTile->textSize = textSize;
+
     // Setup Location Tiles
     for(int i = 0; i < hs1LocationTiles.size(); i++) {
         hs1LocationTiles[i]->parentTile = hs1MainTile;
@@ -224,6 +279,10 @@ void InteractiveMenu::setTilePositionsLandscape() {
         hs1LocationTiles[i]->sizeTarget = ofVec2f(subArea, subArea);
         hs1LocationTiles[i]->enlargeTarget = ofVec2f(mainArea);
         hs1LocationTiles[i]->ensmallTarget = ofVec2f(subArea);
+        hs1LocationTiles[i]->textWidth = subArea;
+        hs1LocationTiles[i]->textBuffer = subArea * 0.1;
+        hs1LocationTiles[i]->textSize = textSize;
+
     }
     
     for(int i = 0; i < crossrailLocationTiles.size(); i++) {
@@ -235,6 +294,9 @@ void InteractiveMenu::setTilePositionsLandscape() {
         crossrailLocationTiles[i]->sizeTarget = ofVec2f(subArea, subArea);
         crossrailLocationTiles[i]->enlargeTarget = ofVec2f(mainArea);
         crossrailLocationTiles[i]->ensmallTarget = ofVec2f(subArea);
+        crossrailLocationTiles[i]->textWidth = subArea;
+        crossrailLocationTiles[i]->textBuffer = subArea * 0.1;
+        crossrailLocationTiles[i]->textSize = textSize;
     }
     
     // Setup content Tiles
@@ -249,6 +311,10 @@ void InteractiveMenu::setTilePositionsLandscape() {
             hs1ContentTiles[i][j]->collapseTarget = ofVec2f(0, 0);
             hs1ContentTiles[i][j]->intermediateTarget = ofVec2f((subArea + padding), 0);
             hs1ContentTiles[i][j]->expandTarget = ofVec2f((subArea + padding), (i - j) * (subArea + padding));
+            hs1ContentTiles[i][j]->textWidth = subArea;
+            hs1ContentTiles[i][j]->textBuffer = subArea * 0.1;
+            hs1ContentTiles[i][j]->textSize = textSize;
+
         }
     }
     
@@ -264,6 +330,9 @@ void InteractiveMenu::setTilePositionsLandscape() {
             crossrailContentTiles[i][j]->collapseTarget = ofVec2f(0, 0);
             crossrailContentTiles[i][j]->intermediateTarget = ofVec2f(-(subArea + padding), 0);
             crossrailContentTiles[i][j]->expandTarget = ofVec2f(-(subArea + padding), (i - j) * (subArea + padding));
+            crossrailContentTiles[i][j]->textWidth = subArea;
+            crossrailContentTiles[i][j]->textBuffer = subArea * 0.1;
+            crossrailContentTiles[i][j]->textSize = textSize;
         }
     }
 }

@@ -72,12 +72,9 @@ public:
     int height;
     float mainArea;
     float subArea;
-    float areaDiff;
     float padding;
     float easeIn;
     float easeOut;
-    float paddingVertical;
-    float contentHeight;
     
     // content media system
     Content c;
