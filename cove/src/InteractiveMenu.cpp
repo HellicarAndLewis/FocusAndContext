@@ -234,14 +234,14 @@ void InteractiveMenu::setTilePositionsPortrait() {
 
 void InteractiveMenu::setTilePositionsLandscape() {
     
-    string test = "International";
+    string test = "Archaeological";
     int textSize = 40;
     int numLines;
     for(int i = textSize; i > 8; i--) {
         ofRectangle r = titleFont.drawMultiLineColumn(test, textSize, 0, 0, subArea - subArea * 0.1 *2
                                                   , numLines, true);
+        textSize = i;
         if(numLines == 1) {
-            textSize = i;
             break;
         }
     }
