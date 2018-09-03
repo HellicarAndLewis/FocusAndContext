@@ -45,6 +45,8 @@ public:
     void windowResized(int w, int h);
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
+    void onMainTileClicked(string & mainMenuName);
+
     
     // rendering
     ofEasyCam cam;

@@ -151,6 +151,9 @@ void ofApp::setup()
     maxIdleTime = idleTime.getValue("idleTime", 300.);
     
     cam.disableMouseInput();
+    
+    ofAddListener(menu.hs1MainTile->onClick, this, &ofApp::onMainTileClicked);
+    ofAddListener(menu.crossrailMainTile->onClick, this, &ofApp::onMainTileClicked);
 }
 
 void ofApp::setupGui()
@@ -1400,25 +1403,11 @@ void ofApp::keyPressed(int key)
     }
 }
 
-void ofApp::keyReleased(int key){
-}
-
-void ofApp::mouseMoved(int x, int y ){
-}
-
-void ofApp::mouseDragged(int x, int y, int button){
-}
-
-void ofApp::mousePressed(int x, int y, int button){
-    lastPressTime = ofGetElapsedTimef();
-}
-
-void ofApp::mouseReleased(int x, int y, int button)
-{
+void ofApp::onMainTileClicked(string & mainMenuName) {
     if (bCove)
     {
         // loads hs1 project
-        if (menu.loadHs1)
+        if (mainMenuName == "HS1")
         {
             menu.leftSwitch = true;
             
@@ -1458,7 +1447,7 @@ void ofApp::mouseReleased(int x, int y, int button)
         }
         
         // loads crossrail project
-        if (menu.loadCrossrail)
+        if (mainMenuName == "Crossrail")
         {
             menu.rightSwitch = true;
             
@@ -1498,6 +1487,24 @@ void ofApp::mouseReleased(int x, int y, int button)
             menu.loadCrossrail = false;
         }
     }
+}
+
+void ofApp::keyReleased(int key){
+}
+
+void ofApp::mouseMoved(int x, int y ){
+}
+
+void ofApp::mouseDragged(int x, int y, int button){
+}
+
+void ofApp::mousePressed(int x, int y, int button){
+    lastPressTime = ofGetElapsedTimef();
+}
+
+void ofApp::mouseReleased(int x, int y, int button)
+{
+    
 }
 
 void ofApp::windowResized(int w, int h)
