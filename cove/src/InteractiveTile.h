@@ -41,8 +41,8 @@ public:
     bool flipMouseInput;
     
     void setup() {
+        ofAddListener(ofEvents().mouseReleased, this, &InteractiveTile::_mousePressed);
         ofAddListener(ofEvents().mousePressed, this, &InteractiveTile::_mousePressed);
-        
         // set default color to darkened white
         color = ofColor(240);
         colorTarget = ofColor(240);
