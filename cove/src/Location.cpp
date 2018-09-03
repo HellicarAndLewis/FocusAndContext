@@ -162,9 +162,9 @@ void Location::draw(ofCamera& cam, ofVec3f meshPosition, float _alpha, float _he
         float y = ofGetMouseY();
         if(flipMouseInput) { // Only use this in portrait mode!
             float xPercentage = (float)(ofGetMouseX()) / (float)(1080);
-            float yPercentage = (float)(ofGetMouseY()) / (float)1920;
-            float x = 1080 - 1080 * yPercentage;
-            float y = 1920 * xPercentage;
+            float yPercentage = (float)(ofGetMouseY()) / (float)(1920);
+            x = 1080 - 1080 * yPercentage;
+            y = 1920 * xPercentage;
         }
         
         ofVec3f p1 = ofVec3f(position.x, position.y + height + verticalOffset, position.z) + meshPosition;
