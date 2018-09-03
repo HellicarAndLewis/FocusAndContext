@@ -25,9 +25,14 @@ void Route::AddListenersToLocations() {
     vector<Location*> rightPOIs = getRightPOIs();
     for(int i = 0; i < leftPOIs.size(); i++) {
         ofAddListener(ofEvents().mouseReleased, leftPOIs[i], &Location::_mousePressed);
+        ofAddListener(ofEvents().mousePressed, leftPOIs[i], &Location::_mousePressed);
+        ofAddListener(ofEvents().mouseMoved, leftPOIs[i], &Location::_mousePressed);
+
     }
     for(int i = 0; i < rightPOIs.size(); i++) {
         ofAddListener(ofEvents().mouseReleased, rightPOIs[i], &Location::_mousePressed);
+        ofAddListener(ofEvents().mousePressed, rightPOIs[i], &Location::_mousePressed);
+        ofAddListener(ofEvents().mouseMoved, rightPOIs[i], &Location::_mousePressed);
     }
 };
 
