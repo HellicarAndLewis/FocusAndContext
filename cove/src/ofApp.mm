@@ -90,8 +90,10 @@ void ofApp::setup()
     tileLoader.loadDir("content/tiles");
     
     // load both project routes
+    route.setCamera(&cam);
     route.loadLeft("content/hs1", tileLoader.builder.getOffset());
     route.loadRight("content/crossrail", tileLoader.builder.getOffset());
+    route.AddListenersToLocations();
     
     // setup gui
     setupGui();
@@ -102,10 +104,6 @@ void ofApp::setup()
     
     // load default route
     loadProject(0); // 0: High Speed 1, 1: Crossrail
-    
-    // configure menu or content setup
-    if (bCove) menuSetup(ofGetWidth(), ofGetHeight());
-    else c.setup();
     
     bool flipMouseInput = false;
     bool hideMouse = false;
@@ -123,8 +121,15 @@ void ofApp::setup()
         ofHideCursor();
     }
     
-    menu.setFlipMouseInput(flipMouseInput);
+    menu.c.isMouseFlipped = flipMouseInput;
     route.setLocationMouseFlip(flipMouseInput);
+    
+    
+    // configure menu or content setup
+    if (bCove) menuSetup(ofGetWidth(), ofGetHeight());
+    else c.setup();
+    
+    menu.setFlipMouseInput(flipMouseInput);
     
     tileIndex = 0;
     
@@ -1230,7 +1235,7 @@ void ofApp::drawScene()
     ofRotateZ(sceneRotation.z);
     ofTranslate(meshPosition);
     ofEnableDepthTest();
-    route.draw(cam, meshPosition);
+    route.draw(meshPosition);
     ofDisableDepthTest();
     ofPopMatrix();
     cam.end();

@@ -33,6 +33,7 @@ void Location::setup(string title) {
     this->title = title;
     if (title != "" && title != "Camera") {
         hasLabel = true;
+//        ofAddListener(ofEvents().mouseReleased, this, &Location::_mousePressed);
     }
     else {
         hasLabel = false;
@@ -42,8 +43,12 @@ void Location::setup(string title) {
 void Location::update() {
 }
 
-void Location::draw(ofCamera& cam, ofVec3f meshPosition, float _alpha, float _height)
+void Location::draw(ofVec3f _meshPosition, float _alpha, float _height)
 {
+    meshPosition = _meshPosition;
+    
+//    cout<<"My title is: "<<title<<" and my cam pointer is: "<<cam<<endl;
+    
     if (!hasLabel) return;
     
     // if in cove mode
@@ -52,13 +57,13 @@ void Location::draw(ofCamera& cam, ofVec3f meshPosition, float _alpha, float _he
         // if project is hs1
         if (Globals::project == 0)
         {
-            height = ofMap(cam.getPosition().z, 10000, 4000, 0, -1150, true);
-            size = ofMap(cam.getPosition().z, 10000, 4000, 200, 400, true);
+            height = ofMap(cam->getPosition().z, 10000, 4000, 0, -1150, true);
+            size = ofMap(cam->getPosition().z, 10000, 4000, 200, 400, true);
         }
         else
         {
-            height = ofMap(cam.getPosition().z, 10000, 4000, 0, -1600, true);
-            size = ofMap(cam.getPosition().z, 10000, 4000, 200, 400, true);
+            height = ofMap(cam->getPosition().z, 10000, 4000, 0, -1600, true);
+            size = ofMap(cam->getPosition().z, 10000, 4000, 200, 400, true);
         }
     }
     else
@@ -75,11 +80,11 @@ void Location::draw(ofCamera& cam, ofVec3f meshPosition, float _alpha, float _he
             }
             else
             {
-                height = ofMap(cam.getPosition().z, 10000, 4000, 0, -1150, true);
+                height = ofMap(cam->getPosition().z, 10000, 4000, 0, -1150, true);
                 
                 //if (cam.getPosition().z > 10000) size = ofLerp(size, 30, 0.02);
                 //else size = ofMap(cam.getPosition().z, 10000, 4000, 30, 400, true);
-                size = ofMap(cam.getPosition().z, 10000, 4000, 200, 400, true);
+                size = ofMap(cam->getPosition().z, 10000, 4000, 200, 400, true);
             }
         }
         else
@@ -92,11 +97,11 @@ void Location::draw(ofCamera& cam, ofVec3f meshPosition, float _alpha, float _he
             }
             else
             {
-                height = ofMap(cam.getPosition().z, 10000, 4000, 0, -1600, true);
+                height = ofMap(cam->getPosition().z, 10000, 4000, 0, -1600, true);
                 
                 //if (cam.getPosition().z > 10000) size = ofLerp(size, 30, 0.02);
                 //else size = ofMap(cam.getPosition().z, 10000, 4000, 30, 400, true);
-                size = ofMap(cam.getPosition().z, 10000, 4000, 0, 400, true);
+                size = ofMap(cam->getPosition().z, 10000, 4000, 0, 400, true);
             }
         }
     }
@@ -140,7 +145,7 @@ void Location::draw(ofCamera& cam, ofVec3f meshPosition, float _alpha, float _he
     ofSetLineWidth(1);
     
     ofImage* currentImage = &labelImage;
-    if(cam.getPosition().z < 10000) {
+    if(cam->getPosition().z < 10000) {
         currentImage = &contentImage;
     }
     // billboard to face cam
@@ -156,32 +161,35 @@ void Location::draw(ofCamera& cam, ofVec3f meshPosition, float _alpha, float _he
     ofDisablePointSprites();
     billboardShader.end();
     
-    // Check if label has been clicked on.
-    if(ofGetMousePressed()) {
-        float x = ofGetMouseX();
-        float y = ofGetMouseY();
+    ofSetColor(255);
+}
+
+void Location::_mousePressed(ofMouseEventArgs &e) {
+    if(hasLabel) {
+        float x = e.x;
+        float y = e.y;
         if(flipMouseInput) { // Only use this in portrait mode!
-            float xPercentage = (float)(ofGetMouseX()) / (float)(1080);
-            float yPercentage = (float)(ofGetMouseY()) / (float)(1920);
+            float xPercentage = (float)(e.x) / (float)(1080);
+            float yPercentage = (float)(e.y) / (float)(1920);
             x = 1080 - 1080 * yPercentage;
             y = 1920 * xPercentage;
         }
-        
+
         ofVec3f p1 = ofVec3f(position.x, position.y + height + verticalOffset, position.z) + meshPosition;
-        
-        p1 = cam.worldToScreen(p1);
-        
+
+        p1 = cam->worldToScreen(p1);
+
         ofVec2f mouse = ofVec2f(x, y);
-        
+
         if(mouse.x > p1.x - size/2. && mouse.x < p1.x + size/2.) {
             if(mouse.y > p1.y - size/4. && mouse.y < p1.y + size/4.) {
                 ofNotifyEvent(onLabelClicked, title);
             }
         }
     }
-    
-    ofSetColor(255);
 }
+
+
 
 void Location::draw2d() {
     

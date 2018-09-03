@@ -15,8 +15,10 @@ public:
     
 	void setup(string title);
 	void update();
-	void draw(ofCamera& cam, ofVec3f meshPosition, float _alpha, float _height);
+	void draw(ofVec3f meshPosition, float _alpha, float _height);
     void draw2d();
+    void setCamera(ofCamera* _cam) { cam = _cam; };
+    void _mousePressed(ofMouseEventArgs &e);
     
     float getLon();
     float getLat();
@@ -60,6 +62,8 @@ public:
     float routePercent;
     
     ofVec3f camRotation;
+    ofVec3f meshPosition;
+    ofCamera* cam;
     float camDistance;
 
 protected:  

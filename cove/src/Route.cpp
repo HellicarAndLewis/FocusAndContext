@@ -20,6 +20,18 @@ void Route::setup() {
 
 }
 
+void Route::AddListenersToLocations() {
+    vector<Location*> leftPOIs = getLeftPOIs();
+    vector<Location*> rightPOIs = getRightPOIs();
+    for(int i = 0; i < leftPOIs.size(); i++) {
+        ofAddListener(ofEvents().mouseReleased, leftPOIs[i], &Location::_mousePressed);
+    }
+    for(int i = 0; i < rightPOIs.size(); i++) {
+        ofAddListener(ofEvents().mouseReleased, rightPOIs[i], &Location::_mousePressed);
+    }
+};
+
+
 void Route::flushData() {
     
     // flush data depending on which project/route
@@ -80,7 +92,7 @@ void Route::update(float percent) {
     }
 }
 
-void Route::draw(ofCamera& cam, ofVec3f meshPosition) {
+void Route::draw(ofVec3f meshPosition) {
     
     // lerp alpha values
     if (activeProject == 0) {
@@ -107,7 +119,7 @@ void Route::draw(ofCamera& cam, ofVec3f meshPosition) {
     
     ofSetColor(255);
     for (auto &location: locationsLeft) {
-        location.draw(cam, meshPosition, alphaLeft, -1150);
+        location.draw(meshPosition, alphaLeft, -1150);
     }
     ofEnableDepthTest();
     
@@ -125,7 +137,7 @@ void Route::draw(ofCamera& cam, ofVec3f meshPosition) {
     
     ofSetColor(255);
     for (auto &location: locationsRight) {
-        location.draw(cam, meshPosition, alphaRight, -1600);
+        location.draw(meshPosition, alphaRight, -1600);
     }
     ofEnableDepthTest();
 }
@@ -391,6 +403,7 @@ void Route::populateLocationsLeft() {
                                  xml.getValue("camera:xrot", -45),
                                  xml.getValue("camera:yrot", 0),
                                  xml.getValue("camera:zrot", 30));
+        location.setCamera(cam);
         
         // images / media
         string filename = xml.getValue("titleImg", "");
@@ -434,6 +447,7 @@ void Route::populateLocationsRight() {
                                  xml.getValue("camera:xrot", -45),
                                  xml.getValue("camera:yrot", 0),
                                  xml.getValue("camera:zrot", 30));
+        location.setCamera(cam);
         
         // images / media
         string filename = xml.getValue("titleImg", "");

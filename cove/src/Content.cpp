@@ -164,6 +164,7 @@ void Content::fileLocation() {
                     displayer->setTextFont(&textFont);
                     displayer->setSourceFont(&sourceFont);
                     displayer->setTextImage(&spinMeImage);
+                    displayer->getCamera()->setMouseFlipped(isMouseFlipped);
                     (*currentProjectDisplayers)[locationName].push_back(displayer);
                 } else {
                     //SOME USELESS FILE, IGNORE IT!

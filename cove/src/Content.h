@@ -73,6 +73,8 @@ public:
     float screenWidth;
     
     bool isAnythingPlaying;
+    
+    bool isMouseFlipped;
         
     // Object for drawing the audio and video duration
     Playhead playhead;

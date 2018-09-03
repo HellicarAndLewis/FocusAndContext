@@ -18,11 +18,16 @@ public:
     
     void setup();
     void update(float percent = -1);
-    void draw(ofCamera& cam, ofVec3f meshPosition);
+    void draw(ofVec3f meshPosition);
     void draw2d();
     void flushData();
     
     void setLocationMouseFlip(bool _flip);
+    
+    void setCamera(ofCamera* _cam) {
+        cam = _cam;
+        
+    };
     
     void loadLeft(string path, ofVec3f posOffset);
     void loadRight(string path, ofVec3f posOffset);
@@ -30,6 +35,7 @@ public:
     vector<Location*> getRightPOIs();
     Location* getLocation();
     ofPoint getPosition(bool doInvert = false);
+    void AddListenersToLocations();
     
     int zoomLevel;
 	
@@ -64,5 +70,6 @@ private:
     string folderPath;
     ofxXmlSettings xml;
     ofImage contentImages[5];
+    ofCamera* cam;
     
 };
