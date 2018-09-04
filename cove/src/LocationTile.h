@@ -45,6 +45,7 @@ public:
         InteractiveTile::update(easing);
         switch(animationStep) {
             case 0 :
+                enlarge();
                 ensmallContentTilesToEnsmall();
                 if(allContentTilesAreEnsmalled()) {
                     animationStep++;
@@ -64,7 +65,6 @@ public:
                 break;
             case 3 :
                 ensmallLocationTilesToEnsmall();
-                enlarge();
                 if(allLocationTilesAreEnsmalled() && isNearSizeTarget()) {
                     animationStep++;
                 }
