@@ -66,11 +66,11 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "flip-mouse"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "hide-mouse"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
       <AdditionalOptions>

@@ -38,7 +38,7 @@ public:
             ofNotifyEvent(onClick, title);
             deactivateAllContent();
             animationStep = 0;
-            sound->play();
+            if(sound->getPosition() > 0.1 || !sound->isPlaying()) sound->play();
         }
     }
     

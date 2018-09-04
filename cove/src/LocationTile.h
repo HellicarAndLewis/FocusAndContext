@@ -103,7 +103,7 @@ public:
                 expanded = false;
             }
         }
-        sound->play();
+        if(sound->getPosition() > 0.1 || !sound->isPlaying()) sound->play();
         if(!expanded && !someTilesAnimating) {
             animationStep = 0;
             return true;

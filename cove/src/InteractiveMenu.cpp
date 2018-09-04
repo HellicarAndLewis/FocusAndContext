@@ -738,17 +738,17 @@ void InteractiveMenu::drawContent()
 
 //--------------------------------------------------------------
 void InteractiveMenu::activateLeftLocation(int index) {
-    if(!bLeftActive[index]) {
-        snd1.play();
-    }
+//    if(!bLeftActive[index]) {
+//        snd1.play();
+//    }
     for(int i = 0; i < BUTTON_AMT; i++) {
         if(i == index) {
             bLeftActive[i] = true;
-            if(!c.introSounds[0][i].isPlaying()) c.introSounds[0][i].play();
+//            if(!c.introSounds[0][i].isPlaying()) c.introSounds[0][i].play();
         }
         else {
             bLeftActive[i] = false;
-            if(c.introSounds[0][i].isPlaying()) c.introSounds[0][i].stop();
+//            if(c.introSounds[0][i].isPlaying()) c.introSounds[0][i].stop();
         }
     }
     c.stopAudio();
@@ -758,17 +758,17 @@ void InteractiveMenu::activateLeftLocation(int index) {
 
 //--------------------------------------------------------------
 void InteractiveMenu::activateRightLocation(int index) {
-    if(!bRightActive[index]) {
-        snd1.play();
-    }// play menu button sound
+//    if(!bRightActive[index]) {
+//        snd1.play();
+//    }// play menu button sound
     for(int i = 0; i < BUTTON_AMT; i++) {
         if(i == index) {
             bRightActive[i] = true;
-            if(!c.introSounds[1][i].isPlaying()) c.introSounds[1][i].play();
+//            if(!c.introSounds[1][i].isPlaying()) c.introSounds[1][i].play();
         }
         else {
             bRightActive[i] = false;
-            if(c.introSounds[1][i].isPlaying()) c.introSounds[1][i].stop();
+//            if(c.introSounds[1][i].isPlaying()) c.introSounds[1][i].stop();
         }
     }
     c.stopAudio();
@@ -787,7 +787,7 @@ void InteractiveMenu::activateLeftContent(int locationIndex, int contentIndex) {
 
     // Might need to play a sound here:
     //if(!lCon[locationIndex][contentIndex].isSelected) {
-    snd2.play();
+//    snd2.play();
     //}
     
     for(auto location = c.hs1Displayers.begin(); location != c.hs1Displayers.end(); location++) {
@@ -811,7 +811,7 @@ void InteractiveMenu::activateRightContent(int locationIndex, int contentIndex) 
     // Maybe need to play sound here
     
 //    if(!rCon[locationIndex][contentIndex].isSelected) {
-        snd2.play();
+//        snd2.play();
 //    }
     
     for(auto location = c.crossrailDisplayers.begin(); location != c.crossrailDisplayers.end(); location++) {

@@ -52,14 +52,14 @@ public:
     
     void onPress(int x, int y, int button) {
         bool someTilesAnimating = false;
-        for(int i = 0; i < allTiles.size(); i++) {
+        for(int i	 = 0; i < allTiles.size(); i++) {
             if(allTiles[i]->animationStep > -1) {
                 someTilesAnimating = true;
             }
         }
         if(!someTilesAnimating && target == expandTarget) {
             deactivateAllContent();
-            sound->play();
+            if(sound->getPosition() > 0.1 || !sound->isPlaying()) sound->play();
             contentDisplayerToActivate->setIsActive(true);
             enlarge();
             ensmallContentTilesToEnsmall();
