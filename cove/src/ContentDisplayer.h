@@ -53,6 +53,7 @@ public:
     void getAlpha() { return alpha; };
     bool getIsActive() { return isActive; };
     bool getIsSpecial() { return isSpecial; };
+    string getTitle() { return title; };
     
     // Functionality
     virtual void update();

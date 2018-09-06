@@ -471,6 +471,8 @@ void InteractiveMenu::setFlipMouseInput(bool _flip) {
 
 void InteractiveMenu::setTileTitlesAndContent() {
     
+    string titleIndexes[5];
+    
     hs1LocationTiles[0]->title = "St Pancras International";
     hs1LocationTiles[1]->title = "Stratford International";
     hs1LocationTiles[2]->title = "Ebbsfleet International";
@@ -483,11 +485,16 @@ void InteractiveMenu::setTileTitlesAndContent() {
     hs1ContentTiles[0][2]->title = "Acoustic Testing";
     hs1ContentTiles[0][3]->title = "Land Use Plan";
     hs1ContentTiles[0][4]->title = "Station Model";
-    hs1ContentTiles[0][0]->contentDisplayerToActivate = c.hs1Displayers["StPancras"][0];
-    hs1ContentTiles[0][1]->contentDisplayerToActivate = c.hs1Displayers["StPancras"][1];
-    hs1ContentTiles[0][2]->contentDisplayerToActivate = c.hs1Displayers["StPancras"][2];
-    hs1ContentTiles[0][3]->contentDisplayerToActivate = c.hs1Displayers["StPancras"][3];
-    hs1ContentTiles[0][4]->contentDisplayerToActivate = c.hs1Displayers["StPancras"][4];
+    for(int i = 0; i < BUTTON_AMT; i++) {
+        string tileTitle = hs1ContentTiles[0][i]->title;
+        for(int j = 0; j < BUTTON_AMT; j++) {
+            string contentTitle = c.hs1Displayers["StPancras"][j]->getTitle();
+            if(tileTitle == contentTitle) {
+                hs1ContentTiles[0][i]->contentDisplayerToActivate = c.hs1Displayers["StPancras"][j];
+                break;
+            }
+        }
+    }
     
     // Stratford
     hs1ContentTiles[1][0]->title = "Tunnel Boring into London";
@@ -495,11 +502,16 @@ void InteractiveMenu::setTileTitlesAndContent() {
     hs1ContentTiles[1][2]->title = "Under Construction";
     hs1ContentTiles[1][3]->title = "Stratford Today";
     hs1ContentTiles[1][4]->title = "Station Model";
-    hs1ContentTiles[1][0]->contentDisplayerToActivate = c.hs1Displayers["StratfordInternational"][0];
-    hs1ContentTiles[1][1]->contentDisplayerToActivate = c.hs1Displayers["StratfordInternational"][1];
-    hs1ContentTiles[1][2]->contentDisplayerToActivate = c.hs1Displayers["StratfordInternational"][2];
-    hs1ContentTiles[1][3]->contentDisplayerToActivate = c.hs1Displayers["StratfordInternational"][3];
-    hs1ContentTiles[1][4]->contentDisplayerToActivate = c.hs1Displayers["StratfordInternational"][4];
+    for(int i = 0; i < BUTTON_AMT; i++) {
+        string tileTitle = hs1ContentTiles[1][i]->title;
+        for(int j = 0; j < BUTTON_AMT; j++) {
+            string contentTitle = c.hs1Displayers["StratfordInternational"][j]->getTitle();
+            if(tileTitle == contentTitle) {
+                hs1ContentTiles[1][i]->contentDisplayerToActivate = c.hs1Displayers["StratfordInternational"][j];
+                break;
+            }
+        }
+    }
     
     //Ebbsfleet
     hs1ContentTiles[2][0]->title = "Town Development";
@@ -507,11 +519,16 @@ void InteractiveMenu::setTileTitlesAndContent() {
     hs1ContentTiles[2][2]->title = "Linking Overpass";
     hs1ContentTiles[2][3]->title = "Station Design";
     hs1ContentTiles[2][4]->title = "Ebbsfleet Elephant";
-    hs1ContentTiles[2][0]->contentDisplayerToActivate = c.hs1Displayers["EbbsfleetInternational"][0];
-    hs1ContentTiles[2][1]->contentDisplayerToActivate = c.hs1Displayers["EbbsfleetInternational"][1];
-    hs1ContentTiles[2][2]->contentDisplayerToActivate = c.hs1Displayers["EbbsfleetInternational"][2];
-    hs1ContentTiles[2][3]->contentDisplayerToActivate = c.hs1Displayers["EbbsfleetInternational"][3];
-    hs1ContentTiles[2][4]->contentDisplayerToActivate = c.hs1Displayers["EbbsfleetInternational"][4];
+    for(int i = 0; i < BUTTON_AMT; i++) {
+        string tileTitle = hs1ContentTiles[2][i]->title;
+        for(int j = 0; j < BUTTON_AMT; j++) {
+            string contentTitle = c.hs1Displayers["EbbsfleetInternational"][j]->getTitle();
+            if(tileTitle == contentTitle) {
+                hs1ContentTiles[2][i]->contentDisplayerToActivate = c.hs1Displayers["EbbsfleetInternational"][j];
+                break;
+            }
+        }
+    }
     
     // Medway Viaduct
     hs1ContentTiles[3][0]->title = "Mapping Urban Regeneration";
@@ -519,11 +536,16 @@ void InteractiveMenu::setTileTitlesAndContent() {
     hs1ContentTiles[3][2]->title = "Aerial Footage";
     hs1ContentTiles[3][3]->title = "Completed Medway Viaduct";
     hs1ContentTiles[3][4]->title = "Bridge Model";
-    hs1ContentTiles[3][0]->contentDisplayerToActivate = c.hs1Displayers["MedwayViaduct"][0];
-    hs1ContentTiles[3][1]->contentDisplayerToActivate = c.hs1Displayers["MedwayViaduct"][1];
-    hs1ContentTiles[3][2]->contentDisplayerToActivate = c.hs1Displayers["MedwayViaduct"][2];
-    hs1ContentTiles[3][3]->contentDisplayerToActivate = c.hs1Displayers["MedwayViaduct"][3];
-    hs1ContentTiles[3][4]->contentDisplayerToActivate = c.hs1Displayers["MedwayViaduct"][4];
+    for(int i = 0; i < BUTTON_AMT; i++) {
+        string tileTitle = hs1ContentTiles[3][i]->title;
+        for(int j = 0; j < BUTTON_AMT; j++) {
+            string contentTitle = c.hs1Displayers["MedwayViaduct"][j]->getTitle();
+            if(tileTitle == contentTitle) {
+                hs1ContentTiles[3][i]->contentDisplayerToActivate = c.hs1Displayers["MedwayViaduct"][j];
+                break;
+            }
+        }
+    }
     
     // Ashford
     hs1ContentTiles[4][0]->title = "The Campaign for HS1";
@@ -531,11 +553,16 @@ void InteractiveMenu::setTileTitlesAndContent() {
     hs1ContentTiles[4][2]->title = "Relocating Houses";
     hs1ContentTiles[4][3]->title = "Ashford International Station";
     hs1ContentTiles[4][4]->title = "Ashford Today";
-    hs1ContentTiles[4][0]->contentDisplayerToActivate = c.hs1Displayers["AshfordInternational"][0];
-    hs1ContentTiles[4][1]->contentDisplayerToActivate = c.hs1Displayers["AshfordInternational"][1];
-    hs1ContentTiles[4][2]->contentDisplayerToActivate = c.hs1Displayers["AshfordInternational"][2];
-    hs1ContentTiles[4][3]->contentDisplayerToActivate = c.hs1Displayers["AshfordInternational"][3];
-    hs1ContentTiles[4][4]->contentDisplayerToActivate = c.hs1Displayers["AshfordInternational"][4];
+    for(int i = 0; i < BUTTON_AMT; i++) {
+        string tileTitle = hs1ContentTiles[4][i]->title;
+        for(int j = 0; j < BUTTON_AMT; j++) {
+            string contentTitle = c.hs1Displayers["AshfordInternational"][j]->getTitle();
+            if(tileTitle == contentTitle) {
+                hs1ContentTiles[4][i]->contentDisplayerToActivate = c.hs1Displayers["AshfordInternational"][j];
+                break;
+            }
+        }
+    }
     
     // Crossrail
     crossrailLocationTiles[4]->title = "Soho";
@@ -550,11 +577,16 @@ void InteractiveMenu::setTileTitlesAndContent() {
     crossrailContentTiles[0][2]->title = "Elevated Walkway";
     crossrailContentTiles[0][3]->title = "Section View of Crossrail Place";
     crossrailContentTiles[0][4]->title = "Cofferdam Construction";
-    crossrailContentTiles[0][0]->contentDisplayerToActivate = c.crossrailDisplayers["CanaryWharf"][0];
-    crossrailContentTiles[0][1]->contentDisplayerToActivate = c.crossrailDisplayers["CanaryWharf"][1];
-    crossrailContentTiles[0][2]->contentDisplayerToActivate = c.crossrailDisplayers["CanaryWharf"][2];
-    crossrailContentTiles[0][3]->contentDisplayerToActivate = c.crossrailDisplayers["CanaryWharf"][3];
-    crossrailContentTiles[0][4]->contentDisplayerToActivate = c.crossrailDisplayers["CanaryWharf"][4];
+    for(int i = 0; i < BUTTON_AMT; i++) {
+        string tileTitle = crossrailContentTiles[0][i]->title;
+        for(int j = 0; j < BUTTON_AMT; j++) {
+            string contentTitle = c.crossrailDisplayers["CanaryWharf"][j]->getTitle();
+            if(tileTitle == contentTitle) {
+                crossrailContentTiles[0][i]->contentDisplayerToActivate = c.crossrailDisplayers["CanaryWharf"][j];
+                break;
+            }
+        }
+    }
     
     // Liverpool Street
     crossrailContentTiles[1][0]->title = "Station Model";
@@ -562,11 +594,16 @@ void InteractiveMenu::setTileTitlesAndContent() {
     crossrailContentTiles[1][2]->title = "Excavation Site";
     crossrailContentTiles[1][3]->title = "Plague Pit";
     crossrailContentTiles[1][4]->title = "The Archaeological Dig";
-    crossrailContentTiles[1][0]->contentDisplayerToActivate = c.crossrailDisplayers["LiverpoolStreet"][0];
-    crossrailContentTiles[1][1]->contentDisplayerToActivate = c.crossrailDisplayers["LiverpoolStreet"][1];
-    crossrailContentTiles[1][2]->contentDisplayerToActivate = c.crossrailDisplayers["LiverpoolStreet"][2];
-    crossrailContentTiles[1][3]->contentDisplayerToActivate = c.crossrailDisplayers["LiverpoolStreet"][3];
-    crossrailContentTiles[1][4]->contentDisplayerToActivate = c.crossrailDisplayers["LiverpoolStreet"][4];
+    for(int i = 0; i < BUTTON_AMT; i++) {
+        string tileTitle = crossrailContentTiles[1][i]->title;
+        for(int j = 0; j < BUTTON_AMT; j++) {
+            string contentTitle = c.crossrailDisplayers["LiverpoolStreet"][j]->getTitle();
+            if(tileTitle == contentTitle) {
+                crossrailContentTiles[1][i]->contentDisplayerToActivate = c.crossrailDisplayers["LiverpoolStreet"][j];
+                break;
+            }
+        }
+    }
     
     // Barbican
     crossrailContentTiles[2][0]->title = "Floating Track Slab Model";
@@ -574,11 +611,16 @@ void InteractiveMenu::setTileTitlesAndContent() {
     crossrailContentTiles[2][2]->title = "Tracks Under the Barbican";
     crossrailContentTiles[2][3]->title = "Installing Floating Track";
     crossrailContentTiles[2][4]->title = "Silent Tracks";
-    crossrailContentTiles[2][0]->contentDisplayerToActivate = c.crossrailDisplayers["Barbican"][0];
-    crossrailContentTiles[2][1]->contentDisplayerToActivate = c.crossrailDisplayers["Barbican"][1];
-    crossrailContentTiles[2][2]->contentDisplayerToActivate = c.crossrailDisplayers["Barbican"][2];
-    crossrailContentTiles[2][3]->contentDisplayerToActivate = c.crossrailDisplayers["Barbican"][3];
-    crossrailContentTiles[2][4]->contentDisplayerToActivate = c.crossrailDisplayers["Barbican"][4];
+    for(int i = 0; i < BUTTON_AMT; i++) {
+        string tileTitle = crossrailContentTiles[2][i]->title;
+        for(int j = 0; j < BUTTON_AMT; j++) {
+            string contentTitle = c.crossrailDisplayers["Barbican"][j]->getTitle();
+            if(tileTitle == contentTitle) {
+                crossrailContentTiles[2][i]->contentDisplayerToActivate = c.crossrailDisplayers["Barbican"][j];
+                break;
+            }
+        }
+    }
     
     // Tottenham Court Road
     crossrailContentTiles[3][0]->title = "Station Model";
@@ -586,23 +628,33 @@ void InteractiveMenu::setTileTitlesAndContent() {
     crossrailContentTiles[3][2]->title = "Tunnel Boring Machines";
     crossrailContentTiles[3][3]->title = "Concrete Ring Construction";
     crossrailContentTiles[3][4]->title = "Station Design";
-    crossrailContentTiles[3][0]->contentDisplayerToActivate = c.crossrailDisplayers["TottenhamCourtRoad"][0];
-    crossrailContentTiles[3][1]->contentDisplayerToActivate = c.crossrailDisplayers["TottenhamCourtRoad"][1];
-    crossrailContentTiles[3][2]->contentDisplayerToActivate = c.crossrailDisplayers["TottenhamCourtRoad"][2];
-    crossrailContentTiles[3][3]->contentDisplayerToActivate = c.crossrailDisplayers["TottenhamCourtRoad"][3];
-    crossrailContentTiles[3][4]->contentDisplayerToActivate = c.crossrailDisplayers["TottenhamCourtRoad"][4];
-    
+    for(int i = 0; i < BUTTON_AMT; i++) {
+        string tileTitle = crossrailContentTiles[3][i]->title;
+        for(int j = 0; j < BUTTON_AMT; j++) {
+            string contentTitle = c.crossrailDisplayers["TottenhamCourtRoad"][j]->getTitle();
+            if(tileTitle == contentTitle) {
+                crossrailContentTiles[3][i]->contentDisplayerToActivate = c.crossrailDisplayers["TottenhamCourtRoad"][j];
+                break;
+            }
+        }
+    }
+
     // Soho
     crossrailContentTiles[4][0]->title = "Wallasea Island";
     crossrailContentTiles[4][1]->title = "Grout Shaft";
     crossrailContentTiles[4][2]->title = "Sinking Ground";
     crossrailContentTiles[4][3]->title = "Monitoring Spots";
     crossrailContentTiles[4][4]->title = "Tunnelling Under Historic Buildings";
-    crossrailContentTiles[4][0]->contentDisplayerToActivate = c.crossrailDisplayers["Soho"][0];
-    crossrailContentTiles[4][1]->contentDisplayerToActivate = c.crossrailDisplayers["Soho"][1];
-    crossrailContentTiles[4][2]->contentDisplayerToActivate = c.crossrailDisplayers["Soho"][2];
-    crossrailContentTiles[4][3]->contentDisplayerToActivate = c.crossrailDisplayers["Soho"][3];
-    crossrailContentTiles[4][4]->contentDisplayerToActivate = c.crossrailDisplayers["Soho"][4];
+    for(int i = 0; i < BUTTON_AMT; i++) {
+        string tileTitle = crossrailContentTiles[4][i]->title;
+        for(int j = 0; j < BUTTON_AMT; j++) {
+            string contentTitle = c.crossrailDisplayers["Soho"][j]->getTitle();
+            if(tileTitle == contentTitle) {
+                crossrailContentTiles[4][i]->contentDisplayerToActivate = c.crossrailDisplayers["Soho"][j];
+                break;
+            }
+        }
+    }
     
     hs1MainTile->title = "HS1";
     crossrailMainTile->title = "Crossrail";
