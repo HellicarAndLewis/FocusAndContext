@@ -82,7 +82,7 @@ void Content::fileLocation() {
     //Load HS1 Content w/ new displayers
     int locationNameIndex = 7;
     int storyIndex = 8; // This is the file with all the info about each content piece
-    int contentComponentIndex = 9; // This is where the component is, ie backgorund, notes, title or content
+    int contentComponentIndex = 9; // This is where the component is, ie background, notes, title or content
     int contentFileIndex = 10; // This is the actual content file
     auto currentProjectDisplayers = &hs1Displayers;
 
@@ -113,6 +113,7 @@ void Content::fileLocation() {
             if(splitString[contentComponentIndex] == "Content") {
                 if(fileType == "png" || fileType == "jpg") {
                     //We've got an image!
+                    cout<<"Loading an image from location: "<<splitString[locationNameIndex]<<endl;
                     ImageDisplayer* displayer = new ImageDisplayer();
                     displayer->setImage(currentPaths[i]);
                     displayer->setBackgroundImage(&backgroundImage169);
@@ -121,6 +122,7 @@ void Content::fileLocation() {
                     displayer->setTitleFont(&titleFont);
                     displayer->setTextFont(&textFont);
                     displayer->setSourceFont(&sourceFont);
+                    setContentDisplayerText(displayer, currentPaths[i]);
                     (*currentProjectDisplayers)[locationName].push_back(displayer);
                 } else if(fileType == "wav") {
                     //We've got an audio file!
@@ -132,6 +134,7 @@ void Content::fileLocation() {
                     displayer->setTitleFont(&titleFont);
                     displayer->setTextFont(&textFont);
                     displayer->setSourceFont(&sourceFont);
+                    setContentDisplayerText(displayer, currentPaths[i]);
                     (*currentProjectDisplayers)[locationName].push_back(displayer);
                 } else if(fileType == "mp4" || fileType == "mov") {
                     //We've got a video!
@@ -149,7 +152,7 @@ void Content::fileLocation() {
                     displayer->setTitleFont(&titleFont);
                     displayer->setTextFont(&textFont);
                     displayer->setSourceFont(&sourceFont);
-
+                    setContentDisplayerText(displayer, currentPaths[i]);
                     (*currentProjectDisplayers)[locationName].push_back(displayer);
                 } else if(fileType == "fbx") {
                     //We've got a model!
@@ -165,26 +168,13 @@ void Content::fileLocation() {
                     displayer->setSourceFont(&sourceFont);
                     displayer->setTextImage(&spinMeImage);
                     displayer->getCamera()->setMouseFlipped(isMouseFlipped);
+                    setContentDisplayerText(displayer, currentPaths[i]);
                     (*currentProjectDisplayers)[locationName].push_back(displayer);
                 } else {
                     //SOME USELESS FILE, IGNORE IT!
                 }
             } else if(splitString[contentComponentIndex] == "Title") {
-                ofxXmlSettings displayableText;
-                displayableText.load(currentPaths[i]);
-                string titleText = displayableText.getValue("Title", "Title");
-                string infoText = displayableText.getValue("Text", "Info Text");
-                string sourceText = displayableText.getValue("Source", "Source");
-                float cutoffPercent = displayableText.getValue("Cutoff", 0.5);
-
-//                ofImage* image = new ofImage();
-//                image->load(currentPaths[i]);
-                if((*currentProjectDisplayers)[locationName].size() > 0) {
-                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setTitle(titleText);
-                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setText(infoText);
-                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setSource("Source: " + sourceText);
-                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setTextCutoffPercent(cutoffPercent);
-                }
+                // ignore titles here
             }
         }
     }
@@ -222,6 +212,7 @@ void Content::fileLocation() {
                     displayer->setTitleFont(&titleFont);
                     displayer->setTextFont(&textFont);
                     displayer->setSourceFont(&sourceFont);
+                    setContentDisplayerText(displayer, currentPaths[i]);
                     (*currentProjectDisplayers)[locationName].push_back(displayer);
                 } else if(fileType == "wav") {
                     //We've got an audio file!
@@ -233,6 +224,7 @@ void Content::fileLocation() {
                     displayer->setTitleFont(&titleFont);
                     displayer->setTextFont(&textFont);
                     displayer->setSourceFont(&sourceFont);
+                    setContentDisplayerText(displayer, currentPaths[i]);
                     (*currentProjectDisplayers)[locationName].push_back(displayer);
                 } else if(fileType == "mp4" || fileType == "mov") {
                     //We've got a video!
@@ -250,6 +242,7 @@ void Content::fileLocation() {
                     displayer->setTitleFont(&titleFont);
                     displayer->setTextFont(&textFont);
                     displayer->setSourceFont(&sourceFont);
+                    setContentDisplayerText(displayer, currentPaths[i]);
                     (*currentProjectDisplayers)[locationName].push_back(displayer);
                 } else if(fileType == "fbx") {
                     //We've got a model!
@@ -264,26 +257,13 @@ void Content::fileLocation() {
                     displayer->setTextFont(&textFont);
                     displayer->setSourceFont(&sourceFont);
                     displayer->setTextImage(&spinMeImage);
+                    setContentDisplayerText(displayer, currentPaths[i]);
                     (*currentProjectDisplayers)[locationName].push_back(displayer);
                 } else {
                     //SOMETHING'S GONE WRONG!
                 }
             } else if(splitString[contentComponentIndex] == "Title") {
-                ofxXmlSettings displayableText;
-                displayableText.load(currentPaths[i]);
-                string titleText = displayableText.getValue("Title", "Title");
-                string infoText = displayableText.getValue("Text", "Info Text");
-                string sourceText = displayableText.getValue("Source", "Source");
-                float cutoffPercent = displayableText.getValue("Cutoff", 0.5);
-
-                //                ofImage* image = new ofImage();
-                //                image->load(currentPaths[i]);
-                if((*currentProjectDisplayers)[locationName].size() > 0) {
-                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setTitle(titleText);
-                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setText(infoText);
-                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setSource("Source: " + sourceText);
-                    (*currentProjectDisplayers)[locationName][(*currentProjectDisplayers)[locationName].size()-1]->setTextCutoffPercent(cutoffPercent);
-                }
+                // ignore titles here.
             }
         }
     }
@@ -299,6 +279,41 @@ void Content::fileLocation() {
     introSounds[1][2].load(introSoundPaths[1][2]);
     introSounds[1][3].load(introSoundPaths[1][3]);
     introSounds[1][4].load(introSoundPaths[1][4]);
+}
+
+//--------------------------------------------------------------
+void Content::setContentDisplayerText(ContentDisplayer* contentDisplayer, string contentPath) {
+    cout<<contentPath<<endl;
+    vector<string> splitPath = ofSplitString(contentPath, "/");
+    string contentPiecePath = "";
+    for(int i = 0; i < splitPath.size() - 2; i++) {
+        contentPiecePath += splitPath[i];
+        contentPiecePath += "/";
+    }
+    cout<<contentPiecePath<<endl;
+    ofxNestedFileLoader loader;
+    vector<string> allContentFolders = loader.load(contentPiecePath);
+    string xmlPath;
+    for(int i = 0; i < allContentFolders.size(); i++) {
+        vector<string> s = ofSplitString(allContentFolders[i], ".");
+        if(s.size() > 1) {
+            s = ofSplitString(allContentFolders[i], "/");
+            if(s[s.size() - 2] == "Title") {
+                xmlPath = allContentFolders[i];
+                break;
+            }
+        }
+    }
+    ofxXmlSettings displayableText;
+    displayableText.load(xmlPath);
+    string titleText = displayableText.getValue("Title", "Title");
+    string infoText = displayableText.getValue("Text", "Info Text");
+    string sourceText = displayableText.getValue("Source", "Source");
+    float cutoffPercent = displayableText.getValue("Cutoff", 0.5);
+    contentDisplayer->setTitle(titleText);
+    contentDisplayer->setText(infoText);
+    contentDisplayer->setSource("Source: " + sourceText);
+    contentDisplayer->setTextCutoffPercent(cutoffPercent);
 }
 
 //--------------------------------------------------------------

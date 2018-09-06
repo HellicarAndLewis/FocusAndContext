@@ -31,6 +31,7 @@ public:
     void stopVideos();
     void stopAudio();
     void stopLocationAudio();
+    void setContentDisplayerText(ContentDisplayer* content, string contentPath);
     
     // content locations
     // string path[2][5][5][3];
