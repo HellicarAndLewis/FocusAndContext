@@ -23,13 +23,13 @@
 void ofApp::setup()
 {
     ofEnableAlphaBlending();
-    
-    cout << "Before exepath: " << ofFilePath::getCurrentExePath() << endl;
-    cout << "Before cwd    : " << ofFilePath::getCurrentWorkingDirectory() << endl;
-    ofSetDataPathRoot(ofFilePath::getCurrentExeDir()+"/../Resources/");
-    cout << "After exepath:  " << ofFilePath::getCurrentExePath() << endl;
-    cout << "After cwd:      " << ofFilePath::getCurrentWorkingDirectory() << endl;
-    cout << ofToDataPath("",true) << endl;
+//    
+//    cout << "Before exepath: " << ofFilePath::getCurrentExePath() << endl;
+//    cout << "Before cwd    : " << ofFilePath::getCurrentWorkingDirectory() << endl;
+//    ofSetDataPathRoot(ofFilePath::getCurrentExeDir()+"/../Resources/");
+//    cout << "After exepath:  " << ofFilePath::getCurrentExePath() << endl;
+//    cout << "After cwd:      " << ofFilePath::getCurrentWorkingDirectory() << endl;
+//    cout << ofToDataPath("",true) << endl;
     
     //ofToggleFullscreen();
     //ofHideCursor();

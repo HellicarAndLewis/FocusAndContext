@@ -88,12 +88,12 @@ void Content::fileLocation() {
 
     //Pre-load POI audio with placeholders
     for(int i = 0; i < 5; i++) {
-        introSoundPaths[0][i] = "content/Google Drive/Arup/Research/Content/Placeholder/no_audio.wav";
-        introSoundPaths[1][i] = "content/Google Drive/Arup/Research/Content/Placeholder/no_audio.wav";
+        introSoundPaths[0][i] = "content/GoogleDrive/Arup/Research/Content/Placeholder/no_audio.wav";
+        introSoundPaths[1][i] = "content/GoogleDrive/Arup/Research/Content/Placeholder/no_audio.wav";
     }
 
     ofxNestedFileLoader loader;
-    vector<string> currentPaths = loader.load("content/Google Drive/Arup/Research/Content/HS1/Location");
+    vector<string> currentPaths = loader.load("content/GoogleDrive/Arup/Research/Content/HS1/Location");
     for(int i = 0; i < currentPaths.size(); i++) {
         vector<string> splitString = ofSplitString(currentPaths[i], "/");
         if(splitString[splitString.size()-1] == "Icon\r") {
@@ -193,8 +193,8 @@ void Content::fileLocation() {
     currentPaths.clear();
     loader.clearPaths();
 
-    //load Crossrail content w/ new displayers
-    currentPaths = loader.load("content/Google Drive/Arup/Research/Content/Crossrail/Location");
+    //load Crossrail content w/ new displayer
+    currentPaths = loader.load("content/GoogleDrive/Arup/Research/Content/Crossrail/Location");
     for(int i = 0; i < currentPaths.size(); i++) {
         vector<string> splitString = ofSplitString(currentPaths[i], "/");
         if(splitString[splitString.size()-1] == "Icon\r") {
