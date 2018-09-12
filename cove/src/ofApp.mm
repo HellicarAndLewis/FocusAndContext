@@ -142,9 +142,9 @@ void ofApp::setup()
     post.createPass<ContrastPass>()->setEnabled(false);
     post.createPass<EdgePass>()->setEnabled(false);
     tiltShiftHoriPass = post.createPass<HorizontalTiltShifPass>();
-    tiltShiftHoriPass->setEnabled(true);
+    tiltShiftHoriPass->setEnabled(false);
     tiltShiftVertPass = post.createPass<VerticalTiltShifPass>();
-    tiltShiftVertPass->setEnabled(true);
+    tiltShiftVertPass->setEnabled(false);
     post.createPass<ToonPass>()->setEnabled(false);
     
     lastPressTime = ofGetElapsedTimef();
@@ -1034,7 +1034,7 @@ void ofApp::draw()
     drawScene();
     
     // draw ontop of all graphics
-    drawVignette();
+//    drawVignette();
     
     // draw cove content
     if (bCove) {
